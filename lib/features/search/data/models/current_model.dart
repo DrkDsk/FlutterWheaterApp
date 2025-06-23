@@ -1,7 +1,7 @@
 import 'package:clima_app/features/search/data/models/rain_model.dart';
-import 'package:clima_app/features/search/data/models/wheater_model.dart';
+import 'package:clima_app/features/search/data/models/weather_model.dart';
 import 'package:clima_app/features/search/domain/entities/current.dart';
-import 'package:clima_app/features/search/domain/entities/wheater.dart';
+import 'package:clima_app/features/search/domain/entities/weather.dart';
 import 'package:equatable/equatable.dart';
 
 class CurrentModel extends Current with EquatableMixin {

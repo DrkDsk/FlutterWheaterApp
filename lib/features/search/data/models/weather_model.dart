@@ -1,4 +1,4 @@
-import 'package:clima_app/features/search/domain/entities/wheater.dart';
+import 'package:clima_app/features/search/domain/entities/weather.dart';
 import 'package:equatable/equatable.dart';
 
 class WeatherModel extends Weather with EquatableMixin {

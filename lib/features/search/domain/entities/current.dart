@@ -1,5 +1,5 @@
 import 'package:clima_app/features/search/domain/entities/rain.dart';
-import 'package:clima_app/features/search/domain/entities/wheater.dart';
+import 'package:clima_app/features/search/domain/entities/weather.dart';
 
 class Current {
   Current({
