@@ -1,105 +1,78 @@
-import 'package:clima_app/features/search/domain/entities/air_quality.dart';
-import 'package:clima_app/features/search/domain/entities/astro.dart';
-import 'package:equatable/equatable.dart';
+import 'package:clima_app/features/search/domain/entities/rain.dart';
+import 'package:clima_app/features/search/domain/entities/wheater.dart';
 
-class Current with EquatableMixin {
+class Current {
   Current({
-    required this.observationTime,
-    required this.temperature,
-    required this.weatherCode,
-    required this.weatherIcons,
-    required this.weatherDescriptions,
-    required this.astro,
-    required this.airQuality,
-    required this.windSpeed,
-    required this.windDegree,
-    required this.windDir,
+    required this.dt,
+    required this.sunrise,
+    required this.sunset,
+    required this.temp,
+    required this.feelsLike,
     required this.pressure,
-    required this.precip,
     required this.humidity,
-    required this.cloudcover,
-    required this.feelslike,
-    required this.uvIndex,
+    required this.dewPoint,
+    required this.uvi,
+    required this.clouds,
     required this.visibility,
+    required this.windSpeed,
+    required this.windDeg,
+    required this.windGust,
+    required this.weather,
+    required this.rain,
   });
 
-  final String? observationTime;
-  final int? temperature;
-  final int? weatherCode;
-  final List<String> weatherIcons;
-  final List<String> weatherDescriptions;
-  final Astro? astro;
-  final AirQuality? airQuality;
-  final int? windSpeed;
-  final int? windDegree;
-  final String? windDir;
+  final int? dt;
+  final int? sunrise;
+  final int? sunset;
+  final double? temp;
+  final double? feelsLike;
   final int? pressure;
-  final int? precip;
   final int? humidity;
-  final int? cloudcover;
-  final int? feelslike;
-  final int? uvIndex;
+  final double? dewPoint;
+  final double? uvi;
+  final int? clouds;
   final int? visibility;
+  final double? windSpeed;
+  final int? windDeg;
+  final double? windGust;
+  final List<Weather> weather;
+  final Rain? rain;
 
   Current copyWith({
-    String? observationTime,
-    int? temperature,
-    int? weatherCode,
-    List<String>? weatherIcons,
-    List<String>? weatherDescriptions,
-    Astro? astro,
-    AirQuality? airQuality,
-    int? windSpeed,
-    int? windDegree,
-    String? windDir,
+    int? dt,
+    int? sunrise,
+    int? sunset,
+    double? temp,
+    double? feelsLike,
     int? pressure,
-    int? precip,
     int? humidity,
-    int? cloudcover,
-    int? feelslike,
-    int? uvIndex,
+    double? dewPoint,
+    double? uvi,
+    int? clouds,
     int? visibility,
+    double? windSpeed,
+    int? windDeg,
+    double? windGust,
+    List<Weather>? weather,
+    Rain? rain,
   }) {
     return Current(
-      observationTime: observationTime ?? this.observationTime,
-      temperature: temperature ?? this.temperature,
-      weatherCode: weatherCode ?? this.weatherCode,
-      weatherIcons: weatherIcons ?? this.weatherIcons,
-      weatherDescriptions: weatherDescriptions ?? this.weatherDescriptions,
-      astro: astro ?? this.astro,
-      airQuality: airQuality ?? this.airQuality,
-      windSpeed: windSpeed ?? this.windSpeed,
-      windDegree: windDegree ?? this.windDegree,
-      windDir: windDir ?? this.windDir,
+      dt: dt ?? this.dt,
+      sunrise: sunrise ?? this.sunrise,
+      sunset: sunset ?? this.sunset,
+      temp: temp ?? this.temp,
+      feelsLike: feelsLike ?? this.feelsLike,
       pressure: pressure ?? this.pressure,
-      precip: precip ?? this.precip,
       humidity: humidity ?? this.humidity,
-      cloudcover: cloudcover ?? this.cloudcover,
-      feelslike: feelslike ?? this.feelslike,
-      uvIndex: uvIndex ?? this.uvIndex,
+      dewPoint: dewPoint ?? this.dewPoint,
+      uvi: uvi ?? this.uvi,
+      clouds: clouds ?? this.clouds,
       visibility: visibility ?? this.visibility,
+      windSpeed: windSpeed ?? this.windSpeed,
+      windDeg: windDeg ?? this.windDeg,
+      windGust: windGust ?? this.windGust,
+      weather: weather ?? this.weather,
+      rain: rain ?? this.rain,
     );
   }
-
-  @override
-  // TODO: implement props
-  List<Object?> get props => [
-    observationTime,
-    temperature,
-    weatherCode,
-    weatherIcons,
-    weatherDescriptions,
-    astro,
-    airQuality,
-    windSpeed,
-    windDegree,
-    windDir,
-    pressure,
-    precip,
-    humidity,
-    cloudcover,
-    feelslike,
-    uvIndex,
-    visibility,
-  ];
 }

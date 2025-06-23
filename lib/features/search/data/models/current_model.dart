@@ -1,67 +1,68 @@
-import 'package:clima_app/features/search/data/models/air_quality_model.dart';
-import 'package:clima_app/features/search/data/models/astro_model.dart';
+import 'package:clima_app/features/search/data/models/rain_model.dart';
+import 'package:clima_app/features/search/data/models/wheater_model.dart';
 import 'package:clima_app/features/search/domain/entities/current.dart';
+import 'package:clima_app/features/search/domain/entities/wheater.dart';
 
 class CurrentModel extends Current {
   CurrentModel({
-    required super.observationTime,
-    required super.temperature,
-    required super.weatherCode,
-    required super.weatherIcons,
-    required super.weatherDescriptions,
-    required super.astro,
-    required super.airQuality,
-    required super.windSpeed,
-    required super.windDegree,
-    required super.windDir,
-    required super.pressure,
-    required super.precip,
-    required super.humidity,
-    required super.cloudcover,
-    required super.feelslike,
-    required super.uvIndex,
     required super.visibility,
+    required super.dt,
+    required super.sunrise,
+    required super.sunset,
+    required super.temp,
+    required super.feelsLike,
+    required super.pressure,
+    required super.humidity,
+    required super.dewPoint,
+    required super.uvi,
+    required super.clouds,
+    required super.windSpeed,
+    required super.windDeg,
+    required super.windGust,
+    required super.weather,
+    required super.rain,
   });
 
-  factory CurrentModel.fromJson(Map<String, dynamic> json){
+  factory CurrentModel.fromJson(Map<String, dynamic> json) {
     return CurrentModel(
-      observationTime: json["observation_time"],
-      temperature: json["temperature"],
-      weatherCode: json["weather_code"],
-      weatherIcons: json["weather_icons"] == null ? [] : List<String>.from(json["weather_icons"]!.map((x) => x)),
-      weatherDescriptions: json["weather_descriptions"] == null ? [] : List<String>.from(json["weather_descriptions"]!.map((x) => x)),
-      astro: json["astro"] == null ? null : AstroModel.fromJson(json["astro"]),
-      airQuality: json["air_quality"] == null ? null : AirQualityModel.fromJson(json["air_quality"]),
-      windSpeed: json["wind_speed"],
-      windDegree: json["wind_degree"],
-      windDir: json["wind_dir"],
+      dt: json["dt"],
+      sunrise: json["sunrise"],
+      sunset: json["sunset"],
+      temp: json["temp"],
+      feelsLike: json["feels_like"],
       pressure: json["pressure"],
-      precip: json["precip"],
       humidity: json["humidity"],
-      cloudcover: json["cloudcover"],
-      feelslike: json["feelslike"],
-      uvIndex: json["uv_index"],
+      dewPoint: json["dew_point"],
+      uvi: json["uvi"],
+      clouds: json["clouds"],
       visibility: json["visibility"],
+      windSpeed: json["wind_speed"],
+      windDeg: json["wind_deg"],
+      windGust: json["wind_gust"],
+      weather: json["weather"] == null
+          ? []
+          : List<Weather>.from(
+              json["weather"]!.map((x) => WeatherModel.fromJson(x))),
+      rain: json["rain"] == null ? null : RainModel.fromJson(json["rain"]),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "observation_time": observationTime,
-    "temperature": temperature,
-    "weather_code": weatherCode,
-    "weather_icons": weatherIcons.map((x) => x).toList(),
-    "weather_descriptions": weatherDescriptions.map((x) => x).toList(),
-    "astro": (astro as AstroModel).toJson(),
-    "air_quality": (airQuality as AirQualityModel).toJson(),
-    "wind_speed": windSpeed,
-    "wind_degree": windDegree,
-    "wind_dir": windDir,
-    "pressure": pressure,
-    "precip": precip,
-    "humidity": humidity,
-    "cloudcover": cloudcover,
-    "feelslike": feelslike,
-    "uv_index": uvIndex,
-    "visibility": visibility,
-  };
+        "dt": dt,
+        "sunrise": sunrise,
+        "sunset": sunset,
+        "temp": temp,
+        "feels_like": feelsLike,
+        "pressure": pressure,
+        "humidity": humidity,
+        "dew_point": dewPoint,
+        "uvi": uvi,
+        "clouds": clouds,
+        "visibility": visibility,
+        "wind_speed": windSpeed,
+        "wind_deg": windDeg,
+        "wind_gust": windGust,
+        "weather": weather.map((x) => (x as WeatherModel).toJson()).toList(),
+        "rain": (rain as RainModel).toJson(),
+      };
 }
