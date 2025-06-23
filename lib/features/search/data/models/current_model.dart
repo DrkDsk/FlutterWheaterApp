@@ -2,8 +2,9 @@ import 'package:clima_app/features/search/data/models/rain_model.dart';
 import 'package:clima_app/features/search/data/models/wheater_model.dart';
 import 'package:clima_app/features/search/domain/entities/current.dart';
 import 'package:clima_app/features/search/domain/entities/wheater.dart';
+import 'package:equatable/equatable.dart';
 
-class CurrentModel extends Current {
+class CurrentModel extends Current with EquatableMixin {
   CurrentModel({
     required super.visibility,
     required super.dt,
@@ -65,4 +66,25 @@ class CurrentModel extends Current {
         "weather": weather.map((x) => (x as WeatherModel).toJson()).toList(),
         "rain": (rain as RainModel).toJson(),
       };
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    dt,
+    sunrise,
+    sunset,
+    temp,
+    feelsLike,
+    pressure,
+    humidity,
+    dewPoint,
+    uvi,
+    clouds,
+    visibility,
+    windSpeed,
+    windDeg,
+    windGust,
+    weather,
+    rain
+  ];
 }

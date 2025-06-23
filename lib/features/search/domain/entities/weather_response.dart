@@ -12,14 +12,14 @@ class WeatherResponse {
   final double? latitude;
   final double? longitude;
   final String? timeZone;
-  final double? timezoneOffset;
+  final int? timezoneOffset;
   final Current? current;
 
   WeatherResponse copyWith({
     double? latitude,
     double? longitude,
     String? timeZone,
-    double? timezoneOffset,
+    int? timezoneOffset,
     Current? current,
   }) {
     return WeatherResponse(

@@ -13,8 +13,8 @@ class WeatherResponseModel extends WeatherResponse with EquatableMixin {
 
   factory WeatherResponseModel.fromJson(Map<String, dynamic> json){
     return WeatherResponseModel(
-      latitude: json["latitude"],
-      longitude: json["longitude"],
+      latitude: json["lat"],
+      longitude: json["lon"],
       timeZone: json["timezone"],
       timezoneOffset: json["timezone_offset"],
       current: json["current"] == null ? null : CurrentModel.fromJson(json["current"])
@@ -22,9 +22,9 @@ class WeatherResponseModel extends WeatherResponse with EquatableMixin {
   }
 
   Map<String, dynamic> toJson() => {
-    "latitude" : latitude,
-    "longitude" : longitude,
-    "timezone" : longitude,
+    "lat" : latitude,
+    "lon" : longitude,
+    "timezone" : timeZone,
     "timezone_offset" : timezoneOffset,
     "current": (current as CurrentModel).toJson(),
   };

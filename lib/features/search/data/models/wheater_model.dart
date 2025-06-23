@@ -1,6 +1,7 @@
 import 'package:clima_app/features/search/domain/entities/wheater.dart';
+import 'package:equatable/equatable.dart';
 
-class WeatherModel extends Weather {
+class WeatherModel extends Weather with EquatableMixin {
 
   WeatherModel({
     required super.description,
@@ -24,4 +25,8 @@ class WeatherModel extends Weather {
         "description": description,
         "icon": icon,
       };
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [id, main, description, icon];
 }
