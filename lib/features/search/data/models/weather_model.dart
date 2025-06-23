@@ -4,15 +4,15 @@ import 'package:equatable/equatable.dart';
 class WeatherModel extends Weather with EquatableMixin {
 
   WeatherModel({
-    required super.description,
-    required super.id,
-    required super.main,
-    required super.icon
+    super.description,
+   super.id,
+   super.main,
+   super.icon
   });
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) {
     return WeatherModel(
-      id: json["id"],
+      id: (json["id"] as num).toInt(),
       main: json["main"],
       description: json["description"],
       icon: json["icon"],

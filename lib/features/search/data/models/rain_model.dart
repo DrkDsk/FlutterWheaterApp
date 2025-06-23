@@ -3,12 +3,12 @@ import 'package:equatable/equatable.dart';
 
 class RainModel extends Rain with EquatableMixin {
   RainModel({
-    required super.the1H,
+    super.the1H,
   });
 
   factory RainModel.fromJson(Map<String, dynamic> json){
     return RainModel(
-      the1H: json["1h"],
+      the1H: (json["1h"] as num).toDouble(),
     );
   }
 
