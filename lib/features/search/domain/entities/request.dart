@@ -1,4 +1,6 @@
-class Request {
+import 'package:equatable/equatable.dart';
+
+class Request with EquatableMixin {
   Request({
     required this.type,
     required this.query,
@@ -24,4 +26,7 @@ class Request {
       unit: unit ?? this.unit,
     );
   }
+
+  @override
+  List<Object?> get props => [type, query, language, unit];
 }

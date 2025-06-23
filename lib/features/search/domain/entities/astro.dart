@@ -1,4 +1,6 @@
-class Astro {
+import 'package:equatable/equatable.dart';
+
+class Astro with EquatableMixin {
   Astro({
     required this.sunrise,
     required this.sunset,
@@ -32,4 +34,14 @@ class Astro {
       moonIllumination: moonIllumination ?? this.moonIllumination,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    sunrise,
+    sunset,
+    moonrise,
+    moonset,
+    moonPhase,
+    moonIllumination
+  ];
 }

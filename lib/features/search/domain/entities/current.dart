@@ -1,7 +1,8 @@
 import 'package:clima_app/features/search/domain/entities/air_quality.dart';
 import 'package:clima_app/features/search/domain/entities/astro.dart';
+import 'package:equatable/equatable.dart';
 
-class Current {
+class Current with EquatableMixin {
   Current({
     required this.observationTime,
     required this.temperature,
@@ -79,4 +80,26 @@ class Current {
       visibility: visibility ?? this.visibility,
     );
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    observationTime,
+    temperature,
+    weatherCode,
+    weatherIcons,
+    weatherDescriptions,
+    astro,
+    airQuality,
+    windSpeed,
+    windDegree,
+    windDir,
+    pressure,
+    precip,
+    humidity,
+    cloudcover,
+    feelslike,
+    uvIndex,
+    visibility,
+  ];
 }

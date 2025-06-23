@@ -1,4 +1,6 @@
-class AirQuality {
+import 'package:equatable/equatable.dart';
+
+class AirQuality with EquatableMixin {
   AirQuality({
     required this.co,
     required this.no2,
@@ -40,4 +42,17 @@ class AirQuality {
       gbDefraIndex: gbDefraIndex ?? this.gbDefraIndex,
     );
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    co,
+    no2,
+    o3,
+    so2,
+    pm25,
+    pm10,
+    usEpaIndex,
+    gbDefraIndex,
+  ];
 }

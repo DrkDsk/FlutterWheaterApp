@@ -1,4 +1,6 @@
-class Location {
+import 'package:equatable/equatable.dart';
+
+class Location with EquatableMixin {
   Location({
     required this.name,
     required this.country,
@@ -44,4 +46,7 @@ class Location {
       utcOffset: utcOffset ?? this.utcOffset,
     );
   }
+
+  @override
+  List<Object?> get props => [name, country, region, lat, lon, timezoneId, localtime, localtimeEpoch, utcOffset];
 }
