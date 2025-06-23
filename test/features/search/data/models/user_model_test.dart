@@ -1,3 +1,7 @@
+import 'package:clima_app/features/search/data/models/current_model.dart';
+import 'package:clima_app/features/search/data/models/rain_model.dart';
+import 'package:clima_app/features/search/data/models/weather_response_model.dart';
+import 'package:clima_app/features/search/data/models/weather_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -36,53 +40,48 @@ void main() {
       },
     };
 
-    /*final searchModel = WeatherResponseModel(
+    final searchModel = WeatherResponseModel(
+        latitude: 16.085,
+        longitude:-93.7482,
+        timeZone: "America/Mexico_City",
+        timezoneOffset: -21600,
         current: CurrentModel(
-            observationTime: "12:14 PM",
-            temperature: 13,
-            weatherCode: 113,
-            weatherIcons: [
-              "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0001_sunny.png"
-            ],
-            weatherDescriptions: ["Sunny"],
-            astro: AstroModel(
-                sunrise: "06:31 AM",
-                sunset: "05:47 PM",
-                moonrise: "06:56 AM",
-                moonset: "06:47 PM",
-                moonPhase: "Waxing Crescent",
-                moonIllumination: 0),
-            airQuality: AirQualityModel(
-                co: "468.05",
-                no2: "32.005",
-                o3: "55",
-                so2: "7.4",
-                pm25: "6.66",
-                pm10: "6.66",
-                usEpaIndex: "1",
-                gbDefraIndex: "1"
-            ),
-            windSpeed: 0,
-            windDegree: 349,
-            windDir: "N",
-            pressure: 1010,
-            precip: 0,
-            humidity: 90,
-            cloudcover: 0,
-            feelslike: 13,
-            uvIndex: 4,
-            visibility: 16
+          dt: 1750701510,
+          sunrise: 1750679083,
+          sunset: 1750726183,
+          temp: 305.23,
+          feelsLike: 310.11,
+          pressure: 1013,
+          humidity: 59,
+          dewPoint: 296.21,
+          uvi: 13.01,
+          clouds: 89,
+          visibility: 10000,
+          windSpeed: 3.38,
+          windDeg: 257,
+          windGust: 2.71,
+          weather: [
+            WeatherModel(
+              id: 500,
+              main: "Rain",
+              description: "light rain",
+              icon: "10d"
+            )
+          ],
+          rain: RainModel(
+            the1H: 0.13
+          )
         )
     );
 
     test('fromJson debería retornar un UserModel válido', () {
       final result = WeatherResponseModel.fromJson(json);
       expect(result, equals(searchModel));
-    });*/
+    });
     
-    /*test('toJson debería retornar un map correcto', () {
+    test('toJson debería retornar un map correcto', () {
       final result = searchModel.toJson();
       expect(result, equals(json));
-    });*/
+    });
   });
 }
