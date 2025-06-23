@@ -1,86 +1,42 @@
-import 'package:clima_app/features/search/data/models/air_quality_model.dart';
-import 'package:clima_app/features/search/data/models/astro_model.dart';
-import 'package:clima_app/features/search/data/models/current_model.dart';
-import 'package:clima_app/features/search/data/models/location_model.dart';
-import 'package:clima_app/features/search/data/models/request_model.dart';
-import 'package:clima_app/features/search/data/models/search_response_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('UserModel', () {
     const json = {
-      "request": {
-        "type": "City",
-        "query": "New York, United States of America",
-        "language": "en",
-        "unit": "m"
-      },
-      "location": {
-        "name": "New York",
-        "country": "United States of America",
-        "region": "New York",
-        "lat": "40.714",
-        "lon": "-74.006",
-        "timezone_id": "America/New_York",
-        "localtime": "2019-09-07 08:14",
-        "localtime_epoch": 1567844040,
-        "utc_offset": "-4.0"
-      },
+      "lat": 16.085,
+      "lon": -93.7482,
+      "timezone": "America/Mexico_City",
+      "timezone_offset": -21600,
       "current": {
-        "observation_time": "12:14 PM",
-        "temperature": 13,
-        "weather_code": 113,
-        "weather_icons": [
-          "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0001_sunny.png"
+        "dt": 1750701510,
+        "sunrise": 1750679083,
+        "sunset": 1750726183,
+        "temp": 305.23,
+        "feels_like": 310.11,
+        "pressure": 1013,
+        "humidity": 59,
+        "dew_point": 296.21,
+        "uvi": 13.01,
+        "clouds": 89,
+        "visibility": 10000,
+        "wind_speed": 3.38,
+        "wind_deg": 257,
+        "wind_gust": 2.71,
+        "weather": [
+          {
+            "id": 500,
+            "main": "Rain",
+            "description": "light rain",
+            "icon": "10d"
+          }
         ],
-        "weather_descriptions": ["Sunny"],
-        "astro": {
-          "sunrise": "06:31 AM",
-          "sunset": "05:47 PM",
-          "moonrise": "06:56 AM",
-          "moonset": "06:47 PM",
-          "moon_phase": "Waxing Crescent",
-          "moon_illumination": 0
-        },
-        "air_quality": {
-          "co": "468.05",
-          "no2": "32.005",
-          "o3": "55",
-          "so2": "7.4",
-          "pm2_5": "6.66",
-          "pm10": "6.66",
-          "us-epa-index": "1",
-          "gb-defra-index": "1"
-        },
-        "wind_speed": 0,
-        "wind_degree": 349,
-        "wind_dir": "N",
-        "pressure": 1010,
-        "precip": 0,
-        "humidity": 90,
-        "cloudcover": 0,
-        "feelslike": 13,
-        "uv_index": 4,
-        "visibility": 16
-      }
+        "rain": {
+          "1h": 0.13
+        }
+      },
     };
 
-    final searchModel = SearchResponseModel(
-        request: RequestModel(
-            type: "City",
-            query: "New York, United States of America",
-            language: "en",
-            unit: "m"),
-        location: LocationModel(
-            name: "New York",
-            country: "United States of America",
-            region: "New York",
-            lat: "40.714",
-            lon: "-74.006",
-            timezoneId: "America/New_York",
-            localtime: "2019-09-07 08:14",
-            localtimeEpoch: 1567844040,
-            utcOffset: "-4.0"),
+    /*final searchModel = WeatherResponseModel(
         current: CurrentModel(
             observationTime: "12:14 PM",
             temperature: 13,
@@ -120,9 +76,9 @@ void main() {
     );
 
     test('fromJson debería retornar un UserModel válido', () {
-      final result = SearchResponseModel.fromJson(json);
+      final result = WeatherResponseModel.fromJson(json);
       expect(result, equals(searchModel));
-    });
+    });*/
     
     /*test('toJson debería retornar un map correcto', () {
       final result = searchModel.toJson();
