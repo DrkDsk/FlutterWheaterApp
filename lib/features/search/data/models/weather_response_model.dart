@@ -1,6 +1,8 @@
 import 'package:clima_app/features/search/data/models/current_model.dart';
 import 'package:clima_app/features/search/data/models/daily_model.dart';
 import 'package:clima_app/features/search/data/models/hourly_model.dart';
+import 'package:clima_app/features/search/domain/entities/daily.dart';
+import 'package:clima_app/features/search/domain/entities/hourly.dart';
 import 'package:clima_app/features/search/domain/entities/weather_response.dart';
 import 'package:equatable/equatable.dart';
 
@@ -24,10 +26,10 @@ class WeatherResponseModel extends WeatherResponse with EquatableMixin {
       current: CurrentModel.fromJson(json["current"]),
       hourly: json["hourly"] == null
           ? null
-          : List<HourlyModel>.from(
+          : List<Hourly>.from(
           json["hourly"]!.map((x) => HourlyModel.fromJson(x))),
       daily: json["daily"] == null ? null
-        : List<DailyModel>.from(
+        : List<Daily>.from(
         json["daily"]!.map((x) => DailyModel.fromJson(x))
       )
     );
@@ -38,9 +40,9 @@ class WeatherResponseModel extends WeatherResponse with EquatableMixin {
     "lon" : longitude,
     "timezone" : timeZone,
     "timezone_offset" : timezoneOffset,
-    "current": current.toJson(),
-    "hourly" : hourly?.map((x) => x.toJson()).toList(),
-    "daily" : daily?.map((x) => x.toJson()).toList()
+    "current": (current as CurrentModel).toJson(),
+    "hourly" : hourly?.map((x) => (x as HourlyModel).toJson()).toList(),
+    "daily" : daily?.map((x) => (x as DailyModel).toJson()).toList()
   };
 
   @override

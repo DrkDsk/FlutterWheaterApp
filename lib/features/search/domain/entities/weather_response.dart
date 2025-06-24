@@ -1,6 +1,7 @@
 import 'package:clima_app/features/search/data/models/current_model.dart';
-import 'package:clima_app/features/search/data/models/daily_model.dart';
-import 'package:clima_app/features/search/data/models/hourly_model.dart';
+import 'package:clima_app/features/search/domain/entities/current.dart';
+import 'package:clima_app/features/search/domain/entities/daily.dart';
+import 'package:clima_app/features/search/domain/entities/hourly.dart';
 
 class WeatherResponse {
   WeatherResponse({
@@ -17,18 +18,18 @@ class WeatherResponse {
   final double longitude;
   final String timeZone;
   final int timezoneOffset;
-  final CurrentModel current;
-  final List<HourlyModel>? hourly;
-  final List<DailyModel>? daily;
+  final Current current;
+  final List<Hourly>? hourly;
+  final List<Daily>? daily;
 
   WeatherResponse copyWith({
     double? latitude,
     double? longitude,
     String? timeZone,
     int? timezoneOffset,
-    CurrentModel? current,
-    List<HourlyModel>? hourly,
-    List<DailyModel>? daily
+    Current? current,
+    List<Hourly>? hourly,
+    List<Daily>? daily
   }) {
     return WeatherResponse(
       latitude: latitude ?? this.latitude,
