@@ -1,5 +1,6 @@
+import 'package:clima_app/features/search/data/models/rain_model.dart';
+import 'package:clima_app/features/search/data/models/weather_model.dart';
 import 'package:clima_app/features/search/domain/entities/rain.dart';
-import 'package:clima_app/features/search/domain/entities/weather.dart';
 
 class Current {
   Current({
@@ -35,8 +36,8 @@ class Current {
   final double? windSpeed;
   final int? windDeg;
   final double? windGust;
-  final List<Weather> weather;
-  final Rain? rain;
+  final List<WeatherModel> weather;
+  final RainModel? rain;
 
   Current copyWith({
     int? dt,
@@ -53,8 +54,8 @@ class Current {
     double? windSpeed,
     int? windDeg,
     double? windGust,
-    List<Weather>? weather,
-    Rain? rain,
+    List<WeatherModel>? weather,
+    RainModel? rain,
   }) {
     return Current(
       dt: dt ?? this.dt,

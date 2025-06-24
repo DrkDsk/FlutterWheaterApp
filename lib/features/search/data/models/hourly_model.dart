@@ -1,7 +1,6 @@
 import 'package:clima_app/features/search/data/models/rain_model.dart';
 import 'package:clima_app/features/search/data/models/weather_model.dart';
 import 'package:clima_app/features/search/domain/entities/hourly.dart';
-import 'package:clima_app/features/search/domain/entities/weather.dart';
 import 'package:equatable/equatable.dart';
 
 class HourlyModel extends Hourly with EquatableMixin {
@@ -32,14 +31,14 @@ class HourlyModel extends Hourly with EquatableMixin {
       humidity: (json["humidity"] as num).toInt(),
       dewPoint: (json["dew_point"] as num).toDouble(),
       uvi: (json["uvi"] as num).toDouble(),
-      clouds:( json["clouds"] as num).toInt(),
-      visibility:( json["visibility"] as num).toInt(),
+      clouds: (json["clouds"] as num).toInt(),
+      visibility: (json["visibility"] as num).toInt(),
       windSpeed: (json["wind_speed"] as num).toDouble(),
-      windDeg: (json["wind_deg"] as num).toInt() ,
+      windDeg: (json["wind_deg"] as num).toInt(),
       windGust: (json["wind_gust"] as num).toDouble(),
       weather: json["weather"] == null
           ? []
-          : List<Weather>.from(
+          : List<WeatherModel>.from(
               json["weather"]!.map((x) => WeatherModel.fromJson(x))),
       pop: (json["pop"] as num).toDouble(),
       rain: json["rain"] == null ? null : RainModel.fromJson(json["rain"]),
@@ -59,28 +58,28 @@ class HourlyModel extends Hourly with EquatableMixin {
         "wind_speed": windSpeed,
         "wind_deg": windDeg,
         "wind_gust": windGust,
-        "weather": weather.map((x) => (x as WeatherModel).toJson()).toList(),
+        "weather": weather.map((x) => x.toJson()).toList(),
         "pop": pop,
-        "rain": (rain as RainModel).toJson(),
+        "rain": rain?.toJson(),
       };
 
   @override
   // TODO: implement props
   List<Object?> get props => [
-    dt,
-    temp,
-    feelsLike,
-    pressure,
-    humidity,
-    dewPoint,
-    uvi,
-    clouds,
-    visibility,
-    windSpeed,
-    windDeg,
-    windGust,
-    weather,
-    pop,
-    rain
-  ];
+        dt,
+        temp,
+        feelsLike,
+        pressure,
+        humidity,
+        dewPoint,
+        uvi,
+        clouds,
+        visibility,
+        windSpeed,
+        windDeg,
+        windGust,
+        weather,
+        pop,
+        rain
+      ];
 }

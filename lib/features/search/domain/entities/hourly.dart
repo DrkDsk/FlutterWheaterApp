@@ -1,5 +1,5 @@
-import 'package:clima_app/features/search/domain/entities/rain.dart';
-import 'package:clima_app/features/search/domain/entities/weather.dart';
+import 'package:clima_app/features/search/data/models/rain_model.dart';
+import 'package:clima_app/features/search/data/models/weather_model.dart';
 
 class Hourly {
   Hourly({
@@ -32,9 +32,9 @@ class Hourly {
   final double? windSpeed;
   final int? windDeg;
   final double? windGust;
-  final List<Weather> weather;
+  final List<WeatherModel> weather;
   final double? pop;
-  final Rain? rain;
+  final RainModel? rain;
 
   Hourly copyWith({
     int? dt,
@@ -49,9 +49,9 @@ class Hourly {
     double? windSpeed,
     int? windDeg,
     double? windGust,
-    List<Weather>? weather,
+    List<WeatherModel>? weather,
     double? pop,
-    Rain? rain,
+    RainModel? rain,
   }) {
     return Hourly(
       dt: dt ?? this.dt,
