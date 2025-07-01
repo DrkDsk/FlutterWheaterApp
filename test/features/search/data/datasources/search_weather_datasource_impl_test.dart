@@ -1,27 +1,16 @@
+import 'package:clima_app/core/dio_client.dart';
 import 'package:clima_app/features/search/data/datasources/search_weather_datasource_impl.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 
 void main() {
-  late Dio dio;
+  late DioClient dioClient;
   late DioAdapter dioAdapter;
   late SearchWeatherDatasourceImpl datasource;
 
-  const endpoint = "https://api.openweathermap.org";
-  const appId = "d7f496a9000941071e8d2527c64f26cf";
-
   setUp( () {
-    dio = Dio(BaseOptions(baseUrl: endpoint));
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          options.queryParameters.addAll({'appid': appId});
-          return handler.next(options); // continúa
-        },
-      ),
-    );
-
+    dioClient = DioClient();
+    var dio = dioClient.dio;
     dioAdapter = DioAdapter(dio: dio);
     datasource = SearchWeatherDatasourceImpl(dio: dio);
   });
@@ -97,5 +86,4 @@ void main() {
     expect(result.longitude, equals(long));
     expect(result.current.temp, equals(305.23));
   });
-
 }
