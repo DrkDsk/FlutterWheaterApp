@@ -1,6 +1,5 @@
 import 'package:clima_app/features/search/data/models/rain_model.dart';
 import 'package:clima_app/features/search/data/models/weather_model.dart';
-import 'package:clima_app/features/search/domain/entities/rain.dart';
 
 class Current {
   Current({

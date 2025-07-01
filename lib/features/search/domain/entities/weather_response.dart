@@ -1,4 +1,3 @@
-import 'package:clima_app/features/search/data/models/current_model.dart';
 import 'package:clima_app/features/search/domain/entities/current.dart';
 import 'package:clima_app/features/search/domain/entities/daily.dart';
 import 'package:clima_app/features/search/domain/entities/hourly.dart';
