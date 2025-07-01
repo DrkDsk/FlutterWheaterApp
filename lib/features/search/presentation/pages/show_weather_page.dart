@@ -21,7 +21,7 @@ class _ShowWeatherPageState extends State<ShowWeatherPage> {
 
     return Scaffold(
       body: Container(
-        color: Colors.blue,
+        color: Colors.blue[300],
         child: Stack(
           children: [
             Column(
@@ -70,6 +70,12 @@ class _ShowWeatherPageState extends State<ShowWeatherPage> {
                         ),
                         Row(
                           children: [
+                            const Icon(
+                              Icons.sunny,
+                              color: Colors.amber,
+                              size: 70,
+                            ),
+                            const SizedBox(width: 15),
                             const Expanded(
                               flex: 1,
                               child: Text(
