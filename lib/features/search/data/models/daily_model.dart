@@ -30,32 +30,32 @@ class DailyModel extends Daily with EquatableMixin {
 
   factory DailyModel.fromJson(Map<String, dynamic> json) {
     return DailyModel(
-      dt: json["dt"],
-      sunrise: json["sunrise"],
-      sunset: json["sunset"],
-      moonrise: json["moonrise"],
-      moonset: json["moonset"],
-      moonPhase: json["moon_phase"],
+      dt: (json["dt"] as num).toInt(),
+      sunrise: (json["sunrise"] as num).toInt(),
+      sunset: (json["sunset"] as num).toInt(),
+      moonrise: (json["moonrise"] as num).toInt(),
+      moonset: (json["moonset"] as num).toInt(),
+      moonPhase: (json["moon_phase"] as num).toDouble(),
       summary: json["summary"],
       temperature:
           json["temp"] == null ? null : TemperatureModel.fromJson(json["temp"]),
       feelsLike: json["feels_like"] == null
           ? null
           : FeelsLikeModel.fromJson(json["feels_like"]),
-      pressure: json["pressure"],
-      humidity: json["humidity"],
-      dewPoint: json["dew_point"],
-      windSpeed: json["wind_speed"],
-      windDeg: json["wind_deg"],
-      windGust: json["wind_gust"],
+      pressure: (json["pressure"] as num).toInt(),
+      humidity:( json["humidity"] as num).toInt(),
+      dewPoint: (json["dew_point"] as num).toDouble(),
+      windSpeed: (json["wind_speed"] as num).toDouble(),
+      windDeg: (json["wind_deg"] as num).toInt(),
+      windGust: (json["wind_gust"] as num).toDouble(),
       weather: json["weather"] == null
           ? []
           : List<Weather>.from(
               json["weather"]!.map((x) => WeatherModel.fromJson(x))),
-      clouds: json["clouds"],
-      pop: json["pop"],
-      rain: json["rain"],
-      uvi: json["uvi"],
+      clouds: (json["clouds"] as num).toInt(),
+      pop: (json["pop"] as num).toDouble(),
+      rain: (json["rain"] as num).toDouble(),
+      uvi: (json["uvi"] as num).toDouble(),
     );
   }
 
