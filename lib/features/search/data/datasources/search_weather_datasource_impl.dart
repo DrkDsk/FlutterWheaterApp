@@ -4,20 +4,21 @@ import 'package:clima_app/features/search/data/datasources/search_weather_dataso
 import 'package:clima_app/features/search/data/models/weather_response_model.dart';
 import 'package:dio/dio.dart';
 
-class SearchDatasourceImpl implements SearchWeatherDataSource {
+class SearchWeatherDatasourceImpl implements SearchWeatherDataSource {
   final Dio dio;
 
-  SearchDatasourceImpl({required this.dio});
+  SearchWeatherDatasourceImpl({required this.dio});
 
   @override
   Future<WeatherResponseModel> fetchSearchDataByLocation({required double lat, required double lon}) async {
     try {
-      final response = await dio.get('data/3.0/onecall?lat=$lat&lon=$lon');
+      final response = await dio.get('/data/3.0/onecall?lat=$lat&lon=$lon');
 
       return WeatherResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       throw ServerException(message: _mapDioError(e));
     } catch (e) {
+      print(e);
       throw UnknownException();
     }
   }
