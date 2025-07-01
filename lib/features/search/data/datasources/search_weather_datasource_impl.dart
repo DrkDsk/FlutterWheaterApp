@@ -1,3 +1,4 @@
+import 'package:clima_app/core/dio_client.dart';
 import 'package:clima_app/core/error/exceptions/server_exception.dart';
 import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
 import 'package:clima_app/features/search/data/datasources/search_weather_datasource.dart';
@@ -18,7 +19,6 @@ class SearchWeatherDatasourceImpl implements SearchWeatherDataSource {
     } on DioException catch (e) {
       throw ServerException(message: _mapDioError(e));
     } catch (e) {
-      print(e);
       throw UnknownException();
     }
   }
