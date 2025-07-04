@@ -1,26 +1,32 @@
+import 'package:clima_app/features/search/presentation/blocs/cubits/background_weather_cubit.dart';
+import 'package:clima_app/features/search/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:clima_app/features/search/presentation/widgets/daily_list_weather_widget.dart';
 import 'package:clima_app/features/search/presentation/widgets/header_weather_widget.dart';
 import 'package:clima_app/features/search/presentation/widgets/hourly_list_weather_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShowWeatherPage extends StatefulWidget {
-  const ShowWeatherPage({super.key});
+class HomeWeatherPage extends StatefulWidget {
+  const HomeWeatherPage({super.key});
 
   @override
-  State<ShowWeatherPage> createState() => _ShowWeatherPageState();
+  State<HomeWeatherPage> createState() => _HomeWeatherPageState();
 }
 
-class _ShowWeatherPageState extends State<ShowWeatherPage> {
+class _HomeWeatherPageState extends State<HomeWeatherPage> {
+
+  late BackgroundWeatherCubit backgroundWeatherCubit;
 
   @override
   void initState() {
-
     super.initState();
+    backgroundWeatherCubit = context.read<BackgroundWeatherCubit>();
   }
 
   @override
   Widget build(BuildContext context) {
 
+    final themeCubit = context.watch<ThemeCubit>();
     final theme = Theme.of(context);
 
     final forecastData = [
@@ -42,7 +48,7 @@ class _ShowWeatherPageState extends State<ShowWeatherPage> {
 
     return Scaffold(
       body: Container(
-        color: Colors.blue[300],
+        color: backgroundWeatherCubit.state,
         child: Stack(
           children: [
             Column(
@@ -71,10 +77,12 @@ class _ShowWeatherPageState extends State<ShowWeatherPage> {
                                 style: theme.textTheme.bodyLarge,
                               ),
                             ),
-                            Icon(
-                              Icons.menu,
+                            IconButton(
+                              icon: Icon(themeCubit.state.isDarkMode ? Icons.nightlight : Icons.sunny),
                               color: theme.colorScheme.onPrimary,
-                              size: 40,
+                              onPressed: () {
+                                themeCubit.toggleTheme();
+                              },
                             )
                           ],
                         ),

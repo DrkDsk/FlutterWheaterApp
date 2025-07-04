@@ -1,24 +1,20 @@
-import 'package:clima_app/core/theme/dark_theme.dart';
-import 'package:clima_app/core/theme/light_theme.dart';
-import 'package:clima_app/features/search/presentation/pages/show_weather_page.dart';
+import 'package:clima_app/features/search/presentation/blocs/cubits/theme_cubit.dart';
+import 'package:clima_app/src/my_app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'features/search/presentation/blocs/cubits/background_weather_cubit.dart';
 
 void main() {
-  runApp(const MyApp());
-}
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: ThemeMode.system,
-      title: 'App del clima',
-      home: const ShowWeatherPage(),
-    );
-  }
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => BackgroundWeatherCubit())
+      ],
+      child: const MyApp()
+    )
+  );
 }
