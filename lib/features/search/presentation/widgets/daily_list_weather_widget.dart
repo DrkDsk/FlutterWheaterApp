@@ -18,7 +18,7 @@ class DailyListWeatherWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24), color: colorScheme.primary),
+            borderRadius: BorderRadius.circular(24), color: colorScheme.primary.withOpacity(0.4)),
         child: SingleChildScrollView(
           child: Column(
             children: [

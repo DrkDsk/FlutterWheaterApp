@@ -1,9 +1,9 @@
+import 'package:clima_app/core/colors/app_colors_light.dart';
 import 'package:flutter/material.dart';
 
-const colorScheme = ColorScheme.light(
-  onPrimary: Colors.white,
-  primary: Colors.blue,
-  secondary: Colors.amber,
+ColorScheme colorScheme = ColorScheme.light(
+  onPrimary: AppColorsLight.onPrimary,
+  primary: AppColorsLight.primary,
 );
 
 ThemeData get lightTheme => ThemeData(

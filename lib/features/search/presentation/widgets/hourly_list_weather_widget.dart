@@ -18,7 +18,7 @@ class HourlyListWeatherWidget extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: theme.colorScheme.onPrimary
+        color: theme.colorScheme.primary.withOpacity(0.4)
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -30,21 +30,21 @@ class HourlyListWeatherWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 18),
                 child: Column(
                   children: [
-                    Text("${data['hour']}", style: textTheme.bodySmall?.copyWith(color: colorScheme.primary)),
+                    Text("${data['hour']}", style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
                     const SizedBox(height: 12),
-                    Icon(data['icon'] as IconData, color: colorScheme.primary),
+                    Icon(data['icon'] as IconData, color: colorScheme.onPrimary),
                     const SizedBox(height: 12),
                     Column(
                       children: [
-                        Icon(Icons.water_drop_outlined, color: colorScheme.primary),
-                        Text("${data['rain']}", style: textTheme.bodySmall?.copyWith(color: colorScheme.primary)),
+                        Icon(Icons.water_drop_outlined, color: colorScheme.onPrimary),
+                        Text("${data['rain']}", style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Column(
                       children: [
-                        Icon(Icons.air, color: colorScheme.primary),
-                        Text("${data['wind']}", style: textTheme.bodySmall?.copyWith(color: colorScheme.primary)),
+                        Icon(Icons.air, color: colorScheme.onPrimary),
+                        Text("${data['wind']}", style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
                       ],
                     ),
                   ],

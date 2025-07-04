@@ -1,9 +1,9 @@
+import 'package:clima_app/core/colors/app_colors_dark.dart';
 import 'package:flutter/material.dart';
 
-const colorScheme = ColorScheme.dark(
-  onPrimary: Colors.white,
-  primary: Colors.black,
-  secondary: Colors.deepOrange,
+ColorScheme colorScheme = ColorScheme.dark(
+  onPrimary: AppColorsDark.onPrimary,
+  primary: AppColorsDark.primary,
 );
 
 ThemeData get darkTheme => ThemeData(

@@ -15,9 +15,9 @@ class HeaderWeatherWidget extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(
+        const Icon(
           Icons.sunny,
-          color: theme.colorScheme.secondary,
+          color: Colors.amberAccent,
           size: 70,
         ),
         const SizedBox(width: 15),

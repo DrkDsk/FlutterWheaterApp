@@ -76,11 +76,13 @@ class _ShowWeatherPageState extends State<ShowWeatherPage> {
                           "Wed",
                           style: theme.textTheme.bodyMedium
                         ),
+                        const SizedBox(height: 10),
                         const HeaderWeatherWidget(temp: 26),
+                        const SizedBox(height: 20),
                         HourlyListWeatherWidget(forecastData: forecastData),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 20),
                         DailyListWeatherWidget(forecastData: forecastData),
-                        const SizedBox(height: 10,)
+                        const SizedBox(height: 20)
                       ],
                     ),
                   ),
