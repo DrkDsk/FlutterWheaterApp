@@ -1,3 +1,5 @@
+import 'package:clima_app/core/theme/dark_theme.dart';
+import 'package:clima_app/core/theme/light_theme.dart';
 import 'package:clima_app/features/search/presentation/pages/show_weather_page.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
       title: 'App del clima',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
       home: const ShowWeatherPage(),
     );
   }
