@@ -11,6 +11,13 @@ class ShowWeatherPage extends StatefulWidget {
 }
 
 class _ShowWeatherPageState extends State<ShowWeatherPage> {
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
