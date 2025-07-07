@@ -8,5 +8,4 @@ class BackgroundWeatherCubit extends Cubit<Color?>{
   void setBackgroundColor(Color color) {
     emit(color);
   }
-
 }
