@@ -8,14 +8,14 @@ import 'package:clima_app/features/search/domain/repositories/search_weather_rep
 import 'package:dartz/dartz.dart';
 
 class SearchRepositoryImpl implements SearchWeatherRepository {
-  final SearchWeatherDataSource remoteDataSource;
+  final SearchWeatherDataSource datasource;
 
-  SearchRepositoryImpl(this.remoteDataSource);
+  SearchRepositoryImpl({required this.datasource});
 
   @override
   Future<Either<Failure, WeatherResponseModel>> fetchSearchDataByLocation({required double lat, required double lon}) async {
     try {
-      final model = await remoteDataSource.fetchSearchDataByLocation(lat: lat, lon: lon);
+      final model = await datasource.fetchSearchDataByLocation(lat: lat, lon: lon);
       return Right(model);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
