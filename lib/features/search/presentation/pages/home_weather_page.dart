@@ -55,12 +55,19 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                   children: [
                     Row(
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            "City",
-                            style: theme.textTheme.bodyLarge,
-                          ),
+                        BlocBuilder<WeatherCubit, WeatherState>(
+                          builder: (context, state) {
+                            if (state.city == null) {
+                              return const SizedBox.shrink();
+                            }
+                            return Expanded(
+                              flex: 1,
+                              child: Text(
+                                state.city ?? "",
+                                style: theme.textTheme.bodyLarge,
+                              ),
+                            );
+                          },
                         ),
                         IconButton(
                           icon: Icon(themeCubit.state.isDarkMode
@@ -76,11 +83,11 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                     const SizedBox(
                       height: 8,
                     ),
-                    Text("Wed", style: theme.textTheme.bodyMedium),
                     const SizedBox(height: 10),
                     BlocBuilder<WeatherCubit, WeatherState>(
                       builder: (context, state) {
-                        return HeaderWeatherWidget(temp: state.currentWeather?.tempCelsiusText ?? "");
+                        return HeaderWeatherWidget(
+                            temp: state.currentWeather?.tempCelsiusText ?? "");
                       },
                     ),
                     const SizedBox(height: 20),

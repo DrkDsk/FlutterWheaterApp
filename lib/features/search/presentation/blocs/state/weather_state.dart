@@ -14,26 +14,29 @@ class WeatherState {
   final FetchWeatherStatus fetchWeatherStatus;
   final List<Hourly> hourly;
   final List<Daily> daily;
+  final String? city;
 
   WeatherState({
     this.currentWeather,
     this.fetchWeatherStatus = FetchWeatherStatus.isLoading,
     required this.hourly,
-    required this.daily
+    required this.daily,
+    this.city,
   });
 
   WeatherState copyWith({
     Current? currentWeather,
-    int? humidity,
     FetchWeatherStatus? fetchWeatherStatus,
     List<Hourly>? hourly,
     List<Daily>? daily,
+    String? city,
   }) {
     return WeatherState(
       currentWeather: currentWeather ?? this.currentWeather,
       fetchWeatherStatus: fetchWeatherStatus ?? this.fetchWeatherStatus,
       hourly: hourly ?? this.hourly,
       daily: daily ?? this.daily,
+      city: city ?? this.city,
     );
   }
 }

@@ -11,10 +11,12 @@ import 'package:clima_app/src/my_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'core/helpers/timezone_config.dart';
 import 'features/search/presentation/blocs/cubits/theme_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  TimeZoneConfig.initTimeZone();
 
   final dioClient = DioClient();
 

@@ -1,4 +1,4 @@
-import 'package:clima_app/features/search/domain/entities/location.dart';
+import 'package:clima_app/features/search/domain/entities/location_entity.dart';
 import 'package:clima_app/features/search/domain/repositories/search_weather_repository.dart';
 import 'package:clima_app/features/search/domain/usecases/get_current_location_usecase.dart';
 import 'package:clima_app/features/search/presentation/blocs/state/weather_state.dart';
@@ -15,24 +15,28 @@ class WeatherCubit extends Cubit<WeatherState> {
 
     emit(state.copyWith(fetchWeatherStatus: FetchWeatherStatus.isLoading));
 
-    Location location = await _getCurrentLocationUseCase.call();
+    LocationEntity location = await _getCurrentLocationUseCase.callToGetCurrentLocation();
+    final double latitude = location.latitude;
+    final double longitude = location.longitude;
 
-    final result = await _repository.fetchSearchDataByLocation(lat: location.latitude, lon: location.longitude);
+    final result = await _repository.fetchSearchDataByLocation(lat: latitude, lon:longitude);
 
     result.fold(
       (left) {
         emit(state.copyWith(fetchWeatherStatus: FetchWeatherStatus.error));
-    }, (right) {
+    }, (right) async {
         final currentWeather = right.current;
         final hourlyList = right.hourly?.take(12).toList();
         final dailyList = right.daily?.take(7).toList();
+        final String? cityName = await _getCurrentLocationUseCase.callToGetCity(latitude: latitude, longitude: longitude);
 
         emit(
           state.copyWith(
             currentWeather: currentWeather,
             fetchWeatherStatus: FetchWeatherStatus.success,
             hourly: hourlyList,
-            daily:dailyList
+            daily:dailyList,
+            city: cityName,
           )
         );
     });
