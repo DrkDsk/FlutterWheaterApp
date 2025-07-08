@@ -1,4 +1,4 @@
-import 'package:clima_app/features/search/domain/entities/location_entity.dart';
+import 'package:clima_app/features/search/domain/entities/location.dart';
 import 'package:clima_app/features/search/domain/repositories/search_weather_repository.dart';
 import 'package:clima_app/features/search/domain/usecases/get_current_location_usecase.dart';
 import 'package:clima_app/features/search/presentation/blocs/state/weather_state.dart';
@@ -15,7 +15,7 @@ class WeatherCubit extends Cubit<WeatherState> {
 
     emit(state.copyWith(fetchWeatherStatus: FetchWeatherStatus.isLoading));
 
-    LocationEntity location = await _getCurrentLocationUseCase.call();
+    Location location = await _getCurrentLocationUseCase.call();
 
     final result = await _repository.fetchSearchDataByLocation(lat: location.latitude, lon: location.longitude);
 
