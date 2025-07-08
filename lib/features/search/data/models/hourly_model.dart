@@ -24,18 +24,18 @@ class HourlyModel extends Hourly with EquatableMixin {
 
   factory HourlyModel.fromJson(Map<String, dynamic> json) {
     return HourlyModel(
-      dt: (json["dt"] as num).toInt(),
-      temp: (json["temp"] as num).toDouble(),
-      feelsLike: (json["feels_like"] as num).toDouble(),
-      pressure: (json["pressure"] as num).toInt(),
-      humidity: (json["humidity"] as num).toInt(),
-      dewPoint: (json["dew_point"] as num).toDouble(),
-      uvi: (json["uvi"] as num).toDouble(),
-      clouds: (json["clouds"] as num).toInt(),
-      visibility: (json["visibility"] as num).toInt(),
-      windSpeed: (json["wind_speed"] as num).toDouble(),
-      windDeg: (json["wind_deg"] as num).toInt(),
-      windGust: (json["wind_gust"] as num).toDouble(),
+      dt: (json["dt"] as num?)?.toInt(),
+      temp: (json["temp"] as num?)?.toDouble(),
+      feelsLike: (json["feels_like"] as num?)?.toDouble(),
+      pressure: (json["pressure"] as num?)?.toInt(),
+      humidity: (json["humidity"] as num?)?.toInt(),
+      dewPoint: (json["dew_point"] as num?)?.toDouble(),
+      uvi: (json["uvi"] as num?)?.toDouble(),
+      clouds: (json["clouds"] as num?)?.toInt(),
+      visibility: (json["visibility"] as num?)?.toInt(),
+      windSpeed: (json["wind_speed"] as num?)?.toDouble(),
+      windDeg: (json["wind_deg"] as num?)?.toInt(),
+      windGust: (json["wind_gust"] as num?)?.toDouble(),
       weather: json["weather"] == null
           ? []
           : List<WeatherModel>.from(

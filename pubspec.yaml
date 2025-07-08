@@ -43,6 +43,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   get_it: ^8.0.3
   bloc: ^9.0.0
+  location: ^6.0.2
 
 
 dev_dependencies:
