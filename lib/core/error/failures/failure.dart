@@ -1,6 +1,6 @@
 abstract class Failure {
-  final String? message;
-  Failure([this.message]);
+  final String message;
+  Failure([this.message = ""]);
 }
 
 class CacheFailure extends Failure {}

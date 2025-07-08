@@ -16,7 +16,7 @@ void main(){
 
   setUp(() {
     mockSearchWeatherDataSource = MockSearchWeatherDataSource();
-    searchRepositoryImpl = SearchRepositoryImpl(mockSearchWeatherDataSource);
+    searchRepositoryImpl = SearchRepositoryImpl(datasource: mockSearchWeatherDataSource);
   });
 
   test('debería retornar Right(model) si el datasource responde correctamente', () async {

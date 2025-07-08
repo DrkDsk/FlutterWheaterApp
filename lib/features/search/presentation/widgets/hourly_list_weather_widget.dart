@@ -1,12 +1,14 @@
+import 'package:clima_app/features/search/domain/entities/hourly.dart';
+import 'package:clima_app/features/search/presentation/extensions/hourly_presentation.dart';
 import 'package:flutter/material.dart';
 
 class HourlyListWeatherWidget extends StatelessWidget {
   const HourlyListWeatherWidget({
     super.key,
-    required this.forecastData,
+    required this.hourly,
   });
 
-  final List<Map<String, Object>> forecastData;
+  final List<Hourly> hourly;
 
   @override
   Widget build(BuildContext context) {
@@ -25,26 +27,31 @@ class HourlyListWeatherWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            ...forecastData.map((data) {
+            ...hourly.map((data) {
               return Padding(
                 padding: const EdgeInsets.only(right: 18),
                 child: Column(
                   children: [
-                    Text("${data['hour']}", style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
+                    Text(data.formattedHour, style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
                     const SizedBox(height: 12),
-                    Icon(data['icon'] as IconData, color: colorScheme.onPrimary),
+                    Column(
+                      children: [
+                        Icon(Icons.wb_sunny, color: colorScheme.onPrimary),
+                        Text("${data.tempCelsiusText}°", style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
+                      ],
+                    ),
                     const SizedBox(height: 12),
                     Column(
                       children: [
                         Icon(Icons.water_drop_outlined, color: colorScheme.onPrimary),
-                        Text("${data['rain']}", style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
+                        Text(data.popPercentageText, style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Column(
                       children: [
                         Icon(Icons.air, color: colorScheme.onPrimary),
-                        Text("${data['wind']}", style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
+                        Text(data.windSpeedKmHText, style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
                       ],
                     ),
                   ],

@@ -1,5 +1,8 @@
 import 'package:clima_app/features/search/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/search/presentation/blocs/cubits/theme_cubit.dart';
+import 'package:clima_app/features/search/presentation/blocs/state/weather_state.dart';
+import 'package:clima_app/features/search/presentation/blocs/weather_cubit.dart';
+import 'package:clima_app/features/search/presentation/extensions/current_weather_extension.dart';
 import 'package:clima_app/features/search/presentation/widgets/daily_list_weather_widget.dart';
 import 'package:clima_app/features/search/presentation/widgets/header_weather_widget.dart';
 import 'package:clima_app/features/search/presentation/widgets/hourly_list_weather_widget.dart';
@@ -14,7 +17,6 @@ class HomeWeatherPage extends StatefulWidget {
 }
 
 class _HomeWeatherPageState extends State<HomeWeatherPage> {
-
   late BackgroundWeatherCubit backgroundWeatherCubit;
 
   @override
@@ -25,26 +27,8 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final themeCubit = context.watch<ThemeCubit>();
     final theme = Theme.of(context);
-
-    final forecastData = [
-      {'hour': 'Now', 'icon': Icons.wb_sunny, 'rain': '14%', 'wind': '4 m/s', 'temp' : 36.4},
-      {'hour': 'Now', 'icon': Icons.wb_sunny, 'rain': '14%', 'wind': '4 m/s', 'temp' : 36.4},
-      {'hour': 'Now', 'icon': Icons.wb_sunny, 'rain': '14%', 'wind': '4 m/s', 'temp' : 36.4},
-      {'hour': 'Now', 'icon': Icons.wb_sunny, 'rain': '14%', 'wind': '4 m/s', 'temp' : 36.4},
-      {'hour': 'Now', 'icon': Icons.wb_sunny, 'rain': '14%', 'wind': '4 m/s', 'temp' : 36.4},
-      {'hour': 'Now', 'icon': Icons.wb_sunny, 'rain': '14%', 'wind': '4 m/s', 'temp' : 36.4},
-      {'hour': 'Now', 'icon': Icons.wb_sunny, 'rain': '14%', 'wind': '4 m/s', 'temp' : 36.4},
-      {'hour': 'Now', 'icon': Icons.wb_sunny, 'rain': '14%', 'wind': '4 m/s', 'temp' : 36.4},
-      {'hour': 'Now', 'icon': Icons.wb_sunny, 'rain': '14%', 'wind': '4 m/s', 'temp' : 36.4},
-      {'hour': 'Now', 'icon': Icons.wb_sunny, 'rain': '14%', 'wind': '4 m/s', 'temp' : 36.4},
-      {'hour': '16:00', 'icon': Icons.cloud, 'rain': '37%', 'wind': '7 m/s', 'temp' : 38.1},
-      {'hour': '17:00', 'icon': Icons.wb_sunny, 'rain': '23%', 'wind': '4 m/s', 'temp' : 29.6},
-      {'hour': '18:00', 'icon': Icons.cloud, 'rain': '45%', 'wind': '6 m/s', 'temp' : 29.6},
-      {'hour': '19:00', 'icon': Icons.cloudy_snowing, 'rain': '75%', 'wind': '7 m/s', 'temp' : 30.6},
-    ];
 
     return Scaffold(
       body: Container(
@@ -61,53 +45,81 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
               ],
             ),
             Positioned(
-              child: SafeArea(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left:16.0, right: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                child: SafeArea(
+                    child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Text("City",
-                                style: theme.textTheme.bodyLarge,
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(themeCubit.state.isDarkMode ? Icons.nightlight : Icons.sunny),
-                              color: theme.colorScheme.onPrimary,
-                              onPressed: () {
-                                themeCubit.toggleTheme();
-                              },
-                            )
-                          ],
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "City",
+                            style: theme.textTheme.bodyLarge,
+                          ),
                         ),
-                        const SizedBox(height: 8,),
-                        Text(
-                          "Wed",
-                          style: theme.textTheme.bodyMedium
-                        ),
-                        const SizedBox(height: 10),
-                        const HeaderWeatherWidget(temp: 26),
-                        const SizedBox(height: 20),
-                        HourlyListWeatherWidget(forecastData: forecastData),
-                        const SizedBox(height: 20),
-                        DailyListWeatherWidget(forecastData: forecastData),
-                        const SizedBox(height: 20)
+                        IconButton(
+                          icon: Icon(themeCubit.state.isDarkMode
+                              ? Icons.nightlight
+                              : Icons.sunny),
+                          color: theme.colorScheme.onPrimary,
+                          onPressed: () {
+                            themeCubit.toggleTheme();
+                          },
+                        )
                       ],
                     ),
-                  ),
-                )
-              )
-            )
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text("Wed", style: theme.textTheme.bodyMedium),
+                    const SizedBox(height: 10),
+                    BlocBuilder<WeatherCubit, WeatherState>(
+                      builder: (context, state) {
+                        return HeaderWeatherWidget(temp: state.currentWeather?.tempCelsiusText ?? "");
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    BlocBuilder<WeatherCubit, WeatherState>(
+                      builder: (context, state) {
+                        switch (state.fetchWeatherStatus) {
+                          case FetchWeatherStatus.isLoading:
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          case FetchWeatherStatus.error:
+                            return const Text("Ha ocurrido un error");
+                          case FetchWeatherStatus.success:
+                            return HourlyListWeatherWidget(
+                                hourly: state.hourly);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    BlocBuilder<WeatherCubit, WeatherState>(
+                      builder: (context, state) {
+                        switch (state.fetchWeatherStatus) {
+                          case FetchWeatherStatus.isLoading:
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          case FetchWeatherStatus.error:
+                            return const Text("Ha ocurrido un error");
+                          case FetchWeatherStatus.success:
+                            return DailyListWeatherWidget(daily: state.daily);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20)
+                  ],
+                ),
+              ),
+            )))
           ],
         ),
       ),
     );
   }
 }
-

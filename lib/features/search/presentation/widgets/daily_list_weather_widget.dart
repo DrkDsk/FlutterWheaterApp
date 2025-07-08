@@ -1,12 +1,14 @@
+import 'package:clima_app/features/search/domain/entities/daily.dart';
+import 'package:clima_app/features/search/presentation/extensions/daily_presentation.dart';
 import 'package:flutter/material.dart';
 
 class DailyListWeatherWidget extends StatelessWidget {
   const DailyListWeatherWidget({
     super.key,
-    required this.forecastData,
+    required this.daily,
   });
 
-  final List<Map<String, Object>> forecastData;
+  final List<Daily> daily;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +24,14 @@ class DailyListWeatherWidget extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ...forecastData.map((data) {
+              ...daily.map((data) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
-                          child: Text("${data['hour']}",
+                          child: Text(data.diaSemana,
                               style: textTheme.bodyMedium)),
                       Expanded(
                         child: Column(
@@ -37,24 +39,17 @@ class DailyListWeatherWidget extends StatelessWidget {
                           children: [
                             Icon(Icons.water_drop_outlined,
                                 color: colorScheme.onPrimary),
-                            Text("${data['rain']}",
+                            Text(data.popPercentageText,
                                 style: textTheme.bodySmall),
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(Icons.air, color: colorScheme.onPrimary),
-                            Text("${data['wind']}",
-                                style: textTheme.bodySmall),
-                          ],
-                        ),
+                      Column(
+                        children: [
+                          Text("Min: ${data.tempMinCelsiusText}", style: textTheme.bodyMedium),
+                          Text("Max: ${data.tempMaxCelsiusText}", style: textTheme.bodyMedium)
+                        ],
                       ),
-                      Expanded(
-                          child: Icon(data['icon'] as IconData, color: colorScheme.onPrimary)),
-                      Expanded(child: Text("${data['temp']}°C", style: textTheme.bodyMedium,)),
                     ],
                   ),
                 );
