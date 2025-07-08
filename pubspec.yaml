@@ -44,6 +44,9 @@ dependencies:
   get_it: ^8.0.3
   bloc: ^9.0.0
   location: ^6.0.2
+  geocoding: ^4.0.0
+  flutter_timezone: ^4.1.1
+  timezone: ^0.10.1
 
 
 dev_dependencies:
