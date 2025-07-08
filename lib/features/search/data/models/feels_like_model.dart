@@ -1,20 +1,25 @@
 import 'package:clima_app/features/search/domain/entities/feels_like.dart';
 import 'package:equatable/equatable.dart';
 
-class FeelsLikeModel extends FeelsLike with EquatableMixin {
-  FeelsLikeModel(
-      {required super.day,
-      required super.night,
-      required super.eve,
-      required super.morn});
+class FeelsLikeModel with EquatableMixin {
+  FeelsLikeModel({this.day, this.night, this.eve, this.morn});
 
-  factory FeelsLikeModel.fromJson(Map<String, dynamic> json) {
+  final double? day;
+  final double? night;
+  final double? eve;
+  final double? morn;
+
+  factory FeelsLikeModel.fromJson(Map<String, dynamic> map) {
     return FeelsLikeModel(
-      day: json["day"],
-      night: json["night"],
-      eve: json["eve"],
-      morn: json["morn"],
+      day: map['day'] as double?,
+      night: map['night'] as double?,
+      eve: map['eve'] as double?,
+      morn: map['morn'] as double?,
     );
+  }
+
+  FeelsLike toEntity() {
+    return FeelsLike(day: day, night: night, eve: eve, morn: morn);
   }
 
   Map<String, dynamic> toJson() => {

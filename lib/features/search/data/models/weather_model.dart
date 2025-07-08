@@ -1,22 +1,25 @@
 import 'package:clima_app/features/search/domain/entities/weather.dart';
 import 'package:equatable/equatable.dart';
 
-class WeatherModel extends Weather with EquatableMixin {
+class WeatherModel with EquatableMixin {
+  WeatherModel({this.description, this.id, this.main, this.icon});
 
-  WeatherModel({
-    super.description,
-   super.id,
-   super.main,
-   super.icon
-  });
+  final int? id;
+  final String? main;
+  final String? description;
+  final String? icon;
 
-  factory WeatherModel.fromJson(Map<String, dynamic> json) {
+  factory WeatherModel.fromJson(Map<String, dynamic> map) {
     return WeatherModel(
-      id: (json["id"] as num).toInt(),
-      main: json["main"],
-      description: json["description"],
-      icon: json["icon"],
+      id: map['id'] as int?,
+      main: map['main'] as String?,
+      description: map['description'] as String?,
+      icon: map['icon'] as String?,
     );
+  }
+
+  Weather toEntity() {
+    return Weather(id: id, main: main, description: description, icon: icon);
   }
 
   Map<String, dynamic> toJson() => {

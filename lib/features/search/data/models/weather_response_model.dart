@@ -1,52 +1,71 @@
 import 'package:clima_app/features/search/data/models/current_model.dart';
 import 'package:clima_app/features/search/data/models/daily_model.dart';
 import 'package:clima_app/features/search/data/models/hourly_model.dart';
-import 'package:clima_app/features/search/domain/entities/daily.dart';
-import 'package:clima_app/features/search/domain/entities/hourly.dart';
 import 'package:clima_app/features/search/domain/entities/weather_response.dart';
 import 'package:equatable/equatable.dart';
 
-class WeatherResponseModel extends WeatherResponse with EquatableMixin {
+class WeatherResponseModel with EquatableMixin {
   WeatherResponseModel({
-    required super.latitude,
-    required super.longitude,
-    required super.timeZone,
-    required super.timezoneOffset,
-    required super.current,
-    super.hourly,
-    super.daily,
+    required this.latitude,
+    required this.longitude,
+    required this.timeZone,
+    required this.timezoneOffset,
+    required this.current,
+    this.hourly,
+    this.daily,
   });
 
-  factory WeatherResponseModel.fromJson(Map<String, dynamic> json){
+  final double latitude;
+  final double longitude;
+  final String timeZone;
+  final int timezoneOffset;
+  final CurrentModel current;
+  final List<HourlyModel>? hourly;
+  final List<DailyModel>? daily;
+
+  factory WeatherResponseModel.fromJson(Map<String, dynamic> map) {
     return WeatherResponseModel(
-      latitude: json["lat"] as double,
-      longitude: json["lon"]  as double,
-      timeZone: json["timezone"],
-      timezoneOffset: json["timezone_offset"] as int,
-      current: CurrentModel.fromJson(json["current"]),
-      hourly: json["hourly"] == null
+      latitude: map['lat'] as double,
+      longitude: map['lon'] as double,
+      timeZone: map['timezone'] as String,
+      timezoneOffset: map['timezone_offset'] as int,
+      current: CurrentModel.fromJson(map["current"]),
+      hourly: map["hourly"] == null
           ? null
-          : List<Hourly>.from(
-          json["hourly"]!.map((x) => HourlyModel.fromJson(x))),
-      daily: json["daily"] == null ? null
-        : List<Daily>.from(
-        json["daily"]!.map((x) => DailyModel.fromJson(x))
-      )
+          : List<HourlyModel>.from(
+          map["hourly"]!.map((x) => HourlyModel.fromJson(x))),
+      daily: map["daily"] == null
+          ? null
+          : List<DailyModel>.from(
+          map["daily"]!.map((x) => DailyModel.fromJson(x))),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "lat" : latitude,
-    "lon" : longitude,
-    "timezone" : timeZone,
-    "timezone_offset" : timezoneOffset,
-    "current": (current as CurrentModel).toJson(),
-    "hourly" : hourly?.map((x) => (x as HourlyModel).toJson()).toList(),
-    "daily" : daily?.map((x) => (x as DailyModel).toJson()).toList()
-  };
+        "lat": latitude,
+        "lon": longitude,
+        "timezone": timeZone,
+        "timezone_offset": timezoneOffset,
+        "current": current.toJson(),
+        "hourly": hourly?.map((x) => (x).toJson()).toList(),
+        "daily": daily?.map((x) => (x).toJson()).toList()
+      };
+
+  WeatherResponse toEntity() {
+    return WeatherResponse(
+      latitude: latitude,
+      longitude: longitude,
+      timeZone: timeZone,
+      timezoneOffset: timezoneOffset,
+      current: current.toEntity(),
+      hourly: hourly?.map((element) => element.toEntity()).toList(),
+      daily: daily?.map((element) => element.toEntity()).toList()
+    );
+  }
 
   @override
-  List<Object?> get props => [latitude, longitude, timeZone, timezoneOffset, current, hourly, daily];
+  List<Object?> get props =>
+      [latitude, longitude, timeZone, timezoneOffset, current, hourly, daily];
 }
 
 extension MapCleaner on Map<String, dynamic> {
@@ -60,9 +79,7 @@ extension MapCleaner on Map<String, dynamic> {
         if (nestedClean.isNotEmpty) {
           cleaned[key] = nestedClean;
         }
-      }
-
-      else if (value is List) {
+      } else if (value is List) {
         final cleanedList = value.map((item) {
           if (item is Map<String, dynamic>) {
             return item.cleanNulls();
@@ -77,9 +94,7 @@ extension MapCleaner on Map<String, dynamic> {
         if (cleanedList.isNotEmpty) {
           cleaned[key] = cleanedList;
         }
-      }
-
-      else {
+      } else {
         cleaned[key] = value;
       }
     });
