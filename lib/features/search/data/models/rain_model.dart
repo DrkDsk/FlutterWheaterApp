@@ -1,14 +1,15 @@
-import 'package:clima_app/features/search/domain/entities/rain.dart';
 import 'package:equatable/equatable.dart';
 
-class RainModel extends Rain with EquatableMixin {
+class RainModel with EquatableMixin {
   RainModel({
-    super.the1H,
+    this.the1H,
   });
+
+  final double? the1H;
 
   factory RainModel.fromJson(Map<String, dynamic> json){
     return RainModel(
-      the1H: (json["1h"] as num).toDouble(),
+      the1H: json["1h"] as double?,
     );
   }
 

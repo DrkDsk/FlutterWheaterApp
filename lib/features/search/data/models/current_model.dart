@@ -3,47 +3,64 @@ import 'package:clima_app/features/search/data/models/weather_model.dart';
 import 'package:clima_app/features/search/domain/entities/current.dart';
 import 'package:equatable/equatable.dart';
 
-class CurrentModel extends Current with EquatableMixin {
+class CurrentModel with EquatableMixin {
   CurrentModel({
-    super.visibility,
-    super.dt,
-    super.sunrise,
-    super.sunset,
-    super.temp,
-    super.feelsLike,
-    super.pressure,
-    super.humidity,
-    super.dewPoint,
-    super.uvi,
-    super.clouds,
-    super.windSpeed,
-    super.windDeg,
-    super.windGust,
-    required super.weather,
-    super.rain,
+    this.visibility,
+    this.dt,
+    this.sunrise,
+    this.sunset,
+    this.temp,
+    this.feelsLike,
+    this.pressure,
+    this.humidity,
+    this.dewPoint,
+    this.uvi,
+    this.clouds,
+    this.windSpeed,
+    this.windDeg,
+    this.windGust,
+    required this.weather,
+    this.rain,
   });
 
-  factory CurrentModel.fromJson(Map<String, dynamic> json) {
+  final int? dt;
+  final int? sunrise;
+  final int? sunset;
+  final double? temp;
+  final double? feelsLike;
+  final int? pressure;
+  final int? humidity;
+  final double? dewPoint;
+  final double? uvi;
+  final int? clouds;
+  final int? visibility;
+  final double? windSpeed;
+  final int? windDeg;
+  final double? windGust;
+  final List<WeatherModel> weather;
+  final RainModel? rain;
+
+  factory CurrentModel.fromJson(Map<String, dynamic> map) {
     return CurrentModel(
-      dt: (json["dt"] as num?)?.toInt(),
-      sunrise: (json["sunrise"] as num?)?.toInt(),
-      sunset: (json["sunset"] as num?)?.toInt(),
-      temp: (json["temp"] as num?)?.toDouble(),
-      feelsLike:( json["feels_like"] as num?)?.toDouble(),
-      pressure:( json["pressure"] as num?)?.toInt(),
-      humidity: (json["humidity"] as num?)?.toInt(),
-      dewPoint: (json["dew_point"] as num?)?.toDouble(),
-      uvi: (json["uvi"] as num?)?.toDouble(),
-      clouds:( json["clouds"] as num?)?.toInt(),
-      visibility: (json["visibility"] as num?)?.toInt(),
-      windSpeed: (json["wind_speed"] as num?)?.toDouble(),
-      windDeg: (json["wind_deg"] as num?)?.toInt(),
-      windGust: (json["wind_gust"] as num?)?.toDouble(),
-      weather: json["weather"] == null
+      dt: map['dt'] as int?,
+      sunrise: map['sunrise'] as int?,
+      sunset: map['sunset'] as int?,
+      temp: (map['temp'] as num?)?.toDouble(),
+      feelsLike: (map['feels_like'] as num?)?.toDouble(),
+      pressure: map['pressure'] as int?,
+      humidity: map['humidity'] as int?,
+      dewPoint: (map['dew_point'] as num?)?.toDouble(),
+      uvi: (map['uvi'] as num?)?.toDouble(),
+      clouds: map['clouds'] as int?,
+      visibility: map['visibility'] as int?,
+      windSpeed: (map['wind_speed'] as num?)?.toDouble(),
+      windDeg: map['wind_deg'] as int?,
+      windGust: (map['wind_gust'] as num?)?.toDouble(),
+      weather: map["weather"] == null
           ? []
           : List<WeatherModel>.from(
-              json["weather"]!.map((x) => WeatherModel.fromJson(x))),
-      rain: json["rain"] == null ? null : RainModel.fromJson(json["rain"]),
+          map["weather"]!.map((x) => WeatherModel.fromJson(x))),
+      rain: map["rain"] == null ? null : RainModel.fromJson(map["rain"]),
     );
   }
 
@@ -65,6 +82,27 @@ class CurrentModel extends Current with EquatableMixin {
         "weather": weather.map((x) => x.toJson()).toList(),
         "rain": rain?.toJson(),
       };
+
+  Current toEntity() {
+    return Current(
+        dt: dt,
+        sunrise: sunrise,
+        sunset: sunset,
+        temp: temp,
+        feelsLike: feelsLike,
+        pressure: pressure,
+        humidity: humidity,
+        dewPoint: dewPoint,
+        uvi: uvi,
+        clouds: clouds,
+        visibility: visibility,
+        windSpeed: windSpeed,
+        windDeg: windDeg,
+        windGust: windGust,
+        weather: weather,
+        rain: rain
+    );
+  }
 
   @override
   // TODO: implement props

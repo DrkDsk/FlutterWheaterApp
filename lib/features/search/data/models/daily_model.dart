@@ -2,60 +2,106 @@ import 'package:clima_app/features/search/data/models/feels_like_model.dart';
 import 'package:clima_app/features/search/data/models/temperature_model.dart';
 import 'package:clima_app/features/search/data/models/weather_model.dart';
 import 'package:clima_app/features/search/domain/entities/daily.dart';
-import 'package:clima_app/features/search/domain/entities/weather.dart';
 import 'package:equatable/equatable.dart';
 
-class DailyModel extends Daily with EquatableMixin {
+class DailyModel with EquatableMixin {
   DailyModel(
-      {required super.dt,
-      required super.sunrise,
-      required super.sunset,
-      required super.moonrise,
-      required super.moonset,
-      required super.moonPhase,
-      required super.summary,
-      required super.temperature,
-      required super.feelsLike,
-      required super.pressure,
-      required super.humidity,
-      required super.dewPoint,
-      required super.windSpeed,
-      required super.windDeg,
-      required super.windGust,
-      required super.weather,
-      required super.clouds,
-      required super.pop,
-      required super.rain,
-      required super.uvi});
+      {this.dt,
+      this.sunrise,
+      this.sunset,
+      this.moonrise,
+      this.moonset,
+      this.moonPhase,
+      this.summary,
+      this.temperature,
+      this.feelsLike,
+      this.pressure,
+      this.humidity,
+      this.dewPoint,
+      this.windSpeed,
+      this.windDeg,
+      this.windGust,
+      required this.weather,
+      this.clouds,
+      this.pop,
+      this.rain,
+      this.uvi});
 
-  factory DailyModel.fromJson(Map<String, dynamic> json) {
+  final int? dt;
+  final int? sunrise;
+  final int? sunset;
+  final int? moonrise;
+  final int? moonset;
+  final double? moonPhase;
+  final String? summary;
+  final TemperatureModel? temperature;
+  final FeelsLikeModel? feelsLike;
+  final int? pressure;
+  final int? humidity;
+  final double? dewPoint;
+  final double? windSpeed;
+  final int? windDeg;
+  final double? windGust;
+  final List<WeatherModel> weather;
+  final int? clouds;
+  final double? pop;
+  final double? rain;
+  final double? uvi;
+
+  factory DailyModel.fromJson(Map<String, dynamic> map) {
     return DailyModel(
-      dt: (json["dt"] as num?)?.toInt(),
-      sunrise: (json["sunrise"] as num?)?.toInt(),
-      sunset: (json["sunset"] as num?)?.toInt(),
-      moonrise: (json["moonrise"] as num?)?.toInt(),
-      moonset: (json["moonset"] as num?)?.toInt(),
-      moonPhase: (json["moon_phase"] as num?)?.toDouble(),
-      summary: json["summary"],
-      temperature:
-          json["temp"] == null ? null : TemperatureModel.fromJson(json["temp"]),
-      feelsLike: json["feels_like"] == null
+      dt: map['dt'] as int?,
+      sunrise: map['sunrise'] as int?,
+      sunset: map['sunset'] as int?,
+      moonrise: map['moonrise'] as int?,
+      moonset: map['moonset'] as int?,
+      moonPhase: (map['moon_phase'] as num?)?.toDouble(),
+      summary: map['summary'] as String,
+      temperature: map["temp"] == null
           ? null
-          : FeelsLikeModel.fromJson(json["feels_like"]),
-      pressure: (json["pressure"] as num?)?.toInt(),
-      humidity:( json["humidity"] as num?)?.toInt(),
-      dewPoint: (json["dew_point"] as num?)?.toDouble(),
-      windSpeed: (json["wind_speed"] as num?)?.toDouble(),
-      windDeg: (json["wind_deg"] as num?)?.toInt(),
-      windGust: (json["wind_gust"] as num?)?.toDouble(),
-      weather: json["weather"] == null
+          : TemperatureModel.fromJson(map["temp"]),
+      feelsLike: map["feels_like"] == null
+          ? null
+          : FeelsLikeModel.fromJson(map["feels_like"]),
+      pressure: map['pressure'] as int?,
+      humidity: map['humidity'] as int?,
+      dewPoint: (map['dew_point'] as num?)?.toDouble(),
+      windSpeed: (map['wind_speed'] as num?)?.toDouble(),
+      windDeg: map['wind_deg'] as int?,
+      windGust: (map['wind_gust'] as num?)?.toDouble(),
+      weather: map["weather"] == null
           ? []
-          : List<Weather>.from(
-              json["weather"]!.map((x) => WeatherModel.fromJson(x))),
-      clouds: (json["clouds"] as num?)?.toInt(),
-      pop: (json["pop"] as num?)?.toDouble(),
-      rain: (json["rain"] as num?)?.toDouble(),
-      uvi: (json["uvi"] as num?)?.toDouble(),
+          : List<WeatherModel>.from(
+          map["weather"]!.map((x) => WeatherModel.fromJson(x))),
+      clouds: map['clouds'] as int?,
+      pop: (map['pop'] as num?)?.toDouble(),
+      rain: (map['rain'] as num?)?.toDouble(),
+      uvi: (map['uvi'] as num?)?.toDouble(),
+    );
+  }
+
+  Daily toEntity() {
+    return Daily(
+        dt: dt,
+        sunrise: sunrise,
+        sunset: sunset,
+        moonrise: moonrise,
+        moonset: moonset,
+        moonPhase: moonPhase,
+        summary: summary,
+        temperature: temperature?.toEntity(),
+        feelsLike: feelsLike?.toEntity(),
+        pressure: pressure,
+        humidity: humidity,
+        dewPoint: dewPoint,
+        windSpeed: windSpeed,
+        windDeg: windDeg,
+        windGust: windGust,
+        weather: weather.map((element) => element.toEntity()).toList(),
+        clouds: clouds,
+        pop: pop,
+        rain: rain,
+        uvi: uvi
     );
   }
 
@@ -67,15 +113,15 @@ class DailyModel extends Daily with EquatableMixin {
         "moonset": moonset,
         "moon_phase": moonPhase,
         "summary": summary,
-        "temp": (temperature as TemperatureModel).toJson(),
-        "feels_like": (feelsLike as FeelsLikeModel).toJson(),
+        "temp": temperature?.toJson(),
+        "feels_like": feelsLike?.toJson(),
         "pressure": pressure,
         "humidity": humidity,
         "dew_point": dewPoint,
         "wind_speed": windSpeed,
         "wind_deg": windDeg,
         "wind_gust": windGust,
-        "weather": weather.map((x) => (x as WeatherModel).toJson()).toList(),
+        "weather": weather.map((x) => (x).toJson()).toList(),
         "clouds": clouds,
         "pop": pop,
         "rain": rain,
