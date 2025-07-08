@@ -29,107 +29,6 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     final themeCubit = context.watch<ThemeCubit>();
     final theme = Theme.of(context);
 
-    final forecastData = [
-      {
-        'hour': 'Now',
-        'icon': Icons.wb_sunny,
-        'rain': '14%',
-        'wind': '4 m/s',
-        'temp': 36.4
-      },
-      {
-        'hour': 'Now',
-        'icon': Icons.wb_sunny,
-        'rain': '14%',
-        'wind': '4 m/s',
-        'temp': 36.4
-      },
-      {
-        'hour': 'Now',
-        'icon': Icons.wb_sunny,
-        'rain': '14%',
-        'wind': '4 m/s',
-        'temp': 36.4
-      },
-      {
-        'hour': 'Now',
-        'icon': Icons.wb_sunny,
-        'rain': '14%',
-        'wind': '4 m/s',
-        'temp': 36.4
-      },
-      {
-        'hour': 'Now',
-        'icon': Icons.wb_sunny,
-        'rain': '14%',
-        'wind': '4 m/s',
-        'temp': 36.4
-      },
-      {
-        'hour': 'Now',
-        'icon': Icons.wb_sunny,
-        'rain': '14%',
-        'wind': '4 m/s',
-        'temp': 36.4
-      },
-      {
-        'hour': 'Now',
-        'icon': Icons.wb_sunny,
-        'rain': '14%',
-        'wind': '4 m/s',
-        'temp': 36.4
-      },
-      {
-        'hour': 'Now',
-        'icon': Icons.wb_sunny,
-        'rain': '14%',
-        'wind': '4 m/s',
-        'temp': 36.4
-      },
-      {
-        'hour': 'Now',
-        'icon': Icons.wb_sunny,
-        'rain': '14%',
-        'wind': '4 m/s',
-        'temp': 36.4
-      },
-      {
-        'hour': 'Now',
-        'icon': Icons.wb_sunny,
-        'rain': '14%',
-        'wind': '4 m/s',
-        'temp': 36.4
-      },
-      {
-        'hour': '16:00',
-        'icon': Icons.cloud,
-        'rain': '37%',
-        'wind': '7 m/s',
-        'temp': 38.1
-      },
-      {
-        'hour': '17:00',
-        'icon': Icons.wb_sunny,
-        'rain': '23%',
-        'wind': '4 m/s',
-        'temp': 29.6
-      },
-      {
-        'hour': '18:00',
-        'icon': Icons.cloud,
-        'rain': '45%',
-        'wind': '6 m/s',
-        'temp': 29.6
-      },
-      {
-        'hour': '19:00',
-        'icon': Icons.cloudy_snowing,
-        'rain': '75%',
-        'wind': '7 m/s',
-        'temp': 30.6
-      },
-    ];
-
     return Scaffold(
       body: Container(
         color: backgroundWeatherCubit.state,
@@ -182,19 +81,25 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                     const SizedBox(height: 20),
                     BlocBuilder<WeatherCubit, WeatherState>(
                       builder: (context, state) {
-                       switch(state.fetchWeatherStatus) {
-                         case FetchWeatherStatus.isLoading:
-                           return const Center(child: CircularProgressIndicator());
-                         case FetchWeatherStatus.error:
-                           return const Text("Ha ocurrido un error");
-                         case FetchWeatherStatus.success:
-                           return HourlyListWeatherWidget(
-                               hourly: state.hourly);
-                       }
+                        switch (state.fetchWeatherStatus) {
+                          case FetchWeatherStatus.isLoading:
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          case FetchWeatherStatus.error:
+                            return const Text("Ha ocurrido un error");
+                          case FetchWeatherStatus.success:
+                            return HourlyListWeatherWidget(
+                                hourly: state.hourly);
+                        }
                       },
                     ),
                     const SizedBox(height: 20),
-                    DailyListWeatherWidget(forecastData: forecastData),
+                    BlocBuilder<WeatherCubit, WeatherState>(
+                      builder: (context, state) {
+                        return DailyListWeatherWidget(
+                            daily: state.daily);
+                      },
+                    ),
                     const SizedBox(height: 20)
                   ],
                 ),

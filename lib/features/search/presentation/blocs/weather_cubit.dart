@@ -6,7 +6,7 @@ class WeatherCubit extends Cubit<WeatherState> {
 
   final SearchWeatherRepository _repository;
 
-  WeatherCubit({required SearchWeatherRepository repository}) : _repository = repository, super(WeatherState(hourly: []));
+  WeatherCubit({required SearchWeatherRepository repository}) : _repository = repository, super(WeatherState(hourly: [], daily: []));
 
   Future<void> getWeather() async {
 
@@ -20,14 +20,16 @@ class WeatherCubit extends Cubit<WeatherState> {
     }, (right) {
         final temp = right.current.temp;
         final humidity = right.current.humidity;
-        final hourlyList = right.hourly?.take(10).toList();
+        final hourlyList = right.hourly?.take(12).toList();
+        final dailyList = right.daily?.take(7).toList();
         
         emit(
           state.copyWith(
             temp: temp,
             humidity: humidity,
             fetchWeatherStatus: FetchWeatherStatus.success,
-            hourly: hourlyList
+            hourly: hourlyList,
+            daily:dailyList
           )
         );
     });

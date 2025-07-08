@@ -1,4 +1,5 @@
 import 'package:clima_app/features/search/domain/entities/hourly.dart';
+import 'package:clima_app/features/search/presentation/extensions/hourly_extensions.dart';
 import 'package:flutter/material.dart';
 
 class HourlyListWeatherWidget extends StatelessWidget {
@@ -31,7 +32,7 @@ class HourlyListWeatherWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 18),
                 child: Column(
                   children: [
-                    Text(data.getHour(), style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
+                    Text(data.formattedHour, style: textTheme.bodySmall?.copyWith(color: colorScheme.onPrimary)),
                     const SizedBox(height: 12),
                     Column(
                       children: [
