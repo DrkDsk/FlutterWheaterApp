@@ -24,8 +24,8 @@ class HourlyModel extends Hourly with EquatableMixin {
 
   factory HourlyModel.fromJson(Map<String, dynamic> json) {
     return HourlyModel(
-      dt: (json["dt"] as num?)?.toInt(),
-      temp: (json["temp"] as num?)?.toDouble(),
+      dt: json["dt"] as int?,
+      temp: json["temp"] as double?,
       feelsLike: (json["feels_like"] as num?)?.toDouble(),
       pressure: (json["pressure"] as num?)?.toInt(),
       humidity: (json["humidity"] as num?)?.toInt(),

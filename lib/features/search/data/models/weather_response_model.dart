@@ -19,10 +19,10 @@ class WeatherResponseModel extends WeatherResponse with EquatableMixin {
 
   factory WeatherResponseModel.fromJson(Map<String, dynamic> json){
     return WeatherResponseModel(
-      latitude: (json["lat"] as num).toDouble(),
-      longitude:( json["lon"] as num).toDouble(),
+      latitude: json["lat"] as double,
+      longitude: json["lon"]  as double,
       timeZone: json["timezone"],
-      timezoneOffset: (json["timezone_offset"] as num).toInt(),
+      timezoneOffset: json["timezone_offset"] as int,
       current: CurrentModel.fromJson(json["current"]),
       hourly: json["hourly"] == null
           ? null
