@@ -189,7 +189,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                            return const Text("Ha ocurrido un error");
                          case FetchWeatherStatus.success:
                            return HourlyListWeatherWidget(
-                               forecastData: forecastData);
+                               hourly: state.hourly);
                        }
                       },
                     ),

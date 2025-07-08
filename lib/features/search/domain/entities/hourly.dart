@@ -71,4 +71,20 @@ class Hourly {
       rain: rain ?? this.rain,
     );
   }
+  
+  String getHour() {
+    final DateTime dateTime = DateTime.fromMillisecondsSinceEpoch((dt ?? 0) * 1000);
+
+    return'${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+  }
+
+  double get tempCelsius => (temp ?? 0) - 273.15;
+  String get tempCelsiusText => (tempCelsius).toStringAsFixed(1);
+  double get feelsLikeCelsius => (feelsLike ?? 0) - 273.15;
+  String get feelsLikeCelsiusText => (feelsLikeCelsius).toStringAsFixed(1);
+  double get dewPointCelsius => (dewPoint ?? 0) - 273.15;
+  int get popPercentage => ((pop ?? 0) * 100).round();
+  String get popPercentageText => '$popPercentage%';
+  double get windSpeedKmH => (windSpeed ?? 0) * 3.6;
+  String get windSpeedKmHText => '${windSpeedKmH.toStringAsFixed(1)} km/h';
 }
