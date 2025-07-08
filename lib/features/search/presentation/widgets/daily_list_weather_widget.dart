@@ -1,5 +1,5 @@
 import 'package:clima_app/features/search/domain/entities/daily.dart';
-import 'package:clima_app/features/search/presentation/extensions/daily_extensions.dart';
+import 'package:clima_app/features/search/presentation/extensions/daily_presentation.dart';
 import 'package:flutter/material.dart';
 
 class DailyListWeatherWidget extends StatelessWidget {
@@ -40,16 +40,6 @@ class DailyListWeatherWidget extends StatelessWidget {
                             Icon(Icons.water_drop_outlined,
                                 color: colorScheme.onPrimary),
                             Text(data.popPercentageText,
-                                style: textTheme.bodySmall),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(Icons.air, color: colorScheme.onPrimary),
-                            Text(data.windSpeedKmHText,
                                 style: textTheme.bodySmall),
                           ],
                         ),

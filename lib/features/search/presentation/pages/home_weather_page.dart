@@ -2,6 +2,7 @@ import 'package:clima_app/features/search/presentation/blocs/cubits/background_w
 import 'package:clima_app/features/search/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:clima_app/features/search/presentation/blocs/state/weather_state.dart';
 import 'package:clima_app/features/search/presentation/blocs/weather_cubit.dart';
+import 'package:clima_app/features/search/presentation/extensions/current_weather_extension.dart';
 import 'package:clima_app/features/search/presentation/widgets/daily_list_weather_widget.dart';
 import 'package:clima_app/features/search/presentation/widgets/header_weather_widget.dart';
 import 'package:clima_app/features/search/presentation/widgets/hourly_list_weather_widget.dart';
@@ -77,7 +78,11 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                     ),
                     Text("Wed", style: theme.textTheme.bodyMedium),
                     const SizedBox(height: 10),
-                    const HeaderWeatherWidget(temp: 26),
+                    BlocBuilder<WeatherCubit, WeatherState>(
+                      builder: (context, state) {
+                        return HeaderWeatherWidget(temp: state.currentWeather?.tempCelsiusText ?? "");
+                      },
+                    ),
                     const SizedBox(height: 20),
                     BlocBuilder<WeatherCubit, WeatherState>(
                       builder: (context, state) {
@@ -96,8 +101,15 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                     const SizedBox(height: 20),
                     BlocBuilder<WeatherCubit, WeatherState>(
                       builder: (context, state) {
-                        return DailyListWeatherWidget(
-                            daily: state.daily);
+                        switch (state.fetchWeatherStatus) {
+                          case FetchWeatherStatus.isLoading:
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          case FetchWeatherStatus.error:
+                            return const Text("Ha ocurrido un error");
+                          case FetchWeatherStatus.success:
+                            return DailyListWeatherWidget(daily: state.daily);
+                        }
                       },
                     ),
                     const SizedBox(height: 20)

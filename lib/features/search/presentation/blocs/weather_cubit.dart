@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clima_app/features/search/domain/repositories/search_weather_repository.dart';
 import 'package:clima_app/features/search/presentation/blocs/state/weather_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,17 +18,17 @@ class WeatherCubit extends Cubit<WeatherState> {
 
     result.fold(
       (left) {
+        log("message");
+        log(left.message);
         emit(state.copyWith(fetchWeatherStatus: FetchWeatherStatus.error));
     }, (right) {
-        final temp = right.current.temp;
-        final humidity = right.current.humidity;
+        final currentWeather = right.current;
         final hourlyList = right.hourly?.take(12).toList();
         final dailyList = right.daily?.take(7).toList();
         
         emit(
           state.copyWith(
-            temp: temp,
-            humidity: humidity,
+            currentWeather: currentWeather,
             fetchWeatherStatus: FetchWeatherStatus.success,
             hourly: hourlyList,
             daily:dailyList

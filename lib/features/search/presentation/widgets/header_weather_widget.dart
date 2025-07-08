@@ -6,7 +6,7 @@ class HeaderWeatherWidget extends StatelessWidget {
     required this.temp
   });
 
-  final int temp;
+  final String temp;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class HeaderWeatherWidget extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Text(
-            "$temp °C",
+            temp,
             style: theme.textTheme.titleLarge,
           ),
         )

@@ -12,12 +12,12 @@ class TemperatureModel extends Temperature with EquatableMixin {
 
   factory TemperatureModel.fromJson(Map<String, dynamic> json) {
     return TemperatureModel(
-      day: json["day"],
-      min: json["min"],
-      max: json["max"],
-      night: json["night"],
-      eve: json["eve"],
-      morn: json["morn"],
+      day: (json["day"] as num).toDouble(),
+      min: (json["min"] as num).toDouble(),
+      max: (json["max"] as num).toDouble(),
+      night: (json["night"] as num).toDouble(),
+      eve: (json["eve"] as num).toDouble(),
+      morn: (json["morn"] as num).toDouble(),
     );
   }
 
