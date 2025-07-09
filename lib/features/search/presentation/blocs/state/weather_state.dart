@@ -16,7 +16,7 @@ class WeatherState {
   final FetchWeatherStatus fetchWeatherStatus;
   final List<Hourly> hourly;
   final List<Daily> daily;
-  final String? city;
+  final String city;
 
   WeatherState({
     this.currentWeather,
@@ -24,7 +24,7 @@ class WeatherState {
     this.fetchWeatherStatus = FetchWeatherStatus.isLoading,
     required this.hourly,
     required this.daily,
-    this.city,
+    this.city = "",
   });
 
   WeatherState copyWith({

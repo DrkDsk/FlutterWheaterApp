@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clima_app/features/search/domain/entities/location_entity.dart';
 import 'package:clima_app/features/search/domain/repositories/search_weather_repository.dart';
 import 'package:clima_app/features/search/domain/usecases/get_current_location_usecase.dart';

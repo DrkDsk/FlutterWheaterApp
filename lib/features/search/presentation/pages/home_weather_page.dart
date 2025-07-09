@@ -50,13 +50,10 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                   children: [
                     BlocBuilder<WeatherCubit, WeatherState>(
                       builder: (context, state) {
-                        if (state.city == null) {
-                          return const SizedBox.shrink();
-                        }
                         return Expanded(
                           flex: 1,
                           child: Text(
-                            state.city ?? "",
+                            state.city,
                             style: theme.textTheme.bodyLarge,
                           ),
                         );
