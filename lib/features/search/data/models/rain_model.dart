@@ -9,7 +9,7 @@ class RainModel with EquatableMixin {
 
   factory RainModel.fromJson(Map<String, dynamic> json){
     return RainModel(
-      the1H: json["1h"] as double?,
+      the1H: (json["1h"] as num?)?.toDouble(),
     );
   }
 
@@ -18,6 +18,5 @@ class RainModel with EquatableMixin {
   };
 
   @override
-  // TODO: implement props
   List<Object?> get props => [the1H];
 }

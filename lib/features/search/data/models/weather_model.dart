@@ -11,7 +11,7 @@ class WeatherModel with EquatableMixin {
 
   factory WeatherModel.fromJson(Map<String, dynamic> map) {
     return WeatherModel(
-      id: map['id'] as int?,
+      id: (map['id'] as num?)?.toInt(),
       main: map['main'] as String?,
       description: map['description'] as String?,
       icon: map['icon'] as String?,

@@ -11,10 +11,10 @@ class FeelsLikeModel with EquatableMixin {
 
   factory FeelsLikeModel.fromJson(Map<String, dynamic> map) {
     return FeelsLikeModel(
-      day: map['day'] as double?,
-      night: map['night'] as double?,
-      eve: map['eve'] as double?,
-      morn: map['morn'] as double?,
+      day: (map['day'] as num?)?.toDouble(),
+      night: (map['night'] as num?)?.toDouble(),
+      eve: (map['eve'] as num?)?.toDouble(),
+      morn: (map['morn'] as num?)?.toDouble(),
     );
   }
 

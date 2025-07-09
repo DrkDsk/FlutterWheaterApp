@@ -42,19 +42,19 @@ class CurrentModel with EquatableMixin {
 
   factory CurrentModel.fromJson(Map<String, dynamic> map) {
     return CurrentModel(
-      dt: map['dt'] as int?,
-      sunrise: map['sunrise'] as int?,
-      sunset: map['sunset'] as int?,
+      dt: (map['dt'] as num?)?.toInt(),
+      sunrise: (map['sunrise'] as num?)?.toInt(),
+      sunset: (map['sunset'] as num?)?.toInt(),
       temp: (map['temp'] as num?)?.toDouble(),
       feelsLike: (map['feels_like'] as num?)?.toDouble(),
-      pressure: map['pressure'] as int?,
-      humidity: map['humidity'] as int?,
+      pressure: (map['pressure'] as num?)?.toInt(),
+      humidity: (map['humidity'] as num?)?.toInt(),
       dewPoint: (map['dew_point'] as num?)?.toDouble(),
       uvi: (map['uvi'] as num?)?.toDouble(),
-      clouds: map['clouds'] as int?,
-      visibility: map['visibility'] as int?,
+      clouds: (map['clouds'] as num?)?.toInt(),
+      visibility: (map['visibility'] as num?)?.toInt(),
       windSpeed: (map['wind_speed'] as num?)?.toDouble(),
-      windDeg: map['wind_deg'] as int?,
+      windDeg: (map['wind_deg'] as num?)?.toInt(),
       windGust: (map['wind_gust'] as num?)?.toDouble(),
       weather: map["weather"] == null
           ? []
