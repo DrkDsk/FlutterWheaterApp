@@ -1,12 +1,15 @@
+import 'package:clima_app/features/search/domain/entities/translated/translated_weather.dart';
 import 'package:flutter/material.dart';
 
 class HeaderWeatherWidget extends StatelessWidget {
   const HeaderWeatherWidget({
     super.key,
-    required this.temp
+    required this.temp,
+    required this.translatedWeather
   });
 
   final String temp;
+  final TranslatedWeather translatedWeather;
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +18,7 @@ class HeaderWeatherWidget extends StatelessWidget {
 
     return Row(
       children: [
-        const Icon(
-          Icons.sunny,
-          color: Colors.amberAccent,
-          size: 70,
-        ),
+        Image.asset(translatedWeather.getIconAsset()),
         const SizedBox(width: 15),
         Expanded(
           flex: 1,

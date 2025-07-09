@@ -17,17 +17,16 @@ class HomeWeatherPage extends StatefulWidget {
 }
 
 class _HomeWeatherPageState extends State<HomeWeatherPage> {
-  late BackgroundWeatherCubit backgroundWeatherCubit;
 
   @override
   void initState() {
     super.initState();
-    backgroundWeatherCubit = context.read<BackgroundWeatherCubit>();
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeCubit = context.watch<ThemeCubit>();
+    final themeCubit = context.read<ThemeCubit>();
+    final backgroundWeatherCubit = context.watch<BackgroundWeatherCubit>();
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -86,8 +85,13 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                     const SizedBox(height: 10),
                     BlocBuilder<WeatherCubit, WeatherState>(
                       builder: (context, state) {
+                        if (state.translatedWeather == null || state.currentWeather == null) {
+                          return const SizedBox.shrink();
+                        }
+
                         return HeaderWeatherWidget(
-                            temp: state.currentWeather?.tempCelsiusText ?? "");
+                            translatedWeather: state.translatedWeather!,
+                            temp: state.currentWeather!.tempCelsiusText);
                       },
                     ),
                     const SizedBox(height: 20),

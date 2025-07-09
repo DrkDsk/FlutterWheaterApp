@@ -14,12 +14,12 @@ class TemperatureModel with EquatableMixin {
 
   factory TemperatureModel.fromJson(Map<String, dynamic> map) {
     return TemperatureModel(
-      day: map['day'] as double?,
-      min: map['min'] as double?,
-      max: map['max'] as double?,
-      night: map['night'] as double?,
-      eve: map['eve'] as double?,
-      morn: map['morn'] as double?,
+      day: (map['day'] as num?)?.toDouble(),
+      min: (map['min'] as num?)?.toDouble(),
+      max: (map['max'] as num?)?.toDouble(),
+      night: (map['night'] as num?)?.toDouble(),
+      eve: (map['eve'] as num?)?.toDouble(),
+      morn: (map['morn'] as num?)?.toDouble(),
     );
   }
 

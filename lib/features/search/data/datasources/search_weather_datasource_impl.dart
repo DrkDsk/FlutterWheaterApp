@@ -18,7 +18,7 @@ class SearchWeatherDatasourceImpl implements SearchWeatherDataSource {
     } on DioException catch (e) {
       throw ServerException(message: _mapDioError(e));
     } catch (e) {
-      throw UnknownException();
+      throw UnknownException(message: e.toString());
     }
   }
 
