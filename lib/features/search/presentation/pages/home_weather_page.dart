@@ -70,8 +70,8 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                         ),
                         IconButton(
                           icon: Icon(themeCubit.state.isDarkMode
-                              ? Icons.nightlight
-                              : Icons.sunny),
+                              ? Icons.sunny
+                              : Icons.nightlight),
                           color: theme.colorScheme.onPrimary,
                           onPressed: () {
                             themeCubit.toggleTheme();

@@ -22,10 +22,10 @@ class Current {
   });
 
   final int? dt;
-  final int? sunrise;
-  final int? sunset;
+  final int sunrise;
+  final int sunset;
   final double? temp;
-  final double? feelsLike;
+  final double feelsLike;
   final int? pressure;
   final int? humidity;
   final double? dewPoint;

@@ -5,12 +5,13 @@ import 'package:equatable/equatable.dart';
 
 class CurrentModel with EquatableMixin {
   CurrentModel({
+    required this.sunrise,
+    required this.sunset,
+    required this.feelsLike,
+    required this.weather,
     this.visibility,
     this.dt,
-    this.sunrise,
-    this.sunset,
     this.temp,
-    this.feelsLike,
     this.pressure,
     this.humidity,
     this.dewPoint,
@@ -19,15 +20,14 @@ class CurrentModel with EquatableMixin {
     this.windSpeed,
     this.windDeg,
     this.windGust,
-    required this.weather,
     this.rain,
   });
 
   final int? dt;
-  final int? sunrise;
-  final int? sunset;
+  final int sunrise;
+  final int sunset;
   final double? temp;
-  final double? feelsLike;
+  final double feelsLike;
   final int? pressure;
   final int? humidity;
   final double? dewPoint;
@@ -43,10 +43,10 @@ class CurrentModel with EquatableMixin {
   factory CurrentModel.fromJson(Map<String, dynamic> map) {
     return CurrentModel(
       dt: (map['dt'] as num?)?.toInt(),
-      sunrise: (map['sunrise'] as num?)?.toInt(),
-      sunset: (map['sunset'] as num?)?.toInt(),
+      sunrise: (map['sunrise'] as num).toInt(),
+      sunset: (map['sunset'] as num).toInt(),
       temp: (map['temp'] as num?)?.toDouble(),
-      feelsLike: (map['feels_like'] as num?)?.toDouble(),
+      feelsLike: (map['feels_like'] as num).toDouble(),
       pressure: (map['pressure'] as num?)?.toInt(),
       humidity: (map['humidity'] as num?)?.toInt(),
       dewPoint: (map['dew_point'] as num?)?.toDouble(),
