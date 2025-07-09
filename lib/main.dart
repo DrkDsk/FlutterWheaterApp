@@ -42,7 +42,7 @@ void main() {
         mapper: context.read<WeatherMapper>(),
         repository: context.read<SearchWeatherRepository>(),
         useCase: context.read<GetCurrentLocationUseCase>(),
-      )..getWeather(),
+      ),
     ),
     BlocProvider(create: (context) => ThemeCubit()),
     BlocProvider<BackgroundWeatherCubit>(

@@ -17,119 +17,109 @@ class HomeWeatherPage extends StatefulWidget {
 }
 
 class _HomeWeatherPageState extends State<HomeWeatherPage> {
+  late WeatherCubit weatherCubit;
+  late ThemeCubit themeCubit;
 
   @override
   void initState() {
     super.initState();
+    weatherCubit = context.read<WeatherCubit>();
+    themeCubit = context.read<ThemeCubit>();
+    Future.microtask(() {
+      weatherCubit.getWeather();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeCubit = context.read<ThemeCubit>();
     final backgroundWeatherCubit = context.watch<BackgroundWeatherCubit>();
     final theme = Theme.of(context);
 
     return Scaffold(
       body: Container(
         color: backgroundWeatherCubit.state,
-        child: Stack(
-          children: [
-            Column(
+        child: SafeArea(
+            child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                  ),
-                ),
-              ],
-            ),
-            Positioned(
-                child: SafeArea(
-                    child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        BlocBuilder<WeatherCubit, WeatherState>(
-                          builder: (context, state) {
-                            if (state.city == null) {
-                              return const SizedBox.shrink();
-                            }
-                            return Expanded(
-                              flex: 1,
-                              child: Text(
-                                state.city ?? "",
-                                style: theme.textTheme.bodyLarge,
-                              ),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(themeCubit.state.isDarkMode
-                              ? Icons.sunny
-                              : Icons.nightlight),
-                          color: theme.colorScheme.onPrimary,
-                          onPressed: () {
-                            themeCubit.toggleTheme();
-                          },
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const SizedBox(height: 10),
                     BlocBuilder<WeatherCubit, WeatherState>(
                       builder: (context, state) {
-                        if (state.translatedWeather == null || state.currentWeather == null) {
+                        if (state.city == null) {
                           return const SizedBox.shrink();
                         }
-
-                        return HeaderWeatherWidget(
-                            translatedWeather: state.translatedWeather!,
-                            temp: state.currentWeather!.tempCelsiusText);
+                        return Expanded(
+                          flex: 1,
+                          child: Text(
+                            state.city ?? "",
+                            style: theme.textTheme.bodyLarge,
+                          ),
+                        );
                       },
                     ),
-                    const SizedBox(height: 20),
-                    BlocBuilder<WeatherCubit, WeatherState>(
-                      builder: (context, state) {
-                        switch (state.fetchWeatherStatus) {
-                          case FetchWeatherStatus.isLoading:
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          case FetchWeatherStatus.error:
-                            return const Text("Ha ocurrido un error");
-                          case FetchWeatherStatus.success:
-                            return HourlyListWeatherWidget(
-                                hourly: state.hourly);
-                        }
+                    IconButton(
+                      icon: Icon(themeCubit.state.isDarkMode
+                          ? Icons.sunny
+                          : Icons.nightlight),
+                      color: theme.colorScheme.onPrimary,
+                      onPressed: () {
+                        themeCubit.toggleTheme();
                       },
-                    ),
-                    const SizedBox(height: 20),
-                    BlocBuilder<WeatherCubit, WeatherState>(
-                      builder: (context, state) {
-                        switch (state.fetchWeatherStatus) {
-                          case FetchWeatherStatus.isLoading:
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          case FetchWeatherStatus.error:
-                            return const Text("Ha ocurrido un error");
-                          case FetchWeatherStatus.success:
-                            return DailyListWeatherWidget(daily: state.daily);
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 20)
+                    )
                   ],
                 ),
-              ),
-            )))
-          ],
-        ),
+                const SizedBox(
+                  height: 8,
+                ),
+                const SizedBox(height: 10),
+                BlocBuilder<WeatherCubit, WeatherState>(
+                  builder: (context, state) {
+                    if (state.translatedWeather == null ||
+                        state.currentWeather == null) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return HeaderWeatherWidget(
+                        translatedWeather: state.translatedWeather!,
+                        temp: state.currentWeather!.tempCelsiusText);
+                  },
+                ),
+                const SizedBox(height: 20),
+                BlocBuilder<WeatherCubit, WeatherState>(
+                  builder: (context, state) {
+                    switch (state.fetchWeatherStatus) {
+                      case FetchWeatherStatus.isLoading:
+                        return const Center(child: CircularProgressIndicator());
+                      case FetchWeatherStatus.error:
+                        return const Text("Ha ocurrido un error");
+                      case FetchWeatherStatus.success:
+                        return HourlyListWeatherWidget(hourly: state.hourly);
+                    }
+                  },
+                ),
+                const SizedBox(height: 20),
+                BlocBuilder<WeatherCubit, WeatherState>(
+                  builder: (context, state) {
+                    switch (state.fetchWeatherStatus) {
+                      case FetchWeatherStatus.isLoading:
+                        return const Center(child: CircularProgressIndicator());
+                      case FetchWeatherStatus.error:
+                        return const Text("Ha ocurrido un error");
+                      case FetchWeatherStatus.success:
+                        return DailyListWeatherWidget(daily: state.daily);
+                    }
+                  },
+                ),
+                const SizedBox(height: 20)
+              ],
+            ),
+          ),
+        )),
       ),
     );
   }
