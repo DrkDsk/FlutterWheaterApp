@@ -26,6 +26,6 @@ class LocationRepositoryImpl implements LocationRepository {
 
     Placemark place = placemarks.first;
 
-    return "${place.locality} ${place.administrativeArea}";
+    return "${place.locality}, ${place.administrativeArea}";
   }
 }
