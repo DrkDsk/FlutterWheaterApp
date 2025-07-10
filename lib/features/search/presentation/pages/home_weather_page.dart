@@ -1,8 +1,8 @@
 import 'package:clima_app/features/search/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/search/presentation/blocs/cubits/theme_cubit.dart';
-import 'package:clima_app/features/search/presentation/blocs/state/weather_state.dart';
 import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
 import 'package:clima_app/features/search/presentation/blocs/weather_event.dart';
+import 'package:clima_app/features/search/presentation/blocs/weather_state.dart';
 import 'package:clima_app/features/search/presentation/extensions/current_weather_extension.dart';
 import 'package:clima_app/features/search/presentation/widgets/daily_list_weather_widget.dart';
 import 'package:clima_app/features/search/presentation/widgets/header_weather_widget.dart';

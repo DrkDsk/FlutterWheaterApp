@@ -4,8 +4,8 @@ import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/helpers/datetime_helper.dart';
 import 'package:clima_app/features/search/domain/entities/current.dart';
 import 'package:clima_app/features/search/domain/entities/translated/translated_weather.dart';
-import 'package:clima_app/features/search/presentation/blocs/state/weather_state.dart';
 import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
+import 'package:clima_app/features/search/presentation/blocs/weather_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

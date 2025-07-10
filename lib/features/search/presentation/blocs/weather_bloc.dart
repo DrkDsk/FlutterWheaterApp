@@ -1,6 +1,6 @@
 import 'package:clima_app/features/search/domain/usecases/get_weather_use_case.dart';
-import 'package:clima_app/features/search/presentation/blocs/state/weather_state.dart';
 import 'package:clima_app/features/search/presentation/blocs/weather_event.dart';
+import 'package:clima_app/features/search/presentation/blocs/weather_state.dart';
 import 'package:clima_app/features/search/presentation/dto/weather_mapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
