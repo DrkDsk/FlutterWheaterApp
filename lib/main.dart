@@ -8,7 +8,7 @@ import 'package:clima_app/features/search/data/repositories/weather_description_
 import 'package:clima_app/features/search/domain/services/location_service.dart';
 import 'package:clima_app/features/search/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/features/search/presentation/blocs/cubits/background_weather_cubit.dart';
-import 'package:clima_app/features/search/presentation/blocs/weather_cubit.dart';
+import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
 import 'package:clima_app/features/search/presentation/dto/weather_mapper.dart';
 import 'package:clima_app/src/my_app.dart';
 import 'package:flutter/material.dart';
@@ -43,14 +43,14 @@ void main() {
   ];
 
   final blocsProviders = [
-    BlocProvider<WeatherCubit>(
-      create: (context) => WeatherCubit(
+    BlocProvider<WeatherBloc>(
+      create: (context) => WeatherBloc(
           useCase: context.read<GetWeatherUseCase>(),
           mapper: context.read<WeatherMapper>()),
     ),
     BlocProvider(create: (context) => ThemeCubit()),
     BlocProvider<BackgroundWeatherCubit>(
-      create: (context) => BackgroundWeatherCubit(context.read<WeatherCubit>()),
+      create: (context) => BackgroundWeatherCubit(context.read<WeatherBloc>()),
     ),
   ];
 

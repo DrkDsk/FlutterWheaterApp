@@ -4,19 +4,22 @@ import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/helpers/datetime_helper.dart';
 import 'package:clima_app/features/search/domain/entities/current.dart';
 import 'package:clima_app/features/search/domain/entities/translated/translated_weather.dart';
-import 'package:clima_app/features/search/presentation/blocs/weather_cubit.dart';
+import 'package:clima_app/features/search/presentation/blocs/state/weather_state.dart';
+import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BackgroundWeatherCubit extends Cubit<Color?> {
-  final WeatherCubit _weatherCubit;
+  final WeatherBloc _weatherBloc;
   late final StreamSubscription weatherSubscription;
 
-  BackgroundWeatherCubit(this._weatherCubit) : super(Colors.blue[300]) {
-    weatherSubscription = _weatherCubit.stream.listen((weatherState) {
-      _mapWeatherToTheme(
-          translatedWeather: weatherState.translatedWeather,
-          weather: weatherState.currentWeather);
+  BackgroundWeatherCubit(this._weatherBloc) : super(Colors.blue[300]) {
+    weatherSubscription = _weatherBloc.stream.listen((weatherState) {
+      if (weatherState is WeatherSuccessState) {
+        _mapWeatherToTheme(
+            translatedWeather: weatherState.translatedWeather,
+            weather: weatherState.currentWeather);
+      }
     });
   }
 

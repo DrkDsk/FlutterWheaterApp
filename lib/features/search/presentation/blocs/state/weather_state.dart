@@ -3,45 +3,50 @@ import 'package:clima_app/features/search/domain/entities/daily.dart';
 import 'package:clima_app/features/search/domain/entities/hourly.dart';
 import 'package:clima_app/features/search/domain/entities/translated/translated_weather.dart';
 
-enum FetchWeatherStatus {
-  isLoading,
-  error,
-  success
+abstract class WeatherState {
+  const WeatherState();
 }
 
-class WeatherState {
+class WeatherLoadingState extends WeatherState {
+  const WeatherLoadingState();
+}
 
-  final Current? currentWeather;
-  final TranslatedWeather? translatedWeather;
-  final FetchWeatherStatus fetchWeatherStatus;
+class WeatherSuccessState extends WeatherState {
+
+  final Current currentWeather;
+  final TranslatedWeather translatedWeather;
   final List<Hourly> hourly;
   final List<Daily> daily;
   final String city;
 
-  WeatherState({
-    this.currentWeather,
-    this.translatedWeather,
-    this.fetchWeatherStatus = FetchWeatherStatus.isLoading,
+  WeatherSuccessState({
+    required this.currentWeather,
+    required this.translatedWeather,
     required this.hourly,
     required this.daily,
-    this.city = "",
+    required this.city,
   });
 
   WeatherState copyWith({
     Current? currentWeather,
     TranslatedWeather? translatedWeather,
-    FetchWeatherStatus? fetchWeatherStatus,
     List<Hourly>? hourly,
     List<Daily>? daily,
     String? city,
   }) {
-    return WeatherState(
+    return WeatherSuccessState(
       currentWeather: currentWeather ?? this.currentWeather,
       translatedWeather: translatedWeather ?? this.translatedWeather,
-      fetchWeatherStatus: fetchWeatherStatus ?? this.fetchWeatherStatus,
       hourly: hourly ?? this.hourly,
       daily: daily ?? this.daily,
       city: city ?? this.city,
     );
   }
+}
+
+class WeatherErrorState extends WeatherState {
+
+  final String message;
+
+  WeatherErrorState({required this.message});
 }
