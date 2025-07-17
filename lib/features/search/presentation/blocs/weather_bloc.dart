@@ -1,6 +1,10 @@
+import 'package:clima_app/features/search/domain/entities/weather_state_data.dart';
 import 'package:clima_app/features/search/domain/usecases/get_weather_use_case.dart';
-import 'package:clima_app/features/search/presentation/blocs/weather_event.dart';
-import 'package:clima_app/features/search/presentation/blocs/weather_state.dart';
+import 'package:clima_app/features/search/presentation/blocs/states/weather_error_state.dart';
+import 'package:clima_app/features/search/presentation/blocs/events/weather_event.dart';
+import 'package:clima_app/features/search/presentation/blocs/states/weather_loading_state.dart';
+import 'package:clima_app/features/search/presentation/blocs/states/weather_state.dart';
+import 'package:clima_app/features/search/presentation/blocs/states/weather_success_state.dart';
 import 'package:clima_app/features/search/presentation/dto/weather_mapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,11 +43,13 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
     emit(
         WeatherSuccessState(
-            currentWeather: result.current,
-            hourly: hourly,
-            daily: daily,
-            city: cityName ?? "",
-            translatedWeather: translatedDescription
+          weatherData: WeatherStateData(
+              currentWeather: result.current,
+              hourly: hourly,
+              daily: daily,
+              city: cityName ?? "",
+              translatedWeather: translatedDescription
+          )
         )
     );
   }

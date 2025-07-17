@@ -14,7 +14,9 @@ ThemeData get lightTheme => ThemeData(
     bodySmall: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: colorScheme.onPrimary),
     bodyMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: colorScheme.onPrimary),
     bodyLarge: TextStyle(fontSize: 30, fontWeight: FontWeight.w400, color: colorScheme.onPrimary),
-    titleLarge: TextStyle(fontSize: 60, fontWeight: FontWeight.w700, color: colorScheme.onPrimary),
+    titleSmall: TextStyle(fontSize: 35, fontWeight: FontWeight.w700, color: colorScheme.onPrimary),
+    titleMedium: TextStyle(fontSize: 45, fontWeight: FontWeight.w700, color: colorScheme.onPrimary),
+    titleLarge: TextStyle(fontSize: 55, fontWeight: FontWeight.w700, color: colorScheme.onPrimary),
   ),
   scaffoldBackgroundColor: Colors.white
 );

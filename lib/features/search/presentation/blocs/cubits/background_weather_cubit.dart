@@ -5,7 +5,7 @@ import 'package:clima_app/core/helpers/datetime_helper.dart';
 import 'package:clima_app/features/search/domain/entities/current.dart';
 import 'package:clima_app/features/search/domain/entities/translated/translated_weather.dart';
 import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
-import 'package:clima_app/features/search/presentation/blocs/weather_state.dart';
+import 'package:clima_app/features/search/presentation/blocs/states/weather_success_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,8 +17,8 @@ class BackgroundWeatherCubit extends Cubit<Color?> {
     weatherSubscription = _weatherBloc.stream.listen((weatherState) {
       if (weatherState is WeatherSuccessState) {
         _mapWeatherToTheme(
-            translatedWeather: weatherState.translatedWeather,
-            weather: weatherState.currentWeather);
+            translatedWeather: weatherState.weatherData.translatedWeather,
+            weather: weatherState.weatherData.currentWeather);
       }
     });
   }

@@ -1,5 +1,6 @@
+import 'package:clima_app/features/search/presentation/blocs/states/weather_state.dart';
 import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
-import 'package:clima_app/features/search/presentation/blocs/weather_state.dart';
+import 'package:clima_app/features/search/presentation/blocs/states/weather_success_state.dart';
 import 'package:clima_app/features/search/presentation/extensions/current_weather_extension.dart';
 import 'package:clima_app/features/search/presentation/widgets/daily_list_weather_widget.dart';
 import 'package:clima_app/features/search/presentation/widgets/header_weather_widget.dart';
@@ -33,7 +34,7 @@ class WeatherItemsList extends StatelessWidget {
                   builder: (context, state) {
                     if (state is WeatherSuccessState) {
                       return Text(
-                        state.city,
+                        state.weatherData.city,
                         style: theme.textTheme.bodyLarge,
                       );
                     }
@@ -49,9 +50,9 @@ class WeatherItemsList extends StatelessWidget {
                     if (state is WeatherSuccessState) {
                       return HeaderWeatherWidget(
                           translatedWeather:
-                          state.translatedWeather,
+                          state.weatherData.translatedWeather,
                           temp: state
-                              .currentWeather.tempCelsiusText);
+                              .weatherData.currentWeather.tempCelsiusText);
                     }
 
                     return const SizedBox.shrink();
@@ -62,7 +63,7 @@ class WeatherItemsList extends StatelessWidget {
                   builder: (context, state) {
                     if (state is WeatherSuccessState) {
                       return HourlyListWeatherWidget(
-                          hourly: state.hourly);
+                          hourly: state.weatherData.hourly);
                     }
 
                     return const SizedBox.shrink();
@@ -73,7 +74,7 @@ class WeatherItemsList extends StatelessWidget {
                   builder: (context, state) {
                     if (state is WeatherSuccessState) {
                       return DailyListWeatherWidget(
-                          daily: state.daily);
+                          daily: state.weatherData.daily);
                     }
 
                     return const SizedBox.shrink();
