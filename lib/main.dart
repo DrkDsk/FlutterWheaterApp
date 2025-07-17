@@ -9,7 +9,7 @@ import 'package:clima_app/features/search/domain/services/location_service.dart'
 import 'package:clima_app/features/search/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/features/search/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
-import 'package:clima_app/features/search/presentation/blocs/weather_event.dart';
+import 'package:clima_app/features/search/presentation/blocs/events/weather_event.dart';
 import 'package:clima_app/features/search/presentation/dto/weather_mapper.dart';
 import 'package:clima_app/src/my_app.dart';
 import 'package:flutter/material.dart';

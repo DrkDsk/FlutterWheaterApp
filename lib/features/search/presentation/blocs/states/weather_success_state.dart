@@ -2,34 +2,12 @@ import 'package:clima_app/features/search/domain/entities/current.dart';
 import 'package:clima_app/features/search/domain/entities/daily.dart';
 import 'package:clima_app/features/search/domain/entities/hourly.dart';
 import 'package:clima_app/features/search/domain/entities/translated/translated_weather.dart';
-
-abstract class WeatherState {
-  const WeatherState();
-}
-
-class WeatherLoadingState extends WeatherState {
-  const WeatherLoadingState();
-}
-
-class WeatherData {
-  final Current currentWeather;
-  final TranslatedWeather translatedWeather;
-  final List<Hourly> hourly;
-  final List<Daily> daily;
-  final String city;
-
-  WeatherData({
-    required this.currentWeather,
-    required this.translatedWeather,
-    required this.hourly,
-    required this.daily,
-    required this.city,
-  });
-}
+import 'package:clima_app/features/search/domain/entities/weather_state_data.dart';
+import 'package:clima_app/features/search/presentation/blocs/states/weather_state.dart';
 
 class WeatherSuccessState extends WeatherState {
 
-  final WeatherData weatherData;
+  final WeatherStateData weatherData;
 
   WeatherSuccessState({required this.weatherData});
 
@@ -41,7 +19,7 @@ class WeatherSuccessState extends WeatherState {
     String? city,
   }) {
     return WeatherSuccessState(
-      weatherData: WeatherData(
+      weatherData: WeatherStateData(
         currentWeather: currentWeather ?? weatherData.currentWeather,
         translatedWeather: translatedWeather ?? weatherData.translatedWeather,
         hourly: hourly ?? weatherData.hourly,
@@ -50,16 +28,4 @@ class WeatherSuccessState extends WeatherState {
       ),
     );
   }
-}
-
-class WeatherFavoritesState extends WeatherState {
-  final List<WeatherData> favorites;
-
-  WeatherFavoritesState({required this.favorites});
-}
-
-class WeatherErrorState extends WeatherState {
-  final String message;
-
-  WeatherErrorState({required this.message});
 }
