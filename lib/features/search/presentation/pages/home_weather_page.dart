@@ -1,8 +1,10 @@
 import 'package:clima_app/features/search/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/search/presentation/blocs/cubits/theme_cubit.dart';
+import 'package:clima_app/features/search/presentation/blocs/states/weather_state.dart';
 import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
-import 'package:clima_app/features/search/presentation/blocs/weather_state.dart';
+import 'package:clima_app/features/search/presentation/blocs/states/weather_success_state.dart';
 import 'package:clima_app/features/search/presentation/widgets/weather_items_list.dart';
+import 'package:clima_app/features/search/presentation/widgets/weather_list_favorites.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +23,30 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   void initState() {
     super.initState();
     themeCubit = context.read<ThemeCubit>();
+  }
+
+  Future<T?> pushWithSlideUp<T>(BuildContext context, Widget page, {
+    bool Function(Route<dynamic>)? predicate,
+  }) {
+    return Navigator.of(context).pushAndRemoveUntil(
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => page,
+        transitionsBuilder: (_, animation, __, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0.0, 1.0),
+              end: Offset.zero,
+            ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
+            child: child,
+          );
+        },
+      ),
+      predicate ?? (route) => false,
+    );
+  }
+
+  Future<void> navigateToFavorites(BuildContext context) async {
+    await pushWithSlideUp(context, const WeatherListFavorites());
   }
 
   @override
@@ -45,7 +71,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
               child: IconButton(
                 color: Colors.white.withOpacity(0.8),
                 icon: const Icon(CupertinoIcons.line_horizontal_3),
-                onPressed: () {},
+                onPressed: () => navigateToFavorites(context),
               ),
             ),
           ],
