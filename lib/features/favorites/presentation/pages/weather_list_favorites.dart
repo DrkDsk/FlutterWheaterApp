@@ -1,6 +1,5 @@
-import 'package:clima_app/features/search/presentation/blocs/events/favorites/favorite_weather_bloc.dart';
-import 'package:clima_app/features/search/presentation/blocs/events/favorites/search_favority_weather_event.dart';
-import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_weather_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/search_favority_weather_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

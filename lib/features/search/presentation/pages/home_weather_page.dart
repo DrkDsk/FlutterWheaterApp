@@ -4,7 +4,7 @@ import 'package:clima_app/features/search/presentation/blocs/states/weather_stat
 import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
 import 'package:clima_app/features/search/presentation/blocs/states/weather_success_state.dart';
 import 'package:clima_app/features/search/presentation/widgets/weather_items_list.dart';
-import 'package:clima_app/features/search/presentation/widgets/weather_list_favorites.dart';
+import 'package:clima_app/features/favorites/presentation/pages/weather_list_favorites.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
