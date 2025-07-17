@@ -39,11 +39,13 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
     emit(
         WeatherSuccessState(
-            currentWeather: result.current,
-            hourly: hourly,
-            daily: daily,
-            city: cityName ?? "",
-            translatedWeather: translatedDescription
+            weatherData: WeatherData(
+                currentWeather: result.current,
+                hourly: hourly,
+                daily: daily,
+                city: cityName ?? "",
+                translatedWeather: translatedDescription
+            )
         )
     );
   }

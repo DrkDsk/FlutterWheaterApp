@@ -17,8 +17,8 @@ class BackgroundWeatherCubit extends Cubit<Color?> {
     weatherSubscription = _weatherBloc.stream.listen((weatherState) {
       if (weatherState is WeatherSuccessState) {
         _mapWeatherToTheme(
-            translatedWeather: weatherState.translatedWeather,
-            weather: weatherState.currentWeather);
+            translatedWeather: weatherState.weatherData.translatedWeather,
+            weather: weatherState.weatherData.currentWeather);
       }
     });
   }

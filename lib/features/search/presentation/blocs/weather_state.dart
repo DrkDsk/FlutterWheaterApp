@@ -11,21 +11,27 @@ class WeatherLoadingState extends WeatherState {
   const WeatherLoadingState();
 }
 
-class WeatherSuccessState extends WeatherState {
-
+class WeatherData {
   final Current currentWeather;
   final TranslatedWeather translatedWeather;
   final List<Hourly> hourly;
   final List<Daily> daily;
   final String city;
 
-  WeatherSuccessState({
+  WeatherData({
     required this.currentWeather,
     required this.translatedWeather,
     required this.hourly,
     required this.daily,
     required this.city,
   });
+}
+
+class WeatherSuccessState extends WeatherState {
+
+  final WeatherData weatherData;
+
+  WeatherSuccessState({required this.weatherData});
 
   WeatherState copyWith({
     Current? currentWeather,
@@ -35,17 +41,24 @@ class WeatherSuccessState extends WeatherState {
     String? city,
   }) {
     return WeatherSuccessState(
-      currentWeather: currentWeather ?? this.currentWeather,
-      translatedWeather: translatedWeather ?? this.translatedWeather,
-      hourly: hourly ?? this.hourly,
-      daily: daily ?? this.daily,
-      city: city ?? this.city,
+      weatherData: WeatherData(
+        currentWeather: currentWeather ?? weatherData.currentWeather,
+        translatedWeather: translatedWeather ?? weatherData.translatedWeather,
+        hourly: hourly ?? weatherData.hourly,
+        daily: daily ?? weatherData.daily,
+        city: city ?? weatherData.city,
+      ),
     );
   }
 }
 
-class WeatherErrorState extends WeatherState {
+class WeatherFavoritesState extends WeatherState {
+  final List<WeatherData> favorites;
 
+  WeatherFavoritesState({required this.favorites});
+}
+
+class WeatherErrorState extends WeatherState {
   final String message;
 
   WeatherErrorState({required this.message});
