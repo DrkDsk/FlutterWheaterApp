@@ -5,9 +5,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:clima_app/features/search/data/datasources/search_weather_datasource.dart'
+import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart'
     as _i3;
-import 'package:clima_app/features/search/data/models/weather_response_model.dart'
+import 'package:clima_app/features/home/data/models/weather_response_model.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
