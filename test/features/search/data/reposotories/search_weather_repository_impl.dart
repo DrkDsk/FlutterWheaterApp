@@ -1,9 +1,9 @@
-import 'package:clima_app/features/search/data/models/current_model.dart';
-import 'package:clima_app/features/search/data/models/hourly_model.dart';
-import 'package:clima_app/features/search/data/models/rain_model.dart';
-import 'package:clima_app/features/search/data/models/weather_model.dart';
-import 'package:clima_app/features/search/data/models/weather_response_model.dart';
-import 'package:clima_app/features/search/data/repositories/search_weather_repository_impl.dart';
+import 'package:clima_app/features/home/data/models/current_model.dart';
+import 'package:clima_app/features/home/data/models/hourly_model.dart';
+import 'package:clima_app/features/home/data/models/rain_model.dart';
+import 'package:clima_app/features/home/data/models/weather_model.dart';
+import 'package:clima_app/features/home/data/models/weather_response_model.dart';
+import 'package:clima_app/features/home/data/repositories/search_weather_repository_impl.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

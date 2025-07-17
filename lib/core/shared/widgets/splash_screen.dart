@@ -1,8 +1,8 @@
 import 'package:clima_app/core/colors/weather_colors.dart';
-import 'package:clima_app/features/search/presentation/blocs/states/weather_state.dart';
-import 'package:clima_app/features/search/presentation/blocs/weather_bloc.dart';
-import 'package:clima_app/features/search/presentation/blocs/states/weather_success_state.dart';
-import 'package:clima_app/features/search/presentation/pages/home_weather_page.dart';
+import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
+import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
+import 'package:clima_app/features/home/presentation/blocs/states/weather_success_state.dart';
+import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';

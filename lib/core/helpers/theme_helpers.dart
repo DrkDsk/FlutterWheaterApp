@@ -1,6 +1,6 @@
 import 'package:clima_app/core/theme/dark_theme.dart';
 import 'package:clima_app/core/theme/light_theme.dart';
-import 'package:clima_app/features/search/presentation/blocs/cubits/theme_cubit.dart';
+import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
