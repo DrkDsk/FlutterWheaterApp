@@ -11,13 +11,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class WeatherItemsList extends StatelessWidget {
   const WeatherItemsList({
     super.key,
-    required this.theme,
   });
-
-  final ThemeData theme;
 
   @override
   Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+
     return Expanded(
       child: PageView.builder(
           itemCount: 4,

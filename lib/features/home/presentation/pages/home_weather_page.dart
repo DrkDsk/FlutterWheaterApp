@@ -114,7 +114,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
               BlocBuilder<WeatherBloc, WeatherState>(
                 builder: (context, state) {
                   if (state is WeatherSuccessState) {
-                    return WeatherItemsList(theme: theme);
+                    return const WeatherItemsList();
                   }
 
                   return const SizedBox.shrink();
