@@ -5,9 +5,11 @@ class HeaderWeatherWidget extends StatelessWidget {
   const HeaderWeatherWidget({
     super.key,
     required this.temp,
-    required this.translatedWeather
+    required this.translatedWeather,
+    required this.city
   });
 
+  final String city;
   final String temp;
   final TranslatedWeather translatedWeather;
 
@@ -16,17 +18,24 @@ class HeaderWeatherWidget extends StatelessWidget {
 
     final theme = Theme.of(context);
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(translatedWeather.getIconAsset()),
-        const SizedBox(width: 15),
-        Expanded(
-          flex: 1,
-          child: Text(
-            temp,
-            style: theme.textTheme.titleLarge,
-          ),
-        )
+        Text(
+          city,
+          style: theme.textTheme.bodyLarge,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset(translatedWeather.getIconAsset()),
+            Text(
+              temp,
+              style: theme.textTheme.titleLarge,
+            )
+          ],
+        ),
       ],
     );
   }

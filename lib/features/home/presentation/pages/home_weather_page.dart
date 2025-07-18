@@ -102,6 +102,64 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CupertinoButton(
+                    child: Text("Cancelar", style: theme.textTheme.bodyMedium),
+                    onPressed: () {
+
+                    },
+                  ),
+                  CupertinoButton(
+                      child: Text("Agregar", style: theme.textTheme.bodyMedium),
+                      onPressed: () {
+                        showModalBottomSheet(
+                          barrierColor: Colors.blueGrey,
+                          backgroundColor: Colors.black,
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) => Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: FractionallySizedBox(
+                              heightFactor: 0.90,
+                              child: BlocBuilder<WeatherBloc, WeatherState>(
+                                builder: (context, state) {
+                                  if (state is WeatherSuccessState) {
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            CupertinoButton(
+                                              child: Text("Cancelar", style: theme.textTheme.bodyMedium),
+                                              onPressed: () {
+
+                                              },
+                                            ),
+                                            CupertinoButton(
+                                              child: Text("Cancelar", style: theme.textTheme.bodyMedium),
+                                              onPressed: () {
+
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        const WeatherItemsList(),
+                                      ],
+                                    );
+                                  }
+
+                                  return const SizedBox.shrink();
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                  ),
+                ],
+              ),
               IconButton(
                 icon: Icon(themeCubit.state.isDarkMode
                     ? Icons.sunny
