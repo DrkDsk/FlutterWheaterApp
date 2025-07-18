@@ -1,5 +1,5 @@
 import 'package:clima_app/core/dio_client.dart';
-import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource_impl.dart';
+import 'package:clima_app/features/favorites/infrastructure/datasources/favorite_weather_datasource_impl.dart';
 import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
 import 'package:clima_app/features/favorites/domain/usecases/search_favorite_use_case.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_bloc.dart';
