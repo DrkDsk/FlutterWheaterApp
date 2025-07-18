@@ -21,7 +21,7 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
     } on DioException catch (e) {
       throw ServerException(message: e.userFriendlyMessage);
     } catch (e) {
-      throw UnknownException(message: e.toString());
+      throw UnknownException();
     }
   }
 }
