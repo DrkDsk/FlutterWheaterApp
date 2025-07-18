@@ -3,7 +3,7 @@ class CityLocation {
 	final double lat;
 	final double lon;
 	final String country;
-	final String state;
+	final String? state;
 
 	CityLocation({
 		required this.name,
