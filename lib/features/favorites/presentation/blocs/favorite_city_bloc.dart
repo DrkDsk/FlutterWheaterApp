@@ -28,7 +28,11 @@ class FavoriteCityBloc extends Bloc<FavoriteCityEvent, FavoriteCityState> {
         emit(SearchErrorFavoriteCityState(message: left.message));
       },
       (right) {
-        emit(SuccessSearchFavoriteCity(data: right.data));
+        final filter = right.data.where((element) {
+          return element.state != null;
+        }).toList();
+
+        emit(SuccessSearchFavoriteCity(data: filter));
       });
   }
 }
