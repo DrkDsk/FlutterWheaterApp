@@ -1,5 +1,5 @@
 import 'package:clima_app/features/home/domain/entities/daily.dart';
-import 'package:clima_app/features/home/presentation/extensions/daily_presentation.dart';
+import 'package:clima_app/core/extensions/weather/daily_presentation.dart';
 import 'package:flutter/material.dart';
 
 class DailyListWeatherWidget extends StatelessWidget {
