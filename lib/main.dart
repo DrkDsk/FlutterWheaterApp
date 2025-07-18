@@ -1,7 +1,7 @@
 import 'package:clima_app/core/dio_client.dart';
-import 'package:clima_app/features/home/data/datasources/location_datasource_impl.dart';
-import 'package:clima_app/features/home/data/datasources/search_weather_datasource_impl.dart';
-import 'package:clima_app/features/home/data/datasources/weather_description_local_datasource.dart';
+import 'package:clima_app/features/home/infrastructure/datasources/location_datasource_impl.dart';
+import 'package:clima_app/features/home/infrastructure/datasources/search_weather_datasource_impl.dart';
+import 'package:clima_app/features/home/infrastructure/datasources/weather_description_local_datasource_impl.dart';
 import 'package:clima_app/features/home/data/repositories/location_repository_impl.dart';
 import 'package:clima_app/features/home/data/repositories/search_weather_repository_impl.dart';
 import 'package:clima_app/features/home/data/repositories/weather_description_repository_impl.dart';
@@ -37,7 +37,7 @@ void main() {
     RepositoryProvider(
         create: (context) => WeatherMapper(
             WeatherDescriptionRepositoryImpl(
-                dataSource: WeatherDescriptionLocalDataSource()
+                dataSource: WeatherDescriptionLocalDataSourceImpl()
             )
         )
     )

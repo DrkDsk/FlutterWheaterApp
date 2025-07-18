@@ -1,4 +1,4 @@
-import 'package:clima_app/features/home/data/datasources/location_datasource_impl.dart';
+import 'package:clima_app/features/home/infrastructure/datasources/location_datasource_impl.dart';
 import 'package:clima_app/features/home/domain/entities/location_entity.dart';
 import 'package:clima_app/features/home/domain/repositories/location_repository.dart';
 import 'package:geocoding/geocoding.dart';
