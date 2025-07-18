@@ -1,5 +1,5 @@
 import 'package:clima_app/features/home/domain/entities/hourly.dart';
-import 'package:clima_app/features/home/presentation/extensions/hourly_presentation.dart';
+import 'package:clima_app/core/extensions/weather/hourly_presentation.dart';
 import 'package:flutter/material.dart';
 
 class HourlyListWeatherWidget extends StatelessWidget {

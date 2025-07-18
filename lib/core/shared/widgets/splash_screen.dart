@@ -11,12 +11,17 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context, {
+    bool Function(Route<dynamic>)? predicate,
+  }) {
     return BlocListener<WeatherBloc, WeatherState>(
       listener: (context, state) {
         if (state is WeatherSuccessState) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const HomeWeatherPage()));
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const HomeWeatherPage()),
+            predicate ?? (route) => false,
+          );
         }
       },
       child: Scaffold(

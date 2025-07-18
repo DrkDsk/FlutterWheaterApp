@@ -1,4 +1,5 @@
 import 'package:clima_app/features/home/domain/entities/home_weather_data.dart';
+import 'package:clima_app/features/home/domain/entities/location_entity.dart';
 import 'package:clima_app/features/home/domain/repositories/search_weather_repository.dart';
 import 'package:clima_app/features/home/domain/services/location_service.dart';
 
@@ -8,17 +9,20 @@ class GetWeatherUseCase {
 
   GetWeatherUseCase({required this.locationService, required this.repository});
 
-  Future<HomeWeatherData> call() async {
-    final location = await locationService.getCurrentLocation();
+  Future<HomeWeatherData> call({double? latitude, double? longitude}) async {
+
+    final locationEntity = (latitude != null && longitude != null)
+        ? LocationEntity(latitude: latitude, longitude: longitude)
+        : await locationService.getCurrentLocation();
 
     final weather = await repository.fetchSearchDataByLocation(
-      lat: location.latitude,
-      lon: location.longitude,
+      lat: locationEntity.latitude,
+      lon: locationEntity.longitude,
     );
 
     final cityName = await locationService.getCityNameFromCoordinates(
-      location.latitude,
-      location.longitude,
+      locationEntity.latitude,
+      locationEntity.longitude,
     );
 
     return HomeWeatherData(

@@ -1,3 +1,8 @@
+import 'package:clima_app/core/dio_client.dart';
+import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource_impl.dart';
+import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
+import 'package:clima_app/features/favorites/domain/usecases/search_favorite_use_case.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
@@ -25,7 +30,9 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     themeCubit = context.read<ThemeCubit>();
   }
 
-  Future<T?> pushWithSlideUp<T>(BuildContext context, Widget page, {
+  Future<T?> pushWithSlideUp<T>(
+    BuildContext context,
+    Widget page, {
     bool Function(Route<dynamic>)? predicate,
   }) {
     return Navigator.of(context).pushAndRemoveUntil(
@@ -36,7 +43,8 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
             position: Tween<Offset>(
               begin: const Offset(0.0, 1.0),
               end: Offset.zero,
-            ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
+            ).animate(
+                CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
             child: child,
           );
         },
@@ -46,7 +54,17 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   }
 
   Future<void> navigateToFavorites(BuildContext context) async {
-    await pushWithSlideUp(context, const WeatherListFavorites());
+    final dio = DioClient().dio;
+    await pushWithSlideUp(
+        context,
+        BlocProvider(
+          create: (context) => FavoriteCityBloc(
+              useCase: SearchCityUseCase(
+                  repository: FavoriteWeatherRepositoryImpl(
+                      dataSource:
+                          FavoriteWeatherDataSourceImpl(dio: dio)))),
+          child: const WeatherListFavorites(),
+        ));
   }
 
   @override

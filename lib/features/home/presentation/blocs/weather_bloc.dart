@@ -21,7 +21,10 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       CurrentWeatherEvent event, Emitter<WeatherState> emit) async {
     emit(const WeatherLoadingState());
 
-    final homeWeatherUseCaseResult = await useCase.call();
+    final latitude = event.latitude;
+    final longitude = event.longitude;
+
+    final homeWeatherUseCaseResult = await useCase.call(latitude: latitude, longitude: longitude);
     final eitherWeather = homeWeatherUseCaseResult.eitherWeather;
     final cityName = homeWeatherUseCaseResult.cityName;
 
