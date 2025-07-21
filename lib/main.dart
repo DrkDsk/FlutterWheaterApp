@@ -56,7 +56,6 @@ void main() {
   final blocsProviders = [
     BlocProvider<WeatherBloc>(
       create: (context) => WeatherBloc(
-        getCityUseCase: context.read<GetCityUseCase>(),
         useCase: context.read<GetWeatherUseCase>(),
         mapper: context.read<WeatherMapper>())..add(const CurrentWeatherEvent()),
     ),
