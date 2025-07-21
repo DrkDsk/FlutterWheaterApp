@@ -14,19 +14,18 @@ class CitySearchResultsListWidget extends StatelessWidget {
   final List<CityLocation> result;
 
   Future<void> getWeatherSelected(
-      {required CityLocation location,
-        required BuildContext context}) async {
+      {required CityLocation location, required BuildContext context}) async {
     final weatherBloc = context.read<WeatherBloc>();
     Future.microtask(() {
-      weatherBloc.add(GetSelectedCityEvent(latitude: location.lat, longitude: location.lon));
+      weatherBloc.add(GetSelectedCityEvent(
+          latitude: location.lat, longitude: location.lon));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-        itemBuilder: (context, index) =>
-        const SizedBox(height: 4),
+        itemBuilder: (context, index) => const SizedBox(height: 4),
         separatorBuilder: (context, index) {
           final currentLocationData = result[index];
           final cityName = currentLocationData.name;
@@ -37,13 +36,10 @@ class CitySearchResultsListWidget extends StatelessWidget {
 
           return GestureDetector(
             onTap: () => getWeatherSelected(
-              location: currentLocationData,
-              context: context
-            ),
+                location: currentLocationData, context: context),
             child: CityResultItemCard(query: query),
           );
         },
         itemCount: result.length);
   }
 }
-

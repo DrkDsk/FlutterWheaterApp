@@ -7,7 +7,8 @@ import 'package:clima_app/features/home/presentation/blocs/states/weather_loadin
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_success_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
-import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
+import 'package:clima_app/features/home/presentation/widgets/weather_items_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,18 +23,47 @@ class WeatherListFavorites extends StatelessWidget {
       listener: (context, state) {
         if (state is WeatherLoadingState) {
           showDialog(
-              barrierColor: Colors.white12,
+              barrierColor: Colors.white60,
               context: context,
               builder: (context) =>
                   const Center(child: CircularProgressIndicator()));
         }
 
         if (state is WeatherSuccessState) {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const HomeWeatherPage()),
-            (route) => false,
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            isDismissible: false,
+            builder: (context) => FractionallySizedBox(
+              heightFactor: 0.90,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child: Text("Cancelar", style: theme.textTheme.bodyMedium),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child: Text("Agregar", style: theme.textTheme.bodyMedium),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    const WeatherItemsList()
+                  ],
+                ),
+              ),
+            ),
           );
         }
+
       },
       child: SafeArea(
         child: Scaffold(

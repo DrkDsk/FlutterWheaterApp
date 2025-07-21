@@ -61,8 +61,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
           create: (context) => CityBloc(
               useCase: SearchCityUseCase(
                   repository: CityRepositoryImpl(
-                      dataSource:
-                          CityDataSourceImpl(dio: dio)))),
+                      dataSource: CityDataSourceImpl(dio: dio)))),
           child: const WeatherListFavorites(),
         ));
   }
@@ -71,10 +70,6 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   Widget build(BuildContext context) {
     final backgroundWeatherCubit = context.watch<BackgroundWeatherCubit>();
     final theme = Theme.of(context);
-    final cityId = context.select((WeatherBloc bloc) {
-      final state = bloc.state;
-      return state is WeatherSuccessState ? state.weatherData.cityId : null;
-    });
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
@@ -106,33 +101,12 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if (cityId != null) ... [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CupertinoButton(
-                      child: Text("Cancelar", style: theme.textTheme.bodyMedium),
-                      onPressed: () {
-
-                      },
-                    ),
-                    CupertinoButton(
-                      child: Text("Agregar", style: theme.textTheme.bodyMedium),
-                      onPressed: () {
-
-                      },
-                    ),
-                  ],
-                ),
-              ],
               IconButton(
                 icon: Icon(themeCubit.state.isDarkMode
                     ? Icons.sunny
                     : Icons.nightlight),
                 color: theme.colorScheme.onPrimary,
-                onPressed: () {
-                  //context.read<WeatherBloc>().add(const CurrentWeatherEvent(latitude:  16.0894, longitude: -93.7547, cityId: 3816721));
-                },
+                onPressed: () => themeCubit.toggleTheme(),
               ),
               BlocBuilder<WeatherBloc, WeatherState>(
                 builder: (context, state) {
