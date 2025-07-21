@@ -1,6 +1,6 @@
 import 'package:clima_app/core/dio_client.dart';
-import 'package:clima_app/features/favorites/infrastructure/datasources/favorite_weather_datasource_impl.dart';
-import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
+import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
+import 'package:clima_app/features/city/infrastructure/datasources/city_datasource_impl.dart';
 import 'package:clima_app/features/favorites/domain/usecases/search_favorite_use_case.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_state.dart';
@@ -61,9 +61,9 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
         BlocProvider(
           create: (context) => FavoriteCityBloc(
               useCase: SearchCityUseCase(
-                  repository: FavoriteWeatherRepositoryImpl(
+                  repository: CityRepositoryImpl(
                       dataSource:
-                          FavoriteWeatherDataSourceImpl(dio: dio)))),
+                          CityDataSourceImpl(dio: dio)))),
           child: const WeatherListFavorites(),
         ));
   }

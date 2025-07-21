@@ -63,7 +63,5 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     final double latitude = event.latitude;
     final double longitude = event.longitude;
 
-
-
   }
 }
