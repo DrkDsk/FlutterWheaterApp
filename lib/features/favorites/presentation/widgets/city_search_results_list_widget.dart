@@ -18,7 +18,7 @@ class CitySearchResultsListWidget extends StatelessWidget {
         required BuildContext context}) async {
     final weatherBloc = context.read<WeatherBloc>();
     Future.microtask(() {
-      weatherBloc.add(CurrentWeatherEvent(latitude: location.lat, longitude: location.lon));
+      weatherBloc.add(GetSelectedCityEvent(latitude: location.lat, longitude: location.lon));
     });
   }
 
@@ -32,11 +32,15 @@ class CitySearchResultsListWidget extends StatelessWidget {
           final cityName = currentLocationData.name;
           final state = currentLocationData.state;
           final country = currentLocationData.country;
+
+          final query = "$cityName, $state, $country";
+
           return GestureDetector(
             onTap: () => getWeatherSelected(
-                location: currentLocationData,
-                context: context),
-            child: CityResultItemCard(cityName: cityName, state: state, country: country),
+              location: currentLocationData,
+              context: context
+            ),
+            child: CityResultItemCard(query: query),
           );
         },
         itemCount: result.length);

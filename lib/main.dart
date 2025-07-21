@@ -29,7 +29,7 @@ void main() {
             locationService: LocationService(
                 LocationRepositoryImpl(LocationDataSourceImpl())
             ),
-            repository: SearchRepositoryImpl(
+            repository: SearchWeatherRepositoryImpl(
               datasource: SearchWeatherDatasourceImpl(dio: dioClient.dio),
             )
         )

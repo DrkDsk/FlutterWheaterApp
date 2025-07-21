@@ -3,21 +3,17 @@ import 'package:flutter/material.dart';
 class CityResultItemCard extends StatelessWidget {
   const CityResultItemCard({
     super.key,
-    required this.cityName,
-    required this.state,
-    required this.country,
+    required this.query
   });
 
-  final String cityName;
-  final String? state;
-  final String country;
+  final String query;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding:
       const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text("$cityName, $state, $country"),
+      child: Text(query),
     );
   }
 }

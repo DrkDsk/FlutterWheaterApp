@@ -3,6 +3,7 @@ import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
 import 'package:clima_app/core/extensions/dio/dio_extension.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
 import 'package:clima_app/features/favorites/data/models/search_city_location_response_model.dart';
+import 'package:clima_app/features/home/data/models/get_city_weather_response_model.dart';
 import 'package:dio/dio.dart';
 
 class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
