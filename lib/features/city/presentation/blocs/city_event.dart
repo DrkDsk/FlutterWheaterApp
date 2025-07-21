@@ -15,10 +15,8 @@ class SaveFavoriteCityEvent extends CityEvent {
 }
 
 class GetSelectedCityEvent extends CityEvent {
-
   final double latitude;
   final double longitude;
 
   const GetSelectedCityEvent({required this.latitude, required this.longitude});
-
 }

@@ -36,7 +36,7 @@ class CityBloc extends Bloc<CityEvent, CityState> {
           return element.state != null;
         }).toList();
 
-        emit(SuccessResultCity(data: filter));
+        emit(SuccessResultCities(data: filter));
       });
   }
 
@@ -45,8 +45,6 @@ class CityBloc extends Bloc<CityEvent, CityState> {
     final double latitude = event.latitude;
     final double longitude = event.longitude;
 
-    emit(LoadingCityState());
-
     final result = await getCityUseCase.call(lat: latitude, lon: longitude);
 
     result.fold((left) {
@@ -54,8 +52,14 @@ class CityBloc extends Bloc<CityEvent, CityState> {
       return;
     }, (right) {
       final cityId = right.id;
-     /* add(CurrentWeatherEvent(
-          latitude: latitude, longitude: longitude, cityId: cityId));*/
+
+      if (cityId != null) {
+        final previousResults = state.previousResults;
+        emit(GetSelectedCityWeatherState(cityId: cityId, longitude: longitude, latitude: latitude, previousResults: previousResults));
+        return ;
+      }
+
+      emit(const SearchErrorCityState(message: "No se ha encontrado información del clima"));
     });
   }
 
