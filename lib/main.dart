@@ -1,4 +1,7 @@
 import 'package:clima_app/core/dio_client.dart';
+import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
+import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
+import 'package:clima_app/features/city/infrastructure/datasources/city_datasource_impl.dart';
 import 'package:clima_app/features/home/infrastructure/datasources/location_datasource_impl.dart';
 import 'package:clima_app/features/home/infrastructure/datasources/search_weather_datasource_impl.dart';
 import 'package:clima_app/features/home/infrastructure/datasources/weather_description_local_datasource_impl.dart';
@@ -24,6 +27,13 @@ void main() {
 
   final dioClient = DioClient();
   final repositoriesProviders = [
+    RepositoryProvider(
+      create: (context) => GetCityUseCase(
+        repository: CityRepositoryImpl(
+          dataSource: CityDataSourceImpl(dio: dioClient.dio)
+        )
+      ),
+    ),
     RepositoryProvider<GetWeatherUseCase>(
         create: (context) => GetWeatherUseCase(
             locationService: LocationService(
@@ -46,8 +56,9 @@ void main() {
   final blocsProviders = [
     BlocProvider<WeatherBloc>(
       create: (context) => WeatherBloc(
-          useCase: context.read<GetWeatherUseCase>(),
-          mapper: context.read<WeatherMapper>())..add(const CurrentWeatherEvent()),
+        getCityUseCase: context.read<GetCityUseCase>(),
+        useCase: context.read<GetWeatherUseCase>(),
+        mapper: context.read<WeatherMapper>())..add(const CurrentWeatherEvent()),
     ),
     BlocProvider(create: (context) => ThemeCubit()),
     BlocProvider<BackgroundWeatherCubit>(

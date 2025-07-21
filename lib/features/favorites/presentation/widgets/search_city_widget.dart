@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_event.dart';
+import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
+import 'package:clima_app/features/city/presentation/blocs/city_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,8 +35,8 @@ class _SearchCityWidgetState extends State<SearchCityWidget> {
         if (_debounce?.isActive ?? false) _debounce!.cancel();
 
         _debounce = Timer(const Duration(milliseconds: 500), () {
-          context.read<FavoriteCityBloc>().add(
-                SearchFavoriteCityEvent(query: value),
+          context.read<CityBloc>().add(
+                SearchCityEvent(query: value),
               );
         });
       },

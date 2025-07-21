@@ -1,9 +1,8 @@
 import 'package:clima_app/core/dio_client.dart';
-import 'package:clima_app/features/favorites/infrastructure/datasources/favorite_weather_datasource_impl.dart';
-import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
-import 'package:clima_app/features/favorites/domain/usecases/search_favorite_use_case.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_state.dart';
+import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
+import 'package:clima_app/features/city/infrastructure/datasources/city_datasource_impl.dart';
+import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
+import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
@@ -59,11 +58,11 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     await pushWithSlideUp(
         context,
         BlocProvider(
-          create: (context) => FavoriteCityBloc(
+          create: (context) => CityBloc(
               useCase: SearchCityUseCase(
-                  repository: FavoriteWeatherRepositoryImpl(
+                  repository: CityRepositoryImpl(
                       dataSource:
-                          FavoriteWeatherDataSourceImpl(dio: dio)))),
+                          CityDataSourceImpl(dio: dio)))),
           child: const WeatherListFavorites(),
         ));
   }
@@ -72,6 +71,10 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   Widget build(BuildContext context) {
     final backgroundWeatherCubit = context.watch<BackgroundWeatherCubit>();
     final theme = Theme.of(context);
+    final cityId = context.select((WeatherBloc bloc) {
+      final state = bloc.state;
+      return state is WeatherSuccessState ? state.weatherData.cityId : null;
+    });
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
@@ -103,71 +106,32 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CupertinoButton(
-                    child: Text("Cancelar", style: theme.textTheme.bodyMedium),
-                    onPressed: () {
+              if (cityId != null) ... [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CupertinoButton(
+                      child: Text("Cancelar", style: theme.textTheme.bodyMedium),
+                      onPressed: () {
 
-                    },
-                  ),
-                  CupertinoButton(
+                      },
+                    ),
+                    CupertinoButton(
                       child: Text("Agregar", style: theme.textTheme.bodyMedium),
                       onPressed: () {
-                        showModalBottomSheet(
-                          barrierColor: Colors.blueGrey,
-                          backgroundColor: Colors.black,
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) => Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: FractionallySizedBox(
-                              heightFactor: 0.90,
-                              child: BlocBuilder<FavoriteCityBloc, FavoriteCityState>(
-                                builder: (context, state) {
-                                  if (state is WeatherSuccessState) {
-                                    return Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            CupertinoButton(
-                                              child: Text("Cancelar", style: theme.textTheme.bodyMedium),
-                                              onPressed: () {
 
-                                              },
-                                            ),
-                                            CupertinoButton(
-                                              child: Text("Agregar", style: theme.textTheme.bodyMedium),
-                                              onPressed: () {
-
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                        const WeatherItemsList(),
-                                      ],
-                                    );
-                                  }
-
-                                  return const SizedBox.shrink();
-                                },
-                              ),
-                            ),
-                          ),
-                        );
                       },
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
               IconButton(
                 icon: Icon(themeCubit.state.isDarkMode
                     ? Icons.sunny
                     : Icons.nightlight),
                 color: theme.colorScheme.onPrimary,
                 onPressed: () {
-                  themeCubit.toggleTheme();
+                  //context.read<WeatherBloc>().add(const CurrentWeatherEvent(latitude:  16.0894, longitude: -93.7547, cityId: 3816721));
                 },
               ),
               BlocBuilder<WeatherBloc, WeatherState>(
@@ -175,7 +139,6 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                   if (state is WeatherSuccessState) {
                     return const WeatherItemsList();
                   }
-
                   return const SizedBox.shrink();
                 },
               ),

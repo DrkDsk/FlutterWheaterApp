@@ -1,5 +1,5 @@
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_state.dart';
+import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
+import 'package:clima_app/features/city/presentation/blocs/city_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_search_results_list_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_favorite_cities_list_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
@@ -17,6 +17,7 @@ class WeatherListFavorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return BlocListener<WeatherBloc, WeatherState>(
       listener: (context, state) {
         if (state is WeatherLoadingState) {
@@ -45,9 +46,9 @@ class WeatherListFavorites extends StatelessWidget {
                 const SizedBox(height: 20),
                 const SearchCityHeader(),
                 const SizedBox(height: 20),
-                BlocBuilder<FavoriteCityBloc, FavoriteCityState>(
+                BlocBuilder<CityBloc, CityState>(
                   builder: (context, state) {
-                    if (state is SuccessSearchFavoriteCity) {
+                    if (state is SuccessSearchCity) {
                       final result = state.data;
                       return Expanded(
                         child: CitySearchResultsListWidget(
@@ -56,7 +57,7 @@ class WeatherListFavorites extends StatelessWidget {
                       );
                     }
 
-                    if (state is SearchErrorFavoriteCityState) {
+                    if (state is SearchErrorCityState) {
                       return Text(state.message,
                           style: theme.textTheme.bodyMedium);
                     }
