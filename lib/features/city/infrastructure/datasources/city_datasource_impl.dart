@@ -29,7 +29,7 @@ class CityDataSourceImpl implements CityDataSource {
   @override
   Future<GetCityWeatherResponseModel> getCity({required double lat, required double lon}) async {
     try {
-      final response = await dio.get('data/2.5/weather?lat=$lat&lon=$lon');
+      final response = await dio.get('/data/2.5/weather?lat=$lat&lon=$lon');
 
       return GetCityWeatherResponseModel.fromJson(response.data);
     } on DioException catch (e) {
