@@ -1,8 +1,8 @@
 import 'package:clima_app/core/dio_client.dart';
 import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
 import 'package:clima_app/features/city/infrastructure/datasources/city_datasource_impl.dart';
-import 'package:clima_app/features/favorites/domain/usecases/search_favorite_use_case.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_bloc.dart';
+import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
+import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
@@ -58,7 +58,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     await pushWithSlideUp(
         context,
         BlocProvider(
-          create: (context) => FavoriteCityBloc(
+          create: (context) => CityBloc(
               useCase: SearchCityUseCase(
                   repository: CityRepositoryImpl(
                       dataSource:
