@@ -4,9 +4,9 @@ abstract class CityState {
   const CityState();
 }
 
-final class SearchingCityState extends CityState {}
-
 final class CityInitialState extends CityState {}
+
+final class LoadingCityState extends CityState {}
 
 final class SearchErrorCityState extends CityState {
 
@@ -17,9 +17,9 @@ final class SearchErrorCityState extends CityState {
   });
 }
 
-final class SuccessSearchCity extends CityState {
+final class SuccessResultCity extends CityState {
 
   final List<CityLocation> data;
 
-  const SuccessSearchCity({required this.data});
+  const SuccessResultCity({required this.data});
 }

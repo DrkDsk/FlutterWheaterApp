@@ -3,11 +3,6 @@ import 'package:clima_app/features/city/presentation/blocs/city_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_search_results_list_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_favorite_cities_list_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/weather_loading_state.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/weather_success_state.dart';
-import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
-import 'package:clima_app/features/home/presentation/widgets/weather_items_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,53 +14,7 @@ class WeatherListFavorites extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return BlocListener<WeatherBloc, WeatherState>(
-      listener: (context, state) {
-        if (state is WeatherLoadingState) {
-          showDialog(
-              barrierColor: Colors.white60,
-              context: context,
-              builder: (context) =>
-                  const Center(child: CircularProgressIndicator()));
-        }
-
-        if (state is WeatherSuccessState) {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            isDismissible: false,
-            builder: (context) => FractionallySizedBox(
-              heightFactor: 0.90,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          child: Text("Cancelar", style: theme.textTheme.bodyMedium),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          child: Text("Agregar", style: theme.textTheme.bodyMedium),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                    const WeatherItemsList()
-                  ],
-                ),
-              ),
-            ),
-          );
-        }
-
-      },
-      child: SafeArea(
+    return SafeArea(
         child: Scaffold(
           backgroundColor: Colors.white10,
           body: Container(
@@ -78,7 +27,12 @@ class WeatherListFavorites extends StatelessWidget {
                 const SizedBox(height: 20),
                 BlocBuilder<CityBloc, CityState>(
                   builder: (context, state) {
-                    if (state is SuccessSearchCity) {
+
+                    if (state is LoadingCityState) {
+                      return const CircularProgressIndicator();
+                    }
+
+                    if (state is SuccessResultCity) {
                       final result = state.data;
                       return Expanded(
                         child: CitySearchResultsListWidget(
@@ -101,7 +55,6 @@ class WeatherListFavorites extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }

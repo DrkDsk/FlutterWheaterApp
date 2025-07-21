@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
 import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_event.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_state.dart';
@@ -6,10 +7,12 @@ import 'package:clima_app/features/city/presentation/blocs/city_state.dart';
 class CityBloc extends Bloc<CityEvent, CityState> {
 
   final SearchCityUseCase useCase;
+  final GetCityUseCase getCityUseCase;
 
-  CityBloc({required this.useCase}) : super(CityInitialState()) {
+  CityBloc({required this.useCase, required this.getCityUseCase}) : super(CityInitialState()) {
     on<SearchCityEvent>(_searchWeatherEvent);
     on<SaveFavoriteCityEvent>(_saveFavoriteCity);
+    on<GetSelectedCityEvent>(_getSelectedCity);
   }
 
   Future<void> _searchWeatherEvent(SearchCityEvent event, Emitter<CityState> emit) async {
@@ -33,8 +36,27 @@ class CityBloc extends Bloc<CityEvent, CityState> {
           return element.state != null;
         }).toList();
 
-        emit(SuccessSearchCity(data: filter));
+        emit(SuccessResultCity(data: filter));
       });
+  }
+
+  Future<void> _getSelectedCity(
+      GetSelectedCityEvent event, Emitter<CityState> emit) async {
+    final double latitude = event.latitude;
+    final double longitude = event.longitude;
+
+    emit(LoadingCityState());
+
+    final result = await getCityUseCase.call(lat: latitude, lon: longitude);
+
+    result.fold((left) {
+      emit(SearchErrorCityState(message: left.message));
+      return;
+    }, (right) {
+      final cityId = right.id;
+     /* add(CurrentWeatherEvent(
+          latitude: latitude, longitude: longitude, cityId: cityId));*/
+    });
   }
 
   Future<void> _saveFavoriteCity(SaveFavoriteCityEvent event, Emitter<CityState> emit) async {
