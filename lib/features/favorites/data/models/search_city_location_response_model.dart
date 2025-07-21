@@ -14,7 +14,6 @@ class SearchCityLocationResponseModel {
   }
 
   factory SearchCityLocationResponseModel.fromJson(List<dynamic> jsonList) {
-    //IMPLEMENTAR UN TRY CATCH Y DEFINIR UN MODEL CUSTOM EXCEPTION
     return SearchCityLocationResponseModel(
       data: jsonList.map((json) => CityLocationModel.fromJson(json)).toList(),
     );

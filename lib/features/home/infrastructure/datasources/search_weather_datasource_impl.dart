@@ -2,6 +2,7 @@ import 'package:clima_app/core/error/exceptions/server_exception.dart';
 import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
 import 'package:clima_app/core/extensions/dio/dio_extension.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart';
+import 'package:clima_app/features/home/data/models/get_city_weather_response_model.dart';
 import 'package:clima_app/features/home/data/models/weather_response_model.dart';
 import 'package:dio/dio.dart';
 
@@ -20,6 +21,19 @@ class SearchWeatherDatasourceImpl implements SearchWeatherDataSource {
       throw ServerException(message: e.userFriendlyMessage);
     } catch (e) {
       throw UnknownException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<GetCityWeatherResponseModel> getCity({required double lat, required double lon}) async {
+    try {
+      final response = await dio.get('data/2.5/weather?lat=$lat&lon=$lon');
+
+      return GetCityWeatherResponseModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw ServerException(message: e.userFriendlyMessage);
+    } catch (e) {
+      throw UnknownException();
     }
   }
 }

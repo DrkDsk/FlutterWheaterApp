@@ -1,8 +1,6 @@
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_city_event.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_city_item_card.dart';
+import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SavedFavoriteCitiesListWidget extends StatelessWidget {
   const SavedFavoriteCitiesListWidget({
@@ -21,8 +19,11 @@ class SavedFavoriteCitiesListWidget extends StatelessWidget {
       },
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () => context.read<FavoriteCityBloc>().add(
-              const SaveFavoriteCityEvent(cityId: "Tonalá")),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeWeatherPage())
+          )/*context.read<FavoriteCityBloc>().add(
+              const SaveFavoriteCityEvent(cityId: "Tonalá"))*/,
           child: SavedCityItemCard(theme: theme),
         );
       },

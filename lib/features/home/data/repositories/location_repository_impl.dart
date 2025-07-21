@@ -1,5 +1,5 @@
 import 'package:clima_app/features/home/infrastructure/datasources/location_datasource_impl.dart';
-import 'package:clima_app/features/home/domain/entities/location_entity.dart';
+import 'package:clima_app/features/home/domain/entities/coordinate.dart';
 import 'package:clima_app/features/home/domain/repositories/location_repository.dart';
 import 'package:geocoding/geocoding.dart';
 
@@ -10,10 +10,10 @@ class LocationRepositoryImpl implements LocationRepository {
   LocationRepositoryImpl(this.dataSource);
 
   @override
-  Future<LocationEntity> getCurrentLocation() async {
+  Future<Coordinate> getCurrentLocation() async {
     final position = await dataSource.getCurrentLocation();
 
-    return LocationEntity(latitude: position.latitude ?? 0, longitude: position.longitude ?? 0);
+    return Coordinate(latitude: position.latitude ?? 0, longitude: position.longitude ?? 0);
   }
 
   @override

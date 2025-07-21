@@ -1,4 +1,4 @@
-import 'package:clima_app/features/home/domain/entities/location_entity.dart';
+import 'package:clima_app/features/home/domain/entities/coordinate.dart';
 import 'package:clima_app/features/home/domain/repositories/location_repository.dart';
 
 class LocationService {
@@ -7,7 +7,7 @@ class LocationService {
 
   LocationService(this.repository);
 
-  Future<LocationEntity> getCurrentLocation() {
+  Future<Coordinate> getCurrentLocation() {
     return repository.getCurrentLocation();
   }
 

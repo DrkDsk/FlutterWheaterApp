@@ -12,11 +12,11 @@ import '../../mocks/mocks.mocks.dart';
 
 void main(){
   late MockSearchWeatherDataSource mockSearchWeatherDataSource;
-  late SearchRepositoryImpl searchRepositoryImpl;
+  late SearchWeatherRepositoryImpl searchRepositoryImpl;
 
   setUp(() {
     mockSearchWeatherDataSource = MockSearchWeatherDataSource();
-    searchRepositoryImpl = SearchRepositoryImpl(datasource: mockSearchWeatherDataSource);
+    searchRepositoryImpl = SearchWeatherRepositoryImpl(datasource: mockSearchWeatherDataSource);
   });
 
   test('debería retornar Right(model) si el datasource responde correctamente', () async {

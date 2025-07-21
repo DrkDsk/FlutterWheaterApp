@@ -9,6 +9,7 @@ class FavoriteCityBloc extends Bloc<FavoriteCityEvent, FavoriteCityState> {
 
   FavoriteCityBloc({required this.useCase}) : super(FavoriteCityInitialState()) {
     on<SearchFavoriteCityEvent>(_searchWeatherEvent);
+    on<SaveFavoriteCityEvent>(_saveFavoriteCity);
   }
 
   Future<void> _searchWeatherEvent(SearchFavoriteCityEvent event, Emitter<FavoriteCityState> emit) async {
@@ -34,5 +35,11 @@ class FavoriteCityBloc extends Bloc<FavoriteCityEvent, FavoriteCityState> {
 
         emit(SuccessSearchFavoriteCity(data: filter));
       });
+  }
+
+  Future<void> _saveFavoriteCity(SaveFavoriteCityEvent event, Emitter<FavoriteCityState> emit) async {
+
+    final String cityId = event.cityId;
+
   }
 }
