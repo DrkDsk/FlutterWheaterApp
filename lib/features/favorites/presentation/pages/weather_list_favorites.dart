@@ -33,33 +33,37 @@ class WeatherListFavorites extends StatelessWidget {
           Navigator.pop(context);
           showModalBottomSheet(
             context: context,
-            isDismissible: false,
             isScrollControlled: true,
             builder: (context) => FractionallySizedBox(
               heightFactor: 0.90,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        child:
-                            Text("Cancelar", style: theme.textTheme.bodyMedium),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        child:
-                            Text("Agregar", style: theme.textTheme.bodyMedium),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                  const WeatherItemsList()
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child:
+                              Text("Cancelar", style: theme.textTheme.bodyMedium),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child:
+                              Text("Agregar", style: theme.textTheme.bodyMedium),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const WeatherItemsList()
+                  ],
+                ),
               ),
             ),
           );
