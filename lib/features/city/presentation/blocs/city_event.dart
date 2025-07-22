@@ -13,3 +13,10 @@ class SaveFavoriteCityEvent extends CityEvent {
 
   const SaveFavoriteCityEvent({required this.cityId});
 }
+
+class GetSelectedCityEvent extends CityEvent {
+  final double latitude;
+  final double longitude;
+
+  const GetSelectedCityEvent({required this.latitude, required this.longitude});
+}

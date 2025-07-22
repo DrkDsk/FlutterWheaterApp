@@ -15,56 +15,53 @@ class WeatherItemsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Expanded(
-      child: PageView.builder(
-          itemCount: 4,
-          itemBuilder: (context, index) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 10),
-                    BlocBuilder<WeatherBloc, WeatherState>(
-                      builder: (context, state) {
-                        if (state is WeatherSuccessState) {
-                          return HeaderWeatherWidget(
-                              city: state.weatherData.city,
-                              translatedWeather:
-                                  state.weatherData.translatedWeather,
-                              temp: state
-                                  .weatherData.currentWeather.tempCelsiusText);
-                        }
-
-                        return const SizedBox.shrink();
-                      },
-                    ),
-                    BlocBuilder<WeatherBloc, WeatherState>(
-                      builder: (context, state) {
-                        if (state is WeatherSuccessState) {
-                          return HourlyListWeatherWidget(
-                              hourly: state.weatherData.hourly);
-                        }
-
-                        return const SizedBox.shrink();
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    BlocBuilder<WeatherBloc, WeatherState>(
-                      builder: (context, state) {
-                        if (state is WeatherSuccessState) {
-                          return DailyListWeatherWidget(
-                              daily: state.weatherData.daily);
-                        }
-
-                        return const SizedBox.shrink();
-                      },
-                    ),
-                    const SizedBox(height: 20)
-                  ],
-                ),
-              )),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+            BlocBuilder<WeatherBloc, WeatherState>(
+              builder: (context, state) {
+                if (state is WeatherSuccessState) {
+                  return HeaderWeatherWidget(
+                      city: state.weatherData.city,
+                      translatedWeather:
+                      state.weatherData.translatedWeather,
+                      temp: state
+                          .weatherData.currentWeather.tempCelsiusText);
+                }
+      
+                return const SizedBox.shrink();
+              },
+            ),
+            BlocBuilder<WeatherBloc, WeatherState>(
+              builder: (context, state) {
+                if (state is WeatherSuccessState) {
+                  return HourlyListWeatherWidget(
+                      hourly: state.weatherData.hourly);
+                }
+      
+                return const SizedBox.shrink();
+              },
+            ),
+            const SizedBox(height: 20),
+            BlocBuilder<WeatherBloc, WeatherState>(
+              builder: (context, state) {
+                if (state is WeatherSuccessState) {
+                  return DailyListWeatherWidget(
+                      daily: state.weatherData.daily);
+                }
+      
+                return const SizedBox.shrink();
+              },
+            ),
+            const SizedBox(height: 20)
+          ],
+        ),
+      ),
     );
   }
 }

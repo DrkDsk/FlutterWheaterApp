@@ -1,5 +1,6 @@
 import 'package:clima_app/core/dio_client.dart';
 import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
+import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
 import 'package:clima_app/features/city/infrastructure/datasources/city_datasource_impl.dart';
 import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
@@ -55,14 +56,14 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
 
   Future<void> navigateToFavorites(BuildContext context) async {
     final dio = DioClient().dio;
+    final dataSource = CityDataSourceImpl(dio: dio);
+    final repository = CityRepositoryImpl(dataSource: dataSource);
     await pushWithSlideUp(
         context,
         BlocProvider(
           create: (context) => CityBloc(
-              useCase: SearchCityUseCase(
-                  repository: CityRepositoryImpl(
-                      dataSource:
-                          CityDataSourceImpl(dio: dio)))),
+              useCase: SearchCityUseCase(repository: repository),
+              getCityUseCase: GetCityUseCase(repository: repository)),
           child: const WeatherListFavorites(),
         ));
   }
@@ -71,10 +72,6 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   Widget build(BuildContext context) {
     final backgroundWeatherCubit = context.watch<BackgroundWeatherCubit>();
     final theme = Theme.of(context);
-    final cityId = context.select((WeatherBloc bloc) {
-      final state = bloc.state;
-      return state is WeatherSuccessState ? state.weatherData.cityId : null;
-    });
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
@@ -106,33 +103,12 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if (cityId != null) ... [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CupertinoButton(
-                      child: Text("Cancelar", style: theme.textTheme.bodyMedium),
-                      onPressed: () {
-
-                      },
-                    ),
-                    CupertinoButton(
-                      child: Text("Agregar", style: theme.textTheme.bodyMedium),
-                      onPressed: () {
-
-                      },
-                    ),
-                  ],
-                ),
-              ],
               IconButton(
                 icon: Icon(themeCubit.state.isDarkMode
                     ? Icons.sunny
                     : Icons.nightlight),
                 color: theme.colorScheme.onPrimary,
-                onPressed: () {
-                  //context.read<WeatherBloc>().add(const CurrentWeatherEvent(latitude:  16.0894, longitude: -93.7547, cityId: 3816721));
-                },
+                onPressed: () => themeCubit.toggleTheme(),
               ),
               BlocBuilder<WeatherBloc, WeatherState>(
                 builder: (context, state) {

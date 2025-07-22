@@ -1,4 +1,3 @@
-import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
 import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_error_state.dart';
@@ -10,17 +9,16 @@ import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
-  final GetCityUseCase getCityUseCase;
+
   final GetWeatherUseCase useCase;
   final WeatherMapper mapper;
 
   WeatherBloc(
-      {required this.getCityUseCase,
+      {
       required this.useCase,
       required this.mapper})
       : super(const WeatherLoadingState()) {
     on<CurrentWeatherEvent>(_getCurrentWeather);
-    on<GetSelectedCityEvent>(_getSelectedCity);
   }
 
   Future<void> _getCurrentWeather(
@@ -60,22 +58,5 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
             daily: daily,
             city: cityName ?? "",
             translatedWeather: translatedDescription)));
-  }
-
-  Future<void> _getSelectedCity(
-      GetSelectedCityEvent event, Emitter<WeatherState> emit) async {
-    final double latitude = event.latitude;
-    final double longitude = event.longitude;
-
-    final result = await getCityUseCase.call(lat: latitude, lon: longitude);
-
-    result.fold((left) {
-      emit(WeatherErrorState(message: left.message));
-      return;
-    }, (right) {
-      final cityId = right.id;
-      add(CurrentWeatherEvent(
-          latitude: latitude, longitude: longitude, cityId: cityId));
-    });
   }
 }
