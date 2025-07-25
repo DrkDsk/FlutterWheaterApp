@@ -18,6 +18,8 @@ class WeatherSuccessState extends WeatherState {
     List<Daily>? daily,
     String? city,
     int? cityId,
+    double? latitude,
+    double? longitude
   }) {
     return WeatherSuccessState(
       weatherData: WeatherStateData(
@@ -26,7 +28,9 @@ class WeatherSuccessState extends WeatherState {
         hourly: hourly ?? weatherData.hourly,
         daily: daily ?? weatherData.daily,
         city: city ?? weatherData.city,
-        cityId: cityId ?? weatherData.cityId
+        cityId: cityId ?? weatherData.cityId,
+        latitude: latitude ?? weatherData.latitude,
+        longitude: longitude ?? weatherData.longitude
       ),
     );
   }

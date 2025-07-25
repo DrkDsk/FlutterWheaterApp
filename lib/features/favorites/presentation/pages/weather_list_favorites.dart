@@ -16,6 +16,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class WeatherListFavorites extends StatelessWidget {
   const WeatherListFavorites({super.key});
 
+  Future<void> handleSaveCity({required int cityId, required double? latitude, required double? longitude}) async {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -30,6 +34,10 @@ class WeatherListFavorites extends StatelessWidget {
         }
 
         if (state is WeatherSuccessState) {
+          final int? cityId = state.weatherData.cityId;
+          final double? latitude = state.weatherData.latitude;
+          final double? longitude = state.weatherData.longitude;
+
           Navigator.pop(context);
           showModalBottomSheet(
             context: context,
@@ -41,25 +49,27 @@ class WeatherListFavorites extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          child:
-                              Text("Cancelar", style: theme.textTheme.bodyMedium),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          child:
-                              Text("Agregar", style: theme.textTheme.bodyMedium),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
+                    if (cityId != null && latitude != null && longitude != null) ... [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CupertinoButton(
+                            padding: EdgeInsets.zero,
+                            child:
+                            Text("Cancelar", style: theme.textTheme.bodyMedium),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          CupertinoButton(
+                            padding: EdgeInsets.zero,
+                            child:
+                            Text("Agregar", style: theme.textTheme.bodyMedium),
+                            onPressed: () => handleSaveCity(cityId: cityId, latitude: latitude, longitude: longitude),
+                          ),
+                        ],
+                      ),
+                    ],
                     const SizedBox(height: 8),
                     const WeatherItemsList()
                   ],

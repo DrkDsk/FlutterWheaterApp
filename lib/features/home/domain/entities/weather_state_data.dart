@@ -10,6 +10,8 @@ class WeatherStateData {
   final List<Daily> daily;
   final String city;
   final int? cityId;
+  final double? latitude;
+  final double? longitude;
 
   WeatherStateData({
     required this.currentWeather,
@@ -17,6 +19,8 @@ class WeatherStateData {
     required this.hourly,
     required this.daily,
     required this.city,
-    required this.cityId
+    required this.cityId,
+    required this.latitude,
+    required this.longitude
   });
 }
