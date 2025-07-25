@@ -6,9 +6,6 @@ import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
-import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/weather_success_state.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_items_list.dart';
 import 'package:clima_app/features/favorites/presentation/pages/weather_list_favorites.dart';
 import 'package:flutter/cupertino.dart';
@@ -110,14 +107,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                 color: theme.colorScheme.onPrimary,
                 onPressed: () => themeCubit.toggleTheme(),
               ),
-              BlocBuilder<WeatherBloc, WeatherState>(
-                builder: (context, state) {
-                  if (state is WeatherSuccessState) {
-                    return const WeatherItemsList();
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
+              const WeatherItemsList()
             ],
           ),
         ),
