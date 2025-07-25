@@ -17,7 +17,7 @@ class WeatherListFavorites extends StatelessWidget {
   const WeatherListFavorites({super.key});
 
   Future<void> handleSaveCity({required int cityId, required double? latitude, required double? longitude}) async {
-
+    
   }
 
   @override
