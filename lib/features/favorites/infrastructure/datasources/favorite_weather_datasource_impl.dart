@@ -1,9 +1,19 @@
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
-import 'package:dio/dio.dart';
+import 'package:clima_app/features/favorites/data/models/favorite_location_hive_model.dart';
+import 'package:hive/hive.dart';
 
 class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
+  final Box<FavoriteLocationHiveModel> box;
 
-  final Dio dio;
+  FavoriteWeatherDataSourceImpl({required this.box});
 
-  FavoriteWeatherDataSourceImpl({required this.dio});
+  @override
+  Future<bool> storeCity({required FavoriteLocationHiveModel city}) async {
+    try {
+      await box.add(city);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
