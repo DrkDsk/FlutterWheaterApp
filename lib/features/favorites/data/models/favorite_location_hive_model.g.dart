@@ -18,7 +18,7 @@ class FavoriteLocationHiveModelAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return FavoriteLocationHiveModel(
-      cityId: fields[0] as String,
+      cityId: fields[0] as int,
       latitude: fields[1] as double,
       longitude: fields[2] as double,
     );

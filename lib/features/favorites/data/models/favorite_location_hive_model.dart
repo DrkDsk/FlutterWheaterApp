@@ -8,7 +8,7 @@ part 'favorite_location_hive_model.g.dart';
 class FavoriteLocationHiveModel extends HiveObject {
 
   @HiveField(0)
-  final String cityId;
+  final int cityId;
   
   @HiveField(1)
   final double latitude;

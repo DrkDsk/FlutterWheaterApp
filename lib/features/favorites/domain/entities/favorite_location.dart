@@ -1,6 +1,6 @@
 class FavoriteLocation {
 
-  final String cityId;
+  final int cityId;
   final double latitude;
   final double longitude;
 

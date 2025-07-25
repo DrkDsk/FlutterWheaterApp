@@ -1,5 +1,7 @@
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_state.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_search_results_list_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_favorite_cities_list_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
@@ -13,11 +15,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WeatherListFavorites extends StatelessWidget {
+class WeatherListFavorites extends StatefulWidget {
   const WeatherListFavorites({super.key});
 
-  Future<void> handleSaveCity({required int cityId, required double? latitude, required double? longitude}) async {
-    
+  @override
+  State<WeatherListFavorites> createState() => _WeatherListFavoritesState();
+}
+
+class _WeatherListFavoritesState extends State<WeatherListFavorites> {
+  Future<void> handleSaveCity(
+      {required int cityId,
+      required double latitude,
+      required double longitude}) async {
+    context.read<FavoriteBloc>().add(StoreCityEvent(
+        cityId: cityId, latitude: latitude, longitude: longitude));
   }
 
   @override
@@ -49,23 +60,28 @@ class WeatherListFavorites extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 8),
-                    if (cityId != null && latitude != null && longitude != null) ... [
+                    if (cityId != null &&
+                        latitude != null &&
+                        longitude != null) ...[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CupertinoButton(
                             padding: EdgeInsets.zero,
-                            child:
-                            Text("Cancelar", style: theme.textTheme.bodyMedium),
+                            child: Text("Cancelar",
+                                style: theme.textTheme.bodyMedium),
                             onPressed: () {
                               Navigator.pop(context);
                             },
                           ),
                           CupertinoButton(
                             padding: EdgeInsets.zero,
-                            child:
-                            Text("Agregar", style: theme.textTheme.bodyMedium),
-                            onPressed: () => handleSaveCity(cityId: cityId, latitude: latitude, longitude: longitude),
+                            child: Text("Agregar",
+                                style: theme.textTheme.bodyMedium),
+                            onPressed: () => handleSaveCity(
+                                cityId: cityId,
+                                latitude: latitude,
+                                longitude: longitude),
                           ),
                         ],
                       ),
@@ -104,8 +120,7 @@ class WeatherListFavorites extends StatelessWidget {
 
                     if (result != null) {
                       return Expanded(
-                        child:
-                            CitySearchResultsListWidget(result: result),
+                        child: CitySearchResultsListWidget(result: result),
                       );
                     }
 
