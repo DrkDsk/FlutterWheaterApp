@@ -13,8 +13,10 @@ class CitySearchResultsListWidget extends StatelessWidget {
 
   final List<CityLocation> result;
 
-  Future<void> getWeatherSelected(
-      {required CityLocation location, required BuildContext context}) async {
+  Future<void> getWeatherSelected({
+    required CityLocation location,
+    required BuildContext context
+  }) async {
     final cityBloc = context.read<CityBloc>();
     Future.microtask(() {
       cityBloc.add(GetSelectedCityEvent(

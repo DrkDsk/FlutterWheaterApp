@@ -12,13 +12,12 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
         required this.cityId,
         required this.latitude,
         required this.longitude,
-
         required this.onAdd});
 
   final int cityId;
   final double latitude;
   final double longitude;
-  final Future<void> onAdd;
+  final Future<void> Function() onAdd;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
                   ),
                   CupertinoButton(
                     padding: EdgeInsets.zero,
-                    onPressed: () => onAdd,
+                    onPressed: () => onAdd(),
                     child: Text("Agregar", style: theme.textTheme.bodyMedium),
                   ),
                 ],
