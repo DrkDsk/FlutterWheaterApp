@@ -22,8 +22,7 @@ class SavedFavoriteCitiesListWidget extends StatelessWidget {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const HomeWeatherPage())
-          )/*context.read<FavoriteCityBloc>().add(
-              const SaveFavoriteCityEvent(cityId: "Tonalá"))*/,
+          ),
           child: SavedCityItemCard(theme: theme),
         );
       },

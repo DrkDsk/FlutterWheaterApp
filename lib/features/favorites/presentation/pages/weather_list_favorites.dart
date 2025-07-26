@@ -58,7 +58,7 @@ class _WeatherListFavoritesState extends State<WeatherListFavorites> {
                   cityId: cityId,
                   latitude: latitude,
                   longitude: longitude,
-                  onAdd: handleSaveCity(
+                  onAdd: () => handleSaveCity(
                       cityId: cityId,
                       latitude: latitude,
                       longitude: longitude)),

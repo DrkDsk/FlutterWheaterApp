@@ -11,7 +11,6 @@ class CityBloc extends Bloc<CityEvent, CityState> {
 
   CityBloc({required this.useCase, required this.getCityUseCase}) : super(CityInitialState()) {
     on<SearchCityEvent>(_searchWeatherEvent);
-    on<SaveFavoriteCityEvent>(_saveFavoriteCity);
     on<GetSelectedCityEvent>(_getSelectedCity);
   }
 
@@ -61,11 +60,5 @@ class CityBloc extends Bloc<CityEvent, CityState> {
 
       emit(const SearchErrorCityState(message: "No se ha encontrado información del clima"));
     });
-  }
-
-  Future<void> _saveFavoriteCity(SaveFavoriteCityEvent event, Emitter<CityState> emit) async {
-
-    final String cityId = event.cityId;
-
   }
 }

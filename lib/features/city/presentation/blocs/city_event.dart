@@ -8,12 +8,6 @@ class SearchCityEvent extends CityEvent {
   const SearchCityEvent({required this.query});
 }
 
-class SaveFavoriteCityEvent extends CityEvent {
-  final String cityId;
-
-  const SaveFavoriteCityEvent({required this.cityId});
-}
-
 class GetSelectedCityEvent extends CityEvent {
   final double latitude;
   final double longitude;
