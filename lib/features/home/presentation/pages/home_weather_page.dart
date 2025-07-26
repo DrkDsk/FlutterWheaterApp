@@ -4,10 +4,6 @@ import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
 import 'package:clima_app/features/city/infrastructure/datasources/city_datasource_impl.dart';
 import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
-import 'package:clima_app/features/favorites/data/models/favorite_location_hive_model.dart';
-import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
-import 'package:clima_app/features/favorites/infrastructure/datasources/favorite_weather_datasource_impl.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_items_list.dart';
@@ -15,7 +11,6 @@ import 'package:clima_app/features/favorites/presentation/pages/weather_list_fav
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 
 class HomeWeatherPage extends StatefulWidget {
   const HomeWeatherPage({super.key});
