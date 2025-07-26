@@ -2,7 +2,7 @@ import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
 import 'package:clima_app/core/error/failures/failure.dart';
 import 'package:clima_app/features/city/data/datasources/city_datasource.dart';
 import 'package:clima_app/features/city/domain/repositories/city_repository.dart';
-import 'package:clima_app/features/favorites/domain/entities/search_city_location_response.dart';
+import 'package:clima_app/features/city/domain/entities/search_city_location_response.dart';
 import 'package:clima_app/features/home/domain/entities/get_city_response.dart';
 import 'package:dartz/dartz.dart';
 

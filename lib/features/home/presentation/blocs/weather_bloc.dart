@@ -9,14 +9,10 @@ import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
-
   final GetWeatherUseCase useCase;
   final WeatherMapper mapper;
 
-  WeatherBloc(
-      {
-      required this.useCase,
-      required this.mapper})
+  WeatherBloc({required this.useCase, required this.mapper})
       : super(const WeatherLoadingState()) {
     on<CurrentWeatherEvent>(_getCurrentWeather);
   }
@@ -50,13 +46,19 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
     if (emit.isDone) return;
 
-    emit(WeatherSuccessState(
+    emit(
+      WeatherSuccessState(
         weatherData: WeatherStateData(
-            cityId: cityId,
-            currentWeather: result.current,
-            hourly: hourly,
-            daily: daily,
-            city: cityName ?? "",
-            translatedWeather: translatedDescription)));
+          cityId: cityId,
+          currentWeather: result.current,
+          hourly: hourly,
+          daily: daily,
+          city: cityName ?? "",
+          translatedWeather: translatedDescription,
+          latitude: latitude,
+          longitude: longitude
+        )
+      )
+    );
   }
 }

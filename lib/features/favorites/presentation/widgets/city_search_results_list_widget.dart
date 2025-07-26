@@ -1,6 +1,6 @@
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_event.dart';
-import 'package:clima_app/features/favorites/domain/entities/city_location_entity.dart';
+import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_result_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
