@@ -1,8 +1,4 @@
-import 'package:clima_app/core/dio_client.dart';
-import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
-import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
-import 'package:clima_app/features/city/infrastructure/datasources/city_datasource_impl.dart';
-import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
+import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
@@ -52,17 +48,10 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   }
 
   Future<void> navigateToFavorites(BuildContext context) async {
-    final dio = DioClient().dio;
-    final dataSource = CityDataSourceImpl(dio: dio);
-    final repository = CityRepositoryImpl(dataSource: dataSource);
-    await pushWithSlideUp(
-        context,
-        BlocProvider(
-          create: (context) => CityBloc(
-              useCase: SearchCityUseCase(repository: repository),
-              getCityUseCase: GetCityUseCase(repository: repository)),
-          child: const WeatherListFavorites(),
-        ));
+    await pushWithSlideUp(context,BlocProvider<CityBloc>(
+      create: (_) => getIt<CityBloc>(),
+      child: const WeatherListFavorites(),
+    ));
   }
 
   @override
