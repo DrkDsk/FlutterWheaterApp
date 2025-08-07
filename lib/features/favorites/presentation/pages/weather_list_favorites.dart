@@ -24,13 +24,14 @@ class _WeatherListFavoritesState extends State<WeatherListFavorites> {
     super.dispose();
   }
 
-  Future<void> handleSaveCity(
-      {required int cityId,
-      required double latitude,
-      required double longitude,
-      required BuildContext context}) async {
+  Future<void> handleSaveCity({
+    required double latitude,
+    required double longitude,
+    required String cityName,
+    required BuildContext context
+  }) async {
     context.read<FavoriteBloc>().add(StoreCityEvent(
-        cityId: cityId, latitude: latitude, longitude: longitude));
+        cityName: cityName, latitude: latitude, longitude: longitude));
   }
 
   @override
@@ -46,22 +47,21 @@ class _WeatherListFavoritesState extends State<WeatherListFavorites> {
         }
 
         if (state is WeatherSuccessState) {
-          final int? cityId = state.weatherData.cityId;
+          final String cityName = state.weatherData.city;
           final double? latitude = state.weatherData.latitude;
           final double? longitude = state.weatherData.longitude;
 
           Navigator.pop(context);
 
-          if (cityId != null && latitude != null && longitude != null) {
+          if (latitude != null && longitude != null) {
             showModalBottomSheet(
               context: context,
               isScrollControlled: true,
               builder: (context) => ShowWeatherBottomSheetWidget(
-                cityId: cityId,
                 latitude: latitude,
                 longitude: longitude,
                 onAdd: () => handleSaveCity(
-                  cityId: cityId,
+                  cityName: cityName,
                   latitude: latitude,
                   longitude: longitude,
                   context: context

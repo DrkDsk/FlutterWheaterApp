@@ -10,12 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ShowWeatherBottomSheetWidget extends StatelessWidget {
   const ShowWeatherBottomSheetWidget(
       {super.key,
-        required this.cityId,
         required this.latitude,
         required this.longitude,
         required this.onAdd});
 
-  final int cityId;
   final double latitude;
   final double longitude;
   final Future<void> Function() onAdd;
