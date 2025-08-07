@@ -1,7 +1,7 @@
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
-import 'package:clima_app/features/home/presentation/widgets/weather_items_list.dart';
+import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,7 +64,7 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              const WeatherItemsList()
+              const WeatherContentWidget()
             ],
           ),
         ),
