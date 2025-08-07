@@ -22,7 +22,6 @@ class _WeatherListFavoritesState extends State<WeatherListFavorites> {
   @override
   dispose() {
     super.dispose();
-    print("killed");
   }
 
   Future<void> handleSaveCity(
@@ -40,7 +39,6 @@ class _WeatherListFavoritesState extends State<WeatherListFavorites> {
     return BlocListener<WeatherBloc, WeatherState>(
       listener: (context, state) {
         if (state is WeatherLoadingState) {
-          print("is mounted: $mounted");
           showDialog(
               context: context,
               builder: (context) =>
