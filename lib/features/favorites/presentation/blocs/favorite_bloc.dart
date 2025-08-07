@@ -18,11 +18,11 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   Future<void> _storeCity(StoreCityEvent event, Emitter<FavoriteState> emit) async {
     emit(LoadingFavoriteState());
 
-    final int cityId = event.cityId;
+    final String cityName = event.cityName;
     final double latitude = event.latitude;
     final double longitude = event.longitude;
 
-    final FavoriteLocation location = FavoriteLocation(cityId: cityId, latitude:latitude, longitude: longitude);
+    final FavoriteLocation location = FavoriteLocation(cityName: cityName, latitude:latitude, longitude: longitude);
 
     final resultEither = await _repository.storeCity(location: location);
 
@@ -50,7 +50,9 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         if (result.isEmpty) {
           final coordinate = await _locationService.getCurrentLocation();
 
-          final defaultLocation = FavoriteLocation(cityId: 0, latitude: coordinate.latitude, longitude: coordinate.longitude);
+          final city = await _locationService.getCityNameFromCoordinates(coordinate.latitude, coordinate.longitude);
+
+          final defaultLocation = FavoriteLocation(cityName: city ?? "", latitude: coordinate.latitude, longitude: coordinate.longitude);
 
           cities.add(defaultLocation);
 

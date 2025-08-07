@@ -7,11 +7,11 @@ sealed class FavoriteEvent {
 }
 
 final class StoreCityEvent extends FavoriteEvent {
-  final int cityId;
+  final String cityName;
   final double latitude;
   final double longitude;
 
-  const StoreCityEvent({required this.cityId, required this.latitude, required this.longitude});
+  const StoreCityEvent({required this.cityName, required this.latitude, required this.longitude});
 }
 
 final class GetFavoritesCitiesEvent extends FavoriteEvent {

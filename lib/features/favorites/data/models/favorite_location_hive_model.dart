@@ -8,7 +8,7 @@ part 'favorite_location_hive_model.g.dart';
 class FavoriteLocationHiveModel extends HiveObject {
 
   @HiveField(0)
-  final int cityId;
+  final String cityName;
   
   @HiveField(1)
   final double latitude;
@@ -17,13 +17,13 @@ class FavoriteLocationHiveModel extends HiveObject {
   final double longitude;
 
   FavoriteLocationHiveModel({
-    required this.cityId,
+    required this.cityName,
     required this.latitude,
     required this.longitude
   });
 
-  FavoriteLocation toEntity() => FavoriteLocation(cityId: cityId, latitude: latitude, longitude: longitude);
+  FavoriteLocation toEntity() => FavoriteLocation(cityName: cityName, latitude: latitude, longitude: longitude);
 
   factory FavoriteLocationHiveModel.fromEntity(FavoriteLocation location) =>
-      FavoriteLocationHiveModel(cityId: location.cityId, latitude: location.latitude, longitude: location.longitude);
+      FavoriteLocationHiveModel(cityName: location.cityName, latitude: location.latitude, longitude: location.longitude);
 }
