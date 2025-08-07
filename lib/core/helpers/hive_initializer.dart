@@ -1,3 +1,4 @@
+import 'package:clima_app/core/constants/hive_constants.dart';
 import 'package:clima_app/features/favorites/data/models/favorite_location_hive_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -9,6 +10,6 @@ class HiveInitializer {
 
     Hive.registerAdapter(FavoriteLocationHiveModelAdapter());
 
-    return await Hive.openBox<FavoriteLocationHiveModel>('cities');
+    return await Hive.openBox<FavoriteLocationHiveModel>(citiesBox);
   }
 }

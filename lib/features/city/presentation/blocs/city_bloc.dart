@@ -54,7 +54,7 @@ class CityBloc extends Bloc<CityEvent, CityState> {
 
       if (cityId != null) {
         final previousResults = state.previousResults;
-        emit(GetSelectedCityWeatherState(cityId: cityId, longitude: longitude, latitude: latitude, previousResults: previousResults));
+        emit(CitySelectedState(cityId: cityId, longitude: longitude, latitude: latitude, previousResults: previousResults));
         return ;
       }
 
