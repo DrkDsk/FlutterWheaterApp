@@ -64,7 +64,7 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              const WeatherContentWidget()
+              const Expanded(child: WeatherContentWidget())
             ],
           ),
         ),

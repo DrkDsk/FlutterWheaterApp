@@ -18,10 +18,10 @@ final class ErrorFavoriteState extends FavoriteState {
   const ErrorFavoriteState({required this.message});
 }
 
-final class GetFavoritesCitiesState extends FavoriteState {
+final class FavoritesCitiesState extends FavoriteState {
   final List<FavoriteLocation> cities;
 
-  const GetFavoritesCitiesState({required this.cities});
+  const FavoritesCitiesState({required this.cities});
 }
 
 

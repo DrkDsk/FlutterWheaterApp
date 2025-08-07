@@ -1,4 +1,6 @@
 import 'package:clima_app/core/colors/weather_colors.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_success_state.dart';
@@ -18,6 +20,7 @@ class SplashScreen extends StatelessWidget {
     return BlocListener<WeatherBloc, WeatherState>(
       listener: (context, state) {
         if (state is WeatherSuccessState) {
+          context.read<FavoriteBloc>().add(const GetFavoritesCitiesEvent());
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const HomeWeatherPage()),
             predicate ?? (route) => false,
