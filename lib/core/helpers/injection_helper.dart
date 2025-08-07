@@ -3,7 +3,7 @@ import 'package:clima_app/features/city/data/repositories/city_repository_impl.d
 import 'package:clima_app/features/city/domain/repositories/city_repository.dart';
 import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
 import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
-import 'package:clima_app/features/city/infrastructure/datasources/city_datasource_impl.dart';
+import 'package:clima_app/features/city/data/datasources/city_datasource_impl.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
 import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
@@ -19,9 +19,9 @@ import 'package:clima_app/features/home/domain/repositories/search_weather_repos
 import 'package:clima_app/features/home/domain/repositories/weather_description_repository.dart';
 import 'package:clima_app/features/home/domain/services/location_service.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
-import 'package:clima_app/features/home/infrastructure/datasources/location_datasource_impl.dart';
-import 'package:clima_app/features/home/infrastructure/datasources/search_weather_datasource_impl.dart';
-import 'package:clima_app/features/home/infrastructure/datasources/weather_description_local_datasource_impl.dart';
+import 'package:clima_app/core/shared/data/datasources/location_datasource_impl.dart';
+import 'package:clima_app/features/home/data/datasources/search_weather_datasource_impl.dart';
+import 'package:clima_app/core/shared/data/datasources/weather_description_local_datasource_impl.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';

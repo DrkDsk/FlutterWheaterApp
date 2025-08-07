@@ -1,5 +1,5 @@
 import 'package:clima_app/core/dio_client.dart';
-import 'package:clima_app/features/home/infrastructure/datasources/search_weather_datasource_impl.dart';
+import 'package:clima_app/features/home/data/datasources/search_weather_datasource_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 
