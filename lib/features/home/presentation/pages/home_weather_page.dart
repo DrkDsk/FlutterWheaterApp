@@ -11,7 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeWeatherPage extends StatefulWidget {
-  const HomeWeatherPage({super.key});
+  const HomeWeatherPage({
+    super.key,
+    this.initialIndex = 0
+  });
+
+  final int initialIndex;
 
   @override
   State<HomeWeatherPage> createState() => _HomeWeatherPageState();
@@ -19,11 +24,19 @@ class HomeWeatherPage extends StatefulWidget {
 
 class _HomeWeatherPageState extends State<HomeWeatherPage> {
   late ThemeCubit themeCubit;
+  late final PageController _pageController;
 
   @override
   void initState() {
     super.initState();
     themeCubit = context.read<ThemeCubit>();
+    _pageController = PageController(initialPage: widget.initialIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   Future<T?> pushWithSlideUp<T>(BuildContext context,
@@ -105,11 +118,14 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                         final citiesLength = cities.length;
 
                         return citiesLength > 0 ? PageView.builder(
+                          controller: _pageController,
                           itemCount: citiesLength,
                           itemBuilder: (context, index) {
+
                             final city = cities[index];
                             final latitude = city.latitude;
                             final longitude = city.longitude;
+
                             return WeatherContentWidget(latitude: latitude, longitude: longitude);
                           }
                         ) :  const WeatherContentWidget();
