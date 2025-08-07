@@ -20,15 +20,15 @@ class WeatherListFavorites extends StatefulWidget {
 class _WeatherListFavoritesState extends State<WeatherListFavorites> {
 
   @override
-  dispose(){
+  dispose() {
     super.dispose();
-    print("killed");
   }
 
   Future<void> handleSaveCity(
       {required int cityId,
       required double latitude,
-      required double longitude}) async {
+      required double longitude,
+      required BuildContext context}) async {
     context.read<FavoriteBloc>().add(StoreCityEvent(
         cityId: cityId, latitude: latitude, longitude: longitude));
   }
@@ -57,13 +57,16 @@ class _WeatherListFavoritesState extends State<WeatherListFavorites> {
               context: context,
               isScrollControlled: true,
               builder: (context) => ShowWeatherBottomSheetWidget(
+                cityId: cityId,
+                latitude: latitude,
+                longitude: longitude,
+                onAdd: () => handleSaveCity(
                   cityId: cityId,
                   latitude: latitude,
                   longitude: longitude,
-                  onAdd: () => handleSaveCity(
-                      cityId: cityId,
-                      latitude: latitude,
-                      longitude: longitude)),
+                  context: context
+                )
+              ),
             );
           }
         }

@@ -1,17 +1,16 @@
 import 'package:bloc/bloc.dart';
-import 'package:clima_app/core/constants/hive_constants.dart';
-import 'package:clima_app/features/favorites/data/models/favorite_location_hive_model.dart';
 import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
-import 'package:hive/hive.dart';
+import 'package:clima_app/features/home/domain/services/location_service.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
-  final FavoriteWeatherRepository repository;
+  final FavoriteWeatherRepository _repository;
+  final LocationService _locationService;
 
-  FavoriteBloc({required this.repository}) : super(FavoriteInitial()) {
+  FavoriteBloc({required FavoriteWeatherRepository repository, required LocationService locationService}) : _repository = repository, _locationService = locationService, super(FavoriteInitial()) {
     on<StoreCityEvent>(_storeCity);
     on<GetFavoritesCitiesEvent>(_getFavoritesCities);
   }
@@ -25,7 +24,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
     final FavoriteLocation location = FavoriteLocation(cityId: cityId, latitude:latitude, longitude: longitude);
 
-    final resultEither = await repository.storeCity(location: location);
+    final resultEither = await _repository.storeCity(location: location);
 
     resultEither.fold(
       (error) {
@@ -38,12 +37,32 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   }
 
   Future<void> _getFavoritesCities(GetFavoritesCitiesEvent event, Emitter<FavoriteState> emit) async {
-    final box = await Hive.openBox<FavoriteLocationHiveModel>(citiesBox);
+    emit(LoadingFavoriteState());
 
-    final List<FavoriteLocation> cities = box.values.toList().map((city) => city.toEntity()).toList();
+    final either = await _repository.getFavoritesCities();
 
+    await either.fold(
+      (error) {
+        emit(ErrorFavoriteState(message: error.message));
+      }, (result) async {
+        List<FavoriteLocation> cities = [];
 
+        if (result.isEmpty) {
+          final coordinate = await _locationService.getCurrentLocation();
 
-    emit(FavoritesCitiesState(cities: cities));
+          final defaultLocation = FavoriteLocation(cityId: 0, latitude: coordinate.latitude, longitude: coordinate.longitude);
+
+          cities.add(defaultLocation);
+
+          emit(FavoritesCitiesState(cities: cities));
+
+          return ;
+        }
+
+        cities.addAll(result);
+
+        emit(FavoritesCitiesState(cities: cities));
+      }
+    );
   }
 }

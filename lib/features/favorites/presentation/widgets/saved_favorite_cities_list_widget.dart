@@ -1,6 +1,8 @@
+import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_city_item_card.dart';
+import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,10 +29,19 @@ class SavedFavoriteCitiesListWidget extends StatelessWidget {
             },
             itemBuilder: (context, index) {
               return GestureDetector(
-                onTap: () => Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const HomeWeatherPage()),
-                  (route) => false,
-                ),
+                onTap: ()  {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                    builder: (context) =>
+                      BlocProvider(
+                        create: (context) => getIt<WeatherBloc>(),
+                        child: const HomeWeatherPage(),
+                      )
+                    ),
+                    (route) => false,
+                  );
+                  return ;
+                },
                 child: SavedCityItemCard(theme: theme),
               );
             },

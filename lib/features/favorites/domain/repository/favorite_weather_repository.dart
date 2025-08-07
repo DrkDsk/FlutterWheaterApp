@@ -4,4 +4,5 @@ import 'package:dartz/dartz.dart';
 
 abstract class FavoriteWeatherRepository {
   Future<Either<Failure, bool>> storeCity({required FavoriteLocation location});
+  Future<Either<Failure, List<FavoriteLocation>>> getFavoritesCities();
 }

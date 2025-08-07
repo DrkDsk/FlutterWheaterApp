@@ -2,4 +2,5 @@ import 'package:clima_app/features/favorites/data/models/favorite_location_hive_
 
 abstract class FavoriteWeatherDataSource {
   Future<bool> storeCity({required FavoriteLocationHiveModel city});
+  Future<List<FavoriteLocationHiveModel>> getFavoriteLocationsModels();
 }
