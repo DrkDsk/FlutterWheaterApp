@@ -36,7 +36,6 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
         weatherBloc.add(LoadCurrentWeatherForCityEvent(latitude: latitude, longitude: longitude));
       });
     }
-
   }
 
   @override

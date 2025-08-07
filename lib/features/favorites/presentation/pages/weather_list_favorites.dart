@@ -10,8 +10,20 @@ import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WeatherListFavorites extends StatelessWidget {
+class WeatherListFavorites extends StatefulWidget {
   const WeatherListFavorites({super.key});
+
+  @override
+  State<WeatherListFavorites> createState() => _WeatherListFavoritesState();
+}
+
+class _WeatherListFavoritesState extends State<WeatherListFavorites> {
+
+  @override
+  dispose() {
+    super.dispose();
+    print("killed");
+  }
 
   Future<void> handleSaveCity(
       {required int cityId,
@@ -28,6 +40,7 @@ class WeatherListFavorites extends StatelessWidget {
     return BlocListener<WeatherBloc, WeatherState>(
       listener: (context, state) {
         if (state is WeatherLoadingState) {
+          print("is mounted: $mounted");
           showDialog(
               context: context,
               builder: (context) =>
