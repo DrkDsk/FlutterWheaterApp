@@ -22,4 +22,15 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
       return Left(GenericFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<FavoriteLocation>>> getFavoritesCities() async {
+    try {
+      final models = await dataSource.getFavoriteLocationsModels();
+
+      return Right(models.map((city) => city.toEntity()).toList());
+    } catch (e) {
+      return Left(GenericFailure());
+    }
+  }
 }

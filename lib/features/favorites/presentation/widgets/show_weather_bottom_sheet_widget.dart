@@ -1,4 +1,5 @@
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
@@ -35,6 +36,10 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
 
           if (state is SuccessFavoriteState) {
             Navigator.pop(context);
+            context.read<FavoriteBloc>().add(const GetFavoritesCitiesEvent());
+          }
+
+          if (state is FavoritesCitiesState) {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const HomeWeatherPage()),

@@ -10,25 +10,14 @@ import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WeatherListFavorites extends StatefulWidget {
+class WeatherListFavorites extends StatelessWidget {
   const WeatherListFavorites({super.key});
-
-  @override
-  State<WeatherListFavorites> createState() => _WeatherListFavoritesState();
-}
-
-class _WeatherListFavoritesState extends State<WeatherListFavorites> {
-
-  @override
-  dispose(){
-    super.dispose();
-    print("killed");
-  }
 
   Future<void> handleSaveCity(
       {required int cityId,
       required double latitude,
-      required double longitude}) async {
+      required double longitude,
+      required BuildContext context}) async {
     context.read<FavoriteBloc>().add(StoreCityEvent(
         cityId: cityId, latitude: latitude, longitude: longitude));
   }
@@ -57,13 +46,16 @@ class _WeatherListFavoritesState extends State<WeatherListFavorites> {
               context: context,
               isScrollControlled: true,
               builder: (context) => ShowWeatherBottomSheetWidget(
+                cityId: cityId,
+                latitude: latitude,
+                longitude: longitude,
+                onAdd: () => handleSaveCity(
                   cityId: cityId,
                   latitude: latitude,
                   longitude: longitude,
-                  onAdd: () => handleSaveCity(
-                      cityId: cityId,
-                      latitude: latitude,
-                      longitude: longitude)),
+                  context: context
+                )
+              ),
             );
           }
         }
