@@ -8,7 +8,7 @@ import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
 import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
-import 'package:clima_app/features/favorites/infrastructure/datasources/favorite_weather_datasource_impl.dart';
+import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource_impl.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart';
 import 'package:clima_app/features/home/data/repositories/location_repository_impl.dart';

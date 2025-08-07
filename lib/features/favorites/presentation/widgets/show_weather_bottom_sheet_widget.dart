@@ -26,8 +26,13 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
     required String cityName,
     required BuildContext context
   }) async {
-    context.read<FavoriteBloc>().add(StoreCityEvent(
-        cityName: cityName, latitude: latitude, longitude: longitude));
+    context.read<FavoriteBloc>().add(
+      StoreCityEvent(
+        cityName: cityName,
+        latitude: latitude,
+        longitude: longitude
+      )
+    );
   }
 
   @override
@@ -38,24 +43,14 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
       heightFactor: 0.90,
       child: BlocListener<FavoriteBloc, FavoriteState>(
         listener: (context, state) {
-          if (state is LoadingFavoriteState) {
-            showDialog(
-                context: context,
-                builder: (_) => const CircularProgressIndicator());
-          }
 
           if (state is SuccessFavoriteState) {
-            Navigator.pop(context);
-            context.read<FavoriteBloc>().add(const GetFavoritesCitiesEvent());
-          }
-
-          if (state is FavoritesCitiesState) {
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (context) =>
                   BlocProvider(
                     create: (context) => getIt<WeatherBloc>(),
-                    child: HomeWeatherPage(initialIndex: state.cities.length - 1),
+                    child: HomeWeatherPage(initialIndex: state.lastCitiStoredIndex),
                   )
               ),
               (route) => false,
