@@ -9,12 +9,11 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
   FavoriteWeatherDataSourceImpl({required this.box});
 
   @override
-  Future<bool> storeCity({required FavoriteLocationHiveModel city}) async {
+  Future<int> storeCity({required FavoriteLocationHiveModel city}) async {
     try {
-      await box.add(city);
-      return true;
+      return await box.add(city);
     } catch (e) {
-      return false;
+      return -1;
     }
   }
 
