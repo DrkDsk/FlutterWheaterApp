@@ -1,0 +1,1 @@
+enum TimeOfDayType { day, night }

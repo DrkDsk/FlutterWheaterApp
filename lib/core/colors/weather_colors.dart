@@ -1,6 +1,7 @@
+import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
 import 'package:flutter/material.dart';
 
-enum TimeOfDayType { day, night }
+
 
 class WeatherColors {
 

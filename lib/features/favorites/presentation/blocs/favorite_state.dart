@@ -8,7 +8,10 @@ sealed class FavoriteState {
 
 final class FavoriteInitial extends FavoriteState {}
 
-final class LoadingFavoriteState extends FavoriteState {}
+final class FavoriteLoadingState extends FavoriteState {
+
+  const FavoriteLoadingState();
+}
 
 final class SuccessFavoriteState extends FavoriteState {
   final int lastCitiStoredIndex;

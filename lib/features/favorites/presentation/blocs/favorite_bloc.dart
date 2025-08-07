@@ -16,7 +16,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   }
 
   Future<void> _storeCity(StoreCityEvent event, Emitter<FavoriteState> emit) async {
-    emit(LoadingFavoriteState());
+    emit(const FavoriteLoadingState());
 
     final String cityName = event.cityName;
     final double latitude = event.latitude;
@@ -37,7 +37,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   }
 
   Future<void> _getFavoritesCities(GetFavoritesCitiesEvent event, Emitter<FavoriteState> emit) async {
-    emit(LoadingFavoriteState());
+    emit(const FavoriteLoadingState());
 
     final either = await _repository.getFavoritesCities();
 

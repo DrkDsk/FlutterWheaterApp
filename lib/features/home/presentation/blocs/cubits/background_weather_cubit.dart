@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:clima_app/core/colors/weather_colors.dart';
+import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
 import 'package:clima_app/core/helpers/datetime_helper.dart';
 import 'package:clima_app/features/home/domain/entities/current.dart';
 import 'package:clima_app/features/home/domain/entities/translated/translated_weather.dart';
