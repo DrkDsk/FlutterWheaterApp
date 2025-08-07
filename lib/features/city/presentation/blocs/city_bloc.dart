@@ -18,9 +18,7 @@ class CityBloc extends Bloc<CityEvent, CityState> {
     final String query = event.query;
 
     if (query.isEmpty) {
-      emit(
-        CityInitialState()
-      );
+      emit(const CityInitialState());
       return ;
     }
 
