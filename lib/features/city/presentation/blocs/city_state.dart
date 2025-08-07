@@ -5,9 +5,13 @@ abstract class CityState {
   const CityState({this.previousResults});
 }
 
-final class CityInitialState extends CityState {}
+final class CityInitialState extends CityState {
+  const CityInitialState();
+}
 
-final class LoadingCityState extends CityState {}
+final class LoadingCityState extends CityState {
+  const LoadingCityState();
+}
 
 final class SearchErrorCityState extends CityState {
 
