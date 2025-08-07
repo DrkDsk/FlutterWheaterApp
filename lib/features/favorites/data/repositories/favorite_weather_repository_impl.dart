@@ -12,12 +12,12 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
   const FavoriteWeatherRepositoryImpl({required this.dataSource});
 
   @override
-  Future<Either<Failure, bool>> storeCity({required FavoriteLocation location}) async {
+  Future<Either<Failure, int>> storeCity({required FavoriteLocation location}) async {
     try {
       final city = FavoriteLocationHiveModel.fromEntity(location);
       final result = await dataSource.storeCity(city: city);
 
-      return result ? const Right(true) : Left(GenericFailure());
+      return Right(result);
     } catch (e) {
       return Left(GenericFailure());
     }

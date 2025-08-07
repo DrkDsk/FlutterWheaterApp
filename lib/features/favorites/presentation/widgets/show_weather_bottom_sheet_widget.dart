@@ -1,6 +1,8 @@
+import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
+import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,13 +12,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ShowWeatherBottomSheetWidget extends StatelessWidget {
   const ShowWeatherBottomSheetWidget(
       {super.key,
+        required this.cityName,
         required this.latitude,
-        required this.longitude,
-        required this.onAdd});
+        required this.longitude});
 
+  final String cityName;
   final double latitude;
   final double longitude;
-  final Future<void> Function() onAdd;
+
+  Future<void> handleSaveCity({
+    required double latitude,
+    required double longitude,
+    required String cityName,
+    required BuildContext context
+  }) async {
+    context.read<FavoriteBloc>().add(StoreCityEvent(
+        cityName: cityName, latitude: latitude, longitude: longitude));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +50,15 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
           }
 
           if (state is FavoritesCitiesState) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeWeatherPage()),
-                  (route) => false,
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) =>
+                  BlocProvider(
+                    create: (context) => getIt<WeatherBloc>(),
+                    child: HomeWeatherPage(initialIndex: state.cities.length - 1),
+                  )
+              ),
+              (route) => false,
             );
           }
         },
@@ -61,7 +78,7 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
                   ),
                   CupertinoButton(
                     padding: EdgeInsets.zero,
-                    onPressed: () => onAdd(),
+                    onPressed: () => handleSaveCity(cityName: cityName, latitude: latitude, longitude: longitude, context: context),
                     child: Text("Agregar", style: theme.textTheme.bodyMedium),
                   ),
                 ],

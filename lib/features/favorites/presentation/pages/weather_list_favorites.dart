@@ -1,5 +1,3 @@
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_results_content_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/show_weather_bottom_sheet_widget.dart';
@@ -22,16 +20,6 @@ class _WeatherListFavoritesState extends State<WeatherListFavorites> {
   @override
   dispose() {
     super.dispose();
-  }
-
-  Future<void> handleSaveCity({
-    required double latitude,
-    required double longitude,
-    required String cityName,
-    required BuildContext context
-  }) async {
-    context.read<FavoriteBloc>().add(StoreCityEvent(
-        cityName: cityName, latitude: latitude, longitude: longitude));
   }
 
   @override
@@ -58,14 +46,9 @@ class _WeatherListFavoritesState extends State<WeatherListFavorites> {
               context: context,
               isScrollControlled: true,
               builder: (context) => ShowWeatherBottomSheetWidget(
+                cityName: cityName,
                 latitude: latitude,
-                longitude: longitude,
-                onAdd: () => handleSaveCity(
-                  cityName: cityName,
-                  latitude: latitude,
-                  longitude: longitude,
-                  context: context
-                )
+                longitude: longitude
               ),
             );
           }
