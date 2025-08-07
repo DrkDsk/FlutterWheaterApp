@@ -1,4 +1,5 @@
 import 'package:clima_app/core/helpers/injection_helper.dart';
+import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_city_item_card.dart';
@@ -31,17 +32,14 @@ class SavedFavoriteCitiesListWidget extends StatelessWidget {
 
               return GestureDetector(
                 onTap: ()  {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                    builder: (context) =>
+                  final router = AppRouter.of(context);
+
+                  router.goToScreenAndClear(
                       BlocProvider(
                         create: (context) => getIt<WeatherBloc>(),
                         child: HomeWeatherPage(initialIndex: index),
                       )
-                    ),
-                    (route) => false,
                   );
-                  return ;
                 },
                 child: SavedCityItemCard(cityName: currentCity.cityName),
               );

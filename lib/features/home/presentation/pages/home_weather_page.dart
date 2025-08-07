@@ -1,4 +1,5 @@
 import 'package:clima_app/core/helpers/injection_helper.dart';
+import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
@@ -46,33 +47,15 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     super.dispose();
   }
 
-  Future<T?> pushWithSlideUp<T>(BuildContext context,
-      Widget page, {
-        bool Function(Route<dynamic>)? predicate,
-      }) {
-    return Navigator.of(context).pushAndRemoveUntil(
-      PageRouteBuilder(
-        pageBuilder: (_, __, ___) => page,
-        transitionsBuilder: (_, animation, __, child) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0.0, 1.0),
-              end: Offset.zero,
-            ).animate(
-                CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
-            child: child,
-          );
-        },
-      ),
-      predicate ?? (route) => false,
-    );
-  }
-
   Future<void> navigateToFavorites(BuildContext context) async {
-    await pushWithSlideUp(context, BlocProvider<CityBloc>(
-      create: (_) => getIt<CityBloc>(),
-      child: const WeatherListFavorites(),
-    ));
+    final router = AppRouter.of(context);
+
+    router.goToScreenAndClear(
+      BlocProvider<CityBloc>(
+        create: (_) => getIt<CityBloc>(),
+        child: const WeatherListFavorites(),
+      ),
+    );
   }
 
   @override
@@ -166,7 +149,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                       }
                     }
 
-                    return const Center(child: CircularProgressIndicator());
+                    return const SizedBox.shrink();
                   },
                 ),
               )

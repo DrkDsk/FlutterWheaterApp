@@ -1,4 +1,5 @@
 import 'package:clima_app/core/helpers/injection_helper.dart';
+import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
@@ -45,15 +46,14 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
         listener: (context, state) {
 
           if (state is SuccessFavoriteState) {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) =>
-                  BlocProvider(
-                    create: (context) => getIt<WeatherBloc>(),
-                    child: HomeWeatherPage(initialIndex: state.lastCitiStoredIndex),
-                  )
-              ),
-              (route) => false,
+
+            final router = AppRouter.of(context);
+
+            router.goToScreenAndClear(
+                BlocProvider(
+                  create: (context) => getIt<WeatherBloc>(),
+                  child: HomeWeatherPage(initialIndex: state.lastCitiStoredIndex),
+                )
             );
           }
         },
@@ -69,7 +69,7 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     child:
                     Text("Cancelar", style: theme.textTheme.bodyMedium),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () => AppRouter.of(context).pop(),
                   ),
                   CupertinoButton(
                     padding: EdgeInsets.zero,
