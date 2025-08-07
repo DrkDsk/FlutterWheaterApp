@@ -1,8 +1,10 @@
 import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
-import 'package:clima_app/features/home/presentation/widgets/weather_items_list.dart';
+import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
 import 'package:clima_app/features/favorites/presentation/pages/weather_list_favorites.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +50,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   }
 
   Future<void> navigateToFavorites(BuildContext context) async {
+    context.read<FavoriteBloc>().add(const GetFavoritesCitiesEvent());
     await pushWithSlideUp(context,BlocProvider<CityBloc>(
       create: (_) => getIt<CityBloc>(),
       child: const WeatherListFavorites(),
@@ -96,7 +99,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                 color: theme.colorScheme.onPrimary,
                 onPressed: () => themeCubit.toggleTheme(),
               ),
-              const WeatherItemsList()
+              const WeatherContentWidget()
             ],
           ),
         ),

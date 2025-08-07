@@ -8,10 +8,15 @@ import 'package:clima_app/features/home/presentation/widgets/hourly_list_weather
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WeatherItemsList extends StatelessWidget {
-  const WeatherItemsList({
+class WeatherContentWidget extends StatelessWidget {
+  const WeatherContentWidget({
     super.key,
+    this.latitude,
+    this.longitude
   });
+
+  final double? latitude;
+  final double? longitude;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +32,11 @@ class WeatherItemsList extends StatelessWidget {
               builder: (context, state) {
                 if (state is WeatherSuccessState) {
                   return HeaderWeatherWidget(
-                      city: state.weatherData.city,
-                      translatedWeather:
-                      state.weatherData.translatedWeather,
-                      temp: state
-                          .weatherData.currentWeather.tempCelsiusText);
+                    city: state.weatherData.city,
+                    translatedWeather:
+                    state.weatherData.translatedWeather,
+                    temp: state.weatherData.currentWeather.tempCelsiusText
+                  );
                 }
       
                 return const SizedBox.shrink();
@@ -41,7 +46,8 @@ class WeatherItemsList extends StatelessWidget {
               builder: (context, state) {
                 if (state is WeatherSuccessState) {
                   return HourlyListWeatherWidget(
-                      hourly: state.weatherData.hourly);
+                    hourly: state.weatherData.hourly
+                  );
                 }
       
                 return const SizedBox.shrink();
@@ -52,7 +58,8 @@ class WeatherItemsList extends StatelessWidget {
               builder: (context, state) {
                 if (state is WeatherSuccessState) {
                   return DailyListWeatherWidget(
-                      daily: state.weatherData.daily);
+                    daily: state.weatherData.daily
+                  );
                 }
       
                 return const SizedBox.shrink();
