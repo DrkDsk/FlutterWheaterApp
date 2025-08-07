@@ -28,12 +28,12 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     final resultEither = await repository.storeCity(location: location);
 
     resultEither.fold(
-        (error) {
-          emit(ErrorFavoriteState(message: error.message));
-        },
-        (result) {
-          emit(SuccessFavoriteState());
-        }
+      (error) {
+        emit(ErrorFavoriteState(message: error.message));
+      },
+      (result) {
+        emit(SuccessFavoriteState());
+      }
     );
   }
 
@@ -42,6 +42,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
     final List<FavoriteLocation> cities = box.values.toList().map((city) => city.toEntity()).toList();
 
-    emit(GetFavoritesCitiesState(cities: cities));
+
+
+    emit(FavoritesCitiesState(cities: cities));
   }
 }

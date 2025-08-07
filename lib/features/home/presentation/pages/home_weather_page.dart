@@ -2,6 +2,7 @@ import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
@@ -26,11 +27,10 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     themeCubit = context.read<ThemeCubit>();
   }
 
-  Future<T?> pushWithSlideUp<T>(
-    BuildContext context,
-    Widget page, {
-    bool Function(Route<dynamic>)? predicate,
-  }) {
+  Future<T?> pushWithSlideUp<T>(BuildContext context,
+      Widget page, {
+        bool Function(Route<dynamic>)? predicate,
+      }) {
     return Navigator.of(context).pushAndRemoveUntil(
       PageRouteBuilder(
         pageBuilder: (_, __, ___) => page,
@@ -51,7 +51,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
 
   Future<void> navigateToFavorites(BuildContext context) async {
     context.read<FavoriteBloc>().add(const GetFavoritesCitiesEvent());
-    await pushWithSlideUp(context,BlocProvider<CityBloc>(
+    await pushWithSlideUp(context, BlocProvider<CityBloc>(
       create: (_) => getIt<CityBloc>(),
       child: const WeatherListFavorites(),
     ));
@@ -99,7 +99,24 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                 color: theme.colorScheme.onPrimary,
                 onPressed: () => themeCubit.toggleTheme(),
               ),
-              const WeatherContentWidget()
+              Expanded(
+                  child: BlocBuilder<FavoriteBloc, FavoriteState>(
+                    builder: (context, state) {
+                      /*if (state is FavoritesCitiesState) {
+                        final cities = state.cities;
+                        final citiesLength = cities.length;
+
+                        return PageView.builder(
+                            itemCount: citiesLength,
+                            itemBuilder: (context, index) {
+                              return const WeatherContentWidget();
+                            }
+                        );
+                      }*/
+                      return const WeatherContentWidget();
+                    },
+                  )
+              )
             ],
           ),
         ),

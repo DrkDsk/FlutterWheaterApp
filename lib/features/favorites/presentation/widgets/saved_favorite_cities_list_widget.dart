@@ -16,7 +16,7 @@ class SavedFavoriteCitiesListWidget extends StatelessWidget {
 
     return BlocBuilder<FavoriteBloc, FavoriteState>(
       builder: (context, state) {
-        if (state is GetFavoritesCitiesState) {
+        if (state is FavoritesCitiesState) {
           final favoritesCites = state.cities;
           final citiesLength = favoritesCites.length;
 
