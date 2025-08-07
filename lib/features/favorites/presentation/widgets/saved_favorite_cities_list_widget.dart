@@ -35,7 +35,7 @@ class SavedFavoriteCitiesListWidget extends StatelessWidget {
                     builder: (context) =>
                       BlocProvider(
                         create: (context) => getIt<WeatherBloc>(),
-                        child: const HomeWeatherPage(),
+                        child: HomeWeatherPage(initialIndex: index),
                       )
                     ),
                     (route) => false,
