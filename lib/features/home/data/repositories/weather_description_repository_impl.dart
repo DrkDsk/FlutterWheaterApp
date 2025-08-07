@@ -1,4 +1,4 @@
-import 'package:clima_app/features/home/infrastructure/datasources/weather_description_local_datasource_impl.dart';
+import 'package:clima_app/core/shared/data/datasources/weather_description_local_datasource_impl.dart';
 import 'package:clima_app/features/home/domain/entities/translated/translated_weather.dart';
 
 import '../../domain/repositories/weather_description_repository.dart';

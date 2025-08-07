@@ -22,6 +22,13 @@ class WeatherListFavorites extends StatefulWidget {
 }
 
 class _WeatherListFavoritesState extends State<WeatherListFavorites> {
+
+  @override
+  dispose(){
+    super.dispose();
+    print("killed");
+  }
+
   Future<void> handleSaveCity(
       {required int cityId,
       required double latitude,
