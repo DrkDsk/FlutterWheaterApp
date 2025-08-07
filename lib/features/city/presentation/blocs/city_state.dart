@@ -25,12 +25,12 @@ final class SuccessResultCities extends CityState {
   const SuccessResultCities({required this.data}) : super(previousResults: data);
 }
 
-final class GetSelectedCityWeatherState extends CityState {
+final class CitySelectedState extends CityState {
   final int? cityId;
   final double latitude;
   final double longitude;
 
-  GetSelectedCityWeatherState({
+  CitySelectedState({
     required this.cityId,
     required this.latitude,
     required this.longitude,

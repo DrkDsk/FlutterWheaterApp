@@ -14,11 +14,11 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
   WeatherBloc({required this.useCase, required this.mapper})
       : super(const WeatherLoadingState()) {
-    on<CurrentWeatherEvent>(_getCurrentWeather);
+    on<LoadCurrentWeatherForCityEvent>(_getCurrentWeather);
   }
 
   Future<void> _getCurrentWeather(
-      CurrentWeatherEvent event, Emitter<WeatherState> emit) async {
+      LoadCurrentWeatherForCityEvent event, Emitter<WeatherState> emit) async {
     emit(const WeatherLoadingState());
 
     final latitude = event.latitude;

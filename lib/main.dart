@@ -1,5 +1,6 @@
 import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/weather_event.dart';
@@ -18,8 +19,8 @@ Future<void> main() async {
   runApp(
     MultiRepositoryProvider(
       providers: [
-        BlocProvider(create: (_) => getIt<FavoriteBloc>()),
-        BlocProvider(create: (_) => getIt<WeatherBloc>()..add(const CurrentWeatherEvent())),
+        BlocProvider(create: (_) => getIt<FavoriteBloc>()..add(const GetFavoritesCitiesEvent())),
+        BlocProvider(create: (_) => getIt<WeatherBloc>()..add(const LoadCurrentWeatherForCityEvent())),
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
         BlocProvider(create: (_) => getIt<BackgroundWeatherCubit>()),
       ],
