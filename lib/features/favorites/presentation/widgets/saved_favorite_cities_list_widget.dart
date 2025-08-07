@@ -14,13 +14,12 @@ class SavedFavoriteCitiesListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     return BlocBuilder<FavoriteBloc, FavoriteState>(
       builder: (context, state) {
         if (state is FavoritesCitiesState) {
-          final favoritesCites = state.cities;
-          final citiesLength = favoritesCites.length;
+          final cities = state.cities;
+          final citiesLength = cities.length;
 
           return  ListView.separated(
             itemCount: citiesLength,
@@ -28,6 +27,8 @@ class SavedFavoriteCitiesListWidget extends StatelessWidget {
               return const SizedBox(height: 14);
             },
             itemBuilder: (context, index) {
+              final currentCity = cities[index];
+
               return GestureDetector(
                 onTap: ()  {
                   Navigator.of(context).pushAndRemoveUntil(
@@ -42,7 +43,7 @@ class SavedFavoriteCitiesListWidget extends StatelessWidget {
                   );
                   return ;
                 },
-                child: SavedCityItemCard(theme: theme),
+                child: SavedCityItemCard(cityName: currentCity.cityName),
               );
             },
           );

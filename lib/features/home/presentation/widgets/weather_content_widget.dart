@@ -1,7 +1,6 @@
 import 'package:clima_app/features/home/presentation/blocs/events/weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/weather_success_state.dart';
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/features/home/presentation/widgets/daily_list_weather_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/header_weather_widget.dart';

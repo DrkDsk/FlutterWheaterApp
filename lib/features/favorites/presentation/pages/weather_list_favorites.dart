@@ -1,26 +1,13 @@
 import 'package:clima_app/features/favorites/presentation/widgets/city_results_content_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/show_weather_bottom_sheet_widget.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/weather_loading_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/weather_success_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WeatherListFavorites extends StatefulWidget {
+class WeatherListFavorites extends StatelessWidget {
   const WeatherListFavorites({super.key});
-
-  @override
-  State<WeatherListFavorites> createState() => _WeatherListFavoritesState();
-}
-
-class _WeatherListFavoritesState extends State<WeatherListFavorites> {
-
-  @override
-  dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

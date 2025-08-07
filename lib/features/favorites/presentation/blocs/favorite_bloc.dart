@@ -31,7 +31,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         emit(ErrorFavoriteState(message: error.message));
       },
       (result) {
-        emit(const SuccessFavoriteState());
+        emit(SuccessFavoriteState(lastCitiStoredIndex: result));
       }
     );
   }

@@ -1,6 +1,7 @@
 import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
@@ -31,6 +32,10 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     super.initState();
     themeCubit = context.read<ThemeCubit>();
     _pageController = PageController(initialPage: widget.initialIndex);
+    final favoriteBloc = context.read<FavoriteBloc>();
+    Future.microtask(() {
+      favoriteBloc.add(const GetFavoritesCitiesEvent());
+    });
   }
 
   @override
@@ -131,7 +136,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                         ) :  const WeatherContentWidget();
                       }
 
-                      return const SizedBox.shrink();
+                      return const Center(child: CircularProgressIndicator());
                     },
                   )
               )

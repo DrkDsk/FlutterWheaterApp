@@ -11,7 +11,9 @@ final class FavoriteInitial extends FavoriteState {}
 final class LoadingFavoriteState extends FavoriteState {}
 
 final class SuccessFavoriteState extends FavoriteState {
-  const SuccessFavoriteState();
+  final int lastCitiStoredIndex;
+
+  const SuccessFavoriteState({required this.lastCitiStoredIndex});
 }
 
 final class ErrorFavoriteState extends FavoriteState {
