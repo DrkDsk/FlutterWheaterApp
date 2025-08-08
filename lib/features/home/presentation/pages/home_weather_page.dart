@@ -25,17 +25,17 @@ class HomeWeatherPage extends StatefulWidget {
 }
 
 class _HomeWeatherPageState extends State<HomeWeatherPage> {
-  late ThemeCubit themeCubit;
+  late ThemeCubit _themeCubit;
   late final PageController _pageController;
   late FavoriteBloc _favoriteBloc;
-  int currentPage = 0;
+  int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
-    themeCubit = context.read<ThemeCubit>();
+    _themeCubit = context.read<ThemeCubit>();
     _pageController = PageController(initialPage: widget.initialIndex);
-    currentPage = widget.initialIndex;
+    _currentPage = widget.initialIndex;
     _favoriteBloc = context.read<FavoriteBloc>();
     Future.microtask(() {
       _favoriteBloc.add(const GetFavoritesCitiesEvent());
@@ -66,7 +66,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
 
     return Scaffold(
       bottomNavigationBar: BottomAppBarWidget(
-        currentPage: currentPage,
+        currentPage: _currentPage,
         navigateToFavorites: () => navigateToFavorites(context),
       ),
       body: Container(
@@ -77,11 +77,11 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               IconButton(
-                icon: Icon(themeCubit.state.isDarkMode
+                icon: Icon(_themeCubit.state.isDarkMode
                     ? Icons.sunny
                     : Icons.nightlight),
                 color: theme.colorScheme.onPrimary,
-                onPressed: () => themeCubit.toggleTheme(),
+                onPressed: () => _themeCubit.toggleTheme(),
               ),
               Expanded(
                 child: BlocBuilder<FavoriteBloc, FavoriteState>(
@@ -95,7 +95,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                           itemCount: cities.length,
                           onPageChanged: (value) {
                             setState(() {
-                              currentPage = value;
+                              _currentPage = value;
                             });
                           },
                           itemBuilder: (context, index) {

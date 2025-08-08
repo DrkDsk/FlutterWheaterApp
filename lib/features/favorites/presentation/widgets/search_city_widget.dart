@@ -18,6 +18,13 @@ class SearchCityWidget extends StatefulWidget {
 class _SearchCityWidgetState extends State<SearchCityWidget> {
 
   Timer? _debounce;
+  late CityBloc _cityBloc;
+
+  @override
+  void initState() {
+    _cityBloc = context.read<CityBloc>();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -35,7 +42,7 @@ class _SearchCityWidgetState extends State<SearchCityWidget> {
         if (_debounce?.isActive ?? false) _debounce!.cancel();
 
         _debounce = Timer(const Duration(milliseconds: 500), () {
-          context.read<CityBloc>().add(
+          _cityBloc.add(
                 SearchCityEvent(query: value),
               );
         });
