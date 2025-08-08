@@ -21,8 +21,8 @@ class WeatherContentWidget extends StatefulWidget {
 
 class _WeatherContentWidgetState extends State<WeatherContentWidget> {
 
-  late WeatherBloc weatherBloc;
-  late BackgroundWeatherCubit backgroundWeatherCubit;
+  late WeatherBloc _weatherBloc;
+  late BackgroundWeatherCubit _backgroundWeatherCubit;
 
   @override
   void initState() {
@@ -31,10 +31,10 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
     final longitude = widget.longitude;
 
     if (latitude != null && longitude != null) {
-      weatherBloc = context.read<WeatherBloc>();
-      backgroundWeatherCubit = context.read<BackgroundWeatherCubit>();
+      _weatherBloc = context.read<WeatherBloc>();
+      _backgroundWeatherCubit = context.read<BackgroundWeatherCubit>();
       Future.microtask(() {
-        weatherBloc.add(LoadCurrentWeatherForCityEvent(
+        _weatherBloc.add(LoadCurrentWeatherForCityEvent(
             latitude: latitude, longitude: longitude));
       });
     }
@@ -42,7 +42,7 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
 
   void _onWeatherUpdated(BuildContext context, WeatherState state) {
     if (state is WeatherSuccessState) {
-      context.read<BackgroundWeatherCubit>().updateFromWeatherData(weatherStateData: state.weatherData);
+      _backgroundWeatherCubit.updateFromWeatherData(weatherStateData: state.weatherData);
     }
   }
 
