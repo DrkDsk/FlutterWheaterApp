@@ -54,5 +54,4 @@ class WeatherColors {
   static Color getWeatherColor(String weatherType, TimeOfDayType time) {
     return weatherColors[weatherType]?[time] ?? Colors.blueGrey;
   }
-
 }

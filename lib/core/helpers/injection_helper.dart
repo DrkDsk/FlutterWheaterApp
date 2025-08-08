@@ -86,5 +86,5 @@ Future<void> initDependencies() async {
   getIt.registerFactory<FavoriteBloc>(() => FavoriteBloc(repository: getIt<FavoriteWeatherRepository>(), locationService:  getIt<LocationService>()));
   getIt.registerFactory<WeatherBloc>(() => WeatherBloc(useCase: getIt<GetWeatherUseCase>(), mapper: getIt<WeatherMapper>()));
   getIt.registerFactory<ThemeCubit>(() => ThemeCubit());
-  getIt.registerFactory<BackgroundWeatherCubit>(() => BackgroundWeatherCubit(getIt<WeatherBloc>()));
+  getIt.registerFactory<BackgroundWeatherCubit>(() => BackgroundWeatherCubit());
 }

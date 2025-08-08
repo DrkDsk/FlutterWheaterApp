@@ -10,38 +10,40 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class WeatherListFavorites extends StatelessWidget {
   const WeatherListFavorites({super.key});
 
+  void _onLoadWeather(BuildContext context, WeatherState state) {
+    if (state is WeatherLoadingState) {
+      showDialog(
+          context: context,
+          builder: (context) =>
+          const Center(child: CircularProgressIndicator()));
+    }
+
+    if (state is WeatherSuccessState) {
+      final String cityName = state.weatherData.city;
+      final double? latitude = state.weatherData.latitude;
+      final double? longitude = state.weatherData.longitude;
+
+      AppRouter.of(context).pop();
+
+      if (latitude != null && longitude != null) {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (context) => ShowWeatherBottomSheetWidget(
+              cityName: cityName,
+              latitude: latitude,
+              longitude: longitude
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
     return BlocListener<WeatherBloc, WeatherState>(
-      listener: (context, state) {
-        if (state is WeatherLoadingState) {
-          showDialog(
-              context: context,
-              builder: (context) =>
-                  const Center(child: CircularProgressIndicator()));
-        }
-
-        if (state is WeatherSuccessState) {
-          final String cityName = state.weatherData.city;
-          final double? latitude = state.weatherData.latitude;
-          final double? longitude = state.weatherData.longitude;
-
-          AppRouter.of(context).pop();
-
-          if (latitude != null && longitude != null) {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (context) => ShowWeatherBottomSheetWidget(
-                cityName: cityName,
-                latitude: latitude,
-                longitude: longitude
-              ),
-            );
-          }
-        }
-      },
+      listener: _onLoadWeather,
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.white10,
