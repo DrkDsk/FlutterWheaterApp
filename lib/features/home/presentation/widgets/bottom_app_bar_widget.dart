@@ -1,4 +1,5 @@
-import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
+import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
+import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/widgets/favorites_cities_scroll_indicator_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,24 +17,34 @@ class BottomAppBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundWeatherCubit = context.watch<BackgroundWeatherCubit>();
+    return BlocBuilder<WeatherBloc, WeatherState>(
+      buildWhen: (previous, current) => current is WeatherSuccessState,
+      builder: (context, state) {
 
-    return BottomAppBar(
-      color: backgroundWeatherCubit.state,
-      clipBehavior: Clip.antiAlias,
-      child: Row(
-        children: [
-          const Expanded(child: SizedBox.shrink()),
-          Expanded(
-            child: FavoritesCitiesScrollIndicatorBuilder(currentPage: currentPage),
-          ),
-          IconButton(
-            color: Colors.white.withOpacity(0.8),
-            icon: const Icon(CupertinoIcons.line_horizontal_3),
-            onPressed: navigateToFavorites,
-          ),
-        ],
-      ),
+        if (state is WeatherSuccessState) {
+          return BottomAppBar(
+            color: state.weatherData.getBackgroundColor(),
+            clipBehavior: Clip.antiAlias,
+            child: Row(
+              children: [
+                const Expanded(child: SizedBox.shrink()),
+                Expanded(
+                  child: FavoritesCitiesScrollIndicatorBuilder(
+                      currentPage: currentPage),
+                ),
+                IconButton(
+                  color: Colors.white.withOpacity(0.8),
+                  icon: const Icon(CupertinoIcons.line_horizontal_3),
+                  onPressed: navigateToFavorites,
+                ),
+              ],
+            ),
+          );
+        }
+
+        return const SizedBox.shrink();
+
+      },
     );
   }
 }

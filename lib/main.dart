@@ -1,6 +1,5 @@
 import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
-import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:clima_app/src/my_app.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ Future<void> main() async {
       providers: [
         BlocProvider(create: (_) => getIt<FavoriteBloc>()),
         BlocProvider(create: (_) => getIt<WeatherBloc>()),
-        BlocProvider(create: (_) => getIt<BackgroundWeatherCubit>()),
       ],
       child:const MyApp(),
     ),

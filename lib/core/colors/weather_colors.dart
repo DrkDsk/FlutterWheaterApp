@@ -1,8 +1,6 @@
 import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
 import 'package:flutter/material.dart';
 
-
-
 class WeatherColors {
 
   static Color clearDay = const Color(0xFFFFA726);

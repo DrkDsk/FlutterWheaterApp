@@ -22,7 +22,6 @@ import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dar
 import 'package:clima_app/core/shared/data/datasources/location_datasource_impl.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource_impl.dart';
 import 'package:clima_app/core/shared/data/datasources/weather_description_local_datasource_impl.dart';
-import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
 import 'package:get_it/get_it.dart';
@@ -84,5 +83,4 @@ Future<void> initDependencies() async {
   getIt.registerFactory<CityBloc>(() => CityBloc(useCase: getIt<SearchCityUseCase>(), getCityUseCase: getIt<GetCityUseCase>()));
   getIt.registerFactory<FavoriteBloc>(() => FavoriteBloc(repository: getIt<FavoriteWeatherRepository>(), locationService:  getIt<LocationService>()));
   getIt.registerFactory<WeatherBloc>(() => WeatherBloc(useCase: getIt<GetWeatherUseCase>(), mapper: getIt<WeatherMapper>()));
-  getIt.registerFactory<BackgroundWeatherCubit>(() => BackgroundWeatherCubit());
 }
