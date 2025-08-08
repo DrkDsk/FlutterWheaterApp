@@ -1,13 +1,11 @@
 import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
 import 'package:flutter/material.dart';
 
-
-
 class WeatherColors {
 
   static Color clearDay = const Color(0xFFFFA726);
   static Color clearNight = const  Color(0xFF0D47A1);
-  static Color cloudDay = const Color(0xFFB0BEC5);
+  static Color cloudDay = const Color(0xFF9CABB2);
   static Color cloudNight = const Color(0xFF455A64);
   static Color rainDay = const Color(0xFF303F9F);
   static Color rainNight = const Color(0xFF1A237E);

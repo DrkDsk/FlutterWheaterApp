@@ -1,3 +1,4 @@
+import 'package:clima_app/core/extensions/string_extension.dart';
 import 'package:clima_app/features/home/domain/entities/translated/translated_weather.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,10 @@ class HeaderWeatherWidget extends StatelessWidget {
         Text(
           city,
           style: theme.textTheme.bodyLarge,
+        ),
+        Text(
+          translatedWeather.translatedDescription.firstUppercase(),
+          style: theme.textTheme.bodyMedium?.copyWith(fontSize: 26),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,

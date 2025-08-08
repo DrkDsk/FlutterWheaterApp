@@ -9,7 +9,7 @@ class CityBloc extends Bloc<CityEvent, CityState> {
   final SearchCityUseCase useCase;
   final GetCityUseCase getCityUseCase;
 
-  CityBloc({required this.useCase, required this.getCityUseCase}) : super(CityInitialState()) {
+  CityBloc({required this.useCase, required this.getCityUseCase}) : super(const CityInitialState()) {
     on<SearchCityEvent>(_searchWeatherEvent);
     on<GetSelectedCityEvent>(_getSelectedCity);
   }

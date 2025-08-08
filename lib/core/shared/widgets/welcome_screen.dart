@@ -10,18 +10,13 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(
-    BuildContext context, {
-    bool Function(Route<dynamic>)? predicate,
-  }) {
-    return BlocBuilder<FavoriteBloc, FavoriteState>(
-      builder: (context, state) {
-
-        if (state is FavoriteLoadingState) {
-          return const SplashScreen();
-        } else {
-          return const HomeWeatherPage();
-        }
+    BuildContext context) {
+    return BlocBuilder<FavoriteBloc, FavoriteState>(builder: (context, state) {
+      if (state is FavoriteLoadingState) {
+        return const SplashScreen();
       }
-    );
+
+      return const HomeWeatherPage();
+    });
   }
 }
