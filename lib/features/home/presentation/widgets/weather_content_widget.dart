@@ -40,15 +40,14 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
     return BlocBuilder<WeatherBloc, WeatherState>(
       builder: (context, state) {
         if (state is WeatherSuccessState) {
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            width: MediaQuery.of(context).size.width,
-            child: SafeArea(
-              child: BlocBuilder<WeatherBloc, WeatherState>(
-                buildWhen: (previous, current) => current is WeatherSuccessState,
-                builder: (context, state) {
-                  if (state is WeatherSuccessState) {
-                    return Column(
+          return SafeArea(
+            child: BlocBuilder<WeatherBloc, WeatherState>(
+              buildWhen: (previous, current) => current is WeatherSuccessState,
+              builder: (context, state) {
+                if (state is WeatherSuccessState) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 10),
@@ -62,11 +61,11 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                         DailyListWeatherWidget(daily: state.weatherData.daily),
                         const SizedBox(height: 20),
                       ],
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
             ),
           );
         }

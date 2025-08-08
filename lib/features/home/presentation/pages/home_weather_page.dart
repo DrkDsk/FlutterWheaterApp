@@ -1,9 +1,8 @@
+import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/core/router/app_router.dart';
-import 'package:clima_app/core/shared/widgets/splash_screen.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
@@ -24,7 +23,6 @@ class HomeWeatherPage extends StatefulWidget {
 
 class _HomeWeatherPageState extends State<HomeWeatherPage> {
   late final PageController _pageController;
-  late FavoriteBloc _favoriteBloc;
   int _currentPage = 0;
 
   @override
@@ -32,10 +30,6 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     super.initState();
     _pageController = PageController(initialPage: widget.initialIndex);
     _currentPage = widget.initialIndex;
-    _favoriteBloc = context.read<FavoriteBloc>();
-    Future.microtask(() {
-      _favoriteBloc.add(const GetFavoritesCitiesEvent());
-    });
   }
 
   @override
@@ -57,26 +51,27 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoriteBloc, FavoriteState>(
-      builder: (context, favState) {
-        if (favState is FavoritesCitiesState) {
-          final cities = favState.cities;
+    return BlocSelector<WeatherBloc, WeatherState, Color?>(
+      selector: (state) {
+        if (state is WeatherSuccessState) {
+          return state.weatherData.getBackgroundColor();
+        }
+        return WeatherColors.drizzleNight;
+      },
+      builder: (context, backgroundColor) {
+        return Scaffold(
+          backgroundColor: backgroundColor,
+          bottomNavigationBar: BottomAppBarWidget(
+            backgroundColor: backgroundColor,
+            currentPage: _currentPage,
+            navigateToFavorites: () => navigateToFavorites(context),
+          ),
+          body: BlocBuilder<FavoriteBloc,FavoriteState>(
+            builder: (context, state) {
+              if (state is FavoritesCitiesState) {
+                final cities = state.cities;
 
-          return BlocSelector<WeatherBloc, WeatherState, Color?>(
-            selector: (state) {
-              if (state is WeatherSuccessState) {
-                return state.weatherData.getBackgroundColor();
-              }
-              return Colors.white;
-            },
-            builder: (context, backgroundColor) {
-              return Scaffold(
-                backgroundColor: backgroundColor,
-                bottomNavigationBar: BottomAppBarWidget(
-                  currentPage: _currentPage,
-                  navigateToFavorites: () => navigateToFavorites(context),
-                ),
-                body: PageView.builder(
+                return PageView.builder(
                   controller: _pageController,
                   itemCount: cities.length,
                   onPageChanged: (value) {
@@ -91,12 +86,13 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                       longitude: city.longitude,
                     );
                   },
-                ),
-              );
+                );
+              }
+
+              return const SizedBox.shrink();
             },
-          );
-        }
-        return const SplashScreen();
+          ),
+        );
       },
     );
   }

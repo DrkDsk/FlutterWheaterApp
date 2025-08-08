@@ -49,6 +49,8 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
 
             final router = AppRouter.of(context);
 
+            context.read<FavoriteBloc>().add(const GetFavoritesCitiesEvent());
+
             router.goToScreenAndClear(
                 BlocProvider(
                   create: (context) => getIt<WeatherBloc>(),
