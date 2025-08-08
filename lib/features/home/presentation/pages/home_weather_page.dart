@@ -5,7 +5,6 @@ import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.da
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
-import 'package:clima_app/features/home/presentation/blocs/cubits/theme_cubit.dart';
 import 'package:clima_app/features/home/presentation/widgets/bottom_app_bar_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
 import 'package:clima_app/features/favorites/presentation/pages/weather_list_favorites.dart';
@@ -25,7 +24,6 @@ class HomeWeatherPage extends StatefulWidget {
 }
 
 class _HomeWeatherPageState extends State<HomeWeatherPage> {
-  late ThemeCubit _themeCubit;
   late final PageController _pageController;
   late FavoriteBloc _favoriteBloc;
   int _currentPage = 0;
@@ -33,7 +31,6 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   @override
   void initState() {
     super.initState();
-    _themeCubit = context.read<ThemeCubit>();
     _pageController = PageController(initialPage: widget.initialIndex);
     _currentPage = widget.initialIndex;
     _favoriteBloc = context.read<FavoriteBloc>();
@@ -62,7 +59,6 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   @override
   Widget build(BuildContext context) {
     final backgroundWeatherCubit = context.watch<BackgroundWeatherCubit>();
-    final theme = Theme.of(context);
 
     return Scaffold(
       bottomNavigationBar: BottomAppBarWidget(
@@ -76,42 +72,30 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              IconButton(
-                icon: Icon(_themeCubit.state.isDarkMode
-                    ? Icons.sunny
-                    : Icons.nightlight),
-                color: theme.colorScheme.onPrimary,
-                onPressed: () => _themeCubit.toggleTheme(),
-              ),
               Expanded(
                 child: BlocBuilder<FavoriteBloc, FavoriteState>(
                   builder: (context, state) {
                     if (state is FavoritesCitiesState) {
                       final cities = state.cities;
 
-                      if (cities.isNotEmpty) {
-                        return PageView.builder(
-                          controller: _pageController,
-                          itemCount: cities.length,
-                          onPageChanged: (value) {
-                            setState(() {
-                              _currentPage = value;
-                            });
-                          },
-                          itemBuilder: (context, index) {
-                            final city = cities[index];
+                      return PageView.builder(
+                        controller: _pageController,
+                        itemCount: cities.length,
+                        onPageChanged: (value) {
+                          setState(() {
+                            _currentPage = value;
+                          });
+                        },
+                        itemBuilder: (context, index) {
+                          final city = cities[index];
 
-                            return WeatherContentWidget(
-                              latitude: city.latitude,
-                              longitude: city.longitude,
-                            );
-                          },
-                        );
-                      } else {
-                        return const WeatherContentWidget();
-                      }
+                          return WeatherContentWidget(
+                            latitude: city.latitude,
+                            longitude: city.longitude,
+                          );
+                        },
+                      );
                     }
-
                     return const SizedBox.shrink();
                   },
                 ),

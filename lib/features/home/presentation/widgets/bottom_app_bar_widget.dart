@@ -30,7 +30,7 @@ class BottomAppBarWidget extends StatelessWidget {
           IconButton(
             color: Colors.white.withOpacity(0.8),
             icon: const Icon(CupertinoIcons.line_horizontal_3),
-            onPressed: () => navigateToFavorites,
+            onPressed: navigateToFavorites,
           ),
         ],
       ),
