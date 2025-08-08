@@ -15,7 +15,7 @@ Future<void> main() async {
   await initDependencies();
 
   runApp(
-    MultiRepositoryProvider(
+    MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<FavoriteBloc>()),
         BlocProvider(create: (_) => getIt<WeatherBloc>()),

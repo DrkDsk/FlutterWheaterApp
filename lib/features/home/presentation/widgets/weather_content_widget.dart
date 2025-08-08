@@ -1,3 +1,4 @@
+import 'package:clima_app/features/home/presentation/blocs/cubits/background_weather_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
@@ -9,11 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WeatherContentWidget extends StatefulWidget {
-  const WeatherContentWidget({
-    super.key,
-    this.latitude,
-    this.longitude
-  });
+  const WeatherContentWidget({super.key, this.latitude, this.longitude});
 
   final double? latitude;
   final double? longitude;
@@ -23,6 +20,10 @@ class WeatherContentWidget extends StatefulWidget {
 }
 
 class _WeatherContentWidgetState extends State<WeatherContentWidget> {
+
+  late WeatherBloc weatherBloc;
+  late BackgroundWeatherCubit backgroundWeatherCubit;
+
   @override
   void initState() {
     super.initState();
@@ -30,10 +31,18 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
     final longitude = widget.longitude;
 
     if (latitude != null && longitude != null) {
-      final WeatherBloc weatherBloc = context.read<WeatherBloc>();
+      weatherBloc = context.read<WeatherBloc>();
+      backgroundWeatherCubit = context.read<BackgroundWeatherCubit>();
       Future.microtask(() {
-        weatherBloc.add(LoadCurrentWeatherForCityEvent(latitude: latitude, longitude: longitude));
+        weatherBloc.add(LoadCurrentWeatherForCityEvent(
+            latitude: latitude, longitude: longitude));
       });
+    }
+  }
+
+  void _onWeatherUpdated(BuildContext context, WeatherState state) {
+    if (state is WeatherSuccessState) {
+      context.read<BackgroundWeatherCubit>().updateFromWeatherData(weatherStateData: state.weatherData);
     }
   }
 
@@ -42,49 +51,29 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 10),
-          BlocBuilder<WeatherBloc, WeatherState>(
-            builder: (context, state) {
-              if (state is WeatherSuccessState) {
-                return HeaderWeatherWidget(
+      child: BlocConsumer<WeatherBloc, WeatherState>(
+        listener: _onWeatherUpdated,
+        builder: (context, state) {
+          if (state is WeatherSuccessState) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                HeaderWeatherWidget(
                   city: state.weatherData.city,
-                  translatedWeather:
-                  state.weatherData.translatedWeather,
-                  temp: state.weatherData.currentWeather.tempCelsiusText
-                );
-              }
+                  translatedWeather: state.weatherData.translatedWeather,
+                  temp: state.weatherData.currentWeather.tempCelsiusText,
+                ),
+                HourlyListWeatherWidget(hourly: state.weatherData.hourly),
+                const SizedBox(height: 20),
+                DailyListWeatherWidget(daily: state.weatherData.daily),
+                const SizedBox(height: 20),
+              ],
+            );
+          }
 
-              return const SizedBox.shrink();
-            },
-          ),
-          BlocBuilder<WeatherBloc, WeatherState>(
-            builder: (context, state) {
-              if (state is WeatherSuccessState) {
-                return HourlyListWeatherWidget(
-                  hourly: state.weatherData.hourly
-                );
-              }
-
-              return const SizedBox.shrink();
-            },
-          ),
-          const SizedBox(height: 20),
-          BlocBuilder<WeatherBloc, WeatherState>(
-            builder: (context, state) {
-              if (state is WeatherSuccessState) {
-                return DailyListWeatherWidget(
-                  daily: state.weatherData.daily
-                );
-              }
-
-              return const SizedBox.shrink();
-            },
-          ),
-          const SizedBox(height: 20)
-        ],
+          return const SizedBox.shrink();
+        },
       ),
     );
   }

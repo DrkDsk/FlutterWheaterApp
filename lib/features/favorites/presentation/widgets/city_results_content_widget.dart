@@ -12,21 +12,24 @@ class CityResultsContentWidget extends StatelessWidget {
     super.key,
   });
 
+  void _onSelectCity(BuildContext context, CityState state) {
+    final data = state as CitySelectedState;
+    context.read<WeatherBloc>().add(LoadCurrentWeatherForCityEvent(
+      cityId: data.cityId,
+      latitude: data.latitude,
+      longitude: data.longitude,
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     return BlocConsumer<CityBloc, CityState>(
       listenWhen: (previous, current) => current is CitySelectedState,
-      listener: (context, state) {
-        final data = state as CitySelectedState;
-        context.read<WeatherBloc>().add(LoadCurrentWeatherForCityEvent(
-          cityId: data.cityId,
-          latitude: data.latitude,
-          longitude: data.longitude,
-        ));
-      },
+      listener: _onSelectCity,
       builder: (context, state) {
+        final theme = Theme.of(context);
+
         final result = state.previousResults;
 
         if (result != null) {
