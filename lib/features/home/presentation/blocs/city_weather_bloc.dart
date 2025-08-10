@@ -2,18 +2,18 @@ import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
 import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
 import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
-import 'package:clima_app/features/home/presentation/blocs/events/weather_event.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
+import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
+import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
+class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
   final SearchCityUseCase searchCityUseCase;
   final GetWeatherUseCase getWeatherUseCase;
   final GetCityUseCase getCityUseCase;
   final WeatherMapper mapper;
 
-  WeatherBloc(
+  CityWeatherBloc(
       {required this.getWeatherUseCase,
       required this.searchCityUseCase,
       required this.getCityUseCase,
@@ -25,7 +25,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   Future<void> _getCurrentWeather(
-      LoadCurrentWeatherForCityEvent event, Emitter<WeatherState> emit) async {
+      LoadCurrentWeatherForCityEvent event, Emitter<CityWeatherState> emit) async {
     emit(const WeatherLoadingState());
 
     final latitude = event.latitude;
@@ -66,7 +66,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   Future<void> _searchWeatherEvent(
-      SearchCityEvent event, Emitter<WeatherState> emit) async {
+      SearchCityEvent event, Emitter<CityWeatherState> emit) async {
     final String query = event.query;
 
     if (query.isEmpty) {
@@ -88,7 +88,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   Future<void> _getSelectedCity(
-      GetSelectedCityEvent event, Emitter<WeatherState> emit) async {
+      GetSelectedCityEvent event, Emitter<CityWeatherState> emit) async {
     final double latitude = event.latitude;
     final double longitude = event.longitude;
 

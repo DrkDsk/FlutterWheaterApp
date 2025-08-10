@@ -1,8 +1,8 @@
-abstract class WeatherEvent {
-  const WeatherEvent();
+abstract class CityWeatherEvent {
+  const CityWeatherEvent();
 }
 
-class LoadCurrentWeatherForCityEvent extends WeatherEvent {
+class LoadCurrentWeatherForCityEvent extends CityWeatherEvent {
 
   final double? latitude;
   final double? longitude;
@@ -11,13 +11,13 @@ class LoadCurrentWeatherForCityEvent extends WeatherEvent {
   const LoadCurrentWeatherForCityEvent({this.latitude, this.longitude, this.cityId});
 }
 
-class SearchCityEvent extends WeatherEvent {
+class SearchCityEvent extends CityWeatherEvent {
   final String query;
 
   const SearchCityEvent({required this.query});
 }
 
-class GetSelectedCityEvent extends WeatherEvent {
+class GetSelectedCityEvent extends CityWeatherEvent {
   final double latitude;
   final double longitude;
 
