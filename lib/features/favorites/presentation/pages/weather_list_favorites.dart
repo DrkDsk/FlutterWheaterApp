@@ -1,6 +1,5 @@
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/core/shared/widgets/alerts.dart';
-import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/city/presentation/blocs/city_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_results_content_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
@@ -49,7 +48,7 @@ class WeatherListFavorites extends StatelessWidget {
 
     return MultiBlocListener(
       listeners: [
-        BlocListener<CityBloc, CityState>(
+        BlocListener<WeatherBloc, WeatherState>(
           listenWhen: (_, state) => state is CitySelectedState,
           listener: (context, state) {
             final data = state as CitySelectedState;

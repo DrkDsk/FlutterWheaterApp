@@ -1,3 +1,5 @@
+import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
+import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
 import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/weather_event.dart';
@@ -6,12 +8,20 @@ import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
-  final GetWeatherUseCase useCase;
+  final SearchCityUseCase searchCityUseCase;
+  final GetWeatherUseCase getWeatherUseCase;
+  final GetCityUseCase getCityUseCase;
   final WeatherMapper mapper;
 
-  WeatherBloc({required this.useCase, required this.mapper})
+  WeatherBloc(
+      {required this.getWeatherUseCase,
+      required this.searchCityUseCase,
+      required this.getCityUseCase,
+      required this.mapper})
       : super(const WeatherInitialState()) {
     on<LoadCurrentWeatherForCityEvent>(_getCurrentWeather);
+    on<SearchCityEvent>(_searchWeatherEvent);
+    on<GetSelectedCityEvent>(_getSelectedCity);
   }
 
   Future<void> _getCurrentWeather(
@@ -23,7 +33,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     final cityId = event.cityId;
 
     final homeWeatherUseCaseResult =
-        await useCase.call(latitude: latitude, longitude: longitude);
+        await getWeatherUseCase.call(latitude: latitude, longitude: longitude);
     final eitherWeather = homeWeatherUseCaseResult.eitherWeather;
     final cityName = homeWeatherUseCaseResult.cityName;
 
@@ -43,19 +53,65 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
     if (emit.isDone) return;
 
-    emit(
-      WeatherSuccessState(
+    emit(WeatherSuccessState(
         weatherData: WeatherStateData(
-          cityId: cityId,
-          currentWeather: result.current,
-          hourly: hourly,
-          daily: daily,
-          city: cityName ?? "",
-          translatedWeather: translatedDescription,
-          latitude: latitude,
-          longitude: longitude
-        )
-      )
-    );
+            cityId: cityId,
+            currentWeather: result.current,
+            hourly: hourly,
+            daily: daily,
+            city: cityName ?? "",
+            translatedWeather: translatedDescription,
+            latitude: latitude,
+            longitude: longitude)));
+  }
+
+  Future<void> _searchWeatherEvent(
+      SearchCityEvent event, Emitter<WeatherState> emit) async {
+    final String query = event.query;
+
+    if (query.isEmpty) {
+      emit(const CityInitialState());
+      return;
+    }
+
+    final result = await searchCityUseCase.call(query: query);
+
+    result.fold((left) {
+      emit(SearchErrorCityState(message: left.message));
+    }, (right) {
+      final filter = right.data.where((element) {
+        return element.state != null;
+      }).toList();
+
+      emit(SuccessResultCities(data: filter));
+    });
+  }
+
+  Future<void> _getSelectedCity(
+      GetSelectedCityEvent event, Emitter<WeatherState> emit) async {
+    final double latitude = event.latitude;
+    final double longitude = event.longitude;
+
+    final result = await getCityUseCase.call(lat: latitude, lon: longitude);
+
+    result.fold((left) {
+      emit(SearchErrorCityState(message: left.message));
+      return;
+    }, (right) {
+      final cityId = right.id;
+
+      if (cityId != null) {
+        final previousResults = state.previousResults;
+        emit(CitySelectedState(
+            cityId: cityId,
+            longitude: longitude,
+            latitude: latitude,
+            previousResults: previousResults));
+        return;
+      }
+
+      emit(const SearchErrorCityState(
+          message: "No se ha encontrado información del clima"));
+    });
   }
 }

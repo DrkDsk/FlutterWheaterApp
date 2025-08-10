@@ -1,3 +1,4 @@
+import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/home/domain/entities/current.dart';
 import 'package:clima_app/features/home/domain/entities/daily.dart';
 import 'package:clima_app/features/home/domain/entities/hourly.dart';
@@ -5,14 +6,15 @@ import 'package:clima_app/features/home/domain/entities/translated/translated_we
 import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
 
 sealed class WeatherState {
-  const WeatherState();
+  final List<CityLocation>? previousResults;
+  const WeatherState({this.previousResults});
 }
 
 final class WeatherSuccessState extends WeatherState {
 
   final WeatherStateData weatherData;
 
-  WeatherSuccessState({required this.weatherData});
+  WeatherSuccessState({required this.weatherData}) ;
 
   WeatherState copyWith({
     Current? currentWeather,
@@ -51,4 +53,37 @@ final class WeatherErrorState extends WeatherState {
   final String message;
 
   WeatherErrorState({required this.message});
+}
+
+final class CityInitialState extends WeatherState {
+  const CityInitialState();
+}
+
+final class SearchErrorCityState extends WeatherState {
+
+  final String message;
+
+  const SearchErrorCityState({
+    required this.message
+  });
+}
+
+final class SuccessResultCities extends WeatherState {
+
+  final List<CityLocation> data;
+
+  const SuccessResultCities({required this.data}) : super(previousResults: data);
+}
+
+final class CitySelectedState extends WeatherState {
+  final int? cityId;
+  final double latitude;
+  final double longitude;
+
+  CitySelectedState({
+    required this.cityId,
+    required this.latitude,
+    required this.longitude,
+    List<CityLocation>? previousResults,
+  }) : super(previousResults: previousResults ?? []);
 }

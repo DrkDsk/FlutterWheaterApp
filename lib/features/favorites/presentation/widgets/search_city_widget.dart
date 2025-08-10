@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
-import 'package:clima_app/features/city/presentation/blocs/city_event.dart';
+import 'package:clima_app/features/home/presentation/blocs/events/weather_event.dart';
+import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,11 +18,11 @@ class SearchCityWidget extends StatefulWidget {
 class _SearchCityWidgetState extends State<SearchCityWidget> {
 
   Timer? _debounce;
-  late CityBloc _cityBloc;
+  late WeatherBloc _cityWeatherBloc;
 
   @override
   void initState() {
-    _cityBloc = context.read<CityBloc>();
+    _cityWeatherBloc = context.read<WeatherBloc>();
     super.initState();
   }
 
@@ -42,7 +42,7 @@ class _SearchCityWidgetState extends State<SearchCityWidget> {
         if (_debounce?.isActive ?? false) _debounce!.cancel();
 
         _debounce = Timer(const Duration(milliseconds: 500), () {
-          _cityBloc.add(SearchCityEvent(query: value));
+          _cityWeatherBloc.add(SearchCityEvent(query: value));
         });
       },
       prefix: Padding(

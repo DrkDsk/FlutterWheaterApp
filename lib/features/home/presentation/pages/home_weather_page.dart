@@ -1,7 +1,6 @@
 import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/core/router/app_router.dart';
-import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
@@ -42,8 +41,8 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     final router = AppRouter.of(context);
 
     router.goToScreenAndClear(
-      BlocProvider<CityBloc>(
-        create: (_) => getIt<CityBloc>(),
+      BlocProvider<WeatherBloc>(
+        create: (_) => getIt<WeatherBloc>(),
         child: const WeatherListFavorites(),
       ),
     );
