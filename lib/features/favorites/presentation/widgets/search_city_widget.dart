@@ -42,9 +42,7 @@ class _SearchCityWidgetState extends State<SearchCityWidget> {
         if (_debounce?.isActive ?? false) _debounce!.cancel();
 
         _debounce = Timer(const Duration(milliseconds: 500), () {
-          _cityBloc.add(
-                SearchCityEvent(query: value),
-              );
+          _cityBloc.add(SearchCityEvent(query: value));
         });
       },
       prefix: Padding(
