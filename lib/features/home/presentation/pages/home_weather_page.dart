@@ -51,7 +51,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<WeatherBloc, WeatherState, Color?>(
+    return BlocSelector<CityWeatherBloc, WeatherState, Color?>(
       selector: (state) {
         if (state is WeatherSuccessState) {
           return state.weatherData.getBackgroundColor();
@@ -66,31 +66,33 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
             currentPage: _currentPage,
             navigateToFavorites: () => navigateToFavorites(context),
           ),
-          body: BlocBuilder<FavoriteBloc,FavoriteState>(
-            builder: (context, state) {
-              if (state is FavoritesCitiesState) {
-                final cities = state.cities;
-
-                return PageView.builder(
-                  controller: _pageController,
-                  itemCount: cities.length,
-                  onPageChanged: (value) {
-                    setState(() {
-                      _currentPage = value;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    final city = cities[index];
-                    return WeatherContentWidget(
-                      latitude: city.latitude,
-                      longitude: city.longitude,
-                    );
-                  },
-                );
-              }
-
-              return const SizedBox.shrink();
-            },
+          body: SafeArea(
+            child: BlocBuilder<FavoriteBloc,FavoriteState>(
+              builder: (context, state) {
+                if (state is FavoritesCitiesState) {
+                  final cities = state.cities;
+            
+                  return PageView.builder(
+                    controller: _pageController,
+                    itemCount: cities.length,
+                    onPageChanged: (value) {
+                      setState(() {
+                        _currentPage = value;
+                      });
+                    },
+                    itemBuilder: (context, index) {
+                      final city = cities[index];
+                      return WeatherContentWidget(
+                        latitude: city.latitude,
+                        longitude: city.longitude,
+                      );
+                    },
+                  );
+                }
+            
+                return const SizedBox.shrink();
+              },
+            ),
           ),
         );
       },

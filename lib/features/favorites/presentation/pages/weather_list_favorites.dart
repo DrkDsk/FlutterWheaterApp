@@ -1,9 +1,12 @@
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/core/shared/widgets/alerts.dart';
+import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
+import 'package:clima_app/features/city/presentation/blocs/city_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_results_content_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/show_weather_bottom_sheet_widget.dart';
 import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
+import 'package:clima_app/features/home/presentation/blocs/events/weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +47,25 @@ class WeatherListFavorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return BlocListener<WeatherBloc, WeatherState>(
-      listener: _onLoadWeather,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<CityBloc, CityState>(
+          listenWhen: (_, state) => state is CitySelectedState,
+          listener: (context, state) {
+            final data = state as CitySelectedState;
+            context.read<CityWeatherBloc>().add(
+              LoadCurrentWeatherForCityEvent(
+                cityId: data.cityId,
+                latitude: data.latitude,
+                longitude: data.longitude,
+              ),
+            );
+          },
+        ),
+        BlocListener<CityWeatherBloc, WeatherState>(
+          listener: _onLoadWeather,
+        )
+      ],
       child: const Scaffold(
         backgroundColor: Colors.white10,
         body: SafeArea(
@@ -64,7 +84,7 @@ class WeatherListFavorites extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      )
     );
   }
 }
