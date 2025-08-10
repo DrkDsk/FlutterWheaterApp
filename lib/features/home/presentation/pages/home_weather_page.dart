@@ -51,7 +51,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<CityWeatherBloc, WeatherState, Color?>(
+    return BlocSelector<WeatherBloc, WeatherState, Color?>(
       selector: (state) {
         if (state is WeatherSuccessState) {
           return state.weatherData.getBackgroundColor();
