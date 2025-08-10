@@ -52,7 +52,7 @@ class WeatherListFavorites extends StatelessWidget {
           listener: (context, state) {
             final data = state as CitySelectedState;
             context.read<CityWeatherBloc>().add(
-              LoadCurrentWeatherForCityEvent(
+              FetchWeatherEvent(
                 cityId: data.cityId,
                 latitude: data.latitude,
                 longitude: data.longitude,

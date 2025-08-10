@@ -2,24 +2,24 @@ abstract class CityWeatherEvent {
   const CityWeatherEvent();
 }
 
-class LoadCurrentWeatherForCityEvent extends CityWeatherEvent {
+class FetchWeatherEvent extends CityWeatherEvent {
 
   final double? latitude;
   final double? longitude;
   final int? cityId;
 
-  const LoadCurrentWeatherForCityEvent({this.latitude, this.longitude, this.cityId});
+  const FetchWeatherEvent({this.latitude, this.longitude, this.cityId});
 }
 
-class SearchCityEvent extends CityWeatherEvent {
+class CitySearchEvent extends CityWeatherEvent {
   final String query;
 
-  const SearchCityEvent({required this.query});
+  const CitySearchEvent({required this.query});
 }
 
-class GetSelectedCityEvent extends CityWeatherEvent {
+class CitySelectedEvent extends CityWeatherEvent {
   final double latitude;
   final double longitude;
 
-  const GetSelectedCityEvent({required this.latitude, required this.longitude});
+  const CitySelectedEvent({required this.latitude, required this.longitude});
 }

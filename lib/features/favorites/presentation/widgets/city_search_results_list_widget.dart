@@ -19,7 +19,7 @@ class CitySearchResultsListWidget extends StatelessWidget {
   }) async {
     final cityBloc = context.read<CityWeatherBloc>();
     Future.microtask(() {
-      cityBloc.add(GetSelectedCityEvent(
+      cityBloc.add(CitySelectedEvent(
           latitude: location.lat, longitude: location.lon));
     });
   }

@@ -29,7 +29,7 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
     if (latitude != null && longitude != null) {
       _weatherBloc = context.read<CityWeatherBloc>();
       Future.microtask(() {
-        _weatherBloc.add(LoadCurrentWeatherForCityEvent(
+        _weatherBloc.add(FetchWeatherEvent(
             latitude: latitude, longitude: longitude));
       });
     }

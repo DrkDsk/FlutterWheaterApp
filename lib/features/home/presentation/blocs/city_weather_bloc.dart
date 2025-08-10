@@ -19,13 +19,13 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       required this.getCityUseCase,
       required this.mapper})
       : super(const WeatherInitialState()) {
-    on<LoadCurrentWeatherForCityEvent>(_getCurrentWeather);
-    on<SearchCityEvent>(_searchWeatherEvent);
-    on<GetSelectedCityEvent>(_getSelectedCity);
+    on<FetchWeatherEvent>(_getCurrentWeather);
+    on<CitySearchEvent>(_searchWeatherEvent);
+    on<CitySelectedEvent>(_getSelectedCity);
   }
 
   Future<void> _getCurrentWeather(
-      LoadCurrentWeatherForCityEvent event, Emitter<CityWeatherState> emit) async {
+      FetchWeatherEvent event, Emitter<CityWeatherState> emit) async {
     emit(const WeatherLoadingState());
 
     final latitude = event.latitude;
@@ -66,7 +66,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
   }
 
   Future<void> _searchWeatherEvent(
-      SearchCityEvent event, Emitter<CityWeatherState> emit) async {
+      CitySearchEvent event, Emitter<CityWeatherState> emit) async {
     final String query = event.query;
 
     if (query.isEmpty) {
@@ -88,7 +88,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
   }
 
   Future<void> _getSelectedCity(
-      GetSelectedCityEvent event, Emitter<CityWeatherState> emit) async {
+      CitySelectedEvent event, Emitter<CityWeatherState> emit) async {
     final double latitude = event.latitude;
     final double longitude = event.longitude;
 
