@@ -52,7 +52,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   Widget build(BuildContext context) {
     return BlocSelector<CityWeatherBloc, CityWeatherState, Color?>(
       selector: (state) {
-        if (state is WeatherSuccessState) {
+        if (state is WeatherFetchSuccessState) {
           return state.weatherData.getBackgroundColor();
         }
         return WeatherColors.drizzleNight;

@@ -4,7 +4,6 @@ import 'package:clima_app/features/favorites/presentation/widgets/city_results_c
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/show_weather_bottom_sheet_widget.dart';
 import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
-import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +33,9 @@ class WeatherListFavorites extends StatelessWidget {
   }
 
   void _onLoadWeather(BuildContext context, CityWeatherState state) {
-    if (state is WeatherLoadingState) {
+    if (state is FetchWeatherLoadingState) {
       Alerts.showLoadingDialog(context);
-    } else if (state is WeatherSuccessState) {
+    } else if (state is WeatherFetchSuccessState) {
       AppRouter.of(context).pop();
       _showWeatherBottomSheet(context, state.weatherData);
     }
@@ -45,25 +44,8 @@ class WeatherListFavorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<CityWeatherBloc, CityWeatherState>(
-          listenWhen: (_, state) => state is CitySelectedState,
-          listener: (context, state) {
-            final data = state as CitySelectedState;
-            context.read<CityWeatherBloc>().add(
-              FetchWeatherEvent(
-                cityId: data.cityId,
-                latitude: data.latitude,
-                longitude: data.longitude,
-              ),
-            );
-          },
-        ),
-        BlocListener<CityWeatherBloc, CityWeatherState>(
-          listener: _onLoadWeather,
-        )
-      ],
+    return BlocListener<CityWeatherBloc,CityWeatherState>(
+      listener: _onLoadWeather,
       child: const Scaffold(
         backgroundColor: Colors.white10,
         body: SafeArea(
@@ -74,7 +56,7 @@ class WeatherListFavorites extends StatelessWidget {
               children: [
                 SizedBox(height: 20),
                 SearchCityHeader(),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 Expanded(
                   child: CityResultsContentWidget(),
                 ),
@@ -82,7 +64,7 @@ class WeatherListFavorites extends StatelessWidget {
             ),
           ),
         ),
-      )
+      ),
     );
   }
 }

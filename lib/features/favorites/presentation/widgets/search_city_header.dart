@@ -13,9 +13,10 @@ class SearchCityHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Weather", style: theme.textTheme.titleSmall),
-        const SizedBox(height: 10),
-        const SearchCityWidget(),
-        const SizedBox(height: 10)
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.0),
+          child: SearchCityWidget(),
+        ),
       ],
     );
   }

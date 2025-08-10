@@ -23,7 +23,7 @@ class CityResultsContentWidget extends StatelessWidget {
           return CitySearchResultsListWidget(result: result);
         }
 
-        if (state is SearchErrorCityState) {
+        if (state is SearchCityErrorState) {
           return Text(state.message,
               style: theme.textTheme.bodyMedium);
         }

@@ -10,11 +10,11 @@ sealed class CityWeatherState {
   const CityWeatherState({this.previousResults});
 }
 
-final class WeatherSuccessState extends CityWeatherState {
+final class WeatherFetchSuccessState extends CityWeatherState {
 
   final WeatherStateData weatherData;
 
-  WeatherSuccessState({required this.weatherData}) ;
+  WeatherFetchSuccessState({required this.weatherData}) ;
 
   CityWeatherState copyWith({
     Current? currentWeather,
@@ -26,7 +26,7 @@ final class WeatherSuccessState extends CityWeatherState {
     double? latitude,
     double? longitude
   }) {
-    return WeatherSuccessState(
+    return WeatherFetchSuccessState(
       weatherData: WeatherStateData(
           currentWeather: currentWeather ?? weatherData.currentWeather,
           translatedWeather: translatedWeather ?? weatherData.translatedWeather,
@@ -45,34 +45,34 @@ final class WeatherInitialState extends CityWeatherState {
   const WeatherInitialState();
 }
 
-final class WeatherLoadingState extends CityWeatherState {
-  const WeatherLoadingState();
+final class FetchWeatherLoadingState extends CityWeatherState {
+  const FetchWeatherLoadingState();
 }
 
-final class WeatherErrorState extends CityWeatherState {
+final class FetchWeatherErrorState extends CityWeatherState {
   final String message;
 
-  WeatherErrorState({required this.message});
+  FetchWeatherErrorState({required this.message});
 }
 
-final class CityInitialState extends CityWeatherState {
-  const CityInitialState();
+final class SearchCityInitialState extends CityWeatherState {
+  const SearchCityInitialState();
 }
 
-final class SearchErrorCityState extends CityWeatherState {
+final class SearchCityErrorState extends CityWeatherState {
 
   final String message;
 
-  const SearchErrorCityState({
+  const SearchCityErrorState({
     required this.message
   });
 }
 
-final class SuccessResultCities extends CityWeatherState {
+final class SearchCityResultSuccess extends CityWeatherState {
 
   final List<CityLocation> data;
 
-  const SuccessResultCities({required this.data}) : super(previousResults: data);
+  const SearchCityResultSuccess({required this.data}) : super(previousResults: data);
 }
 
 final class CitySelectedState extends CityWeatherState {

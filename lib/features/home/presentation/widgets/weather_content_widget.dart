@@ -19,7 +19,7 @@ class WeatherContentWidget extends StatefulWidget {
 }
 
 class _WeatherContentWidgetState extends State<WeatherContentWidget> {
-  late CityWeatherBloc _weatherBloc;
+  late CityWeatherBloc _cityWeatherBloc;
   @override
   void initState() {
     super.initState();
@@ -27,9 +27,9 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
     final longitude = widget.longitude;
 
     if (latitude != null && longitude != null) {
-      _weatherBloc = context.read<CityWeatherBloc>();
+      _cityWeatherBloc = context.read<CityWeatherBloc>();
       Future.microtask(() {
-        _weatherBloc.add(FetchWeatherEvent(
+        _cityWeatherBloc.add(FetchWeatherEvent(
             latitude: latitude, longitude: longitude));
       });
     }
@@ -39,12 +39,12 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<CityWeatherBloc, CityWeatherState>(
       builder: (context, state) {
-        if (state is WeatherSuccessState) {
+        if (state is WeatherFetchSuccessState) {
           return SafeArea(
             child: BlocBuilder<CityWeatherBloc, CityWeatherState>(
-              buildWhen: (previous, current) => current is WeatherSuccessState,
+              buildWhen: (previous, current) => current is WeatherFetchSuccessState,
               builder: (context, state) {
-                if (state is WeatherSuccessState) {
+                if (state is WeatherFetchSuccessState) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Column(

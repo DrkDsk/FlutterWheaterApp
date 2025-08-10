@@ -26,7 +26,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
   Future<void> _getCurrentWeather(
       FetchWeatherEvent event, Emitter<CityWeatherState> emit) async {
-    emit(const WeatherLoadingState());
+    emit(const FetchWeatherLoadingState());
 
     final latitude = event.latitude;
     final longitude = event.longitude;
@@ -39,7 +39,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
     if (eitherWeather.isLeft()) {
       final error = eitherWeather.swap().getOrElse(() => throw Exception(""));
-      emit(WeatherErrorState(message: error.message));
+      emit(FetchWeatherErrorState(message: error.message));
       return;
     }
 
@@ -53,7 +53,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
     if (emit.isDone) return;
 
-    emit(WeatherSuccessState(
+    emit(WeatherFetchSuccessState(
         weatherData: WeatherStateData(
             cityId: cityId,
             currentWeather: result.current,
@@ -70,20 +70,20 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final String query = event.query;
 
     if (query.isEmpty) {
-      emit(const CityInitialState());
+      emit(const SearchCityInitialState());
       return;
     }
 
     final result = await searchCityUseCase.call(query: query);
 
     result.fold((left) {
-      emit(SearchErrorCityState(message: left.message));
+      emit(SearchCityErrorState(message: left.message));
     }, (right) {
       final filter = right.data.where((element) {
         return element.state != null;
       }).toList();
 
-      emit(SuccessResultCities(data: filter));
+      emit(SearchCityResultSuccess(data: filter));
     });
   }
 
@@ -95,7 +95,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final result = await getCityUseCase.call(lat: latitude, lon: longitude);
 
     result.fold((left) {
-      emit(SearchErrorCityState(message: left.message));
+      emit(SearchCityErrorState(message: left.message));
       return;
     }, (right) {
       final cityId = right.id;
@@ -107,10 +107,11 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
             longitude: longitude,
             latitude: latitude,
             previousResults: previousResults));
+        add(FetchWeatherEvent(latitude: latitude, longitude: longitude));
         return;
       }
 
-      emit(const SearchErrorCityState(
+      emit(const SearchCityErrorState(
           message: "No se ha encontrado información del clima"));
     });
   }
