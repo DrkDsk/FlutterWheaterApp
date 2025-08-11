@@ -14,7 +14,7 @@ final class WeatherFetchSuccessState extends CityWeatherState {
 
   final WeatherStateData weatherData;
 
-  WeatherFetchSuccessState({required this.weatherData}) ;
+  WeatherFetchSuccessState({required this.weatherData, super.previousResults});
 
   CityWeatherState copyWith({
     Current? currentWeather,
@@ -46,7 +46,11 @@ final class WeatherInitialState extends CityWeatherState {
 }
 
 final class FetchWeatherLoadingState extends CityWeatherState {
-  const FetchWeatherLoadingState();
+  FetchWeatherLoadingState({super.previousResults});
+}
+
+final class HideWeatherLoadingState extends CityWeatherState {
+  const HideWeatherLoadingState();
 }
 
 final class FetchWeatherErrorState extends CityWeatherState {

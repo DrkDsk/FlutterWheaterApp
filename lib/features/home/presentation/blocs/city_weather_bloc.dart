@@ -1,3 +1,4 @@
+import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
 import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
 import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
@@ -21,12 +22,15 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       : super(const WeatherInitialState()) {
     on<FetchWeatherEvent>(_getCurrentWeather);
     on<CitySearchEvent>(_searchWeatherEvent);
-    on<CitySelectedEvent>(_getSelectedCity);
+    on<SelectCityEvent>(_getSelectedCity);
   }
 
   Future<void> _getCurrentWeather(
       FetchWeatherEvent event, Emitter<CityWeatherState> emit) async {
-    emit(const FetchWeatherLoadingState());
+
+    List<CityLocation>? fetchResults = state.previousResults;
+
+    emit(FetchWeatherLoadingState(previousResults: fetchResults));
 
     final latitude = event.latitude;
     final longitude = event.longitude;
@@ -38,6 +42,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final cityName = homeWeatherUseCaseResult.cityName;
 
     if (eitherWeather.isLeft()) {
+      emit(const HideWeatherLoadingState());
       final error = eitherWeather.swap().getOrElse(() => throw Exception(""));
       emit(FetchWeatherErrorState(message: error.message));
       return;
@@ -53,7 +58,10 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
     if (emit.isDone) return;
 
+    emit(const HideWeatherLoadingState());
+
     emit(WeatherFetchSuccessState(
+      previousResults: fetchResults,
         weatherData: WeatherStateData(
             cityId: cityId,
             currentWeather: result.current,
@@ -62,7 +70,10 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
             city: cityName ?? "",
             translatedWeather: translatedDescription,
             latitude: latitude,
-            longitude: longitude)));
+            longitude: longitude
+        )
+      )
+    );
   }
 
   Future<void> _searchWeatherEvent(
@@ -88,7 +99,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
   }
 
   Future<void> _getSelectedCity(
-      CitySelectedEvent event, Emitter<CityWeatherState> emit) async {
+      SelectCityEvent event, Emitter<CityWeatherState> emit) async {
     final double latitude = event.latitude;
     final double longitude = event.longitude;
 

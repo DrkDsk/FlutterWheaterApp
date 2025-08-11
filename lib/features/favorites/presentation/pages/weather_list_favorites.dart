@@ -35,8 +35,10 @@ class WeatherListFavorites extends StatelessWidget {
   void _onLoadWeather(BuildContext context, CityWeatherState state) {
     if (state is FetchWeatherLoadingState) {
       Alerts.showLoadingDialog(context);
-    } else if (state is WeatherFetchSuccessState) {
+    } else if (state is HideWeatherLoadingState) {
       AppRouter.of(context).pop();
+    }
+    else if (state is WeatherFetchSuccessState) {
       _showWeatherBottomSheet(context, state.weatherData);
     }
   }

@@ -17,9 +17,9 @@ class CitySearchEvent extends CityWeatherEvent {
   const CitySearchEvent({required this.query});
 }
 
-class CitySelectedEvent extends CityWeatherEvent {
+class SelectCityEvent extends CityWeatherEvent {
   final double latitude;
   final double longitude;
 
-  const CitySelectedEvent({required this.latitude, required this.longitude});
+  const SelectCityEvent({required this.latitude, required this.longitude});
 }
