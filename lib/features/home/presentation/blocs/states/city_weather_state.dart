@@ -6,15 +6,15 @@ import 'package:clima_app/features/home/domain/entities/translated/translated_we
 import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
 
 sealed class CityWeatherState {
-  final List<CityLocation>? previousResults;
-  const CityWeatherState({this.previousResults});
+  final List<CityLocation>? previousCitySearchResults;
+  const CityWeatherState({this.previousCitySearchResults});
 }
 
 final class WeatherFetchSuccessState extends CityWeatherState {
 
   final WeatherStateData weatherData;
 
-  WeatherFetchSuccessState({required this.weatherData, super.previousResults});
+  WeatherFetchSuccessState({required this.weatherData, super.previousCitySearchResults});
 
   CityWeatherState copyWith({
     Current? currentWeather,
@@ -46,7 +46,7 @@ final class WeatherInitialState extends CityWeatherState {
 }
 
 final class FetchWeatherLoadingState extends CityWeatherState {
-  FetchWeatherLoadingState({super.previousResults});
+  FetchWeatherLoadingState({super.previousCitySearchResults});
 }
 
 final class HideWeatherLoadingState extends CityWeatherState {
@@ -74,20 +74,7 @@ final class SearchCityErrorState extends CityWeatherState {
 
 final class SearchCityResultSuccess extends CityWeatherState {
 
-  final List<CityLocation> data;
+  final List<CityLocation> citySearchResult;
 
-  const SearchCityResultSuccess({required this.data}) : super(previousResults: data);
-}
-
-final class CitySelectedState extends CityWeatherState {
-  final int? cityId;
-  final double latitude;
-  final double longitude;
-
-  CitySelectedState({
-    required this.cityId,
-    required this.latitude,
-    required this.longitude,
-    List<CityLocation>? previousResults,
-  }) : super(previousResults: previousResults ?? []);
+  const SearchCityResultSuccess({required this.citySearchResult}) : super(previousCitySearchResults: citySearchResult);
 }

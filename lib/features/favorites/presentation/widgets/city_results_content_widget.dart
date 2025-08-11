@@ -17,7 +17,7 @@ class CityResultsContentWidget extends StatelessWidget {
       builder: (context, state) {
         final theme = Theme.of(context);
 
-        final result = state.previousResults;
+        final result = state.previousCitySearchResults;
 
         if (result != null) {
           return CitySearchResultsListWidget(result: result);
