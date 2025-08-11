@@ -28,11 +28,7 @@ class CityResultsContentWidget extends StatelessWidget {
               style: theme.textTheme.bodyMedium);
         }
 
-        if (state is WeatherInitialState) {
-          return const SavedFavoriteCitiesListWidget();
-        }
-
-        return const SizedBox.shrink();
+        return const SavedFavoriteCitiesListWidget();
       },
     );
   }
