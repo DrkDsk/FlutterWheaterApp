@@ -1,7 +1,7 @@
 import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/core/router/app_router.dart';
+import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_city_item_card.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
@@ -9,26 +9,13 @@ import 'package:clima_app/features/home/presentation/pages/home_weather_page.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SavedFavoriteCitiesListWidget extends StatefulWidget {
+class SavedFavoriteCitiesListWidget extends StatelessWidget {
   const SavedFavoriteCitiesListWidget({
     super.key,
+    required this.cities
   });
 
-  @override
-  State<SavedFavoriteCitiesListWidget> createState() => _SavedFavoriteCitiesListWidgetState();
-}
-
-class _SavedFavoriteCitiesListWidgetState extends State<SavedFavoriteCitiesListWidget> {
-
-  late FavoriteBloc _favoriteBloc;
-
-
-  @override
-  void initState() {
-    super.initState();
-    _favoriteBloc = context.read<FavoriteBloc>();
-    _favoriteBloc.add(const GetFavoritesCitiesEvent());
-  }
+  final List<FavoriteLocation> cities;
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +23,9 @@ class _SavedFavoriteCitiesListWidgetState extends State<SavedFavoriteCitiesListW
     return BlocBuilder<FavoriteBloc, FavoriteState>(
       builder: (context, state) {
         if (state is FavoritesCitiesState) {
-          final cities = state.cities;
           final citiesLength = cities.length;
 
-          return  ListView.separated(
+          return ListView.separated(
             itemCount: citiesLength,
             separatorBuilder: (context, index) {
               return const SizedBox(height: 14);
