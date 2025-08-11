@@ -13,12 +13,13 @@ class CitySearchResultsListWidget extends StatelessWidget {
 
   final List<CityLocation> result;
 
-  Future<void> getWeatherSelected({
-    required CityLocation location,
-    required BuildContext context
-  }) async {
-    context.read<CityWeatherBloc>().add(FetchWeatherEvent(
-        latitude: location.lat, longitude: location.lon));
+  Future<void> getWeatherSelected(
+      {required double latitude,
+      required double longitude,
+      required String cityName,
+      required BuildContext context}) async {
+    context.read<CityWeatherBloc>().add(LoadWeatherModalEvent(
+        latitude: latitude, longitude: longitude, cityName: cityName));
   }
 
   @override
@@ -26,7 +27,6 @@ class CitySearchResultsListWidget extends StatelessWidget {
     return ListView.separated(
         itemBuilder: (context, index) => const SizedBox(height: 4),
         separatorBuilder: (context, index) {
-
           final currentLocationData = result[index];
           final cityName = currentLocationData.name;
           final state = currentLocationData.state;
@@ -36,7 +36,11 @@ class CitySearchResultsListWidget extends StatelessWidget {
 
           return GestureDetector(
             onTap: () => getWeatherSelected(
-                location: currentLocationData, context: context),
+                latitude: currentLocationData.lat,
+                longitude: currentLocationData.lon,
+                cityName: query,
+                context: context
+            ),
             child: CityResultItemCard(query: query),
           );
         },

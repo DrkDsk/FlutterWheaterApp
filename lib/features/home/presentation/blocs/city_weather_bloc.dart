@@ -22,6 +22,15 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       : super(const WeatherInitialState()) {
     on<FetchWeatherEvent>(_getCurrentWeather);
     on<CitySearchEvent>(_searchWeatherEvent);
+    on<LoadWeatherModalEvent>(_callFetchWeather);
+  }
+
+  void _callFetchWeather(LoadWeatherModalEvent event, Emitter<CityWeatherState> emit) {
+    final double latitude = event.latitude;
+    final double longitude = event.longitude;
+    final String cityName = event.cityName;
+
+    emit(CallWeatherFetchEventState(latitude: latitude, longitude: longitude, cityName: cityName));
   }
 
   Future<void> _getCurrentWeather(

@@ -10,22 +10,32 @@ sealed class CityWeatherState {
   const CityWeatherState({this.previousCitySearchResults});
 }
 
-final class WeatherFetchSuccessState extends CityWeatherState {
+final class CallWeatherFetchEventState extends CityWeatherState {
+  final double latitude;
+  final double longitude;
+  final String cityName;
 
+  const CallWeatherFetchEventState(
+      {required this.latitude,
+      required this.longitude,
+      required this.cityName});
+}
+
+final class WeatherFetchSuccessState extends CityWeatherState {
   final WeatherStateData weatherData;
 
-  WeatherFetchSuccessState({required this.weatherData, super.previousCitySearchResults});
+  WeatherFetchSuccessState(
+      {required this.weatherData, super.previousCitySearchResults});
 
-  CityWeatherState copyWith({
-    Current? currentWeather,
-    TranslatedWeather? translatedWeather,
-    List<Hourly>? hourly,
-    List<Daily>? daily,
-    String? city,
-    int? cityId,
-    double? latitude,
-    double? longitude
-  }) {
+  CityWeatherState copyWith(
+      {Current? currentWeather,
+      TranslatedWeather? translatedWeather,
+      List<Hourly>? hourly,
+      List<Daily>? daily,
+      String? city,
+      int? cityId,
+      double? latitude,
+      double? longitude}) {
     return WeatherFetchSuccessState(
       weatherData: WeatherStateData(
           currentWeather: currentWeather ?? weatherData.currentWeather,
@@ -35,8 +45,7 @@ final class WeatherFetchSuccessState extends CityWeatherState {
           city: city ?? weatherData.city,
           cityId: cityId ?? weatherData.cityId,
           latitude: latitude ?? weatherData.latitude,
-          longitude: longitude ?? weatherData.longitude
-      ),
+          longitude: longitude ?? weatherData.longitude),
     );
   }
 }
@@ -64,17 +73,14 @@ final class SearchCityInitialState extends CityWeatherState {
 }
 
 final class SearchCityErrorState extends CityWeatherState {
-
   final String message;
 
-  const SearchCityErrorState({
-    required this.message
-  });
+  const SearchCityErrorState({required this.message});
 }
 
 final class SearchCityResultSuccess extends CityWeatherState {
-
   final List<CityLocation> citySearchResult;
 
-  const SearchCityResultSuccess({required this.citySearchResult}) : super(previousCitySearchResults: citySearchResult);
+  const SearchCityResultSuccess({required this.citySearchResult})
+      : super(previousCitySearchResults: citySearchResult);
 }
