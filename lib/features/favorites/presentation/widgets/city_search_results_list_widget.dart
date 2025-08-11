@@ -1,7 +1,7 @@
-import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
-import 'package:clima_app/features/city/presentation/blocs/city_event.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_result_item_card.dart';
+import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
+import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,15 +13,13 @@ class CitySearchResultsListWidget extends StatelessWidget {
 
   final List<CityLocation> result;
 
-  Future<void> getWeatherSelected({
-    required CityLocation location,
-    required BuildContext context
-  }) async {
-    final cityBloc = context.read<CityBloc>();
-    Future.microtask(() {
-      cityBloc.add(GetSelectedCityEvent(
-          latitude: location.lat, longitude: location.lon));
-    });
+  Future<void> getWeatherSelected(
+      {required double latitude,
+      required double longitude,
+      required String cityName,
+      required BuildContext context}) async {
+    context.read<CityWeatherBloc>().add(LoadWeatherModalEvent(
+        latitude: latitude, longitude: longitude, cityName: cityName));
   }
 
   @override
@@ -38,7 +36,11 @@ class CitySearchResultsListWidget extends StatelessWidget {
 
           return GestureDetector(
             onTap: () => getWeatherSelected(
-                location: currentLocationData, context: context),
+                latitude: currentLocationData.lat,
+                longitude: currentLocationData.lon,
+                cityName: query,
+                context: context
+            ),
             child: CityResultItemCard(query: query),
           );
         },

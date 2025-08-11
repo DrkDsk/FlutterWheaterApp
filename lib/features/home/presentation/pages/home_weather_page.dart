@@ -1,11 +1,10 @@
 import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/core/router/app_router.dart';
-import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/weather_state.dart';
-import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
+import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
+import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/widgets/bottom_app_bar_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
 import 'package:clima_app/features/favorites/presentation/pages/weather_list_favorites.dart';
@@ -42,8 +41,8 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     final router = AppRouter.of(context);
 
     router.goToScreenAndClear(
-      BlocProvider<CityBloc>(
-        create: (_) => getIt<CityBloc>(),
+      BlocProvider<CityWeatherBloc>(
+        create: (_) => getIt<CityWeatherBloc>(),
         child: const WeatherListFavorites(),
       ),
     );
@@ -51,9 +50,9 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<WeatherBloc, WeatherState, Color?>(
+    return BlocSelector<CityWeatherBloc, CityWeatherState, Color?>(
       selector: (state) {
-        if (state is WeatherSuccessState) {
+        if (state is WeatherFetchSuccessState) {
           return state.weatherData.getBackgroundColor();
         }
         return WeatherColors.drizzleNight;

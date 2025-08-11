@@ -4,7 +4,6 @@ import 'package:clima_app/features/city/domain/repositories/city_repository.dart
 import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
 import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
 import 'package:clima_app/features/city/data/datasources/city_datasource_impl.dart';
-import 'package:clima_app/features/city/presentation/blocs/city_bloc.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
 import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
@@ -22,7 +21,7 @@ import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dar
 import 'package:clima_app/core/shared/data/datasources/location_datasource_impl.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource_impl.dart';
 import 'package:clima_app/core/shared/data/datasources/weather_description_local_datasource_impl.dart';
-import 'package:clima_app/features/home/presentation/blocs/weather_bloc.dart';
+import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
 import 'package:get_it/get_it.dart';
 import 'package:clima_app/core/dio_client.dart';
@@ -80,7 +79,6 @@ Future<void> initDependencies() async {
   getIt.registerLazySingleton(() => WeatherMapper(getIt()));
 
   // Blocs / Cubits
-  getIt.registerFactory<CityBloc>(() => CityBloc(useCase: getIt<SearchCityUseCase>(), getCityUseCase: getIt<GetCityUseCase>()));
   getIt.registerFactory<FavoriteBloc>(() => FavoriteBloc(repository: getIt<FavoriteWeatherRepository>(), locationService:  getIt<LocationService>()));
-  getIt.registerFactory<WeatherBloc>(() => WeatherBloc(useCase: getIt<GetWeatherUseCase>(), mapper: getIt<WeatherMapper>()));
+  getIt.registerFactory<CityWeatherBloc>(() => CityWeatherBloc(getWeatherUseCase: getIt<GetWeatherUseCase>(),searchCityUseCase: getIt<SearchCityUseCase>(), getCityUseCase: getIt<GetCityUseCase>(), mapper: getIt<WeatherMapper>()));
 }
