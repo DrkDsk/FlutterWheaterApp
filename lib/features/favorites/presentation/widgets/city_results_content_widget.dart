@@ -1,3 +1,6 @@
+import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_search_results_list_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_favorite_cities_list_widget.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
@@ -12,23 +15,27 @@ class CityResultsContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocSelector<FavoriteBloc, FavoriteState, List<FavoriteLocation> >(
+      selector: (state) => state is FavoritesCitiesState ? state.cities : [],
+      builder: (context, favoritesCities) {
+        return BlocBuilder<CityWeatherBloc, CityWeatherState>(
+          builder: (context, state) {
+            final theme = Theme.of(context);
 
-    return BlocBuilder<CityWeatherBloc, CityWeatherState>(
-      builder: (context, state) {
-        final theme = Theme.of(context);
+            final result = state.previousCitySearchResults;
 
-        final result = state.previousCitySearchResults;
+            if (result != null) {
+              return CitySearchResultsListWidget(result: result);
+            }
 
-        if (result != null) {
-          return CitySearchResultsListWidget(result: result);
-        }
+            if (state is SearchCityErrorState) {
+              return Text(state.message,
+                  style: theme.textTheme.bodyMedium);
+            }
 
-        if (state is SearchCityErrorState) {
-          return Text(state.message,
-              style: theme.textTheme.bodyMedium);
-        }
-
-        return const SavedFavoriteCitiesListWidget();
+            return SavedFavoriteCitiesListWidget(cities: favoritesCities);
+          },
+        );
       },
     );
   }
