@@ -18,7 +18,7 @@ final class CallWeatherFetchEventState extends CityWeatherState {
   const CallWeatherFetchEventState(
       {required this.latitude,
       required this.longitude,
-      required this.cityName});
+      required this.cityName, super.previousCitySearchResults});
 }
 
 final class WeatherFetchSuccessState extends CityWeatherState {
@@ -55,7 +55,7 @@ final class WeatherInitialState extends CityWeatherState {
 }
 
 final class FetchWeatherLoadingState extends CityWeatherState {
-  FetchWeatherLoadingState({super.previousCitySearchResults});
+  const FetchWeatherLoadingState();
 }
 
 final class HideWeatherLoadingState extends CityWeatherState {

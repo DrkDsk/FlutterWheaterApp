@@ -25,20 +25,25 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     on<LoadWeatherModalEvent>(_callFetchWeather);
   }
 
-  void _callFetchWeather(LoadWeatherModalEvent event, Emitter<CityWeatherState> emit) {
+  void _callFetchWeather(
+      LoadWeatherModalEvent event, Emitter<CityWeatherState> emit) {
     final double latitude = event.latitude;
     final double longitude = event.longitude;
     final String cityName = event.cityName;
+    final previousCitySearchResults = state.previousCitySearchResults;
 
-    emit(CallWeatherFetchEventState(latitude: latitude, longitude: longitude, cityName: cityName));
+    emit(CallWeatherFetchEventState(
+        latitude: latitude,
+        longitude: longitude,
+        cityName: cityName,
+        previousCitySearchResults: previousCitySearchResults));
   }
 
   Future<void> _getCurrentWeather(
       FetchWeatherEvent event, Emitter<CityWeatherState> emit) async {
-
     List<CityLocation>? previousFetchResults = state.previousCitySearchResults;
 
-    emit(FetchWeatherLoadingState(previousCitySearchResults: previousFetchResults));
+    emit(const FetchWeatherLoadingState());
 
     final latitude = event.latitude;
     final longitude = event.longitude;
@@ -69,7 +74,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     emit(const HideWeatherLoadingState());
 
     emit(WeatherFetchSuccessState(
-      previousCitySearchResults: previousFetchResults,
+        previousCitySearchResults: previousFetchResults,
         weatherData: WeatherStateData(
             cityId: cityId,
             currentWeather: result.current,
@@ -78,10 +83,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
             city: cityName ?? "",
             translatedWeather: translatedDescription,
             latitude: latitude,
-            longitude: longitude
-        )
-      )
-    );
+            longitude: longitude)));
   }
 
   Future<void> _searchWeatherEvent(
