@@ -55,7 +55,7 @@ final class WeatherInitialState extends CityWeatherState {
 }
 
 final class FetchWeatherLoadingState extends CityWeatherState {
-  FetchWeatherLoadingState({super.previousCitySearchResults});
+  const FetchWeatherLoadingState();
 }
 
 final class HideWeatherLoadingState extends CityWeatherState {

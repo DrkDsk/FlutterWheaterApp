@@ -43,8 +43,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       FetchWeatherEvent event, Emitter<CityWeatherState> emit) async {
     List<CityLocation>? previousFetchResults = state.previousCitySearchResults;
 
-    emit(FetchWeatherLoadingState(
-        previousCitySearchResults: previousFetchResults));
+    emit(const FetchWeatherLoadingState());
 
     final latitude = event.latitude;
     final longitude = event.longitude;
