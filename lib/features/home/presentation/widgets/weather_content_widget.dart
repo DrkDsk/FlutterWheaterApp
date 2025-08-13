@@ -39,33 +39,38 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<CityWeatherBloc, CityWeatherState>(
       builder: (context, state) {
-        if (state is WeatherFetchSuccessState) {
+        if (state is FetchWeatherSuccessState) {
           return SafeArea(
-            child: BlocBuilder<CityWeatherBloc, CityWeatherState>(
-              buildWhen: (previous, current) => current is WeatherFetchSuccessState,
-              builder: (context, state) {
-                if (state is WeatherFetchSuccessState) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  HeaderWeatherWidget(
+                    city: state.weatherData.city,
+                    translatedWeather: state.weatherData.translatedWeather,
+                    temp: state.weatherData.currentWeather.tempCelsiusText,
+                  ),
+                  HourlyListWeatherWidget(hourly: state.weatherData.hourly),
+                  const SizedBox(height: 20),
+                  DailyListWeatherWidget(daily: state.weatherData.daily),
+                  const SizedBox(height: 20),
+
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(12)
+                    ),
+                    child: const Column(
                       children: [
-                        const SizedBox(height: 10),
-                        HeaderWeatherWidget(
-                          city: state.weatherData.city,
-                          translatedWeather: state.weatherData.translatedWeather,
-                          temp: state.weatherData.currentWeather.tempCelsiusText,
-                        ),
-                        HourlyListWeatherWidget(hourly: state.weatherData.hourly),
-                        const SizedBox(height: 20),
-                        DailyListWeatherWidget(daily: state.weatherData.daily),
-                        const SizedBox(height: 20),
+                        Text("Sensación térmica")
                       ],
                     ),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
+                  )
+                ],
+              ),
             ),
           );
         }

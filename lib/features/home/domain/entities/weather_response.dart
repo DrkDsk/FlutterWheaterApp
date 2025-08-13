@@ -1,3 +1,8 @@
+import 'dart:ui';
+
+import 'package:clima_app/core/colors/weather_colors.dart';
+import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
+import 'package:clima_app/core/helpers/datetime_helper.dart';
 import 'package:clima_app/features/home/domain/entities/current.dart';
 import 'package:clima_app/features/home/domain/entities/daily.dart';
 import 'package:clima_app/features/home/domain/entities/hourly.dart';
@@ -39,5 +44,18 @@ class WeatherResponse {
       hourly: hourly ?? this.hourly,
       daily: daily ?? this.daily
     );
+  }
+
+  Color? getBackgroundColor({String? translated}) {
+    final weather = current;
+
+    final isNightTime = DateTimeTimeHelper.isNight(
+      DateTime.now(),
+      weather.sunrise,
+      weather.sunset,
+    );
+
+    final timeType = isNightTime ? TimeOfDayType.night : TimeOfDayType.day;
+    return WeatherColors.getWeatherColor(translated!, timeType);
   }
 }
