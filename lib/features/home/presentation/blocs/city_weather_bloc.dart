@@ -73,17 +73,22 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
     emit(const HideWeatherLoadingState());
 
-    emit(WeatherFetchSuccessState(
+    emit(
+      FetchWeatherSuccessState(
         previousCitySearchResults: previousFetchResults,
         weatherData: WeatherStateData(
-            cityId: cityId,
-            currentWeather: result.current,
-            hourly: hourly,
-            daily: daily,
-            city: cityName ?? "",
-            translatedWeather: translatedDescription,
-            latitude: latitude,
-            longitude: longitude)));
+          cityId: cityId,
+          currentWeather: result.current,
+          hourly: hourly,
+          daily: daily,
+          city: cityName ?? "",
+          translatedWeather: translatedDescription,
+          latitude: latitude,
+          longitude: longitude,
+          backgroundColor: result.getBackgroundColor(translated: translatedDescription.main)
+        )
+      )
+    );
   }
 
   Future<void> _searchWeatherEvent(
