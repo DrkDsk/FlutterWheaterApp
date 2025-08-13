@@ -13,7 +13,7 @@ class SavedCityItemCard extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.11,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Colors.lightBlue,
+        color: Colors.grey.withOpacity(0.045),
         borderRadius: BorderRadius.circular(18),
       ),
       child: Padding(

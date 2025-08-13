@@ -8,7 +8,7 @@ ColorScheme colorScheme = ColorScheme.light(
 
 ThemeData get lightTheme => ThemeData(
   brightness: Brightness.light,
-  fontFamily: 'Montserrat',
+  fontFamily: 'Outfit',
   colorScheme: colorScheme,
   textTheme: TextTheme(
     bodySmall: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: colorScheme.onPrimary),
