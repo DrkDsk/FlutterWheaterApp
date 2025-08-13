@@ -37,4 +37,6 @@ extension CurrentWeatherExtension on Current {
 
     return "${speedKmh.round()} km/h (${directions[index]})";
   }
+
+  String get visibilityTextInKm => "${((visibility ?? 0) / 1000).toStringAsFixed(0)} km";
 }

@@ -6,6 +6,7 @@ import 'package:clima_app/core/extensions/weather/current_weather_extension.dart
 import 'package:clima_app/features/home/presentation/widgets/daily_list_weather_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/header_weather_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/hourly_list_weather_widget.dart';
+import 'package:clima_app/features/home/presentation/widgets/segment_weather_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -102,6 +103,24 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                         )
                       ],
                     ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SegmentWeatherWidget(
+                              title: "Visibilidad",
+                              emoji: "🌫️",
+                              value:
+                              weatherData.currentWeather.visibilityTextInKm),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const Expanded(
+                          child: SizedBox.shrink(),
+                        )
+                      ],
+                    ),
                   ],
                 ),
               );
@@ -110,42 +129,6 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
             return const SizedBox.shrink();
           },
         ),
-      ),
-    );
-  }
-}
-
-class SegmentWeatherWidget extends StatelessWidget {
-  const SegmentWeatherWidget(
-      {super.key, required this.title, required this.emoji, required this.value});
-
-  final String title;
-  final String value;
-  final String emoji;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 180,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.15),
-          borderRadius: BorderRadius.circular(12)),
-      child: DefaultTextStyle(
-        style: const TextStyle(
-          fontSize: 25,
-          fontFamily: 'Outfit',
-          fontWeight: FontWeight.w700
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(title),
-            Text(emoji),
-            Text(value)
-          ],
-        )
       ),
     );
   }
