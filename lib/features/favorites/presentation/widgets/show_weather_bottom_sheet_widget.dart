@@ -1,9 +1,11 @@
+import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/helpers/injection_helper.dart';
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
+import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,79 +15,96 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ShowWeatherBottomSheetWidget extends StatelessWidget {
   const ShowWeatherBottomSheetWidget(
       {super.key,
-        required this.cityName,
-        required this.latitude,
-        required this.longitude});
+      required this.cityName,
+      required this.latitude,
+      required this.longitude});
 
   final String cityName;
   final double latitude;
   final double longitude;
 
-  Future<void> handleSaveCity({
-    required double latitude,
-    required double longitude,
-    required String cityName,
-    required BuildContext context
-  }) async {
-    context.read<FavoriteBloc>().add(
-      StoreCityEvent(
-        cityName: cityName,
-        latitude: latitude,
-        longitude: longitude
-      )
-    );
+  Future<void> handleSaveCity(
+      {required double latitude,
+      required double longitude,
+      required String cityName,
+      required BuildContext context}) async {
+    context.read<FavoriteBloc>().add(StoreCityEvent(
+        cityName: cityName, latitude: latitude, longitude: longitude));
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return FractionallySizedBox(
-      heightFactor: 0.90,
-      child: BlocListener<FavoriteBloc, FavoriteState>(
-        listener: (context, state) {
+    return BlocSelector<CityWeatherBloc, CityWeatherState, Color?>(
+      selector: (state) {
+        if (state is FetchWeatherSuccessState) {
+          return state.weatherData.backgroundColor;
+        }
 
-          if (state is SuccessFavoriteState) {
-
-            final router = AppRouter.of(context);
-
-            context.read<FavoriteBloc>().add(const GetFavoritesCitiesEvent());
-
-            router.goToScreenAndClear(
-                BlocProvider(
-                  create: (context) => getIt<CityWeatherBloc>(),
-                  child: HomeWeatherPage(initialIndex: state.lastCitiStoredIndex),
-                )
-            );
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    child:
-                    Text("Cancelar", style: theme.textTheme.bodyMedium),
-                    onPressed: () => AppRouter.of(context).pop(),
-                  ),
-                  CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () => handleSaveCity(cityName: cityName, latitude: latitude, longitude: longitude, context: context),
-                    child: Text("Agregar", style: theme.textTheme.bodyMedium),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Expanded(child: WeatherContentWidget(latitude: latitude, longitude: longitude))
-            ],
+        return WeatherColors.drizzleNight;
+      },
+      builder: (context, backgroundColor) {
+        return Container(
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24))
           ),
-        ),
-      ),
+          child: FractionallySizedBox(
+            heightFactor: 0.90,
+            child: BlocListener<FavoriteBloc, FavoriteState>(
+              listener: (context, state) {
+                if (state is SuccessFavoriteState) {
+                  final router = AppRouter.of(context);
+
+                  context
+                      .read<FavoriteBloc>()
+                      .add(const GetFavoritesCitiesEvent());
+
+                  router.goToScreenAndClear(BlocProvider(
+                    create: (context) => getIt<CityWeatherBloc>(),
+                    child:
+                        HomeWeatherPage(initialIndex: state.lastCitiStoredIndex),
+                  ));
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child:
+                              Text("Cancelar", style: theme.textTheme.bodyMedium),
+                          onPressed: () => AppRouter.of(context).pop(),
+                        ),
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () => handleSaveCity(
+                              cityName: cityName,
+                              latitude: latitude,
+                              longitude: longitude,
+                              context: context),
+                          child:
+                              Text("Agregar", style: theme.textTheme.bodyMedium),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Expanded(
+                        child: WeatherContentWidget(
+                            latitude: latitude, longitude: longitude))
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

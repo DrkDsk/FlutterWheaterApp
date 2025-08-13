@@ -1,3 +1,4 @@
+import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/core/shared/widgets/alerts.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_results_content_widget.dart';
@@ -20,11 +21,11 @@ class WeatherListFavorites extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       builder: (context) =>
-          ShowWeatherBottomSheetWidget(
-            cityName: cityName,
-            latitude: latitude,
-            longitude: longitude,
-          ),
+        ShowWeatherBottomSheetWidget(
+          cityName: cityName,
+          latitude: latitude,
+          longitude: longitude,
+        ),
     );
   }
 
@@ -35,35 +36,50 @@ class WeatherListFavorites extends StatelessWidget {
       AppRouter.of(context).pop();
     }
     else if (state is CallWeatherFetchEventState) {
-      _showWeatherBottomSheet(context, cityName: state.cityName,
-          latitude: state.latitude,
-          longitude: state.longitude);
+      _showWeatherBottomSheet(
+        context,
+        cityName: state.cityName,
+        latitude: state.latitude,
+        longitude: state.longitude,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CityWeatherBloc, CityWeatherState>(
-      listener: (context, state) => _onLoadWeather(context, state),
-      child: const Scaffold(
-        backgroundColor: Colors.white10,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                SearchCityHeader(),
-                SizedBox(height: 10),
-                Expanded(
-                  child: CityResultsContentWidget(),
+    return BlocSelector<CityWeatherBloc, CityWeatherState, Color?>(
+      selector: (state) {
+
+        if (state is FetchWeatherSuccessState) {
+          return state.weatherData.backgroundColor;
+        }
+
+        return WeatherColors.drizzleNight;
+      },
+      builder: (context, backgroundColor) {
+        return BlocListener<CityWeatherBloc, CityWeatherState>(
+          listener: (context, state) => _onLoadWeather(context, state),
+          child: const Scaffold(
+            backgroundColor: Colors.white10,
+            body: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20),
+                    SearchCityHeader(),
+                    SizedBox(height: 10),
+                    Expanded(
+                      child: CityResultsContentWidget(),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -45,6 +45,10 @@ class _SearchCityWidgetState extends State<SearchCityWidget> {
           _cityWeatherBloc.add(CitySearchEvent(query: value));
         });
       },
+      style: TextStyle(
+        color: theme.colorScheme.onPrimary,
+        fontSize: 24,
+      ),
       prefix: Padding(
         padding: const EdgeInsets.only(left: 8),
         child: Icon(
