@@ -22,7 +22,7 @@ final class CallWeatherFetchEventState extends CityWeatherState {
 }
 
 final class FetchWeatherSuccessState extends CityWeatherState {
-  final WeatherStateData weatherData;
+  final WeatherData weatherData;
 
   FetchWeatherSuccessState(
       {required this.weatherData, super.previousCitySearchResults});
@@ -37,7 +37,7 @@ final class FetchWeatherSuccessState extends CityWeatherState {
       double? latitude,
       double? longitude}) {
     return FetchWeatherSuccessState(
-      weatherData: WeatherStateData(
+      weatherData: WeatherData(
           currentWeather: currentWeather ?? weatherData.currentWeather,
           translatedWeather: translatedWeather ?? weatherData.translatedWeather,
           hourly: hourly ?? weatherData.hourly,

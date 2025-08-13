@@ -76,7 +76,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     emit(
       FetchWeatherSuccessState(
         previousCitySearchResults: previousFetchResults,
-        weatherData: WeatherStateData(
+        weatherData: WeatherData(
           cityId: cityId,
           currentWeather: result.current,
           hourly: hourly,
