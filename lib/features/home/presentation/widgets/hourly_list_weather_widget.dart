@@ -20,7 +20,7 @@ class HourlyListWeatherWidget extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: theme.colorScheme.primary.withOpacity(0.15)
+        color: Colors.grey.withOpacity(0.15)
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

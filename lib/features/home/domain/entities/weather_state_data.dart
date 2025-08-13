@@ -5,7 +5,7 @@ import 'package:clima_app/features/home/domain/entities/daily.dart';
 import 'package:clima_app/features/home/domain/entities/hourly.dart';
 import 'package:clima_app/features/home/domain/entities/translated/translated_weather.dart';
 
-class WeatherStateData {
+class WeatherData {
   final Current currentWeather;
   final TranslatedWeather translatedWeather;
   final List<Hourly> hourly;
@@ -16,7 +16,7 @@ class WeatherStateData {
   final double? longitude;
   final Color? backgroundColor;
 
-  WeatherStateData({
+  WeatherData({
     required this.currentWeather,
     required this.translatedWeather,
     required this.hourly,
