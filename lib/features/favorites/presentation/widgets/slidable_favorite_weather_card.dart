@@ -52,7 +52,7 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Slidable(
       direction: Axis.horizontal,
-      startActionPane: buildActionPane(context: context),
+      endActionPane: currentCity.id != null ? buildActionPane(context: context) : null,
       child: GestureDetector(
         onTap: () {
           final router = AppRouter.of(context);
