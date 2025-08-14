@@ -30,19 +30,27 @@ class WeatherListFavorites extends StatelessWidget {
   }
 
   void _onLoadWeather(BuildContext context, CityWeatherState state) {
-    if (state is FetchWeatherLoadingState) {
+    if (state.status == CityWeatherStatus.loading) {
       Alerts.showLoadingDialog(context);
-    } else if (state is HideWeatherLoadingState) {
+      return ;
+    } else if (state.status == CityWeatherStatus.initial) {
       AppRouter.of(context).pop();
+      return ;
     }
-    else if (state is CallWeatherFetchEventState) {
-      _showWeatherBottomSheet(
-        context,
-        cityName: state.cityName,
-        latitude: state.latitude,
-        longitude: state.longitude,
-      );
+
+    final latitude = state.latitude;
+    final longitude = state.longitude;
+
+    if (latitude == null || longitude == null) {
+      return ;
     }
+
+    _showWeatherBottomSheet(
+      context,
+      cityName: state.cityName,
+      latitude: latitude,
+      longitude: longitude,
+    );
   }
 
   @override
@@ -50,8 +58,8 @@ class WeatherListFavorites extends StatelessWidget {
     return BlocSelector<CityWeatherBloc, CityWeatherState, Color?>(
       selector: (state) {
 
-        if (state is FetchWeatherSuccessState) {
-          return state.weatherData.backgroundColor;
+        if (state.status == CityWeatherStatus.success) {
+          return state.weatherData?.backgroundColor;
         }
 
         return WeatherColors.drizzleNight;

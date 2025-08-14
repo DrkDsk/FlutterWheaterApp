@@ -19,7 +19,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       required this.searchCityUseCase,
       required this.getCityUseCase,
       required this.mapper})
-      : super(const WeatherInitialState()) {
+      : super(const CityWeatherState()) {
     on<FetchWeatherEvent>(_getCurrentWeather);
     on<CitySearchEvent>(_searchWeatherEvent);
     on<LoadWeatherModalEvent>(_callFetchWeather);
@@ -32,7 +32,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final String cityName = event.cityName;
     final previousCitySearchResults = state.previousCitySearchResults;
 
-    emit(CallWeatherFetchEventState(
+    emit(state.copyWith(
         latitude: latitude,
         longitude: longitude,
         cityName: cityName,
@@ -43,7 +43,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       FetchWeatherEvent event, Emitter<CityWeatherState> emit) async {
     List<CityLocation>? previousFetchResults = state.previousCitySearchResults;
 
-    emit(const FetchWeatherLoadingState());
+    emit(state.copyWith(status: CityWeatherStatus.loading));
 
     final latitude = event.latitude;
     final longitude = event.longitude;
@@ -55,9 +55,10 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final cityName = homeWeatherUseCaseResult.cityName;
 
     if (eitherWeather.isLeft()) {
-      emit(const HideWeatherLoadingState());
+      emit(state.copyWith(status: CityWeatherStatus.initial));
       final error = eitherWeather.swap().getOrElse(() => throw Exception(""));
-      emit(FetchWeatherErrorState(message: error.message));
+      emit(state.copyWith(
+          status: CityWeatherStatus.failure, errorMessage: error.message));
       return;
     }
 
@@ -71,24 +72,22 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
     if (emit.isDone) return;
 
-    emit(const HideWeatherLoadingState());
+    emit(state.copyWith(status: CityWeatherStatus.initial));
 
-    emit(
-      FetchWeatherSuccessState(
+    emit(state.copyWith(
+        status: CityWeatherStatus.success,
         previousCitySearchResults: previousFetchResults,
         weatherData: WeatherData(
-          cityId: cityId,
-          currentWeather: result.current,
-          hourly: hourly,
-          daily: daily,
-          city: cityName ?? "",
-          translatedWeather: translatedDescription,
-          latitude: latitude,
-          longitude: longitude,
-          backgroundColor: result.getBackgroundColor(translated: translatedDescription.main)
-        )
-      )
-    );
+            cityId: cityId,
+            currentWeather: result.current,
+            hourly: hourly,
+            daily: daily,
+            city: cityName ?? "",
+            translatedWeather: translatedDescription,
+            latitude: latitude,
+            longitude: longitude,
+            backgroundColor: result.getBackgroundColor(
+                translated: translatedDescription.main))));
   }
 
   Future<void> _searchWeatherEvent(
@@ -96,20 +95,23 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final String query = event.query;
 
     if (query.isEmpty) {
-      emit(const SearchCityInitialState());
+      emit(state.copyWith(status: CityWeatherStatus.initial));
       return;
     }
 
     final result = await searchCityUseCase.call(query: query);
 
     result.fold((left) {
-      emit(SearchCityErrorState(message: left.message));
+      emit(state.copyWith(
+          status: CityWeatherStatus.failure, errorMessage: left.message));
     }, (right) {
       final filteredCitySearchResult = right.data.where((element) {
         return element.state != null;
       }).toList();
 
-      emit(SearchCityResultSuccess(citySearchResult: filteredCitySearchResult));
+      emit(state.copyWith(
+          status: CityWeatherStatus.success,
+          previousCitySearchResults: filteredCitySearchResult));
     });
   }
 }

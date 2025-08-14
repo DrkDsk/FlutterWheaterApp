@@ -6,7 +6,7 @@ import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.d
 import 'package:clima_app/features/home/domain/services/location_service.dart';
 import 'package:uuid/uuid.dart';
 
-class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
+class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteLocationsState> {
   final FavoriteWeatherRepository _repository;
   final LocationService _locationService;
 
@@ -15,14 +15,16 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       required LocationService locationService})
       : _repository = repository,
         _locationService = locationService,
-        super(const FavoriteLoadingState()) {
+        super(const FavoriteLocationsState()) {
     on<StoreCityEvent>(_storeCity);
     on<GetFavoritesCitiesEvent>(_getFavoritesCities);
     on<DeleteFavoriteEvent>(_deleteFavoriteCity);
   }
 
   Future<void> _storeCity(
-      StoreCityEvent event, Emitter<FavoriteState> emit) async {
+      StoreCityEvent event, Emitter<FavoriteLocationsState> emit) async {
+    emit(state.copyWith(status: FavoriteStatus.loading));
+
     final String cityName = event.cityName;
     final double latitude = event.latitude;
     final double longitude = event.longitude;
@@ -36,18 +38,19 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     final resultEither = await _repository.store(location: location);
 
     resultEither.fold((error) {
-      emit(ErrorFavoriteState(message: error.message));
+      emit(state.copyWith(errorMessage: error.message, status: FavoriteStatus.failure));
     }, (result) {
-      emit(SuccessFavoriteState(lastCitiStoredIndex: result));
+      emit(state.copyWith(lastCitiStoredIndex: result, status: FavoriteStatus.initial));
     });
   }
 
   Future<void> _getFavoritesCities(
-      GetFavoritesCitiesEvent event, Emitter<FavoriteState> emit) async {
+      GetFavoritesCitiesEvent event, Emitter<FavoriteLocationsState> emit) async {
+
     final either = await _repository.fetchAll();
 
     await either.fold((error) {
-      emit(ErrorFavoriteState(message: error.message));
+      emit(state.copyWith(errorMessage: error.message, status: FavoriteStatus.failure));
     }, (result) async {
       List<FavoriteLocation> cities = [];
 
@@ -64,19 +67,19 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
         cities.add(defaultLocation);
 
-        emit(FavoritesCitiesState(cities: cities));
+        emit(state.copyWith(items: cities, status: FavoriteStatus.success));
 
         return;
       }
 
       cities.addAll(result);
 
-      emit(FavoritesCitiesState(cities: cities));
+      emit(state.copyWith(items: cities, status: FavoriteStatus.success));
     });
   }
 
-  Future<void> _deleteFavoriteCity(DeleteFavoriteEvent event, Emitter<FavoriteState> emit) async {
-    emit(const FavoriteLoadingState());
+  Future<void> _deleteFavoriteCity(DeleteFavoriteEvent event, Emitter<FavoriteLocationsState> emit) async {
+    emit(state.copyWith(status: FavoriteStatus.loading));
 
     final favoriteId = event.id;
 

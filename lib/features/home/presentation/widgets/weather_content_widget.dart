@@ -45,8 +45,12 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: BlocBuilder<CityWeatherBloc, CityWeatherState>(
           builder: (context, state) {
-            if (state is FetchWeatherSuccessState) {
-              final WeatherData weatherData = state.weatherData;
+            if (state.status == CityWeatherStatus.success) {
+              final WeatherData? weatherData = state.weatherData;
+
+              if (weatherData == null) {
+                return const SizedBox.shrink();
+              }
 
               return SingleChildScrollView(
                 child: Column(
@@ -126,7 +130,7 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
               );
             }
 
-            return const SizedBox.shrink();
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),

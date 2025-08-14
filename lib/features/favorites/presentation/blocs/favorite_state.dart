@@ -1,36 +1,31 @@
 import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
-import 'package:flutter/material.dart';
 
-enum CrudStatus { initial, loading, success, failure }
+enum FavoriteStatus { initial, loading, success, failure }
 
-@immutable
-sealed class FavoriteState {
-  const FavoriteState();
+class FavoriteLocationsState {
+  final FavoriteStatus status;
+  final List<FavoriteLocation> items;
+  final String? errorMessage;
+  final int? lastCitiStoredIndex;
+
+  const FavoriteLocationsState({
+    this.status = FavoriteStatus.initial,
+    this.items = const [],
+    this.errorMessage,
+    this.lastCitiStoredIndex
+  });
+
+  FavoriteLocationsState copyWith({
+    FavoriteStatus? status,
+    List<FavoriteLocation>? items,
+    String? errorMessage,
+    int? lastCitiStoredIndex
+  }) {
+    return FavoriteLocationsState(
+      status: status ?? this.status,
+      items: items ?? this.items,
+      errorMessage: errorMessage,
+      lastCitiStoredIndex: lastCitiStoredIndex
+    );
+  }
 }
-
-final class FavoriteInitial extends FavoriteState {}
-
-final class FavoriteLoadingState extends FavoriteState {
-
-  const FavoriteLoadingState();
-}
-
-final class SuccessFavoriteState extends FavoriteState {
-  final int lastCitiStoredIndex;
-
-  const SuccessFavoriteState({required this.lastCitiStoredIndex});
-}
-
-final class ErrorFavoriteState extends FavoriteState {
-  final String message;
-
-  const ErrorFavoriteState({required this.message});
-}
-
-final class FavoritesCitiesState extends FavoriteState {
-  final List<FavoriteLocation> cities;
-
-  const FavoritesCitiesState({required this.cities});
-}
-
-

@@ -11,8 +11,8 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(
     BuildContext context) {
-    return BlocBuilder<FavoriteBloc, FavoriteState>(builder: (context, state) {
-      if (state is FavoriteLoadingState) {
+    return BlocBuilder<FavoriteBloc, FavoriteLocationsState>(builder: (context, state) {
+      if (state.status == FavoriteStatus.loading) {
         return const SplashScreen();
       }
 

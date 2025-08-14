@@ -1,7 +1,6 @@
 import 'package:clima_app/core/constants/hive_constants.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
 import 'package:clima_app/features/favorites/data/models/favorite_location_hive_model.dart';
-import 'package:dartz/dartz.dart';
 import 'package:hive/hive.dart';
 
 class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {

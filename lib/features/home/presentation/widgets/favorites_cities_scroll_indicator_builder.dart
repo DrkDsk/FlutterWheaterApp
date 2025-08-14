@@ -14,16 +14,13 @@ class FavoritesCitiesScrollIndicatorBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoriteBloc, FavoriteState>(
-      buildWhen: (previous, current) => current is FavoritesCitiesState,
+    return BlocBuilder<FavoriteBloc, FavoriteLocationsState>(
+      buildWhen: (previous, current) => current.status == FavoriteStatus.success,
       builder: (context, state) {
-        if (state is FavoritesCitiesState) {
-          return FavoritesCitiesScrollIndicatorWidget(
-              currentPage: currentPage,
-              length: state.cities.length
-          );
-        }
-        return const SizedBox.shrink();
+        return FavoritesCitiesScrollIndicatorWidget(
+            currentPage: currentPage,
+            length: state.items.length
+        );
       },
     );
   }
