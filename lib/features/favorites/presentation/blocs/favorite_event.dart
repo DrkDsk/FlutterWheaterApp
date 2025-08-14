@@ -16,3 +16,9 @@ final class StoreCityEvent extends FavoriteEvent {
 final class GetFavoritesCitiesEvent extends FavoriteEvent {
   const GetFavoritesCitiesEvent();
 }
+
+final class DeleteFavoriteEvent extends FavoriteEvent {
+  final String id;
+
+  const DeleteFavoriteEvent({required this.id});
+}

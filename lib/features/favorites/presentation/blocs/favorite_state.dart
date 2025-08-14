@@ -1,6 +1,8 @@
 import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
 import 'package:flutter/material.dart';
 
+enum CrudStatus { initial, loading, success, failure }
+
 @immutable
 sealed class FavoriteState {
   const FavoriteState();

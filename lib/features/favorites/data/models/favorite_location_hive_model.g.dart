@@ -18,21 +18,24 @@ class FavoriteLocationHiveModelAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return FavoriteLocationHiveModel(
-      cityName: fields[0] as String,
-      latitude: fields[1] as double,
-      longitude: fields[2] as double,
+      id: fields[0] as String,
+      cityName: fields[1] as String,
+      latitude: fields[2] as double,
+      longitude: fields[3] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, FavoriteLocationHiveModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.cityName)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.latitude)
+      ..write(obj.cityName)
       ..writeByte(2)
+      ..write(obj.latitude)
+      ..writeByte(3)
       ..write(obj.longitude);
   }
 
