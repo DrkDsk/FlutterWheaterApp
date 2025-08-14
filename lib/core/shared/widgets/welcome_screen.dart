@@ -12,7 +12,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(
     BuildContext context) {
     return BlocBuilder<FavoriteBloc, FavoriteLocationsState>(builder: (context, state) {
-      if (state.status == CrudStatus.loading) {
+      if (state.status == FavoriteStatus.loading) {
         return const SplashScreen();
       }
 

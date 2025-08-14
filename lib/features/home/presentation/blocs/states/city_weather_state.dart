@@ -1,86 +1,45 @@
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/home/domain/entities/current.dart';
-import 'package:clima_app/features/home/domain/entities/daily.dart';
-import 'package:clima_app/features/home/domain/entities/hourly.dart';
-import 'package:clima_app/features/home/domain/entities/translated/translated_weather.dart';
 import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
 
-sealed class CityWeatherState {
+enum CityWeatherStatus { initial, loading, failure, success }
+
+class CityWeatherState {
+  final WeatherData? weatherData;
+  final CityWeatherStatus status;
   final List<CityLocation>? previousCitySearchResults;
-  const CityWeatherState({this.previousCitySearchResults});
-}
-
-final class CallWeatherFetchEventState extends CityWeatherState {
-  final double latitude;
-  final double longitude;
+  final double? latitude;
+  final double? longitude;
   final String cityName;
+  final String errorMessage;
 
-  const CallWeatherFetchEventState(
-      {required this.latitude,
-      required this.longitude,
-      required this.cityName, super.previousCitySearchResults});
-}
+  const CityWeatherState({
+    this.weatherData,
+    this.previousCitySearchResults,
+    this.status = CityWeatherStatus.initial,
+    this.latitude,
+    this.longitude,
+    this.cityName = "",
+    this.errorMessage = ""
+  });
 
-final class FetchWeatherSuccessState extends CityWeatherState {
-  final WeatherData weatherData;
-
-  FetchWeatherSuccessState(
-      {required this.weatherData, super.previousCitySearchResults});
-
-  CityWeatherState copyWith(
-      {Current? currentWeather,
-      TranslatedWeather? translatedWeather,
-      List<Hourly>? hourly,
-      List<Daily>? daily,
-      String? city,
-      int? cityId,
-      double? latitude,
-      double? longitude}) {
-    return FetchWeatherSuccessState(
-      weatherData: WeatherData(
-          currentWeather: currentWeather ?? weatherData.currentWeather,
-          translatedWeather: translatedWeather ?? weatherData.translatedWeather,
-          hourly: hourly ?? weatherData.hourly,
-          daily: daily ?? weatherData.daily,
-          city: city ?? weatherData.city,
-          cityId: cityId ?? weatherData.cityId,
-          latitude: latitude ?? weatherData.latitude,
-          longitude: longitude ?? weatherData.longitude),
+  CityWeatherState copyWith({
+    WeatherData? weatherData,
+    CityWeatherStatus? status,
+    List<CityLocation>? previousCitySearchResults,
+    double? latitude,
+    double? longitude,
+    String? cityName,
+    String? errorMessage,
+  }) {
+    return CityWeatherState(
+      weatherData: weatherData ?? this.weatherData,
+      status: status ?? this.status,
+      previousCitySearchResults:
+          previousCitySearchResults ?? this.previousCitySearchResults,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      cityName: cityName ?? this.cityName,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
-}
-
-final class WeatherInitialState extends CityWeatherState {
-  const WeatherInitialState();
-}
-
-final class FetchWeatherLoadingState extends CityWeatherState {
-  const FetchWeatherLoadingState();
-}
-
-final class HideWeatherLoadingState extends CityWeatherState {
-  const HideWeatherLoadingState();
-}
-
-final class FetchWeatherErrorState extends CityWeatherState {
-  final String message;
-
-  FetchWeatherErrorState({required this.message});
-}
-
-final class SearchCityInitialState extends CityWeatherState {
-  const SearchCityInitialState();
-}
-
-final class SearchCityErrorState extends CityWeatherState {
-  final String message;
-
-  const SearchCityErrorState({required this.message});
-}
-
-final class SearchCityResultSuccess extends CityWeatherState {
-  final List<CityLocation> citySearchResult;
-
-  const SearchCityResultSuccess({required this.citySearchResult})
-      : super(previousCitySearchResults: citySearchResult);
 }

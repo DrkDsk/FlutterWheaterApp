@@ -23,7 +23,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteLocationsState> {
 
   Future<void> _storeCity(
       StoreCityEvent event, Emitter<FavoriteLocationsState> emit) async {
-    emit(state.copyWith(status: CrudStatus.loading));
+    emit(state.copyWith(status: FavoriteStatus.loading));
 
     final String cityName = event.cityName;
     final double latitude = event.latitude;
@@ -38,9 +38,9 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteLocationsState> {
     final resultEither = await _repository.store(location: location);
 
     resultEither.fold((error) {
-      emit(state.copyWith(errorMessage: error.message, status: CrudStatus.failure));
+      emit(state.copyWith(errorMessage: error.message, status: FavoriteStatus.failure));
     }, (result) {
-      emit(state.copyWith(lastCitiStoredIndex: result, status: CrudStatus.initial));
+      emit(state.copyWith(lastCitiStoredIndex: result, status: FavoriteStatus.initial));
     });
   }
 
@@ -50,7 +50,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteLocationsState> {
     final either = await _repository.fetchAll();
 
     await either.fold((error) {
-      emit(state.copyWith(errorMessage: error.message, status: CrudStatus.failure));
+      emit(state.copyWith(errorMessage: error.message, status: FavoriteStatus.failure));
     }, (result) async {
       List<FavoriteLocation> cities = [];
 
@@ -67,19 +67,19 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteLocationsState> {
 
         cities.add(defaultLocation);
 
-        emit(state.copyWith(items: cities, status: CrudStatus.success));
+        emit(state.copyWith(items: cities, status: FavoriteStatus.success));
 
         return;
       }
 
       cities.addAll(result);
 
-      emit(state.copyWith(items: cities, status: CrudStatus.success));
+      emit(state.copyWith(items: cities, status: FavoriteStatus.success));
     });
   }
 
   Future<void> _deleteFavoriteCity(DeleteFavoriteEvent event, Emitter<FavoriteLocationsState> emit) async {
-    emit(state.copyWith(status: CrudStatus.loading));
+    emit(state.copyWith(status: FavoriteStatus.loading));
 
     final favoriteId = event.id;
 

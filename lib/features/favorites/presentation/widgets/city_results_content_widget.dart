@@ -16,7 +16,7 @@ class CityResultsContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<FavoriteBloc, FavoriteLocationsState, List<FavoriteLocation> >(
-      selector: (state) => state.status == CrudStatus.success ? state.items : [],
+      selector: (state) => state.status == FavoriteStatus.success ? state.items : [],
       builder: (context, favoritesCities) {
         return BlocBuilder<CityWeatherBloc, CityWeatherState>(
           builder: (context, state) {
@@ -28,8 +28,8 @@ class CityResultsContentWidget extends StatelessWidget {
               return CitySearchResultsListWidget(result: result);
             }
 
-            if (state is SearchCityErrorState) {
-              return Text(state.message,
+            if (state.status == CityWeatherStatus.failure) {
+              return Text(state.errorMessage,
                   style: theme.textTheme.bodyMedium);
             }
 

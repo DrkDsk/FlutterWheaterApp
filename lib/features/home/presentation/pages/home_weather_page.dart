@@ -52,8 +52,8 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
   Widget build(BuildContext context) {
     return BlocSelector<CityWeatherBloc, CityWeatherState, Color?>(
       selector: (state) {
-        if (state is FetchWeatherSuccessState) {
-          return state.weatherData.backgroundColor;
+        if (state.status == CityWeatherStatus.success) {
+          return state.weatherData?.backgroundColor;
         }
         return WeatherColors.drizzleNight;
       },

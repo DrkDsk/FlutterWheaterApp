@@ -1,22 +1,22 @@
 import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
 
-enum CrudStatus { initial, loading, success, failure }
+enum FavoriteStatus { initial, loading, success, failure }
 
 class FavoriteLocationsState {
-  final CrudStatus status;
+  final FavoriteStatus status;
   final List<FavoriteLocation> items;
   final String? errorMessage;
   final int? lastCitiStoredIndex;
 
   const FavoriteLocationsState({
-    this.status = CrudStatus.initial,
+    this.status = FavoriteStatus.initial,
     this.items = const [],
     this.errorMessage,
     this.lastCitiStoredIndex
   });
 
   FavoriteLocationsState copyWith({
-    CrudStatus? status,
+    FavoriteStatus? status,
     List<FavoriteLocation>? items,
     String? errorMessage,
     int? lastCitiStoredIndex

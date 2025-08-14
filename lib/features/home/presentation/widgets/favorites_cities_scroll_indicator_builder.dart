@@ -15,7 +15,7 @@ class FavoritesCitiesScrollIndicatorBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteBloc, FavoriteLocationsState>(
-      buildWhen: (previous, current) => current.status == CrudStatus.success,
+      buildWhen: (previous, current) => current.status == FavoriteStatus.success,
       builder: (context, state) {
         return FavoritesCitiesScrollIndicatorWidget(
             currentPage: currentPage,

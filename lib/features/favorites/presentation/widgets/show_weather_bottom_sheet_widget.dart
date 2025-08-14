@@ -38,8 +38,8 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
 
     return BlocSelector<CityWeatherBloc, CityWeatherState, Color?>(
       selector: (state) {
-        if (state is FetchWeatherSuccessState) {
-          return state.weatherData.backgroundColor;
+        if (state.status == CityWeatherStatus.success) {
+          return state.weatherData?.backgroundColor;
         }
 
         return WeatherColors.drizzleNight;
@@ -54,7 +54,7 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
             heightFactor: 0.90,
             child: BlocListener<FavoriteBloc, FavoriteLocationsState>(
               listener: (context, state) {
-                if (state.status == CrudStatus.initial) {
+                if (state.status == FavoriteStatus.initial) {
                   final router = AppRouter.of(context);
 
                   context
