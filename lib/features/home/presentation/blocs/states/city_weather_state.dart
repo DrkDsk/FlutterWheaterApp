@@ -1,9 +1,10 @@
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
+import 'package:equatable/equatable.dart';
 
 enum CityWeatherStatus { initial, loading, failure, success }
 
-class CityWeatherState {
+class CityWeatherState with EquatableMixin {
   final WeatherData? weatherData;
   final CityWeatherStatus status;
   final List<CityLocation>? previousCitySearchResults;
@@ -12,15 +13,14 @@ class CityWeatherState {
   final String cityName;
   final String errorMessage;
 
-  const CityWeatherState({
-    this.weatherData,
-    this.previousCitySearchResults,
-    this.status = CityWeatherStatus.initial,
-    this.latitude,
-    this.longitude,
-    this.cityName = "",
-    this.errorMessage = ""
-  });
+  const CityWeatherState(
+      {this.weatherData,
+      this.previousCitySearchResults,
+      this.status = CityWeatherStatus.initial,
+      this.latitude,
+      this.longitude,
+      this.cityName = "",
+      this.errorMessage = ""});
 
   CityWeatherState copyWith({
     WeatherData? weatherData,
@@ -36,10 +36,21 @@ class CityWeatherState {
       status: status ?? this.status,
       previousCitySearchResults:
           previousCitySearchResults ?? this.previousCitySearchResults,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
+      latitude: latitude,
+      longitude: longitude,
       cityName: cityName ?? this.cityName,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        weatherData,
+        status,
+        previousCitySearchResults,
+        latitude,
+        longitude,
+        cityName,
+        errorMessage
+      ];
 }

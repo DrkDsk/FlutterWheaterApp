@@ -1,7 +1,8 @@
 import 'package:clima_app/features/home/data/models/rain_model.dart';
 import 'package:clima_app/features/home/data/models/weather_model.dart';
+import 'package:equatable/equatable.dart';
 
-class Current {
+class Current with EquatableMixin {
   Current({
     required this.dt,
     required this.sunrise,
@@ -75,4 +76,24 @@ class Current {
       rain: rain ?? this.rain,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        dt,
+        sunrise,
+        sunset,
+        temp,
+        feelsLike,
+        pressure,
+        humidity,
+        dewPoint,
+        uvi,
+        clouds,
+        visibility,
+        windSpeed,
+        windDeg,
+        windGust,
+        weather,
+        rain,
+      ];
 }

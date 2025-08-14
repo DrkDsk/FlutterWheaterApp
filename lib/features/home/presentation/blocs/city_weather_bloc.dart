@@ -36,6 +36,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
         latitude: latitude,
         longitude: longitude,
         cityName: cityName,
+        status: CityWeatherStatus.initial,
         previousCitySearchResults: previousCitySearchResults));
   }
 
@@ -109,9 +110,14 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
         return element.state != null;
       }).toList();
 
-      emit(state.copyWith(
-          status: CityWeatherStatus.success,
-          previousCitySearchResults: filteredCitySearchResult));
+      emit(
+        state.copyWith(
+          latitude: null,
+          longitude: null,
+          status: CityWeatherStatus.initial,
+          previousCitySearchResults: filteredCitySearchResult
+        )
+      );
     });
   }
 }
