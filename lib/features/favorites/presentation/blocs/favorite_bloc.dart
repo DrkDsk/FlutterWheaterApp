@@ -83,11 +83,18 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteLocationsState> {
 
     final favoriteId = event.id;
 
+    if (favoriteId == null) {
+      emit(state.copyWith(status: FavoriteStatus.initial));
+      return ;
+    }
+
     final deleteEither = await _repository.delete(id: favoriteId);
 
     deleteEither.fold((left) {
-
+      emit(state.copyWith(status: FavoriteStatus.failure, errorMessage: left.message));
     }, (result) {
+      add(const GetFavoritesCitiesEvent());
+      return ;
     });
   }
 }
