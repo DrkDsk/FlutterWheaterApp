@@ -4,6 +4,7 @@ import 'package:clima_app/features/favorites/domain/repository/favorite_weather_
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
 import 'package:clima_app/features/home/domain/services/location_service.dart';
+import 'package:uuid/uuid.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   final FavoriteWeatherRepository _repository;
@@ -17,19 +18,22 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         super(const FavoriteLoadingState()) {
     on<StoreCityEvent>(_storeCity);
     on<GetFavoritesCitiesEvent>(_getFavoritesCities);
+    on<DeleteFavoriteEvent>(_deleteFavoriteCity);
   }
 
   Future<void> _storeCity(
       StoreCityEvent event, Emitter<FavoriteState> emit) async {
-
     final String cityName = event.cityName;
     final double latitude = event.latitude;
     final double longitude = event.longitude;
 
     final FavoriteLocation location = FavoriteLocation(
-        cityName: cityName, latitude: latitude, longitude: longitude);
+        id: const Uuid().v4(),
+        cityName: cityName,
+        latitude: latitude,
+        longitude: longitude);
 
-    final resultEither = await _repository.storeCity(location: location);
+    final resultEither = await _repository.store(location: location);
 
     resultEither.fold((error) {
       emit(ErrorFavoriteState(message: error.message));
@@ -40,8 +44,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
   Future<void> _getFavoritesCities(
       GetFavoritesCitiesEvent event, Emitter<FavoriteState> emit) async {
-
-    final either = await _repository.getFavoritesCities();
+    final either = await _repository.fetchAll();
 
     await either.fold((error) {
       emit(ErrorFavoriteState(message: error.message));
@@ -69,6 +72,19 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       cities.addAll(result);
 
       emit(FavoritesCitiesState(cities: cities));
+    });
+  }
+
+  Future<void> _deleteFavoriteCity(DeleteFavoriteEvent event, Emitter<FavoriteState> emit) async {
+    emit(const FavoriteLoadingState());
+
+    final favoriteId = event.id;
+
+    final deleteEither = await _repository.delete(id: favoriteId);
+
+    deleteEither.fold((left) {
+
+    }, (result) {
     });
   }
 }
