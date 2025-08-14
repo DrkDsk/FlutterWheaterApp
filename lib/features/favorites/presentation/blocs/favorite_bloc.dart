@@ -23,7 +23,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteLocationsState> {
 
   Future<void> _storeCity(
       StoreCityEvent event, Emitter<FavoriteLocationsState> emit) async {
-    emit(state.copyWith(status: FavoriteStatus.loading));
 
     final String cityName = event.cityName;
     final double latitude = event.latitude;

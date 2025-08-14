@@ -30,13 +30,6 @@ class WeatherListFavorites extends StatelessWidget {
   }
 
   void _onLoadWeather(BuildContext context, CityWeatherState state) {
-    if (state.status == CityWeatherStatus.loading) {
-      Alerts.showLoadingDialog(context);
-      return ;
-    } else if (state.status == CityWeatherStatus.initial) {
-      AppRouter.of(context).pop();
-      return ;
-    }
 
     final latitude = state.latitude;
     final longitude = state.longitude;
