@@ -1,4 +1,4 @@
-import 'package:clima_app/core/helpers/injection_helper.dart';
+import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
 import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
