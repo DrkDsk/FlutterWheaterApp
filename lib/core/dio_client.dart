@@ -2,13 +2,16 @@ import 'package:dio/dio.dart';
 
 class DioClient {
 
-  static final DioClient _instance = DioClient._internal();
+  static DioClient? _instance;
 
   late final Dio dio;
 
-  factory DioClient() => _instance;
+  factory DioClient({required String apiKey}) {
+    _instance ??= DioClient._internal(apiKey);
+    return _instance!;
+  }
 
-  DioClient._internal() {
+  DioClient._internal(String apiKey) {
     dio = Dio(BaseOptions(
       baseUrl: 'https://api.openweathermap.org',
       connectTimeout: const Duration(seconds: 10),
@@ -18,7 +21,7 @@ class DioClient {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          options.queryParameters.addAll({'appid': "d7f496a9000941071e8d2527c64f26cf"});
+          options.queryParameters.addAll({'appid': apiKey});
           return handler.next(options);
         },
       ),
