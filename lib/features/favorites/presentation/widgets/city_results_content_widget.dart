@@ -15,8 +15,8 @@ class CityResultsContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<FavoriteBloc, FavoriteState, List<FavoriteLocation> >(
-      selector: (state) => state is FavoritesCitiesState ? state.cities : [],
+    return BlocSelector<FavoriteBloc, FavoriteLocationsState, List<FavoriteLocation> >(
+      selector: (state) => state.status == CrudStatus.success ? state.items : [],
       builder: (context, favoritesCities) {
         return BlocBuilder<CityWeatherBloc, CityWeatherState>(
           builder: (context, state) {

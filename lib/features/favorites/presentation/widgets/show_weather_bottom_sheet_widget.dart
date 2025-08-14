@@ -52,9 +52,9 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
           ),
           child: FractionallySizedBox(
             heightFactor: 0.90,
-            child: BlocListener<FavoriteBloc, FavoriteState>(
+            child: BlocListener<FavoriteBloc, FavoriteLocationsState>(
               listener: (context, state) {
-                if (state is SuccessFavoriteState) {
+                if (state.status == CrudStatus.initial) {
                   final router = AppRouter.of(context);
 
                   context
@@ -64,7 +64,7 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
                   router.goToScreenAndClear(BlocProvider(
                     create: (context) => getIt<CityWeatherBloc>(),
                     child:
-                        HomeWeatherPage(initialIndex: state.lastCitiStoredIndex),
+                        HomeWeatherPage(initialIndex: state.lastCitiStoredIndex ?? 0),
                   ));
                 }
               },

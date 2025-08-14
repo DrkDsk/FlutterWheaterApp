@@ -16,25 +16,21 @@ class SavedFavoriteCitiesListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return BlocBuilder<FavoriteBloc, FavoriteState>(
+    return BlocBuilder<FavoriteBloc, FavoriteLocationsState>(
       builder: (context, state) {
-        if (state is FavoritesCitiesState) {
-          final citiesLength = cities.length;
+        final citiesLength = cities.length;
 
-          return ListView.separated(
-            itemCount: citiesLength,
-            separatorBuilder: (context, index) {
-              return const SizedBox(height: 14);
-            },
-            itemBuilder: (context, index) {
-              final currentCity = cities[index];
+        return ListView.separated(
+          itemCount: citiesLength,
+          separatorBuilder: (context, index) {
+            return const SizedBox(height: 14);
+          },
+          itemBuilder: (context, index) {
+            final currentCity = cities[index];
 
-              return SlidableFavoriteWeatherCard(currentCity: currentCity, index: index);
-            },
-          );
-        }
-
-        return const SizedBox.shrink();
+            return SlidableFavoriteWeatherCard(currentCity: currentCity, index: index);
+          },
+        );
       }
     );
   }
