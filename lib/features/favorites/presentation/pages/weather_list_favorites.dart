@@ -1,6 +1,4 @@
 import 'package:clima_app/core/colors/weather_colors.dart';
-import 'package:clima_app/core/router/app_router.dart';
-import 'package:clima_app/core/shared/widgets/alerts.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_results_content_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/show_weather_bottom_sheet_widget.dart';
@@ -34,7 +32,7 @@ class WeatherListFavorites extends StatelessWidget {
     final latitude = state.latitude;
     final longitude = state.longitude;
 
-    if (latitude == null || longitude == null) {
+    if (latitude == null || longitude == null || state.status != CityWeatherStatus.initial) {
       return ;
     }
 

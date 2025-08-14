@@ -1,4 +1,6 @@
-class CityLocation {
+import 'package:equatable/equatable.dart';
+
+class CityLocation with EquatableMixin {
 	final String name;
 	final double lat;
 	final double lon;
@@ -12,4 +14,7 @@ class CityLocation {
 		required this.country,
 		required this.state
 	});
+
+  @override
+  List<Object?> get props => [name, lat, lon, country, state];
 }

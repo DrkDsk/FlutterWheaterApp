@@ -30,6 +30,5 @@ class WeatherModel with EquatableMixin {
       };
 
   @override
-  // TODO: implement props
   List<Object?> get props => [id, main, description, icon];
 }
