@@ -32,8 +32,10 @@ final getIt = GetIt.instance;
 
 Future<void> initDependencies() async {
   // Core
-  final appId = dotenv.env["WEATHER_APP_ID"]!;
-  final dioClient = DioClient(apiKey: appId);
+  final appId = dotenv.env["WEATHER_APP_ID"] ?? "";
+  final appUrl = dotenv.env["WEATHER_API_URL"] ?? "";
+
+  final dioClient = DioClient(apiKey: appId, url: appUrl);
   final box = await HiveInitializer.init();
   getIt.registerSingleton(dioClient);
   getIt.registerSingleton(box);

@@ -6,14 +6,14 @@ class DioClient {
 
   late final Dio dio;
 
-  factory DioClient({required String apiKey}) {
-    _instance ??= DioClient._internal(apiKey);
+  factory DioClient({required String url, required String apiKey}) {
+    _instance ??= DioClient._internal(apiKey: apiKey, url: url);
     return _instance!;
   }
 
-  DioClient._internal(String apiKey) {
+  DioClient._internal({required String url, required String apiKey}) {
     dio = Dio(BaseOptions(
-      baseUrl: 'https://api.openweathermap.org',
+      baseUrl: url,
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
     ));

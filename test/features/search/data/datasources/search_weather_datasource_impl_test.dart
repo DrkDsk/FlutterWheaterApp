@@ -10,8 +10,10 @@ void main() {
   late SearchWeatherDatasourceImpl datasource;
 
   setUp( () {
-    final appId = dotenv.env["WEATHER_APP_ID"]!;
-    dioClient = DioClient(apiKey: appId);
+    final appId = dotenv.env["WEATHER_APP_ID"] ?? "";
+    final appUrl = dotenv.env["WEATHER_API_URL"] ?? "";
+
+    dioClient = DioClient(apiKey: appId, url: appUrl);
     var dio = dioClient.dio;
     dioAdapter = DioAdapter(dio: dio);
     datasource = SearchWeatherDatasourceImpl(dio: dio);
