@@ -23,6 +23,7 @@ import 'package:clima_app/features/home/data/datasources/search_weather_datasour
 import 'package:clima_app/core/shared/data/datasources/weather_description_local_datasource_impl.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:clima_app/core/dio_client.dart';
 import 'package:clima_app/core/helpers/hive_initializer.dart';
@@ -31,7 +32,8 @@ final getIt = GetIt.instance;
 
 Future<void> initDependencies() async {
   // Core
-  final dioClient = DioClient();
+  final appId = dotenv.env["WEATHER_APP_ID"]!;
+  final dioClient = DioClient(apiKey: appId);
   final box = await HiveInitializer.init();
   getIt.registerSingleton(dioClient);
   getIt.registerSingleton(box);
