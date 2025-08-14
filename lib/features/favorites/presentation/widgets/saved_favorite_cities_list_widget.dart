@@ -26,7 +26,7 @@ class _SavedFavoriteCitiesListWidgetState
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(
-        seconds: 2,
+        milliseconds: 700,
       )
     );
 
@@ -51,26 +51,24 @@ class _SavedFavoriteCitiesListWidgetState
           return const SizedBox(height: 14);
         },
         itemBuilder: (context, index) {
-          final animation = Tween<Offset>(
-            begin: const Offset(0, 0.2),
-            end: Offset.zero,
-          ).animate(
-            CurvedAnimation(
-              parent: _controller,
-              curve: Interval(
-                index / citiesLength,
-                1.0,
-                curve: Curves.easeOut,
-              ),
+          final delayedAnimation = CurvedAnimation(
+            parent: _controller,
+            curve: Interval(
+              index / citiesLength,
+              1.0,
+              curve: Curves.easeOut,
             ),
           );
 
           final currentCity = widget.cities[index];
 
           return FadeTransition(
-            opacity: _controller,
+            opacity: delayedAnimation,
             child: SlideTransition(
-              position: animation,
+              position: Tween<Offset>(
+                begin: const Offset(0, 0.2),
+                end: Offset.zero,
+              ).animate(delayedAnimation),
               child: SlidableFavoriteWeatherCard(
                   currentCity: currentCity, index: index),
             ),
