@@ -23,6 +23,11 @@ import 'package:clima_app/features/home/data/datasources/search_weather_datasour
 import 'package:clima_app/core/shared/data/datasources/weather_description_local_datasource_impl.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
+import 'package:clima_app/features/ia/data/datasources/ia_datasource.dart';
+import 'package:clima_app/features/ia/data/datasources/ia_datasource_impl.dart';
+import 'package:clima_app/features/ia/data/repositories/ia_repository_impl.dart';
+import 'package:clima_app/features/ia/domain/repositories/ia_repository.dart';
+import 'package:clima_app/features/ia/ui/blocs/ia_cubit.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:clima_app/core/dio_client.dart';
@@ -41,6 +46,7 @@ Future<void> initDependencies() async {
   getIt.registerSingleton(box);
 
   // DataSources
+  getIt.registerLazySingleton<IADatasource>(() => IADatasourceImpl());
   getIt.registerLazySingleton<CityDataSource>(() => CityDataSourceImpl(dio: dioClient.dio));
   getIt.registerLazySingleton<SearchWeatherDataSource>(() => SearchWeatherDatasourceImpl(dio: dioClient.dio));
   getIt.registerLazySingleton(() => LocationDataSourceImpl());
@@ -48,6 +54,10 @@ Future<void> initDependencies() async {
   getIt.registerLazySingleton<FavoriteWeatherDataSource>(() => FavoriteWeatherDataSourceImpl(box: box));
 
   // Repositories
+  getIt.registerLazySingleton<IARepository>(
+    () => IaRepositoryImpl(datasource: getIt())
+  );
+
   getIt.registerLazySingleton<CityRepository>(
         () => CityRepositoryImpl(dataSource: getIt()),
   );
@@ -83,6 +93,7 @@ Future<void> initDependencies() async {
   getIt.registerLazySingleton(() => WeatherMapper(getIt()));
 
   // Blocs / Cubits
+  getIt.registerFactory<IACubit>(() => IACubit(repository: getIt<IARepository>()));
   getIt.registerFactory<FavoriteBloc>(() => FavoriteBloc(repository: getIt<FavoriteWeatherRepository>(), locationService:  getIt<LocationService>()));
   getIt.registerFactory<CityWeatherBloc>(() => CityWeatherBloc(getWeatherUseCase: getIt<GetWeatherUseCase>(),searchCityUseCase: getIt<SearchCityUseCase>(), getCityUseCase: getIt<GetCityUseCase>(), mapper: getIt<WeatherMapper>()));
 }
