@@ -18,24 +18,31 @@ class IAContentWidget extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: BlocBuilder<IACubit, IAState>(
           builder: (context, state) {
-            if (state.status == IAClientStatus.success) {
-              return Container(
-                decoration: BoxDecoration(
-                    color: Colors.deepPurple.withOpacity(0.10),
-                    borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(45), top: Radius.circular(45)),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
-                      width: 1,
-                    )),
-                child: Column(children: [
-                  IADescriptionCard(
-                    text: state.recommendation,
-                  ),
-                  const SizedBox(height: 20),
-                ]),
-              );
-            }
+            return Container(
+              decoration: BoxDecoration(
+                  color: Colors.deepPurple.withOpacity(0.10),
+                  borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(45), top: Radius.circular(45)),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.3),
+                    width: 1,
+                  )),
+              child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 20.0, top: 10),
+                        child: Image.asset("assets/icons/ia_icon.png", color: Colors.deepPurple.shade300,),
+                      ),
+                    ),
+                    IADescriptionCard(
+                      text: state.recommendation,
+                    ),
+                    const SizedBox(height: 20),
+                  ]
+              ),
+            );
 
             return const SizedBox.shrink();
           },
