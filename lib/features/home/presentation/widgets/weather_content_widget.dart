@@ -23,14 +23,12 @@ class WeatherContentWidget extends StatefulWidget {
 }
 
 class _WeatherContentWidgetState extends State<WeatherContentWidget> {
-  late IACubit _iaCubit;
 
   @override
   void initState() {
     super.initState();
     final latitude = widget.latitude;
     final longitude = widget.longitude;
-    _iaCubit = context.read<IACubit>();
 
     if (latitude != null && longitude != null) {
       context.read<CityWeatherBloc>().add(FetchWeatherEvent(latitude: latitude, longitude: longitude));
@@ -45,11 +43,11 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
         child: BlocConsumer<CityWeatherBloc, CityWeatherState>(
           listener: (context, state) {
             if (state.status == CityWeatherStatus.success) {
-              /*final WeatherData? weatherData = state.weatherData;
+              final WeatherData? weatherData = state.weatherData;
 
               if (weatherData == null) return ;
 
-              _iaCubit.getRecommendation(weatherData: weatherData);*/
+              context.read<IACubit>().getRecommendation(weatherData: weatherData);
             }
           },
           builder: (context, state) {
