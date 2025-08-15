@@ -17,7 +17,7 @@ class IAContentWidget extends StatelessWidget {
           height: 300,
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.pinkAccent.withOpacity(0.25),
+                color: Colors.pinkAccent.withOpacity(0.10),
                 borderRadius: const BorderRadius.vertical(
                     bottom: Radius.circular(45), top: Radius.circular(45)),
                 border: Border.all(
@@ -40,7 +40,7 @@ class IAContentWidget extends StatelessWidget {
                     right: 0,
                     child: IADescriptionCard(
                       isTheFirstOne: true,
-                      color: Colors.deepPurple.shade400.withOpacity(0.4),
+                      color: Colors.deepPurple.shade400.withOpacity(0.20),
                     )
                 ),
             ]),
