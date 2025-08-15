@@ -4,11 +4,11 @@ import 'package:clima_app/features/home/domain/entities/weather_state_data.dart'
 import 'package:clima_app/features/ia/domain/repositories/ia_repository.dart';
 import 'package:clima_app/features/ia/ui/blocs/ia_state.dart';
 
-class IACubit extends Cubit<IaState> {
+class IACubit extends Cubit<IAState> {
 
   final IARepository _repository;
 
-  IACubit({required IARepository repository}) : _repository = repository, super(const IaState());
+  IACubit({required IARepository repository}) : _repository = repository, super(const IAState());
 
   Future<void> getRecommendation({
     required WeatherData weatherData
