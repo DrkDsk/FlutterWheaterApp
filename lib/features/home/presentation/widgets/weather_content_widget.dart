@@ -4,9 +4,11 @@ import 'package:clima_app/features/home/presentation/blocs/states/city_weather_s
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/features/home/presentation/widgets/daily_list_weather_widget.dart';
+import 'package:clima_app/features/home/presentation/widgets/detail_weather_grid_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/header_weather_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/hourly_list_weather_widget.dart';
-import 'package:clima_app/features/home/presentation/widgets/segment_weather_widget.dart';
+import 'package:clima_app/features/ia/ui/blocs/ia_cubit.dart';
+import 'package:clima_app/features/ia/ui/blocs/widgets/ia_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,20 +23,17 @@ class WeatherContentWidget extends StatefulWidget {
 }
 
 class _WeatherContentWidgetState extends State<WeatherContentWidget> {
-  late CityWeatherBloc _cityWeatherBloc;
+  late IACubit _iaCubit;
 
   @override
   void initState() {
     super.initState();
     final latitude = widget.latitude;
     final longitude = widget.longitude;
+    _iaCubit = context.read<IACubit>();
 
     if (latitude != null && longitude != null) {
-      _cityWeatherBloc = context.read<CityWeatherBloc>();
-      Future.microtask(() {
-        _cityWeatherBloc
-            .add(FetchWeatherEvent(latitude: latitude, longitude: longitude));
-      });
+      context.read<CityWeatherBloc>().add(FetchWeatherEvent(latitude: latitude, longitude: longitude));
     }
   }
 
@@ -43,7 +42,16 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: BlocBuilder<CityWeatherBloc, CityWeatherState>(
+        child: BlocConsumer<CityWeatherBloc, CityWeatherState>(
+          listener: (context, state) {
+            if (state.status == CityWeatherStatus.success) {
+              /*final WeatherData? weatherData = state.weatherData;
+
+              if (weatherData == null) return ;
+
+              _iaCubit.getRecommendation(weatherData: weatherData);*/
+            }
+          },
           builder: (context, state) {
             if (state.status == CityWeatherStatus.success) {
               final WeatherData? weatherData = state.weatherData;
@@ -62,69 +70,12 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                       translatedWeather: weatherData.translatedWeather,
                       temp: weatherData.currentWeather.tempCelsiusText,
                     ),
+                    const IAContentWidget(),
                     HourlyListWeatherWidget(hourly: weatherData.hourly),
                     const SizedBox(height: 20),
                     DailyListWeatherWidget(daily: weatherData.daily),
                     const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: SegmentWeatherWidget(
-                              title: "Sensación térmica️",
-                              emoji: "🌡",
-                              value: weatherData
-                                  .currentWeather.feelsLikeCelsiusText),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: SegmentWeatherWidget(
-                              title: "Humedad",
-                              emoji: "💧",
-                              value: "${weatherData.currentWeather.humidity}%"),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: SegmentWeatherWidget(
-                              title: "Viento",
-                              emoji: "💨",
-                              value:
-                                  weatherData.currentWeather.windDirectionText),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: SegmentWeatherWidget(
-                              title: "Índice UV:",
-                              emoji: "☀️",
-                              value: "${weatherData.currentWeather.uvi}"),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: SegmentWeatherWidget(
-                              title: "Visibilidad",
-                              emoji: "🌫️",
-                              value:
-                              weatherData.currentWeather.visibilityTextInKm),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const Expanded(
-                          child: SizedBox.shrink(),
-                        )
-                      ],
-                    ),
+                    DetailWeatherGridWidget(weatherData: weatherData)
                   ],
                 ),
               );
