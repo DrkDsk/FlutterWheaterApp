@@ -38,9 +38,7 @@ Podrás visualizar los datos más comunes como temperatura, sensación térmica,
 
 ## 📸 Demo
 
-<img src="https://github.com/user-attachments/assets/e133a532-d437-43bb-8ee4-a0829201209e" alt="drawing" width="200"/>
-
-<img src="https://github.com/user-attachments/assets/14f2677f-bac9-4bc8-a64a-b46aa288f50c" alt="drawing" width="200"/>
+<img src="https://github.com/user-attachments/assets/497dae50-e46f-4811-b44b-f692d7719d9a" alt="drawing" width="200"/>
 
 <img src="https://github.com/user-attachments/assets/22e4cd2f-acf2-4345-be59-10764e5d9d29" alt="drawing" width="200"/>
 
@@ -48,7 +46,9 @@ Podrás visualizar los datos más comunes como temperatura, sensación térmica,
 
 <img src="https://github.com/user-attachments/assets/ab884372-74f4-45b3-9e50-d4c57bf259b8" alt="drawing" width="200"/>
 
-<img src="https://github.com/user-attachments/assets/497dae50-e46f-4811-b44b-f692d7719d9a" alt="drawing" width="200"/>
+<img src="https://github.com/user-attachments/assets/e133a532-d437-43bb-8ee4-a0829201209e" alt="drawing" width="200"/>
+
+<img src="https://github.com/user-attachments/assets/14f2677f-bac9-4bc8-a64a-b46aa288f50c" alt="drawing" width="200"/>
 
 
 ## Authors
