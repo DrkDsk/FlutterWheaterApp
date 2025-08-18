@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:clima_app/core/extensions/string_extension.dart';
 import 'package:clima_app/features/ia/ui/blocs/ia_cubit.dart';
 import 'package:clima_app/features/ia/ui/blocs/ia_state.dart';
 import 'package:flutter/material.dart';
@@ -15,36 +16,40 @@ class IAContentWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: BlocBuilder<IACubit, IAState>(
           builder: (context, state) {
+
+            if (state.recommendations.isEmpty) {
+              return const SizedBox.shrink();
+            }
+
             return Container(
               decoration: BoxDecoration(
-                  color: Colors.deepPurple.withOpacity(0.10),
+                  color: Colors.grey.shade100.withOpacity(0.1),
                   borderRadius: const BorderRadius.vertical(
                       bottom: Radius.circular(45), top: Radius.circular(45)),
                   border: Border.all(
                     color: Colors.white.withOpacity(0.3),
                     width: 1,
-                  )),
+                  )
+              ),
               child: Column(
                   children: [
                     Align(
                       alignment: Alignment.topRight,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 20.0, top: 10),
-                        child: Image.asset("assets/icons/ia_icon.png", color: Colors.deepPurple.shade300,),
+                        child: Image.asset("assets/icons/ia_icon.png", color: Colors.amber),
                       ),
                     ),
                     IADescriptionCard(
-                      text: state.recommendation,
+                      recommendations: state.recommendations,
                     ),
                     const SizedBox(height: 20),
                   ]
               ),
             );
-
-            return const SizedBox.shrink();
           },
         ),
       ),
@@ -53,28 +58,28 @@ class IAContentWidget extends StatelessWidget {
 }
 
 class IADescriptionCard extends StatelessWidget {
-  final String text;
+  final List<String> recommendations;
 
-  const IADescriptionCard({super.key, required this.text});
+  const IADescriptionCard({super.key, required this.recommendations});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
+      height: 200,
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-      decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(45),
-              topRight: Radius.circular(45),
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30))),
-      child: SingleChildScrollView(
-        child: Text(text,
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 17,
-                fontWeight: FontWeight.w600)),
+      child: ListView.separated(
+        itemCount: recommendations.length,
+        separatorBuilder: (context, index) => const SizedBox(height: 15),
+          itemBuilder: (context, index) {
+            final text = recommendations[index];
+
+            return Text(text.firstUppercase(),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400)
+            );
+          },
       ),
     );
   }
