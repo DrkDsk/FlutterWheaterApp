@@ -1,5 +1,5 @@
 abstract interface class IARepository {
-  Future<String?> getRecommendation({
+  Future<List<String?>> getRecommendation({
     required String temperatureInCelsius,
     required String feelsLike,
     required String humidity,
