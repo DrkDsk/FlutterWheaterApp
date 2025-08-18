@@ -8,6 +8,8 @@ Podrás visualizar los datos más comunes como temperatura, sensación térmica,
 
 📍 Clima en tu ubicación actual utilizando GPS.
 
+🤖 Recomendaciones o indicaciones dependiendo del estado del clima con openIA
+
 🔍 Búsqueda de ciudades por nombre.
 
 ⭐ Gestión de favoritos: agrega o elimina ciudades fácilmente.
@@ -16,6 +18,8 @@ Podrás visualizar los datos más comunes como temperatura, sensación térmica,
 
 🎨 Interfaz moderna con animaciones fluidas.
 ## 🛠 Tech Stack
+
+**OpenIA** -> Recomendaciones personalizadas dependiendo del estado actual del clima
 
 **Hive** → almacenamiento local rápido y sin dependencias nativas.
 
@@ -43,6 +47,9 @@ Podrás visualizar los datos más comunes como temperatura, sensación térmica,
 <img src="https://github.com/user-attachments/assets/3e3f7fa7-0762-4038-a6ff-cf063ff075f0" alt="drawing" width="200"/>
 
 <img src="https://github.com/user-attachments/assets/ab884372-74f4-45b3-9e50-d4c57bf259b8" alt="drawing" width="200"/>
+
+<img src="https://github.com/user-attachments/assets/497dae50-e46f-4811-b44b-f692d7719d9a" alt="drawing" width="200"/>
+
 
 ## Authors
 
