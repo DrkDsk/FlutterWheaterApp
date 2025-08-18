@@ -6,7 +6,7 @@ class IADatasourceImpl implements IADatasource {
 
 
   @override
-  Future<String?> generateText({required prompt}) async {
+  Future<List<String?>> generateText({required prompt}) async {
 
     final model = dotenv.env["OPENIA_MODEL"];
     final openaiApiKey = dotenv.env["OPENIA_KEY"];
@@ -27,6 +27,8 @@ class IADatasourceImpl implements IADatasource {
         )
     );
 
-    return response.choices.first.message.content;
+    final choices =  response.choices.map((element) => element.message.content).toList();
+
+    return choices;
   }
 }

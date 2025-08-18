@@ -8,7 +8,7 @@ class IaRepositoryImpl implements IARepository {
       : _iaDatasource = datasource;
 
   @override
-  Future<String?> getRecommendation(
+  Future<List<String?>> getRecommendation(
       {required String temperatureInCelsius,
       required String feelsLike,
       required String humidity,

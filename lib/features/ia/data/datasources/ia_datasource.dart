@@ -1,3 +1,3 @@
 abstract interface class IADatasource {
-  Future<String?> generateText({required prompt});
+  Future<List<String?>> generateText({required prompt});
 }

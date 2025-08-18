@@ -28,7 +28,7 @@ class HeaderWeatherWidget extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         Text(
-          translatedWeather.translatedDescription.firstUppercase(),
+          translatedWeather.translatedDescription.firstUppercaseAll(),
           style: theme.textTheme.bodyMedium?.copyWith(fontSize: 26),
         ),
         Row(

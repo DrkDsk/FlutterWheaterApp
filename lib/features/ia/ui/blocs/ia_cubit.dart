@@ -23,8 +23,23 @@ class IACubit extends Cubit<IAState> {
 
     emit(state.copyWith(status: IAClientStatus.loading));
 
-    final response = await _repository.getRecommendation(temperatureInCelsius: temperatureInCelsius, feelsLike: feelsLike, humidity: humidity, windSpeedAndGust: windSpeedAndGust, condition: condition);
+    /*final response = await _repository.getRecommendation(temperatureInCelsius: temperatureInCelsius, feelsLike: feelsLike, humidity: humidity, windSpeedAndGust: windSpeedAndGust, condition: condition);
 
-    emit(state.copyWith(status: IAClientStatus.initial, recommendation: response ?? ""));
+    final filtered = response.where((element) => element != null)
+    .map((element) => element!)
+    .toList();*/
+
+    const recommendations = [
+      "usa prendas ligeras y transpirables tipo dry-fit, "
+      "preferiblemente manga corta o larga delgada. Un gorro o visera te "
+      "ayudará si entrenas por la mañana.",
+
+      "lleva agua, porque la humedad puede cansarte más de lo normal. "
+      "Y como hay calina, procura entrenar en un lugar que ya conozcas "
+      "bien para no tener problemas de visibilidad."
+
+    ];
+
+    emit(state.copyWith(status: IAClientStatus.initial, recommendations: recommendations));
   }
 }

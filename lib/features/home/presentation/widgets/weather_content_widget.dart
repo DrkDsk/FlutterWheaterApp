@@ -42,13 +42,13 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: BlocConsumer<CityWeatherBloc, CityWeatherState>(
           listener: (context, state) {
-            /*if (state.status == CityWeatherStatus.success) {
+            if (state.status == CityWeatherStatus.success) {
               final WeatherData? weatherData = state.weatherData;
 
               if (weatherData == null) return ;
 
               context.read<IACubit>().getRecommendation(weatherData: weatherData);
-            }*/
+            }
           },
           builder: (context, state) {
             if (state.status == CityWeatherStatus.success) {
