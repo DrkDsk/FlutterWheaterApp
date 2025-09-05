@@ -1,4 +1,4 @@
-import 'package:clima_app/core/shared/widgets/welcome_screen.dart';
+import 'package:clima_app/core/shared/ui/widgets/welcome_screen.dart';
 import 'package:clima_app/core/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 

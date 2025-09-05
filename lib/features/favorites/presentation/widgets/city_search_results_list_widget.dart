@@ -1,9 +1,7 @@
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_result_item_card.dart';
-import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
-import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
+import 'package:clima_app/features/favorites/presentation/widgets/show_weather_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CitySearchResultsListWidget extends StatelessWidget {
   const CitySearchResultsListWidget({
@@ -18,8 +16,25 @@ class CitySearchResultsListWidget extends StatelessWidget {
       required double longitude,
       required String cityName,
       required BuildContext context}) async {
-    context.read<CityWeatherBloc>().add(LoadWeatherModalEvent(
-        latitude: latitude, longitude: longitude, cityName: cityName));
+    _showWeatherBottomSheet(context,
+        cityName: cityName, latitude: latitude, longitude: longitude);
+  }
+
+  void _showWeatherBottomSheet(
+    BuildContext context, {
+    required String cityName,
+    required double latitude,
+    required double longitude,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => ShowWeatherBottomSheetWidget(
+        cityName: cityName,
+        latitude: latitude,
+        longitude: longitude,
+      ),
+    );
   }
 
   @override
@@ -39,8 +54,7 @@ class CitySearchResultsListWidget extends StatelessWidget {
                 latitude: currentLocationData.lat,
                 longitude: currentLocationData.lon,
                 cityName: query,
-                context: context
-            ),
+                context: context),
             child: CityResultItemCard(query: query),
           );
         },

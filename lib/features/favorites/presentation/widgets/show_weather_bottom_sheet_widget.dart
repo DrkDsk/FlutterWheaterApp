@@ -12,7 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShowWeatherBottomSheetWidget extends StatelessWidget {
+class ShowWeatherBottomSheetWidget extends StatefulWidget {
   const ShowWeatherBottomSheetWidget(
       {super.key,
       required this.cityName,
@@ -23,13 +23,30 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
   final double latitude;
   final double longitude;
 
+  @override
+  State<ShowWeatherBottomSheetWidget> createState() =>
+      _ShowWeatherBottomSheetWidgetState();
+}
+
+class _ShowWeatherBottomSheetWidgetState
+    extends State<ShowWeatherBottomSheetWidget> {
+  late FavoriteBloc _favoriteBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _favoriteBloc = context.read<FavoriteBloc>();
+  }
+
   Future<void> handleSaveCity(
       {required double latitude,
       required double longitude,
       required String cityName,
       required BuildContext context}) async {
-    context.read<FavoriteBloc>().add(StoreCityEvent(
+    _favoriteBloc.add(StoreCityEvent(
         cityName: cityName, latitude: latitude, longitude: longitude));
+
+    _favoriteBloc.add(const GetFavoritesCitiesEvent());
   }
 
   @override
@@ -47,24 +64,21 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
       builder: (context, backgroundColor) {
         return Container(
           decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: const BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24))
-          ),
+              color: backgroundColor,
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(24), topRight: Radius.circular(24))),
           child: FractionallySizedBox(
             heightFactor: 0.90,
             child: BlocListener<FavoriteBloc, FavoriteLocationsState>(
               listener: (context, state) {
-                if (state.status == FavoriteStatus.initial) {
+                if (state.status == FavoriteStatus.success &&
+                    state.type == FavoriteTypeStatus.stored) {
                   final router = AppRouter.of(context);
-
-                  context
-                      .read<FavoriteBloc>()
-                      .add(const GetFavoritesCitiesEvent());
 
                   router.goToScreenAndClear(BlocProvider(
                     create: (context) => getIt<CityWeatherBloc>(),
-                    child:
-                        HomeWeatherPage(initialIndex: state.lastCitiStoredIndex ?? 0),
+                    child: HomeWeatherPage(
+                        initialIndex: state.lastCitiStoredIndex ?? 0),
                   ));
                 }
               },
@@ -78,26 +92,27 @@ class ShowWeatherBottomSheetWidget extends StatelessWidget {
                       children: [
                         CupertinoButton(
                           padding: EdgeInsets.zero,
-                          child:
-                              Text("Cancelar", style: theme.textTheme.bodyMedium),
+                          child: Text("Cancelar",
+                              style: theme.textTheme.bodyMedium),
                           onPressed: () => AppRouter.of(context).pop(),
                         ),
                         CupertinoButton(
                           padding: EdgeInsets.zero,
                           onPressed: () => handleSaveCity(
-                              cityName: cityName,
-                              latitude: latitude,
-                              longitude: longitude,
+                              cityName: widget.cityName,
+                              latitude: widget.latitude,
+                              longitude: widget.longitude,
                               context: context),
-                          child:
-                              Text("Agregar", style: theme.textTheme.bodyMedium),
+                          child: Text("Agregar",
+                              style: theme.textTheme.bodyMedium),
                         ),
                       ],
                     ),
                     const SizedBox(height: 8),
                     Expanded(
                         child: WeatherContentWidget(
-                            latitude: latitude, longitude: longitude))
+                            latitude: widget.latitude,
+                            longitude: widget.longitude))
                   ],
                 ),
               ),
