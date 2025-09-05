@@ -62,26 +62,27 @@ class _ShowWeatherBottomSheetWidgetState
         return WeatherColors.drizzleNight;
       },
       builder: (context, backgroundColor) {
-        return Container(
-          decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24), topRight: Radius.circular(24))),
-          child: FractionallySizedBox(
-            heightFactor: 0.90,
-            child: BlocListener<FavoriteBloc, FavoriteLocationsState>(
-              listener: (context, state) {
-                if (state.status == FavoriteStatus.success &&
-                    state.type == FavoriteTypeStatus.stored) {
-                  final router = AppRouter.of(context);
+        return BlocListener<FavoriteBloc, FavoriteLocationsState>(
+          listener: (context, state) {
+            if (state.status == FavoriteStatus.success &&
+                state.type == FavoriteTypeStatus.stored) {
+              final router = AppRouter.of(context);
 
-                  router.goToScreenAndClear(BlocProvider(
-                    create: (context) => getIt<CityWeatherBloc>(),
-                    child: HomeWeatherPage(
-                        initialIndex: state.lastCitiStoredIndex ?? 0),
-                  ));
-                }
-              },
+              router.goToScreenAndClear(BlocProvider(
+                create: (context) => getIt<CityWeatherBloc>(),
+                child: HomeWeatherPage(
+                    initialIndex: state.lastCitiStoredIndex ?? 0),
+              ));
+            }
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24))),
+            child: FractionallySizedBox(
+              heightFactor: 0.90,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(

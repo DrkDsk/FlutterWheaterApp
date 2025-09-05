@@ -8,14 +8,14 @@ class FavoriteLocationsState {
   final FavoriteStatus status;
   final FavoriteTypeStatus type;
   final List<FavoriteLocation> items;
-  final String? errorMessage;
+  final String errorMessage;
   final int? lastCitiStoredIndex;
 
   const FavoriteLocationsState(
       {this.status = FavoriteStatus.initial,
       this.type = FavoriteTypeStatus.fetch,
       this.items = const [],
-      this.errorMessage,
+      this.errorMessage = "",
       this.lastCitiStoredIndex});
 
   FavoriteLocationsState copyWith(
@@ -28,7 +28,7 @@ class FavoriteLocationsState {
         status: status ?? this.status,
         type: type ?? this.type,
         items: items ?? this.items,
-        errorMessage: errorMessage,
+        errorMessage: errorMessage ?? this.errorMessage,
         lastCitiStoredIndex: lastCitiStoredIndex);
   }
 }
