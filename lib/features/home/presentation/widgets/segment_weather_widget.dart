@@ -1,8 +1,12 @@
+import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 
 class SegmentWeatherWidget extends StatelessWidget {
   const SegmentWeatherWidget(
-      {super.key, required this.title, required this.emoji, required this.value});
+      {super.key,
+      required this.title,
+      required this.emoji,
+      required this.value});
 
   final String title;
   final String value;
@@ -14,24 +18,16 @@ class SegmentWeatherWidget extends StatelessWidget {
       height: 180,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.15),
+          color: Colors.grey.customOpacity(0.15),
           borderRadius: BorderRadius.circular(12)),
       child: DefaultTextStyle(
           style: const TextStyle(
-              fontSize: 25,
-              fontFamily: 'Outfit',
-              fontWeight: FontWeight.w700
-          ),
+              fontSize: 25, fontFamily: 'Outfit', fontWeight: FontWeight.w700),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(title),
-              Text(emoji),
-              Text(value)
-            ],
-          )
-      ),
+            children: [Text(title), Text(emoji), Text(value)],
+          )),
     );
   }
 }

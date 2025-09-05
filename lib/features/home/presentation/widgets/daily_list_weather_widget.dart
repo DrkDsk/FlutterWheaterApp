@@ -1,3 +1,4 @@
+import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:clima_app/features/home/domain/entities/daily.dart';
 import 'package:clima_app/core/extensions/weather/daily_presentation.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +20,8 @@ class DailyListWeatherWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: Colors.grey.withOpacity(0.15)
-      ),
+          borderRadius: BorderRadius.circular(24),
+          color: Colors.grey.customOpacity(0.15)),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -32,8 +32,8 @@ class DailyListWeatherWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Expanded(
-                        child: Text(data.diaSemana,
-                            style: textTheme.bodyMedium)),
+                        child:
+                            Text(data.diaSemana, style: textTheme.bodyMedium)),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,8 +47,10 @@ class DailyListWeatherWidget extends StatelessWidget {
                     ),
                     Column(
                       children: [
-                        Text("Min: ${data.tempMinCelsiusText}", style: textTheme.bodyMedium),
-                        Text("Max: ${data.tempMaxCelsiusText}", style: textTheme.bodyMedium)
+                        Text("Min: ${data.tempMinCelsiusText}",
+                            style: textTheme.bodyMedium),
+                        Text("Max: ${data.tempMaxCelsiusText}",
+                            style: textTheme.bodyMedium)
                       ],
                     ),
                   ],

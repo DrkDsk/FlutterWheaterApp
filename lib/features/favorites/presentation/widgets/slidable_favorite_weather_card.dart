@@ -18,7 +18,6 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
   final FavoriteLocation currentCity;
 
   ActionPane buildActionPane({required BuildContext context}) {
-
     final theme = Theme.of(context);
 
     return ActionPane(
@@ -29,7 +28,15 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
             backgroundColor: Colors.redAccent,
             foregroundColor: Colors.white,
             onPressed: (context) {
-              context.read<FavoriteBloc>().add(DeleteFavoriteEvent(id: currentCity.id));
+              final currentCityId = currentCity.id;
+
+              if (currentCityId == null || currentCityId.isEmpty) {
+                return;
+              }
+
+              context
+                  .read<FavoriteBloc>()
+                  .add(DeleteFavoriteEvent(id: currentCityId));
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +59,8 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Slidable(
       direction: Axis.horizontal,
-      endActionPane: currentCity.id != null ? buildActionPane(context: context) : null,
+      endActionPane:
+          currentCity.id != null ? buildActionPane(context: context) : null,
       child: GestureDetector(
         onTap: () {
           final router = AppRouter.of(context);

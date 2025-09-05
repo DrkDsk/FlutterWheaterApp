@@ -10,7 +10,10 @@ final class StoreCityEvent extends FavoriteEvent {
   final double latitude;
   final double longitude;
 
-  const StoreCityEvent({required this.cityName, required this.latitude, required this.longitude});
+  const StoreCityEvent(
+      {required this.cityName,
+      required this.latitude,
+      required this.longitude});
 }
 
 final class GetFavoritesCitiesEvent extends FavoriteEvent {
@@ -18,7 +21,7 @@ final class GetFavoritesCitiesEvent extends FavoriteEvent {
 }
 
 final class DeleteFavoriteEvent extends FavoriteEvent {
-  final String? id;
+  final String id;
 
   const DeleteFavoriteEvent({required this.id});
 }

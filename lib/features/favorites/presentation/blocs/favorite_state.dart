@@ -2,30 +2,33 @@ import 'package:clima_app/features/favorites/domain/entities/favorite_location.d
 
 enum FavoriteStatus { initial, loading, success, failure }
 
+enum FavoriteTypeStatus { stored, fetch, delete }
+
 class FavoriteLocationsState {
   final FavoriteStatus status;
+  final FavoriteTypeStatus type;
   final List<FavoriteLocation> items;
   final String? errorMessage;
   final int? lastCitiStoredIndex;
 
-  const FavoriteLocationsState({
-    this.status = FavoriteStatus.initial,
-    this.items = const [],
-    this.errorMessage,
-    this.lastCitiStoredIndex
-  });
+  const FavoriteLocationsState(
+      {this.status = FavoriteStatus.initial,
+      this.type = FavoriteTypeStatus.fetch,
+      this.items = const [],
+      this.errorMessage,
+      this.lastCitiStoredIndex});
 
-  FavoriteLocationsState copyWith({
-    FavoriteStatus? status,
-    List<FavoriteLocation>? items,
-    String? errorMessage,
-    int? lastCitiStoredIndex
-  }) {
+  FavoriteLocationsState copyWith(
+      {FavoriteStatus? status,
+      FavoriteTypeStatus? type,
+      List<FavoriteLocation>? items,
+      String? errorMessage,
+      int? lastCitiStoredIndex}) {
     return FavoriteLocationsState(
-      status: status ?? this.status,
-      items: items ?? this.items,
-      errorMessage: errorMessage,
-      lastCitiStoredIndex: lastCitiStoredIndex
-    );
+        status: status ?? this.status,
+        type: type ?? this.type,
+        items: items ?? this.items,
+        errorMessage: errorMessage,
+        lastCitiStoredIndex: lastCitiStoredIndex);
   }
 }

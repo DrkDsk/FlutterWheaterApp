@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:clima_app/core/extensions/string_extension.dart';
 import 'package:clima_app/features/ia/ui/blocs/ia_cubit.dart';
 import 'package:clima_app/features/ia/ui/blocs/ia_state.dart';
@@ -19,36 +20,33 @@ class IAContentWidget extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: BlocBuilder<IACubit, IAState>(
           builder: (context, state) {
-
             if (state.recommendations.isEmpty) {
               return const SizedBox.shrink();
             }
 
             return Container(
               decoration: BoxDecoration(
-                  color: Colors.grey.shade100.withOpacity(0.1),
+                  color: Colors.grey.shade100.customOpacity(0.1),
                   borderRadius: const BorderRadius.vertical(
                       bottom: Radius.circular(45), top: Radius.circular(45)),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.3),
+                    color: Colors.white.customOpacity(0.3),
                     width: 1,
-                  )
-              ),
-              child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20.0, top: 10),
-                        child: Image.asset("assets/icons/ia_icon.png", color: Colors.amber),
-                      ),
-                    ),
-                    IADescriptionCard(
-                      recommendations: state.recommendations,
-                    ),
-                    const SizedBox(height: 20),
-                  ]
-              ),
+                  )),
+              child: Column(children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20.0, top: 10),
+                    child: Image.asset("assets/icons/ia_icon.png",
+                        color: Colors.amber),
+                  ),
+                ),
+                IADescriptionCard(
+                  recommendations: state.recommendations,
+                ),
+                const SizedBox(height: 20),
+              ]),
             );
           },
         ),
@@ -70,16 +68,15 @@ class IADescriptionCard extends StatelessWidget {
       child: ListView.separated(
         itemCount: recommendations.length,
         separatorBuilder: (context, index) => const SizedBox(height: 15),
-          itemBuilder: (context, index) {
-            final text = recommendations[index];
+        itemBuilder: (context, index) {
+          final text = recommendations[index];
 
-            return Text(text.firstUppercase(),
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400)
-            );
-          },
+          return Text(text.firstUppercase(),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400));
+        },
       ),
     );
   }
