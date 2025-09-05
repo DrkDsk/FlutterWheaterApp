@@ -1,8 +1,8 @@
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
+import 'package:clima_app/features/favorites/presentation/delete/cubits/favorite_delete_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_city_item_card.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
@@ -17,6 +17,20 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
   final int index;
   final FavoriteLocation currentCity;
 
+  void deleteFavoriteWeather(BuildContext context) {
+    final currentCityId = currentCity.id;
+
+    if (currentCityId == null || currentCityId.isEmpty) {
+      return;
+    }
+
+    final favoriteDeleteCubit = context.read<FavoriteDeleteCubit>();
+    final favoriteFetchCubit = context.read<FavoriteFetchCubit>();
+
+    favoriteDeleteCubit.delete(id: currentCityId);
+    favoriteFetchCubit.getFavoritesCities();
+  }
+
   ActionPane buildActionPane({required BuildContext context}) {
     final theme = Theme.of(context);
 
@@ -27,17 +41,7 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
         CustomSlidableAction(
             backgroundColor: Colors.redAccent,
             foregroundColor: Colors.white,
-            onPressed: (context) {
-              final currentCityId = currentCity.id;
-
-              if (currentCityId == null || currentCityId.isEmpty) {
-                return;
-              }
-
-              context
-                  .read<FavoriteBloc>()
-                  .add(DeleteFavoriteEvent(id: currentCityId));
-            },
+            onPressed: deleteFavoriteWeather,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,

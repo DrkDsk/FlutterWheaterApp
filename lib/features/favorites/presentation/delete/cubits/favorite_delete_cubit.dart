@@ -10,7 +10,7 @@ class FavoriteDeleteCubit extends Cubit<FavoriteDeleteState> {
       : _repository = repository,
         super(const FavoriteDeleteState());
 
-  Future<void> _deleteFavoriteCity({required String id}) async {
+  Future<void> delete({required String id}) async {
     emit(state.copyWith(status: FavoriteDeleteStatus.loading));
 
     final favoriteId = id;

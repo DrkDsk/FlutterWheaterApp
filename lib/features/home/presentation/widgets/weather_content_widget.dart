@@ -23,15 +23,18 @@ class WeatherContentWidget extends StatefulWidget {
 }
 
 class _WeatherContentWidgetState extends State<WeatherContentWidget> {
+  late CityWeatherBloc _cityWeatherBloc;
 
   @override
   void initState() {
     super.initState();
     final latitude = widget.latitude;
     final longitude = widget.longitude;
+    _cityWeatherBloc = context.read<CityWeatherBloc>();
 
     if (latitude != null && longitude != null) {
-      context.read<CityWeatherBloc>().add(FetchWeatherEvent(latitude: latitude, longitude: longitude));
+      _cityWeatherBloc
+          .add(FetchWeatherEvent(latitude: latitude, longitude: longitude));
     }
   }
 
@@ -45,9 +48,11 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
             if (state.status == CityWeatherStatus.success) {
               final WeatherData? weatherData = state.weatherData;
 
-              if (weatherData == null) return ;
+              if (weatherData == null) return;
 
-              context.read<IACubit>().getRecommendation(weatherData: weatherData);
+              context
+                  .read<IACubit>()
+                  .getRecommendation(weatherData: weatherData);
             }
           },
           builder: (context, state) {

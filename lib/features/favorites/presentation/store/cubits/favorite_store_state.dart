@@ -4,12 +4,12 @@ enum FavoriteStoreStatus { initial, loading, success, failure }
 
 class FavoriteStoreState with EquatableMixin {
   final FavoriteStoreStatus status;
-  final String errorMessage;
+  final String message;
   final int? lastCitiStoredIndex;
 
   const FavoriteStoreState(
       {this.status = FavoriteStoreStatus.initial,
-      this.errorMessage = "",
+      this.message = "",
       this.lastCitiStoredIndex});
 
   FavoriteStoreState copyWith({
@@ -19,11 +19,11 @@ class FavoriteStoreState with EquatableMixin {
   }) {
     return FavoriteStoreState(
       status: status ?? this.status,
-      errorMessage: message ?? this.errorMessage,
+      message: message ?? this.message,
       lastCitiStoredIndex: lastCitiStoredIndex ?? this.lastCitiStoredIndex,
     );
   }
 
   @override
-  List<Object?> get props => [status, errorMessage];
+  List<Object?> get props => [status, message];
 }

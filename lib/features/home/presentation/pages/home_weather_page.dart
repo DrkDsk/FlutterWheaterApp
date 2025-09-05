@@ -1,8 +1,8 @@
 import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/router/app_router.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/widgets/bottom_app_bar_widget.dart';
@@ -66,9 +66,8 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
             navigateToFavorites: () => navigateToFavorites(context),
           ),
           body: SafeArea(
-            child: BlocBuilder<FavoriteBloc,FavoriteLocationsState>(
+            child: BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
               builder: (context, state) {
-
                 final cities = state.items;
 
                 return PageView.builder(

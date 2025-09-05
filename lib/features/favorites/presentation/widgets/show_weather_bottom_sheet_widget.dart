@@ -1,9 +1,9 @@
 import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/router/app_router.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_event.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
@@ -30,12 +30,14 @@ class ShowWeatherBottomSheetWidget extends StatefulWidget {
 
 class _ShowWeatherBottomSheetWidgetState
     extends State<ShowWeatherBottomSheetWidget> {
-  late FavoriteBloc _favoriteBloc;
+  late FavoriteStoreCubit _favoriteStoreCubit;
+  late FavoriteFetchCubit _favoriteFetchCubit;
 
   @override
   void initState() {
     super.initState();
-    _favoriteBloc = context.read<FavoriteBloc>();
+    _favoriteStoreCubit = context.read<FavoriteStoreCubit>();
+    _favoriteFetchCubit = context.read<FavoriteFetchCubit>();
   }
 
   Future<void> handleSaveCity(
@@ -43,10 +45,10 @@ class _ShowWeatherBottomSheetWidgetState
       required double longitude,
       required String cityName,
       required BuildContext context}) async {
-    _favoriteBloc.add(StoreCityEvent(
-        cityName: cityName, latitude: latitude, longitude: longitude));
+    _favoriteStoreCubit.store(
+        cityName: cityName, latitude: latitude, longitude: longitude);
 
-    _favoriteBloc.add(const GetFavoritesCitiesEvent());
+    _favoriteFetchCubit.getFavoritesCities();
   }
 
   @override
@@ -62,10 +64,9 @@ class _ShowWeatherBottomSheetWidgetState
         return WeatherColors.drizzleNight;
       },
       builder: (context, backgroundColor) {
-        return BlocListener<FavoriteBloc, FavoriteLocationsState>(
+        return BlocListener<FavoriteStoreCubit, FavoriteStoreState>(
           listener: (context, state) {
-            if (state.status == FavoriteStatus.success &&
-                state.type == FavoriteTypeStatus.stored) {
+            if (state.status == FavoriteStoreStatus.success) {
               final router = AppRouter.of(context);
 
               router.goToScreenAndClear(BlocProvider(
