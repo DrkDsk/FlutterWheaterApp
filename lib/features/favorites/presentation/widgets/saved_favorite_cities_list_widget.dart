@@ -1,6 +1,6 @@
 import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_bloc.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/favorite_state.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/slidable_favorite_weather_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,11 +24,10 @@ class _SavedFavoriteCitiesListWidgetState
   void initState() {
     super.initState();
     _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 700,
-      )
-    );
+        vsync: this,
+        duration: const Duration(
+          milliseconds: 700,
+        ));
 
     _controller.forward();
   }
@@ -41,7 +40,7 @@ class _SavedFavoriteCitiesListWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoriteBloc, FavoriteLocationsState>(
+    return BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
         builder: (context, state) {
       final citiesLength = widget.cities.length;
 
