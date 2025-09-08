@@ -19,7 +19,7 @@ class FavoriteFetchCubit extends Cubit<FavoriteFetchState> {
   Future<void> getFavoritesCities() async {
     final either = await _repository.fetchAll();
 
-    emit(state.copyWith(status: FavoriteFetchStatus.initial));
+    emit(state.copyWith(status: FavoriteFetchStatus.loading));
 
     await either.fold((error) {
       emit(state.copyWith(
