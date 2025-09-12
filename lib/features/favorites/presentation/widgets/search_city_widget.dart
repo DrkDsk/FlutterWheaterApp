@@ -16,7 +16,6 @@ class SearchCityWidget extends StatefulWidget {
 }
 
 class _SearchCityWidgetState extends State<SearchCityWidget> {
-
   Timer? _debounce;
   late CityWeatherBloc _cityWeatherBloc;
 
@@ -34,17 +33,10 @@ class _SearchCityWidgetState extends State<SearchCityWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     final theme = Theme.of(context);
 
     return CupertinoTextField(
-      onChanged: (value) {
-        if (_debounce?.isActive ?? false) _debounce!.cancel();
-
-        _debounce = Timer(const Duration(milliseconds: 500), () {
-          _cityWeatherBloc.add(CitySearchEvent(query: value));
-        });
-      },
+      onChanged: (value) => _cityWeatherBloc.add(CitySearchEvent(query: value)),
       style: TextStyle(
         color: theme.colorScheme.onPrimary,
         fontSize: 24,
@@ -68,9 +60,7 @@ class _SearchCityWidgetState extends State<SearchCityWidget> {
           borderRadius: BorderRadius.circular(12)),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       placeholder: 'Search for a city or a airport',
-      placeholderStyle: TextStyle(
-        color: theme.colorScheme.onPrimary
-      ),
+      placeholderStyle: TextStyle(color: theme.colorScheme.onPrimary),
     );
   }
 }

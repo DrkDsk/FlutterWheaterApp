@@ -24,6 +24,7 @@ import 'package:clima_app/core/shared/data/datasources/location_datasource_impl.
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource_impl.dart';
 import 'package:clima_app/core/shared/data/datasources/weather_description_local_datasource_impl.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
+import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
 import 'package:clima_app/features/ia/data/datasources/ia_datasource.dart';
 import 'package:clima_app/features/ia/data/datasources/ia_datasource_impl.dart';
@@ -119,4 +120,7 @@ Future<void> initDependencies() async {
       searchCityUseCase: getIt<SearchCityUseCase>(),
       getCityUseCase: getIt<GetCityUseCase>(),
       mapper: getIt<WeatherMapper>()));
+
+  getIt.registerFactory<HomePageNavigationCubit>(
+      () => HomePageNavigationCubit());
 }

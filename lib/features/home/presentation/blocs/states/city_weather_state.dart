@@ -12,7 +12,7 @@ enum CityWeatherStatus {
 class CityWeatherState with EquatableMixin {
   final WeatherData? weatherData;
   final CityWeatherStatus status;
-  final List<CityLocation>? previousCitySearchResults;
+  final List<CityLocation> cities;
   final double? latitude;
   final double? longitude;
   final String cityName;
@@ -20,7 +20,7 @@ class CityWeatherState with EquatableMixin {
 
   const CityWeatherState(
       {this.weatherData,
-      this.previousCitySearchResults,
+      this.cities = const [],
       this.status = CityWeatherStatus.initial,
       this.latitude,
       this.longitude,
@@ -30,7 +30,7 @@ class CityWeatherState with EquatableMixin {
   CityWeatherState copyWith({
     WeatherData? weatherData,
     CityWeatherStatus? status,
-    List<CityLocation>? previousCitySearchResults,
+    List<CityLocation>? cities,
     double? latitude,
     double? longitude,
     String? cityName,
@@ -39,8 +39,7 @@ class CityWeatherState with EquatableMixin {
     return CityWeatherState(
       weatherData: weatherData ?? this.weatherData,
       status: status ?? this.status,
-      previousCitySearchResults:
-          previousCitySearchResults ?? this.previousCitySearchResults,
+      cities: cities ?? this.cities,
       latitude: latitude,
       longitude: longitude,
       cityName: cityName ?? this.cityName,
@@ -52,7 +51,7 @@ class CityWeatherState with EquatableMixin {
   List<Object?> get props => [
         weatherData,
         status,
-        previousCitySearchResults,
+        cities,
         latitude,
         longitude,
         cityName,

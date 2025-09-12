@@ -5,6 +5,7 @@ import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_
 import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
+import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
@@ -32,12 +33,15 @@ class _ShowWeatherBottomSheetWidgetState
     extends State<ShowWeatherBottomSheetWidget> {
   late FavoriteStoreCubit _favoriteStoreCubit;
   late FavoriteFetchCubit _favoriteFetchCubit;
+  late HomePageNavigationCubit _homePageNavigationCubit;
 
   @override
   void initState() {
     super.initState();
     _favoriteStoreCubit = context.read<FavoriteStoreCubit>();
     _favoriteFetchCubit = context.read<FavoriteFetchCubit>();
+    _homePageNavigationCubit =
+        BlocProvider.of<HomePageNavigationCubit>(context);
   }
 
   Future<void> handleSaveCity(
@@ -69,10 +73,12 @@ class _ShowWeatherBottomSheetWidgetState
             if (state.status == FavoriteStoreStatus.success) {
               final router = AppRouter.of(context);
 
+              _homePageNavigationCubit
+                  .updatePageIndex(state.lastCitiStoredIndex ?? 0);
+
               router.goToScreenAndClear(BlocProvider(
                 create: (context) => getIt<CityWeatherBloc>(),
-                child: HomeWeatherPage(
-                    initialIndex: state.lastCitiStoredIndex ?? 0),
+                child: const HomeWeatherPage(),
               ));
             }
           },
