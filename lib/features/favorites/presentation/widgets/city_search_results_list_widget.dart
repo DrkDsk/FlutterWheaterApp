@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 class CitySearchResultsListWidget extends StatelessWidget {
   const CitySearchResultsListWidget({
     super.key,
-    required this.result,
+    required this.cities,
   });
 
-  final List<CityLocation> result;
+  final List<CityLocation> cities;
 
   Future<void> getWeatherSelected(
       {required double latitude,
@@ -42,7 +42,7 @@ class CitySearchResultsListWidget extends StatelessWidget {
     return ListView.separated(
         itemBuilder: (context, index) => const SizedBox(height: 4),
         separatorBuilder: (context, index) {
-          final currentLocationData = result[index];
+          final currentLocationData = cities[index];
           final cityName = currentLocationData.name;
           final state = currentLocationData.state;
           final country = currentLocationData.country;
@@ -58,6 +58,6 @@ class CitySearchResultsListWidget extends StatelessWidget {
             child: CityResultItemCard(query: query),
           );
         },
-        itemCount: result.length);
+        itemCount: cities.length);
   }
 }

@@ -7,12 +7,17 @@ import 'package:clima_app/features/home/presentation/blocs/events/city_weather_e
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
   final SearchCityUseCase searchCityUseCase;
   final GetWeatherUseCase getWeatherUseCase;
   final GetCityUseCase getCityUseCase;
   final WeatherMapper mapper;
+
+  EventTransformer<T> debounce<T>(Duration duration) {
+    return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
+  }
 
   CityWeatherBloc(
       {required this.getWeatherUseCase,
@@ -21,7 +26,8 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       required this.mapper})
       : super(const CityWeatherState()) {
     on<FetchWeatherEvent>(_getCurrentWeather);
-    on<CitySearchEvent>(_searchWeatherEvent);
+    on<CitySearchEvent>(_searchWeatherEvent,
+        transformer: debounce(const Duration(milliseconds: 500)));
     on<LoadWeatherModalEvent>(_callFetchWeather);
   }
 
@@ -30,19 +36,19 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final double latitude = event.latitude;
     final double longitude = event.longitude;
     final String cityName = event.cityName;
-    final previousCitySearchResults = state.previousCitySearchResults;
+    final previousCitySearchResults = state.cities;
 
     emit(state.copyWith(
         latitude: latitude,
         longitude: longitude,
         cityName: cityName,
         status: CityWeatherStatus.initial,
-        previousCitySearchResults: previousCitySearchResults));
+        cities: previousCitySearchResults));
   }
 
   Future<void> _getCurrentWeather(
       FetchWeatherEvent event, Emitter<CityWeatherState> emit) async {
-    List<CityLocation>? previousFetchResults = state.previousCitySearchResults;
+    List<CityLocation>? previousFetchResults = state.cities;
 
     emit(state.copyWith(status: CityWeatherStatus.loading));
 
@@ -77,7 +83,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
     emit(state.copyWith(
         status: CityWeatherStatus.success,
-        previousCitySearchResults: previousFetchResults,
+        cities: previousFetchResults,
         weatherData: WeatherData(
             cityId: cityId,
             currentWeather: result.current,
@@ -96,7 +102,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final String query = event.query;
 
     if (query.isEmpty) {
-      emit(state.copyWith(status: CityWeatherStatus.initial));
+      emit(state.copyWith(status: CityWeatherStatus.initial, cities: []));
       return;
     }
 
@@ -110,14 +116,11 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
         return element.state != null;
       }).toList();
 
-      emit(
-        state.copyWith(
+      emit(state.copyWith(
           latitude: null,
           longitude: null,
           status: CityWeatherStatus.initial,
-          previousCitySearchResults: filteredCitySearchResult
-        )
-      );
+          cities: filteredCitySearchResult));
     });
   }
 }
