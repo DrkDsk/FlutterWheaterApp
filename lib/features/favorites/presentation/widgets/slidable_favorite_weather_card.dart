@@ -5,6 +5,7 @@ import 'package:clima_app/features/favorites/presentation/delete/cubits/favorite
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_city_item_card.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
+import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,9 +70,12 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
         onTap: () {
           final router = AppRouter.of(context);
 
+          BlocProvider.of<HomePageNavigationCubit>(context)
+              .updatePageIndex(index);
+
           router.goToScreenAndClear(BlocProvider(
             create: (context) => getIt<CityWeatherBloc>(),
-            child: HomeWeatherPage(initialIndex: index),
+            child: const HomeWeatherPage(),
           ));
         },
         child: SavedCityItemCard(cityName: currentCity.cityName),

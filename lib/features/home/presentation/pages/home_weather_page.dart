@@ -3,6 +3,7 @@ import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
+import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/widgets/bottom_app_bar_widget.dart';
@@ -12,9 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeWeatherPage extends StatefulWidget {
-  const HomeWeatherPage({super.key, this.initialIndex = 0});
-
-  final int initialIndex;
+  const HomeWeatherPage({super.key});
 
   @override
   State<HomeWeatherPage> createState() => _HomeWeatherPageState();
@@ -22,13 +21,14 @@ class HomeWeatherPage extends StatefulWidget {
 
 class _HomeWeatherPageState extends State<HomeWeatherPage> {
   late final PageController _pageController;
-  int _currentPage = 0;
+  late HomePageNavigationCubit _homePageNavigationCubit;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: widget.initialIndex);
-    _currentPage = widget.initialIndex;
+    _homePageNavigationCubit = context.read<HomePageNavigationCubit>();
+    _pageController =
+        PageController(initialPage: _homePageNavigationCubit.state);
   }
 
   @override
@@ -60,10 +60,15 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
       builder: (context, backgroundColor) {
         return Scaffold(
           backgroundColor: backgroundColor,
-          bottomNavigationBar: BottomAppBarWidget(
-            backgroundColor: backgroundColor,
-            currentPage: _currentPage,
-            navigateToFavorites: () => navigateToFavorites(context),
+          bottomNavigationBar: BlocSelector<HomePageNavigationCubit, int, int>(
+            selector: (state) => state,
+            builder: (context, currentPageState) {
+              return BottomAppBarWidget(
+                backgroundColor: backgroundColor,
+                currentPage: currentPageState,
+                navigateToFavorites: () => navigateToFavorites(context),
+              );
+            },
           ),
           body: SafeArea(
             child: BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
@@ -73,11 +78,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
                 return PageView.builder(
                   controller: _pageController,
                   itemCount: cities.length,
-                  onPageChanged: (value) {
-                    setState(() {
-                      _currentPage = value;
-                    });
-                  },
+                  onPageChanged: _homePageNavigationCubit.updatePageIndex,
                   itemBuilder: (context, index) {
                     final city = cities[index];
                     return WeatherContentWidget(
