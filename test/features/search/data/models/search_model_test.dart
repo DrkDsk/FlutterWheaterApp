@@ -1,8 +1,8 @@
 import 'package:clima_app/features/home/data/models/current_model.dart';
 import 'package:clima_app/features/home/data/models/hourly_model.dart';
 import 'package:clima_app/features/home/data/models/rain_model.dart';
-import 'package:clima_app/features/home/data/models/weather_response_model.dart';
-import 'package:clima_app/features/home/data/models/weather_model.dart';
+import 'package:clima_app/features/home/data/models/forecast_model.dart';
+import 'package:clima_app/features/home/data/models/weather_condition_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -37,7 +37,7 @@ void main() {
         ],
         "rain": {"1h": 0.13}
       },
-      "hourly" : [
+      "hourly": [
         {
           "dt": 1750698000,
           "temp": 305.17,
@@ -64,7 +64,7 @@ void main() {
       ],
     };
 
-    final searchModel = WeatherResponseModel(
+    final searchModel = ForecastModel(
       latitude: 16.085,
       longitude: -93.7482,
       timeZone: "America/Mexico_City",
@@ -85,40 +85,38 @@ void main() {
           windDeg: 257,
           windGust: 2.71,
           weather: [
-            WeatherModel(
-                id: 500, main: "Rain", description: "light rain", icon: "10d"
-            )
+            WeatherConditionModel(
+                id: 500, main: "Rain", description: "light rain", icon: "10d")
           ],
-          rain: RainModel(the1H: 0.13)
-      ),
+          rain: RainModel(the1H: 0.13)),
       hourly: [
         HourlyModel(
-            dt: 1750698000,
-            temp: 305.17,
-            feelsLike: 309.68,
-            pressure: 1013,
-            humidity: 58,
-            dewPoint: 295.87,
-            uvi: 11.68,
-            clouds: 91,
-            visibility: 10000,
-            windSpeed: 2.3,
-            windDeg: 261,
-            windGust: 2.06,
-            weather: [
-              WeatherModel(
-                  id: 804,
-                  main: "Clouds",
-                  description: "overcast clouds",
-                  icon: "04d")
-            ],
-            pop: 0,
+          dt: 1750698000,
+          temp: 305.17,
+          feelsLike: 309.68,
+          pressure: 1013,
+          humidity: 58,
+          dewPoint: 295.87,
+          uvi: 11.68,
+          clouds: 91,
+          visibility: 10000,
+          windSpeed: 2.3,
+          windDeg: 261,
+          windGust: 2.06,
+          weather: [
+            WeatherConditionModel(
+                id: 804,
+                main: "Clouds",
+                description: "overcast clouds",
+                icon: "04d")
+          ],
+          pop: 0,
         )
       ],
     );
 
     test('fromJson debería retornar un UserModel válido', () {
-      final result = WeatherResponseModel.fromJson(json);
+      final result = ForecastModel.fromJson(json);
       expect(result, equals(searchModel));
     });
 

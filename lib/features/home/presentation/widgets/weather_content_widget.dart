@@ -1,4 +1,4 @@
-import 'package:clima_app/features/home/domain/entities/weather_data.dart';
+import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
@@ -46,7 +46,7 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
         child: BlocConsumer<CityWeatherBloc, CityWeatherState>(
           listener: (context, state) {
             if (state.status == CityWeatherStatus.success) {
-              final WeatherData? weatherData = state.weatherData;
+              final CityWeatherData? weatherData = state.cityWeatherData;
 
               if (weatherData == null) return;
 
@@ -57,14 +57,14 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
           },
           builder: (context, state) {
             if (state.status == CityWeatherStatus.success) {
-              final WeatherData? weatherData = state.weatherData;
+              final CityWeatherData? weatherData = state.cityWeatherData;
 
               if (weatherData == null) {
                 return const SizedBox.shrink();
               }
 
-              final weather = weatherData.weather;
-              final currentWeather = weather.current;
+              final forecast = weatherData.forecast;
+              final currentWeather = forecast.current;
 
               return SingleChildScrollView(
                 child: Column(
@@ -79,9 +79,9 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                     const SizedBox(height: 10),
                     const IAContentWidget(),
                     const SizedBox(height: 10),
-                    HourlyListWeatherWidget(hourly: weather.hourly),
+                    HourlyListWeatherWidget(hourly: forecast.hourly),
                     const SizedBox(height: 10),
-                    DailyListWeatherWidget(daily: weather.daily),
+                    DailyListWeatherWidget(daily: forecast.daily),
                     const SizedBox(height: 10),
                     DetailWeatherGridWidget(weather: currentWeather)
                   ],

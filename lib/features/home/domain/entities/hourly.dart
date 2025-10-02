@@ -1,5 +1,5 @@
 import 'package:clima_app/features/home/data/models/rain_model.dart';
-import 'package:clima_app/features/home/data/models/weather_model.dart';
+import 'package:clima_app/features/home/data/models/weather_condition_model.dart';
 
 class Hourly {
   Hourly({
@@ -32,7 +32,7 @@ class Hourly {
   final double? windSpeed;
   final int? windDeg;
   final double? windGust;
-  final List<WeatherModel> weather;
+  final List<WeatherConditionModel> weather;
   final double? pop;
   final RainModel? rain;
 
@@ -49,7 +49,7 @@ class Hourly {
     double? windSpeed,
     int? windDeg,
     double? windGust,
-    List<WeatherModel>? weather,
+    List<WeatherConditionModel>? weather,
     double? pop,
     RainModel? rain,
   }) {

@@ -2,7 +2,7 @@ import 'package:clima_app/features/home/domain/entities/clouds.dart';
 import 'package:clima_app/features/home/domain/entities/coordinate.dart';
 import 'package:clima_app/features/home/domain/entities/main.dart';
 import 'package:clima_app/features/home/domain/entities/sys.dart';
-import 'package:clima_app/features/home/domain/entities/weather.dart';
+import 'package:clima_app/features/home/domain/entities/weather_condition.dart';
 import 'package:clima_app/features/home/domain/entities/wind.dart';
 
 class GetCityWeatherResponse {
@@ -23,7 +23,7 @@ class GetCityWeatherResponse {
   });
 
   final Coordinate? coordinate;
-  final List<Weather> weather;
+  final List<WeatherCondition> weather;
   final String? base;
   final Main? main;
   final int? visibility;
@@ -38,7 +38,7 @@ class GetCityWeatherResponse {
 
   GetCityWeatherResponse copyWith({
     Coordinate? coordinate,
-    List<Weather>? weather,
+    List<WeatherCondition>? weather,
     String? base,
     Main? main,
     int? visibility,
@@ -67,5 +67,4 @@ class GetCityWeatherResponse {
       cod: cod ?? this.cod,
     );
   }
-
 }

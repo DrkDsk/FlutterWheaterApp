@@ -1,5 +1,5 @@
-class Weather {
-  Weather({
+class WeatherCondition {
+  WeatherCondition({
     required this.id,
     required this.main,
     required this.description,
@@ -11,13 +11,13 @@ class Weather {
   final String? description;
   final String? icon;
 
-  Weather copyWith({
+  WeatherCondition copyWith({
     int? id,
     String? main,
     String? description,
     String? icon,
   }) {
-    return Weather(
+    return WeatherCondition(
       id: id ?? this.id,
       main: main ?? this.main,
       description: description ?? this.description,

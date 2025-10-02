@@ -1,5 +1,5 @@
 import 'package:clima_app/features/home/data/models/rain_model.dart';
-import 'package:clima_app/features/home/data/models/weather_model.dart';
+import 'package:clima_app/features/home/data/models/weather_condition_model.dart';
 import 'package:clima_app/features/home/domain/entities/current.dart';
 import 'package:equatable/equatable.dart';
 
@@ -37,7 +37,7 @@ class CurrentModel with EquatableMixin {
   final double? windSpeed;
   final int? windDeg;
   final double? windGust;
-  final List<WeatherModel> weather;
+  final List<WeatherConditionModel> weather;
   final RainModel? rain;
 
   factory CurrentModel.fromJson(Map<String, dynamic> map) {
@@ -58,8 +58,8 @@ class CurrentModel with EquatableMixin {
       windGust: (map['wind_gust'] as num?)?.toDouble(),
       weather: map["weather"] == null
           ? []
-          : List<WeatherModel>.from(
-          map["weather"]!.map((x) => WeatherModel.fromJson(x))),
+          : List<WeatherConditionModel>.from(
+              map["weather"]!.map((x) => WeatherConditionModel.fromJson(x))),
       rain: map["rain"] == null ? null : RainModel.fromJson(map["rain"]),
     );
   }
@@ -100,8 +100,7 @@ class CurrentModel with EquatableMixin {
         windDeg: windDeg,
         windGust: windGust,
         weather: weather,
-        rain: rain
-    );
+        rain: rain);
   }
 
   @override

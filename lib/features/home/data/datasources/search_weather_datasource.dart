@@ -1,5 +1,6 @@
-import 'package:clima_app/features/home/data/models/weather_response_model.dart';
+import 'package:clima_app/features/home/data/models/forecast_model.dart';
 
 abstract class SearchWeatherDataSource {
-  Future<WeatherResponseModel> fetchSearchDataByLocation({required double lat, required double lon});
+  Future<ForecastModel> fetchSearchDataByLocation(
+      {required double lat, required double lon});
 }

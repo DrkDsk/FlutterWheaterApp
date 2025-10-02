@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
-import 'package:clima_app/features/home/domain/entities/weather_data.dart';
+import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
 import 'package:clima_app/features/ia/domain/repositories/ia_repository.dart';
 import 'package:clima_app/features/ia/ui/blocs/ia_state.dart';
 
@@ -11,8 +11,8 @@ class IACubit extends Cubit<IAState> {
       : _repository = repository,
         super(const IAState());
 
-  Future<void> getRecommendation({required WeatherData weatherData}) async {
-    final weather = weatherData.weather.current;
+  Future<void> getRecommendation({required CityWeatherData weatherData}) async {
+    final weather = weatherData.forecast.current;
     final temperatureInCelsius = weather.tempCelsiusText;
     final feelsLike = weather.feelsLikeCelsiusText;
     final humidity = "${weather.humidity}%";

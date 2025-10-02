@@ -1,5 +1,5 @@
 import 'package:clima_app/features/home/data/models/rain_model.dart';
-import 'package:clima_app/features/home/data/models/weather_model.dart';
+import 'package:clima_app/features/home/data/models/weather_condition_model.dart';
 import 'package:equatable/equatable.dart';
 
 class Current with EquatableMixin {
@@ -36,7 +36,7 @@ class Current with EquatableMixin {
   final double? windSpeed;
   final int? windDeg;
   final double? windGust;
-  final List<WeatherModel> weather;
+  final List<WeatherConditionModel> weather;
   final RainModel? rain;
 
   Current copyWith({
@@ -54,7 +54,7 @@ class Current with EquatableMixin {
     double? windSpeed,
     int? windDeg,
     double? windGust,
-    List<WeatherModel>? weather,
+    List<WeatherConditionModel>? weather,
     RainModel? rain,
   }) {
     return Current(

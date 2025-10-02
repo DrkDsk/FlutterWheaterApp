@@ -4,16 +4,16 @@ import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
 import 'package:clima_app/core/helpers/datetime_helper.dart';
 import 'package:clima_app/features/home/domain/entities/translated/translated_weather.dart';
-import 'package:clima_app/features/home/domain/entities/weather_response.dart';
+import 'package:clima_app/features/home/domain/entities/forecast.dart';
 import 'package:equatable/equatable.dart';
 
-class WeatherData with EquatableMixin {
-  final WeatherResponse weather;
+class CityWeatherData with EquatableMixin {
+  final Forecast forecast;
   final TranslatedWeather translatedWeather;
   final String city;
 
-  WeatherData(
-      {required this.weather,
+  CityWeatherData(
+      {required this.forecast,
       required this.translatedWeather,
       required this.city});
 
@@ -23,7 +23,7 @@ class WeatherData with EquatableMixin {
       return WeatherColors.drizzleNight;
     }
 
-    final currentWeather = weather.current;
+    final currentWeather = forecast.current;
 
     final isNightTime = DateTimeTimeHelper.isNight(
       DateTime.now(),
@@ -37,5 +37,5 @@ class WeatherData with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [weather, translatedWeather, city];
+  List<Object?> get props => [forecast, translatedWeather, city];
 }

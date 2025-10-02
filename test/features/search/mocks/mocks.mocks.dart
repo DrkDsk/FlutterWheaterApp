@@ -7,8 +7,7 @@ import 'dart:async' as _i4;
 
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart'
     as _i3;
-import 'package:clima_app/features/home/data/models/weather_response_model.dart'
-    as _i2;
+import 'package:clima_app/features/home/data/models/forecast_model.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -25,7 +24,7 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeWeatherResponseModel_0 extends _i1.SmartFake
-    implements _i2.WeatherResponseModel {
+    implements _i2.ForecastModel {
   _FakeWeatherResponseModel_0(
     Object parent,
     Invocation parentInvocation,
@@ -45,7 +44,7 @@ class MockSearchWeatherDataSource extends _i1.Mock
   }
 
   @override
-  _i4.Future<_i2.WeatherResponseModel> fetchSearchDataByLocation({
+  _i4.Future<_i2.ForecastModel> fetchSearchDataByLocation({
     required double? lat,
     required double? lon,
   }) =>
@@ -58,8 +57,8 @@ class MockSearchWeatherDataSource extends _i1.Mock
             #lon: lon,
           },
         ),
-        returnValue: _i4.Future<_i2.WeatherResponseModel>.value(
-            _FakeWeatherResponseModel_0(
+        returnValue:
+            _i4.Future<_i2.ForecastModel>.value(_FakeWeatherResponseModel_0(
           this,
           Invocation.method(
             #fetchSearchDataByLocation,
@@ -70,5 +69,5 @@ class MockSearchWeatherDataSource extends _i1.Mock
             },
           ),
         )),
-      ) as _i4.Future<_i2.WeatherResponseModel>);
+      ) as _i4.Future<_i2.ForecastModel>);
 }

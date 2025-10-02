@@ -1,5 +1,5 @@
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/home/domain/entities/weather_data.dart';
+import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
 import 'package:equatable/equatable.dart';
 
 enum CityWeatherStatus {
@@ -10,28 +10,28 @@ enum CityWeatherStatus {
 }
 
 class CityWeatherState with EquatableMixin {
-  final WeatherData? weatherData;
+  final CityWeatherData? cityWeatherData;
   final CityWeatherStatus status;
   final List<CityLocation> cities;
   final String cityName;
   final String errorMessage;
 
   const CityWeatherState(
-      {this.weatherData,
+      {this.cityWeatherData,
       this.cities = const [],
       this.status = CityWeatherStatus.initial,
       this.cityName = "",
       this.errorMessage = ""});
 
   CityWeatherState copyWith({
-    WeatherData? weatherData,
+    CityWeatherData? weatherData,
     CityWeatherStatus? status,
     List<CityLocation>? cities,
     String? cityName,
     String? errorMessage,
   }) {
     return CityWeatherState(
-      weatherData: weatherData ?? this.weatherData,
+      cityWeatherData: weatherData ?? this.cityWeatherData,
       status: status ?? this.status,
       cities: cities ?? this.cities,
       cityName: cityName ?? this.cityName,
@@ -41,5 +41,5 @@ class CityWeatherState with EquatableMixin {
 
   @override
   List<Object?> get props =>
-      [weatherData, status, cities, cityName, errorMessage];
+      [cityWeatherData, status, cities, cityName, errorMessage];
 }

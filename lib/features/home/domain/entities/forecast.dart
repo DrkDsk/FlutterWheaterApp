@@ -2,8 +2,8 @@ import 'package:clima_app/features/home/domain/entities/current.dart';
 import 'package:clima_app/features/home/domain/entities/daily.dart';
 import 'package:clima_app/features/home/domain/entities/hourly.dart';
 
-class WeatherResponse {
-  WeatherResponse(
+class Forecast {
+  Forecast(
       {required this.latitude,
       required this.longitude,
       required this.timeZone,
@@ -20,7 +20,7 @@ class WeatherResponse {
   final List<Hourly> hourly;
   final List<Daily> daily;
 
-  WeatherResponse copyWith(
+  Forecast copyWith(
       {double? latitude,
       double? longitude,
       String? timeZone,
@@ -28,7 +28,7 @@ class WeatherResponse {
       Current? current,
       List<Hourly>? hourly,
       List<Daily>? daily}) {
-    return WeatherResponse(
+    return Forecast(
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
         timeZone: timeZone ?? this.timeZone,

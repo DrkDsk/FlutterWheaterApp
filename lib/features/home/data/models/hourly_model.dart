@@ -1,5 +1,5 @@
 import 'package:clima_app/features/home/data/models/rain_model.dart';
-import 'package:clima_app/features/home/data/models/weather_model.dart';
+import 'package:clima_app/features/home/data/models/weather_condition_model.dart';
 import 'package:clima_app/features/home/domain/entities/hourly.dart';
 import 'package:equatable/equatable.dart';
 
@@ -33,7 +33,7 @@ class HourlyModel with EquatableMixin {
   final double? windSpeed;
   final int? windDeg;
   final double? windGust;
-  final List<WeatherModel> weather;
+  final List<WeatherConditionModel> weather;
   final double? pop;
   final RainModel? rain;
 
@@ -53,8 +53,8 @@ class HourlyModel with EquatableMixin {
       windGust: (map['wind_gust'] as num?)?.toDouble(),
       weather: map["weather"] == null
           ? []
-          : List<WeatherModel>.from(
-          map["weather"]!.map((x) => WeatherModel.fromJson(x))),
+          : List<WeatherConditionModel>.from(
+              map["weather"]!.map((x) => WeatherConditionModel.fromJson(x))),
       pop: (map['pop'] as num?)?.toDouble(),
       rain: map["rain"] == null ? null : RainModel.fromJson(map["rain"]),
     );
@@ -62,21 +62,21 @@ class HourlyModel with EquatableMixin {
 
   Hourly toEntity() {
     return Hourly(
-        dt: dt,
-        temp: temp,
-        feelsLike: feelsLike,
-        pressure: pressure,
-        humidity: humidity,
-        dewPoint: dewPoint,
-        uvi: uvi,
-        clouds: clouds,
-        visibility: visibility,
-        windSpeed: windSpeed,
-        windDeg: windDeg,
-        windGust: windGust,
-        weather: weather,
-        pop: pop,
-        rain: rain,
+      dt: dt,
+      temp: temp,
+      feelsLike: feelsLike,
+      pressure: pressure,
+      humidity: humidity,
+      dewPoint: dewPoint,
+      uvi: uvi,
+      clouds: clouds,
+      visibility: visibility,
+      windSpeed: windSpeed,
+      windDeg: windDeg,
+      windGust: windGust,
+      weather: weather,
+      pop: pop,
+      rain: rain,
     );
   }
 
