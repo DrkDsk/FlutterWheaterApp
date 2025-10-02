@@ -52,17 +52,18 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
 
               context
                   .read<IACubit>()
-                  .getRecommendation(weatherData: weatherData);
+                  .getRecommendation(cityWeatherData: weatherData);
             }
           },
           builder: (context, state) {
             if (state.status == CityWeatherStatus.success) {
-              final CityWeatherData? weatherData = state.cityWeatherData;
+              final CityWeatherData? cityWeatherData = state.cityWeatherData;
 
-              if (weatherData == null) {
+              if (cityWeatherData == null) {
                 return const SizedBox.shrink();
               }
 
+              final weatherData = cityWeatherData.weatherData;
               final forecast = weatherData.forecast;
               final currentWeather = forecast.current;
 
@@ -72,7 +73,7 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                   children: [
                     const SizedBox(height: 10),
                     HeaderWeatherWidget(
-                      city: weatherData.city,
+                      city: weatherData.cityName,
                       translatedWeather: weatherData.translatedWeather,
                       temp: currentWeather.tempCelsiusText,
                     ),

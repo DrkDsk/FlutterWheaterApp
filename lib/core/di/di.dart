@@ -48,6 +48,9 @@ Future<void> initDependencies() async {
   getIt.registerSingleton(dioClient);
   getIt.registerSingleton(box);
 
+  // Helpers
+  getIt.registerLazySingleton(() => WeatherMapper(getIt()));
+
   // DataSources
   getIt.registerLazySingleton<IADatasource>(() => IADatasourceImpl());
   getIt.registerLazySingleton<CityDataSource>(
@@ -92,12 +95,9 @@ Future<void> initDependencies() async {
   getIt.registerLazySingleton(
       () => GetCityUseCase(repository: getIt<CityRepository>()));
   getIt.registerLazySingleton(() => GetWeatherUseCase(
-        repository: getIt<SearchWeatherRepository>(),
-        locationService: getIt<LocationService>(),
-      ));
-
-  // Helpers
-  getIt.registerLazySingleton(() => WeatherMapper(getIt()));
+      repository: getIt<SearchWeatherRepository>(),
+      locationService: getIt<LocationService>(),
+      mapper: getIt<WeatherMapper>()));
 
   // Blocs / Cubits
   getIt.registerFactory<IACubit>(
@@ -118,8 +118,7 @@ Future<void> initDependencies() async {
   getIt.registerFactory<CityWeatherBloc>(() => CityWeatherBloc(
       getWeatherUseCase: getIt<GetWeatherUseCase>(),
       searchCityUseCase: getIt<SearchCityUseCase>(),
-      getCityUseCase: getIt<GetCityUseCase>(),
-      mapper: getIt<WeatherMapper>()));
+      getCityUseCase: getIt<GetCityUseCase>()));
 
   getIt.registerFactory<HomePageNavigationCubit>(
       () => HomePageNavigationCubit());

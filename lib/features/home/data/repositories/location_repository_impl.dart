@@ -4,7 +4,6 @@ import 'package:clima_app/features/home/domain/repositories/location_repository.
 import 'package:geocoding/geocoding.dart';
 
 class LocationRepositoryImpl implements LocationRepository {
-
   final LocationDataSourceImpl dataSource;
 
   LocationRepositoryImpl(this.dataSource);
@@ -13,12 +12,15 @@ class LocationRepositoryImpl implements LocationRepository {
   Future<Coordinate> getCurrentLocation() async {
     final position = await dataSource.getCurrentLocation();
 
-    return Coordinate(latitude: position.latitude ?? 0, longitude: position.longitude ?? 0);
+    return Coordinate(
+        latitude: position.latitude ?? 0, longitude: position.longitude ?? 0);
   }
 
   @override
-  Future<String?> getCurrentCityName({required double latitude, required double longitude}) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+  Future<String> getCurrentCityName(
+      {required double latitude, required double longitude}) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(latitude, longitude);
 
     if (placemarks.isEmpty) {
       return "";

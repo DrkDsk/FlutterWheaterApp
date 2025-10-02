@@ -5,7 +5,6 @@ import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
-import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -13,7 +12,6 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
   final SearchCityUseCase searchCityUseCase;
   final GetWeatherUseCase getWeatherUseCase;
   final GetCityUseCase getCityUseCase;
-  final WeatherMapper mapper;
 
   EventTransformer<T> debounce<T>(Duration duration) {
     return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
@@ -22,8 +20,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
   CityWeatherBloc(
       {required this.getWeatherUseCase,
       required this.searchCityUseCase,
-      required this.getCityUseCase,
-      required this.mapper})
+      required this.getCityUseCase})
       : super(const CityWeatherState()) {
     on<FetchWeatherEvent>(_getCurrentWeather);
     on<CitySearchEvent>(_searchWeatherEvent,
@@ -52,15 +49,8 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final longitude = event.longitude;
 
     try {
-      final homeWeatherUseCaseResult = await getWeatherUseCase.call(
+      final weatherData = await getWeatherUseCase.call(
           latitude: latitude, longitude: longitude);
-
-      final weather = homeWeatherUseCaseResult.weatherResponse;
-      final cityName = homeWeatherUseCaseResult.cityName;
-
-      final translatedDescription = await mapper.map(
-        weather.current.weather.first.toEntity(),
-      );
 
       if (emit.isDone) return;
 
@@ -69,10 +59,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       emit(state.copyWith(
           status: CityWeatherStatus.success,
           cities: previousFetchResults,
-          weatherData: CityWeatherData(
-              forecast: weather,
-              city: cityName ?? "",
-              translatedWeather: translatedDescription)));
+          weatherData: CityWeatherData(weatherData: weatherData)));
     } catch (error) {
       emit(state.copyWith(status: CityWeatherStatus.initial));
       emit(state.copyWith(

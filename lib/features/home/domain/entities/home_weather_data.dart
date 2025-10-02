@@ -1,8 +1,13 @@
 import 'package:clima_app/features/home/domain/entities/forecast.dart';
+import 'package:clima_app/features/home/domain/entities/translated/translated_weather.dart';
 
 class HomeWeatherData {
-  final Forecast weatherResponse;
-  final String? cityName;
+  final Forecast forecast;
+  final String cityName;
+  final TranslatedWeather translatedWeather;
 
-  HomeWeatherData({required this.weatherResponse, required this.cityName});
+  HomeWeatherData(
+      {required this.forecast,
+      required this.cityName,
+      required this.translatedWeather});
 }
