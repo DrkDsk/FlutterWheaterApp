@@ -1,6 +1,6 @@
 import 'package:clima_app/features/home/domain/entities/feels_like.dart';
 import 'package:clima_app/features/home/domain/entities/temperature.dart';
-import 'package:clima_app/features/home/domain/entities/weather.dart';
+import 'package:clima_app/features/home/domain/entities/weather_condition.dart';
 
 class Daily {
   Daily({
@@ -41,7 +41,7 @@ class Daily {
   final double? windSpeed;
   final int? windDeg;
   final double? windGust;
-  final List<Weather> weather;
+  final List<WeatherCondition> weather;
   final int? clouds;
   final double? pop;
   final double? rain;
@@ -63,7 +63,7 @@ class Daily {
     double? windSpeed,
     int? windDeg,
     double? windGust,
-    List<Weather>? weather,
+    List<WeatherCondition>? weather,
     int? clouds,
     double? pop,
     double? rain,

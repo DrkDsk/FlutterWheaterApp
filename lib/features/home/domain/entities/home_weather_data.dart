@@ -1,7 +1,7 @@
-import 'package:clima_app/features/home/domain/entities/weather_response.dart';
+import 'package:clima_app/features/home/domain/entities/forecast.dart';
 
 class HomeWeatherData {
-  final WeatherResponse weatherResponse;
+  final Forecast weatherResponse;
   final String? cityName;
 
   HomeWeatherData({required this.weatherResponse, required this.cityName});

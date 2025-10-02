@@ -1,11 +1,11 @@
 import 'package:clima_app/features/home/data/models/current_model.dart';
 import 'package:clima_app/features/home/data/models/daily_model.dart';
 import 'package:clima_app/features/home/data/models/hourly_model.dart';
-import 'package:clima_app/features/home/domain/entities/weather_response.dart';
+import 'package:clima_app/features/home/domain/entities/forecast.dart';
 import 'package:equatable/equatable.dart';
 
-class WeatherResponseModel with EquatableMixin {
-  WeatherResponseModel({
+class ForecastModel with EquatableMixin {
+  ForecastModel({
     required this.latitude,
     required this.longitude,
     required this.timeZone,
@@ -23,8 +23,8 @@ class WeatherResponseModel with EquatableMixin {
   final List<HourlyModel>? hourly;
   final List<DailyModel>? daily;
 
-  factory WeatherResponseModel.fromJson(Map<String, dynamic> map) {
-    return WeatherResponseModel(
+  factory ForecastModel.fromJson(Map<String, dynamic> map) {
+    return ForecastModel(
       latitude: map['lat'] as double,
       longitude: map['lon'] as double,
       timeZone: map['timezone'] as String,
@@ -51,8 +51,8 @@ class WeatherResponseModel with EquatableMixin {
         "daily": daily?.map((x) => (x).toJson()).toList()
       };
 
-  WeatherResponse toEntity() {
-    return WeatherResponse(
+  Forecast toEntity() {
+    return Forecast(
         latitude: latitude,
         longitude: longitude,
         timeZone: timeZone,

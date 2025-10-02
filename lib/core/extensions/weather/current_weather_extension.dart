@@ -46,8 +46,8 @@ extension CurrentWeatherExtension on Current {
 
 extension CityWeatherStateX on CityWeatherState {
   Color get backgroundColor {
-    if (status == CityWeatherStatus.success && weatherData != null) {
-      return weatherData!.getBackgroundColor();
+    if (status == CityWeatherStatus.success && cityWeatherData != null) {
+      return cityWeatherData!.getBackgroundColor();
     }
     return WeatherColors.drizzleNight;
   }

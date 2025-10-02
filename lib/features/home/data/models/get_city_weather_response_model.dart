@@ -2,7 +2,7 @@ import 'package:clima_app/features/home/data/models/clouds_model.dart';
 import 'package:clima_app/features/home/data/models/coordinate_model.dart';
 import 'package:clima_app/features/home/data/models/main_model.dart';
 import 'package:clima_app/features/home/data/models/sys_model.dart';
-import 'package:clima_app/features/home/data/models/weather_model.dart';
+import 'package:clima_app/features/home/data/models/weather_condition_model.dart';
 import 'package:clima_app/features/home/data/models/wind_model.dart';
 import 'package:clima_app/features/home/domain/entities/get_city_response.dart';
 
@@ -24,7 +24,7 @@ class GetCityWeatherResponseModel {
   });
 
   final CoordinateModel? coordinate;
-  final List<WeatherModel> weather;
+  final List<WeatherConditionModel> weather;
   final String? base;
   final MainModel? main;
   final int? visibility;
@@ -44,8 +44,8 @@ class GetCityWeatherResponseModel {
           : CoordinateModel.fromJson(json["coord"]),
       weather: json["weather"] == null
           ? []
-          : List<WeatherModel>.from(
-              json["weather"]!.map((x) => WeatherModel.fromJson(x))),
+          : List<WeatherConditionModel>.from(
+              json["weather"]!.map((x) => WeatherConditionModel.fromJson(x))),
       base: json["base"],
       main: json["main"] == null ? null : MainModel.fromJson(json["main"]),
       visibility: json["visibility"],

@@ -1,6 +1,6 @@
 import 'package:clima_app/features/home/data/models/feels_like_model.dart';
 import 'package:clima_app/features/home/data/models/temperature_model.dart';
-import 'package:clima_app/features/home/data/models/weather_model.dart';
+import 'package:clima_app/features/home/data/models/weather_condition_model.dart';
 import 'package:clima_app/features/home/domain/entities/daily.dart';
 import 'package:equatable/equatable.dart';
 
@@ -42,7 +42,7 @@ class DailyModel with EquatableMixin {
   final double? windSpeed;
   final int? windDeg;
   final double? windGust;
-  final List<WeatherModel> weather;
+  final List<WeatherConditionModel> weather;
   final int? clouds;
   final double? pop;
   final double? rain;
@@ -57,9 +57,8 @@ class DailyModel with EquatableMixin {
       moonset: (map['moonset'] as num?)?.toInt(),
       moonPhase: (map['moon_phase'] as num?)?.toDouble(),
       summary: map['summary'] as String,
-      temperature: map["temp"] == null
-          ? null
-          : TemperatureModel.fromJson(map["temp"]),
+      temperature:
+          map["temp"] == null ? null : TemperatureModel.fromJson(map["temp"]),
       feelsLike: map["feels_like"] == null
           ? null
           : FeelsLikeModel.fromJson(map["feels_like"]),
@@ -71,8 +70,8 @@ class DailyModel with EquatableMixin {
       windGust: (map['wind_gust'] as num?)?.toDouble(),
       weather: map["weather"] == null
           ? []
-          : List<WeatherModel>.from(
-          map["weather"]!.map((x) => WeatherModel.fromJson(x))),
+          : List<WeatherConditionModel>.from(
+              map["weather"]!.map((x) => WeatherConditionModel.fromJson(x))),
       clouds: map['clouds'] as int?,
       pop: (map['pop'] as num?)?.toDouble(),
       rain: (map['rain'] as num?)?.toDouble(),
@@ -101,8 +100,7 @@ class DailyModel with EquatableMixin {
         clouds: clouds,
         pop: pop,
         rain: rain,
-        uvi: uvi
-    );
+        uvi: uvi);
   }
 
   Map<String, dynamic> toJson() => {
