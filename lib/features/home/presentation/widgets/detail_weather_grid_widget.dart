@@ -1,5 +1,5 @@
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
-import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
+import 'package:clima_app/features/home/domain/entities/weather_data.dart';
 import 'package:clima_app/features/home/presentation/widgets/segment_weather_widget.dart';
 import 'package:flutter/material.dart';
 

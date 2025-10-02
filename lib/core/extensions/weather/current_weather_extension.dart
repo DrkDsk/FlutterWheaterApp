@@ -1,10 +1,13 @@
+import 'dart:ui';
+
+import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/features/home/domain/entities/current.dart';
+import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 
 extension CurrentWeatherExtension on Current {
-
   double get tempCelsius => (temp ?? 0) - 273.15;
 
-  double get feelsLikeCelsius => (feelsLike) -273.15;
+  double get feelsLikeCelsius => (feelsLike) - 273.15;
 
   double get windSpeedKm => (windSpeed ?? 0 * 3.6);
 
@@ -15,7 +18,6 @@ extension CurrentWeatherExtension on Current {
   String get windSpeedKmText => '$windSpeed km/h';
 
   String get windDirectionText {
-
     double speedKmh = windSpeedKm * 3.6;
 
     final windDegDirection = windDeg;
@@ -38,5 +40,15 @@ extension CurrentWeatherExtension on Current {
     return "${speedKmh.round()} km/h (${directions[index]})";
   }
 
-  String get visibilityTextInKm => "${((visibility ?? 0) / 1000).toStringAsFixed(0)} km";
+  String get visibilityTextInKm =>
+      "${((visibility ?? 0) / 1000).toStringAsFixed(0)} km";
+}
+
+extension CityWeatherStateX on CityWeatherState {
+  Color get backgroundColor {
+    if (status == CityWeatherStatus.success && weatherData != null) {
+      return weatherData!.getBackgroundColor();
+    }
+    return WeatherColors.drizzleNight;
+  }
 }

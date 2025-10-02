@@ -5,9 +5,8 @@ abstract class CityWeatherEvent {
 class FetchWeatherEvent extends CityWeatherEvent {
   final double? latitude;
   final double? longitude;
-  final int? cityId;
 
-  const FetchWeatherEvent({this.latitude, this.longitude, this.cityId});
+  const FetchWeatherEvent({this.latitude, this.longitude});
 }
 
 class LoadWeatherModalEvent extends CityWeatherEvent {

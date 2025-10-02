@@ -1,5 +1,5 @@
-import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/di/di.dart';
+import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_cubit.dart';
@@ -59,13 +59,9 @@ class _ShowWeatherBottomSheetWidgetState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return BlocSelector<CityWeatherBloc, CityWeatherState, Color?>(
+    return BlocSelector<CityWeatherBloc, CityWeatherState, Color>(
       selector: (state) {
-        if (state.status == CityWeatherStatus.success) {
-          return state.weatherData?.backgroundColor;
-        }
-
-        return WeatherColors.drizzleNight;
+        return state.backgroundColor;
       },
       builder: (context, backgroundColor) {
         return BlocListener<FavoriteStoreCubit, FavoriteStoreState>(

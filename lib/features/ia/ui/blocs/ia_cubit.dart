@@ -1,22 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
-import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
+import 'package:clima_app/features/home/domain/entities/weather_data.dart';
 import 'package:clima_app/features/ia/domain/repositories/ia_repository.dart';
 import 'package:clima_app/features/ia/ui/blocs/ia_state.dart';
 
 class IACubit extends Cubit<IAState> {
-
   final IARepository _repository;
 
-  IACubit({required IARepository repository}) : _repository = repository, super(const IAState());
+  IACubit({required IARepository repository})
+      : _repository = repository,
+        super(const IAState());
 
-  Future<void> getRecommendation({
-    required WeatherData weatherData
-  }) async {
-
+  Future<void> getRecommendation({required WeatherData weatherData}) async {
     final temperatureInCelsius = weatherData.currentWeather.tempCelsiusText;
-    final feelsLike =  weatherData
-        .currentWeather.feelsLikeCelsiusText;
+    final feelsLike = weatherData.currentWeather.feelsLikeCelsiusText;
     final humidity = "${weatherData.currentWeather.humidity}%";
     final windSpeedAndGust = weatherData.currentWeather.windDirectionText;
     final condition = weatherData.translatedWeather.translatedDescription;
@@ -31,15 +28,14 @@ class IACubit extends Cubit<IAState> {
 
     const recommendations = [
       "usa prendas ligeras y transpirables tipo dry-fit, "
-      "preferiblemente manga corta o larga delgada. Un gorro o visera te "
-      "ayudará si entrenas por la mañana.",
-
+          "preferiblemente manga corta o larga delgada. Un gorro o visera te "
+          "ayudará si entrenas por la mañana.",
       "lleva agua, porque la humedad puede cansarte más de lo normal. "
-      "Y como hay calina, procura entrenar en un lugar que ya conozcas "
-      "bien para no tener problemas de visibilidad."
-
+          "Y como hay calina, procura entrenar en un lugar que ya conozcas "
+          "bien para no tener problemas de visibilidad."
     ];
 
-    emit(state.copyWith(status: IAClientStatus.initial, recommendations: recommendations));
+    emit(state.copyWith(
+        status: IAClientStatus.initial, recommendations: recommendations));
   }
 }

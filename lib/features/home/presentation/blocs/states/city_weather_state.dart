@@ -1,5 +1,5 @@
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
+import 'package:clima_app/features/home/domain/entities/weather_data.dart';
 import 'package:equatable/equatable.dart';
 
 enum CityWeatherStatus {
