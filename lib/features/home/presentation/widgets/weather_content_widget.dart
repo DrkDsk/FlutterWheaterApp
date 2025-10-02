@@ -1,8 +1,8 @@
+import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
-import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/features/home/presentation/widgets/daily_list_weather_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/detail_weather_grid_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/header_weather_widget.dart';
@@ -63,8 +63,7 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                 return const SizedBox.shrink();
               }
 
-              final weatherData = cityWeatherData.weatherData;
-              final forecast = weatherData.forecast;
+              final forecast = cityWeatherData.forecast;
               final currentWeather = forecast.current;
 
               return SingleChildScrollView(
@@ -73,8 +72,8 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                   children: [
                     const SizedBox(height: 10),
                     HeaderWeatherWidget(
-                      city: weatherData.cityName,
-                      translatedWeather: weatherData.translatedWeather,
+                      city: cityWeatherData.cityName,
+                      translatedWeather: cityWeatherData.translatedWeather,
                       temp: currentWeather.tempCelsiusText,
                     ),
                     const SizedBox(height: 10),
