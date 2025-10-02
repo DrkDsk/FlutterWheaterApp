@@ -1,4 +1,4 @@
-import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
+import 'package:clima_app/features/home/domain/entities/weather_data.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
