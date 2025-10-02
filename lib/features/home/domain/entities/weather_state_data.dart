@@ -13,8 +13,6 @@ class WeatherData with EquatableMixin {
   final List<Daily> daily;
   final String city;
   final int? cityId;
-  final double? latitude;
-  final double? longitude;
   final Color? backgroundColor;
 
   WeatherData(
@@ -24,8 +22,6 @@ class WeatherData with EquatableMixin {
       required this.daily,
       required this.city,
       required this.cityId,
-      required this.latitude,
-      required this.longitude,
       this.backgroundColor});
 
   @override
@@ -36,8 +32,6 @@ class WeatherData with EquatableMixin {
         daily,
         city,
         cityId,
-        latitude,
-        longitude,
         backgroundColor
       ];
 }

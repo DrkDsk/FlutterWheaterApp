@@ -13,8 +13,6 @@ class CityWeatherState with EquatableMixin {
   final WeatherData? weatherData;
   final CityWeatherStatus status;
   final List<CityLocation> cities;
-  final double? latitude;
-  final double? longitude;
   final String cityName;
   final String errorMessage;
 
@@ -22,8 +20,6 @@ class CityWeatherState with EquatableMixin {
       {this.weatherData,
       this.cities = const [],
       this.status = CityWeatherStatus.initial,
-      this.latitude,
-      this.longitude,
       this.cityName = "",
       this.errorMessage = ""});
 
@@ -31,8 +27,6 @@ class CityWeatherState with EquatableMixin {
     WeatherData? weatherData,
     CityWeatherStatus? status,
     List<CityLocation>? cities,
-    double? latitude,
-    double? longitude,
     String? cityName,
     String? errorMessage,
   }) {
@@ -40,21 +34,12 @@ class CityWeatherState with EquatableMixin {
       weatherData: weatherData ?? this.weatherData,
       status: status ?? this.status,
       cities: cities ?? this.cities,
-      latitude: latitude,
-      longitude: longitude,
       cityName: cityName ?? this.cityName,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
   @override
-  List<Object?> get props => [
-        weatherData,
-        status,
-        cities,
-        latitude,
-        longitude,
-        cityName,
-        errorMessage
-      ];
+  List<Object?> get props =>
+      [weatherData, status, cities, cityName, errorMessage];
 }
