@@ -1,4 +1,4 @@
-import 'package:clima_app/core/colors/weather_colors.dart';
+import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_results_content_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
@@ -11,13 +11,9 @@ class WeatherListFavorites extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<CityWeatherBloc, CityWeatherState, Color?>(
+    return BlocSelector<CityWeatherBloc, CityWeatherState, Color>(
       selector: (state) {
-        if (state.status == CityWeatherStatus.success) {
-          return state.weatherData?.backgroundColor;
-        }
-
-        return WeatherColors.drizzleNight;
+        return state.backgroundColor;
       },
       builder: (context, backgroundColor) {
         return const Scaffold(

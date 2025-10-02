@@ -1,7 +1,7 @@
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
 import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
-import 'package:clima_app/features/home/domain/entities/weather_state_data.dart';
+import 'package:clima_app/features/home/domain/entities/weather_data.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
@@ -50,7 +50,6 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
     final latitude = event.latitude;
     final longitude = event.longitude;
-    final cityId = event.cityId;
 
     try {
       final homeWeatherUseCaseResult = await getWeatherUseCase.call(
@@ -71,14 +70,11 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
           status: CityWeatherStatus.success,
           cities: previousFetchResults,
           weatherData: WeatherData(
-              cityId: cityId,
               currentWeather: result.current,
               hourly: result.hourly ?? [],
               daily: result.daily ?? [],
               city: cityName ?? "",
-              translatedWeather: translatedDescription,
-              backgroundColor: result.getBackgroundColor(
-                  translated: translatedDescription.main))));
+              translatedWeather: translatedDescription)));
     } catch (error) {
       emit(state.copyWith(status: CityWeatherStatus.initial));
       emit(state.copyWith(
