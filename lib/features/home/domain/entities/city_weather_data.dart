@@ -3,21 +3,28 @@ import 'dart:ui';
 import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
 import 'package:clima_app/core/helpers/datetime_helper.dart';
-import 'package:clima_app/features/home/domain/entities/home_weather_data.dart';
+import 'package:clima_app/features/home/domain/entities/translated/translated_weather.dart';
 import 'package:equatable/equatable.dart';
 
-class CityWeatherData with EquatableMixin {
-  final HomeWeatherData weatherData;
+import 'forecast.dart';
 
-  CityWeatherData({required this.weatherData});
+class CityWeatherData with EquatableMixin {
+  final Forecast forecast;
+  final String cityName;
+  final TranslatedWeather translatedWeather;
+
+  CityWeatherData(
+      {required this.forecast,
+      required this.cityName,
+      required this.translatedWeather});
 
   Color getBackgroundColor() {
-    final mainTranslatedWeatherDescription = weatherData.translatedWeather.main;
+    final mainTranslatedWeatherDescription = translatedWeather.main;
     if (mainTranslatedWeatherDescription == null) {
       return WeatherColors.drizzleNight;
     }
 
-    final currentWeather = weatherData.forecast.current;
+    final currentWeather = forecast.current;
 
     final isNightTime = DateTimeTimeHelper.isNight(
       DateTime.now(),
@@ -31,5 +38,5 @@ class CityWeatherData with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [weatherData];
+  List<Object?> get props => [forecast, cityName, translatedWeather];
 }

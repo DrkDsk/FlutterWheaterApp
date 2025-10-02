@@ -13,33 +13,29 @@ class CityWeatherState with EquatableMixin {
   final CityWeatherData? cityWeatherData;
   final CityWeatherStatus status;
   final List<CityLocation> cities;
-  final String cityName;
   final String errorMessage;
 
   const CityWeatherState(
       {this.cityWeatherData,
       this.cities = const [],
       this.status = CityWeatherStatus.initial,
-      this.cityName = "",
       this.errorMessage = ""});
 
   CityWeatherState copyWith({
-    CityWeatherData? weatherData,
+    CityWeatherData? cityWeatherData,
     CityWeatherStatus? status,
     List<CityLocation>? cities,
     String? cityName,
     String? errorMessage,
   }) {
     return CityWeatherState(
-      cityWeatherData: weatherData ?? this.cityWeatherData,
+      cityWeatherData: cityWeatherData ?? this.cityWeatherData,
       status: status ?? this.status,
       cities: cities ?? this.cities,
-      cityName: cityName ?? this.cityName,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [cityWeatherData, status, cities, cityName, errorMessage];
+  List<Object?> get props => [cityWeatherData, status, cities, errorMessage];
 }

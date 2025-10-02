@@ -1,5 +1,5 @@
 import 'package:clima_app/core/error/failures/failure.dart';
-import 'package:clima_app/features/home/domain/entities/home_weather_data.dart';
+import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
 import 'package:clima_app/features/home/domain/entities/coordinate.dart';
 import 'package:clima_app/features/home/domain/repositories/search_weather_repository.dart';
 import 'package:clima_app/features/home/domain/services/location_service.dart';
@@ -15,7 +15,7 @@ class GetWeatherUseCase {
       required this.repository,
       required this.mapper});
 
-  Future<HomeWeatherData> call({double? latitude, double? longitude}) async {
+  Future<CityWeatherData> call({double? latitude, double? longitude}) async {
     final locationEntity = (latitude != null && longitude != null)
         ? Coordinate(latitude: latitude, longitude: longitude)
         : await locationService.getCurrentLocation();
@@ -46,7 +46,7 @@ class GetWeatherUseCase {
 
     final translatedWeather = await mapper.map(weatherCondition);
 
-    return HomeWeatherData(
+    return CityWeatherData(
         forecast: forecast,
         cityName: cityName,
         translatedWeather: translatedWeather);

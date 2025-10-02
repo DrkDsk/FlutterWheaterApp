@@ -13,13 +13,12 @@ class IACubit extends Cubit<IAState> {
 
   Future<void> getRecommendation(
       {required CityWeatherData cityWeatherData}) async {
-    final weather = cityWeatherData.weatherData.forecast.current;
+    final weather = cityWeatherData.forecast.current;
     final temperatureInCelsius = weather.tempCelsiusText;
     final feelsLike = weather.feelsLikeCelsiusText;
     final humidity = "${weather.humidity}%";
     final windSpeedAndGust = weather.windDirectionText;
-    final condition =
-        cityWeatherData.weatherData.translatedWeather.translatedDescription;
+    final condition = cityWeatherData.translatedWeather.translatedDescription;
 
     emit(state.copyWith(status: IAClientStatus.loading));
 

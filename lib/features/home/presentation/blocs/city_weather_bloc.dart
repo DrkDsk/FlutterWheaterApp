@@ -1,7 +1,6 @@
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
 import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
-import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
@@ -49,7 +48,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final longitude = event.longitude;
 
     try {
-      final weatherData = await getWeatherUseCase.call(
+      final cityWeatherData = await getWeatherUseCase.call(
           latitude: latitude, longitude: longitude);
 
       if (emit.isDone) return;
@@ -59,7 +58,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       emit(state.copyWith(
           status: CityWeatherStatus.success,
           cities: previousFetchResults,
-          weatherData: CityWeatherData(weatherData: weatherData)));
+          cityWeatherData: cityWeatherData));
     } catch (error) {
       emit(state.copyWith(status: CityWeatherStatus.initial));
       emit(state.copyWith(
