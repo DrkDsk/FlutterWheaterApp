@@ -63,8 +63,8 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                 return const SizedBox.shrink();
               }
 
-              final weather = weatherData.weather;
-              final currentWeather = weather.current;
+              final forecast = weatherData.forecast;
+              final currentWeather = forecast.current;
 
               return SingleChildScrollView(
                 child: Column(
@@ -79,9 +79,9 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                     const SizedBox(height: 10),
                     const IAContentWidget(),
                     const SizedBox(height: 10),
-                    HourlyListWeatherWidget(hourly: weather.hourly),
+                    HourlyListWeatherWidget(hourly: forecast.hourly),
                     const SizedBox(height: 10),
-                    DailyListWeatherWidget(daily: weather.daily),
+                    DailyListWeatherWidget(daily: forecast.daily),
                     const SizedBox(height: 10),
                     DetailWeatherGridWidget(weather: currentWeather)
                   ],

@@ -8,12 +8,12 @@ import 'package:clima_app/features/home/domain/entities/forecast.dart';
 import 'package:equatable/equatable.dart';
 
 class CityWeatherData with EquatableMixin {
-  final Forecast weather;
+  final Forecast forecast;
   final TranslatedWeather translatedWeather;
   final String city;
 
   CityWeatherData(
-      {required this.weather,
+      {required this.forecast,
       required this.translatedWeather,
       required this.city});
 
@@ -23,7 +23,7 @@ class CityWeatherData with EquatableMixin {
       return WeatherColors.drizzleNight;
     }
 
-    final currentWeather = weather.current;
+    final currentWeather = forecast.current;
 
     final isNightTime = DateTimeTimeHelper.isNight(
       DateTime.now(),
@@ -37,5 +37,5 @@ class CityWeatherData with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [weather, translatedWeather, city];
+  List<Object?> get props => [forecast, translatedWeather, city];
 }

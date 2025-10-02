@@ -70,7 +70,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
           status: CityWeatherStatus.success,
           cities: previousFetchResults,
           weatherData: CityWeatherData(
-              weather: weather,
+              forecast: weather,
               city: cityName ?? "",
               translatedWeather: translatedDescription)));
     } catch (error) {

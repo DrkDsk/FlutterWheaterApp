@@ -12,7 +12,7 @@ class IACubit extends Cubit<IAState> {
         super(const IAState());
 
   Future<void> getRecommendation({required CityWeatherData weatherData}) async {
-    final weather = weatherData.weather.current;
+    final weather = weatherData.forecast.current;
     final temperatureInCelsius = weather.tempCelsiusText;
     final feelsLike = weather.feelsLikeCelsiusText;
     final humidity = "${weather.humidity}%";
