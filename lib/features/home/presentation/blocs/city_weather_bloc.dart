@@ -55,11 +55,11 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       final homeWeatherUseCaseResult = await getWeatherUseCase.call(
           latitude: latitude, longitude: longitude);
 
-      final result = homeWeatherUseCaseResult.weatherResponse;
+      final weather = homeWeatherUseCaseResult.weatherResponse;
       final cityName = homeWeatherUseCaseResult.cityName;
 
       final translatedDescription = await mapper.map(
-        result.current.weather.first.toEntity(),
+        weather.current.weather.first.toEntity(),
       );
 
       if (emit.isDone) return;
@@ -70,9 +70,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
           status: CityWeatherStatus.success,
           cities: previousFetchResults,
           weatherData: WeatherData(
-              currentWeather: result.current,
-              hourly: result.hourly ?? [],
-              daily: result.daily ?? [],
+              weather: weather,
               city: cityName ?? "",
               translatedWeather: translatedDescription)));
     } catch (error) {

@@ -63,6 +63,9 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                 return const SizedBox.shrink();
               }
 
+              final weather = weatherData.weather;
+              final currentWeather = weather.current;
+
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,16 +74,16 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                     HeaderWeatherWidget(
                       city: weatherData.city,
                       translatedWeather: weatherData.translatedWeather,
-                      temp: weatherData.currentWeather.tempCelsiusText,
+                      temp: currentWeather.tempCelsiusText,
                     ),
                     const SizedBox(height: 10),
                     const IAContentWidget(),
                     const SizedBox(height: 10),
-                    HourlyListWeatherWidget(hourly: weatherData.hourly),
+                    HourlyListWeatherWidget(hourly: weather.hourly),
                     const SizedBox(height: 10),
-                    DailyListWeatherWidget(daily: weatherData.daily),
+                    DailyListWeatherWidget(daily: weather.daily),
                     const SizedBox(height: 10),
-                    DetailWeatherGridWidget(weatherData: weatherData)
+                    DetailWeatherGridWidget(weather: currentWeather)
                   ],
                 ),
               );
