@@ -9,16 +9,16 @@ class WeatherResponse {
       required this.timeZone,
       required this.timezoneOffset,
       required this.current,
-      this.hourly,
-      this.daily});
+      this.hourly = const [],
+      this.daily = const []});
 
   final double latitude;
   final double longitude;
   final String timeZone;
   final int timezoneOffset;
   final Current current;
-  final List<Hourly>? hourly;
-  final List<Daily>? daily;
+  final List<Hourly> hourly;
+  final List<Daily> daily;
 
   WeatherResponse copyWith(
       {double? latitude,

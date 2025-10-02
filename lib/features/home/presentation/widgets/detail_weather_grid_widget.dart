@@ -1,4 +1,5 @@
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
+import 'package:clima_app/features/home/domain/entities/current.dart';
 import 'package:clima_app/features/home/domain/entities/weather_data.dart';
 import 'package:clima_app/features/home/presentation/widgets/segment_weather_widget.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,10 @@ import 'package:flutter/material.dart';
 class DetailWeatherGridWidget extends StatelessWidget {
   const DetailWeatherGridWidget({
     super.key,
-    required this.weatherData,
+    required this.weather,
   });
 
-  final WeatherData weatherData;
+  final Current weather;
 
   @override
   Widget build(BuildContext context) {
@@ -23,27 +24,27 @@ class DetailWeatherGridWidget extends StatelessWidget {
         SegmentWeatherWidget(
           title: "Sensación térmica",
           emoji: "🌡",
-          value: weatherData.currentWeather.feelsLikeCelsiusText,
+          value: weather.feelsLikeCelsiusText,
         ),
         SegmentWeatherWidget(
           title: "Humedad",
           emoji: "💧",
-          value: "${weatherData.currentWeather.humidity}%",
+          value: "${weather.humidity}%",
         ),
         SegmentWeatherWidget(
           title: "Viento",
           emoji: "💨",
-          value: weatherData.currentWeather.windDirectionText,
+          value: weather.windDirectionText,
         ),
         SegmentWeatherWidget(
           title: "Índice UV:",
           emoji: "☀️",
-          value: "${weatherData.currentWeather.uvi}",
+          value: "${weather.uvi}",
         ),
         SegmentWeatherWidget(
           title: "Visibilidad",
           emoji: "🌫️",
-          value: weatherData.currentWeather.visibilityTextInKm,
+          value: weather.visibilityTextInKm,
         ),
       ],
     );
