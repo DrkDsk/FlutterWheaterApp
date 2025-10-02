@@ -33,11 +33,11 @@ class WeatherResponseModel with EquatableMixin {
       hourly: map["hourly"] == null
           ? null
           : List<HourlyModel>.from(
-          map["hourly"]!.map((x) => HourlyModel.fromJson(x))),
+              map["hourly"]!.map((x) => HourlyModel.fromJson(x))),
       daily: map["daily"] == null
           ? null
           : List<DailyModel>.from(
-          map["daily"]!.map((x) => DailyModel.fromJson(x))),
+              map["daily"]!.map((x) => DailyModel.fromJson(x))),
     );
   }
 
@@ -53,14 +53,13 @@ class WeatherResponseModel with EquatableMixin {
 
   WeatherResponse toEntity() {
     return WeatherResponse(
-      latitude: latitude,
-      longitude: longitude,
-      timeZone: timeZone,
-      timezoneOffset: timezoneOffset,
-      current: current.toEntity(),
-      hourly: hourly?.map((element) => element.toEntity()).toList(),
-      daily: daily?.map((element) => element.toEntity()).toList()
-    );
+        latitude: latitude,
+        longitude: longitude,
+        timeZone: timeZone,
+        timezoneOffset: timezoneOffset,
+        current: current.toEntity(),
+        hourly: hourly?.map((element) => element.toEntity()).toList() ?? [],
+        daily: daily?.map((element) => element.toEntity()).toList() ?? []);
   }
 
   @override
