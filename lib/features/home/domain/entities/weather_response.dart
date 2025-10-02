@@ -1,22 +1,16 @@
-import 'dart:ui';
-
-import 'package:clima_app/core/colors/weather_colors.dart';
-import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
-import 'package:clima_app/core/helpers/datetime_helper.dart';
 import 'package:clima_app/features/home/domain/entities/current.dart';
 import 'package:clima_app/features/home/domain/entities/daily.dart';
 import 'package:clima_app/features/home/domain/entities/hourly.dart';
 
 class WeatherResponse {
-  WeatherResponse({
-    required this.latitude,
-    required this.longitude,
-    required this.timeZone,
-    required this.timezoneOffset,
-    required this.current,
-    this.hourly,
-    this.daily
-  });
+  WeatherResponse(
+      {required this.latitude,
+      required this.longitude,
+      required this.timeZone,
+      required this.timezoneOffset,
+      required this.current,
+      this.hourly,
+      this.daily});
 
   final double latitude;
   final double longitude;
@@ -26,36 +20,21 @@ class WeatherResponse {
   final List<Hourly>? hourly;
   final List<Daily>? daily;
 
-  WeatherResponse copyWith({
-    double? latitude,
-    double? longitude,
-    String? timeZone,
-    int? timezoneOffset,
-    Current? current,
-    List<Hourly>? hourly,
-    List<Daily>? daily
-  }) {
+  WeatherResponse copyWith(
+      {double? latitude,
+      double? longitude,
+      String? timeZone,
+      int? timezoneOffset,
+      Current? current,
+      List<Hourly>? hourly,
+      List<Daily>? daily}) {
     return WeatherResponse(
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      timeZone: timeZone ?? this.timeZone,
-      timezoneOffset: timezoneOffset ?? this.timezoneOffset,
-      current: current ?? this.current,
-      hourly: hourly ?? this.hourly,
-      daily: daily ?? this.daily
-    );
-  }
-
-  Color? getBackgroundColor({String? translated}) {
-    final weather = current;
-
-    final isNightTime = DateTimeTimeHelper.isNight(
-      DateTime.now(),
-      weather.sunrise,
-      weather.sunset,
-    );
-
-    final timeType = isNightTime ? TimeOfDayType.night : TimeOfDayType.day;
-    return WeatherColors.getWeatherColor(translated!, timeType);
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude,
+        timeZone: timeZone ?? this.timeZone,
+        timezoneOffset: timezoneOffset ?? this.timezoneOffset,
+        current: current ?? this.current,
+        hourly: hourly ?? this.hourly,
+        daily: daily ?? this.daily);
   }
 }
