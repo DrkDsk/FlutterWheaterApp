@@ -33,14 +33,10 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
   void _callFetchWeather(
       LoadWeatherModalEvent event, Emitter<CityWeatherState> emit) {
-    final double latitude = event.latitude;
-    final double longitude = event.longitude;
     final String cityName = event.cityName;
     final previousCitySearchResults = state.cities;
 
     emit(state.copyWith(
-        latitude: latitude,
-        longitude: longitude,
         cityName: cityName,
         status: CityWeatherStatus.initial,
         cities: previousCitySearchResults));
@@ -56,45 +52,39 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final longitude = event.longitude;
     final cityId = event.cityId;
 
-    final homeWeatherUseCaseResult =
-        await getWeatherUseCase.call(latitude: latitude, longitude: longitude);
-    final eitherWeather = homeWeatherUseCaseResult.eitherWeather;
-    final cityName = homeWeatherUseCaseResult.cityName;
+    try {
+      final homeWeatherUseCaseResult = await getWeatherUseCase.call(
+          latitude: latitude, longitude: longitude);
 
-    if (eitherWeather.isLeft()) {
+      final result = homeWeatherUseCaseResult.weatherResponse;
+      final cityName = homeWeatherUseCaseResult.cityName;
+
+      final translatedDescription = await mapper.map(
+        result.current.weather.first.toEntity(),
+      );
+
+      if (emit.isDone) return;
+
       emit(state.copyWith(status: CityWeatherStatus.initial));
-      final error = eitherWeather.swap().getOrElse(() => throw Exception(""));
+
       emit(state.copyWith(
-          status: CityWeatherStatus.failure, errorMessage: error.message));
+          status: CityWeatherStatus.success,
+          cities: previousFetchResults,
+          weatherData: WeatherData(
+              cityId: cityId,
+              currentWeather: result.current,
+              hourly: result.hourly ?? [],
+              daily: result.daily ?? [],
+              city: cityName ?? "",
+              translatedWeather: translatedDescription,
+              backgroundColor: result.getBackgroundColor(
+                  translated: translatedDescription.main))));
+    } catch (error) {
+      emit(state.copyWith(status: CityWeatherStatus.initial));
+      emit(state.copyWith(
+          status: CityWeatherStatus.failure, errorMessage: error.toString()));
       return;
     }
-
-    final result = eitherWeather.getOrElse(() => throw Exception(""));
-    final translatedDescription = await mapper.map(
-      result.current.weather.first.toEntity(),
-    );
-
-    final hourly = result.hourly?.take(12).toList() ?? [];
-    final daily = result.daily?.take(7).toList() ?? [];
-
-    if (emit.isDone) return;
-
-    emit(state.copyWith(status: CityWeatherStatus.initial));
-
-    emit(state.copyWith(
-        status: CityWeatherStatus.success,
-        cities: previousFetchResults,
-        weatherData: WeatherData(
-            cityId: cityId,
-            currentWeather: result.current,
-            hourly: hourly,
-            daily: daily,
-            city: cityName ?? "",
-            translatedWeather: translatedDescription,
-            latitude: latitude,
-            longitude: longitude,
-            backgroundColor: result.getBackgroundColor(
-                translated: translatedDescription.main))));
   }
 
   Future<void> _searchWeatherEvent(
@@ -117,10 +107,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       }).toList();
 
       emit(state.copyWith(
-          latitude: null,
-          longitude: null,
-          status: CityWeatherStatus.initial,
-          cities: filteredCitySearchResult));
+          status: CityWeatherStatus.initial, cities: filteredCitySearchResult));
     });
   }
 }
