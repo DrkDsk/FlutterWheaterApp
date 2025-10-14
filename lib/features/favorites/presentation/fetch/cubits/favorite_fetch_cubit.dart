@@ -30,11 +30,18 @@ class FavoriteFetchCubit extends Cubit<FavoriteFetchState> {
       if (result.isEmpty) {
         final coordinate = await _locationService.getCurrentLocation();
 
+        if (coordinate == null) {
+          emit(state.copyWith(
+              message: "No se obtuvo la ubicación",
+              status: FavoriteFetchStatus.failure));
+          return;
+        }
+
         final city = await _locationService.getCityNameFromCoordinates(
             coordinate.latitude, coordinate.longitude);
 
         final defaultLocation = FavoriteLocation(
-            cityName: city ?? "",
+            cityName: city,
             latitude: coordinate.latitude,
             longitude: coordinate.longitude);
 

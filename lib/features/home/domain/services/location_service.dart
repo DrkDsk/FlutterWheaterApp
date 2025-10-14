@@ -6,7 +6,7 @@ class LocationService {
 
   LocationService(this.repository);
 
-  Future<Coordinate> getCurrentLocation() {
+  Future<Coordinate?> getCurrentLocation() {
     return repository.getCurrentLocation();
   }
 
