@@ -26,14 +26,16 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Usamos tu ubicación incluso en segundo plano para mantener los datos actualizados.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>Necesitamos tu ubicación para mostrar información precisa del clima.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Usamos tu ubicación incluso en segundo plano para mantener los datos actualizados.</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Usamos tu ubicación para ofrecer mejores resultados, incluso cuando la app no está activa.</string>
+	<string>Necesitamos tu ubicación para mostrar información precisa del clima.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
