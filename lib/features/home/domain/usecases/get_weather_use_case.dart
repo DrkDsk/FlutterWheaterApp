@@ -56,7 +56,7 @@ class GetWeatherUseCase {
 
     return CityWeatherData(
         forecast: forecast,
-        cityName: cityLocation.cityName,
+        city: cityLocation.city,
         translatedWeather: translatedWeather);
   }
 }

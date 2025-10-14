@@ -36,7 +36,7 @@ class CitySearchResultsListWidget extends StatelessWidget {
         itemBuilder: (context, index) => const SizedBox(height: 4),
         separatorBuilder: (context, index) {
           final cityLocation = cities[index];
-          final cityName = cityLocation.cityName;
+          final cityName = cityLocation.city;
           final state = cityLocation.state;
           final country = cityLocation.country;
 

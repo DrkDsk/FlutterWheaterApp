@@ -17,7 +17,7 @@ class CityLocationModel {
 
   CityLocation toEntity() {
     return CityLocation(
-        cityName: name,
+        city: name,
         latitude: lat,
         longitude: lon,
         country: country,

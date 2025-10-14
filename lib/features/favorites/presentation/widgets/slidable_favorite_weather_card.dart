@@ -78,7 +78,7 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
             child: const HomeWeatherPage(),
           ));
         },
-        child: SavedCityItemCard(cityName: cityLocation.cityName),
+        child: SavedCityItemCard(cityName: cityLocation.city),
       ),
     );
   }

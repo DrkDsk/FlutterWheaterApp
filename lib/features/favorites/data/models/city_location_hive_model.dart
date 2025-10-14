@@ -35,7 +35,7 @@ class CityLocationHiveModel extends HiveObject {
   CityLocation toEntity() {
     return CityLocation(
         id: id,
-        cityName: cityName,
+        city: cityName,
         latitude: latitude,
         longitude: longitude,
         country: country,
@@ -45,7 +45,7 @@ class CityLocationHiveModel extends HiveObject {
   factory CityLocationHiveModel.fromEntity(CityLocation location) =>
       CityLocationHiveModel(
           id: location.id ?? const Uuid().v4(),
-          cityName: location.cityName,
+          cityName: location.city,
           latitude: location.latitude,
           longitude: location.longitude,
           state: location.state,

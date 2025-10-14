@@ -17,7 +17,7 @@ class FavoriteStoreCubit extends Cubit<FavoriteStoreState> {
 
     final CityLocation location = CityLocation(
         id: const Uuid().v4(),
-        cityName: cityLocation.cityName,
+        city: cityLocation.city,
         latitude: cityLocation.latitude,
         longitude: cityLocation.longitude,
         country: cityLocation.country,

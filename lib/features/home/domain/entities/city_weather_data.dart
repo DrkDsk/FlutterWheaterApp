@@ -10,12 +10,12 @@ import 'forecast.dart';
 
 class CityWeatherData with EquatableMixin {
   final Forecast forecast;
-  final String cityName;
+  final String city;
   final TranslatedWeather translatedWeather;
 
   CityWeatherData(
       {required this.forecast,
-      required this.cityName,
+      required this.city,
       required this.translatedWeather});
 
   Color getBackgroundColor() {
@@ -38,5 +38,5 @@ class CityWeatherData with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [forecast, cityName, translatedWeather];
+  List<Object?> get props => [forecast, city, translatedWeather];
 }
