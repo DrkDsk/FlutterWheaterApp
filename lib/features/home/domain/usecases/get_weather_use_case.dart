@@ -30,8 +30,8 @@ class GetWeatherUseCase {
     );
 
     final cityLocation = await locationService.getCityNameFromCoordinates(
-      locationEntity.latitude,
-      locationEntity.longitude,
+      latitude: locationEntity.latitude,
+      longitude: locationEntity.longitude,
     );
 
     if (cityLocation == null) {

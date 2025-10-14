@@ -12,9 +12,20 @@ class LocationService {
   }
 
   Future<CityLocation?> getCityNameFromCoordinates(
-      double lat, double lng) async {
-    final placemark =
-        await repository.getLocationInformation(latitude: lat, longitude: lng);
+      {double? latitude, double? longitude}) async {
+    if (latitude == null || longitude == null) {
+      final coordinate = await getCurrentLocation();
+
+      if (coordinate == null) {
+        return null;
+      }
+
+      latitude = coordinate.latitude;
+      longitude = coordinate.longitude;
+    }
+
+    final placemark = await repository.getLocationInformation(
+        latitude: latitude, longitude: longitude);
 
     if (placemark == null) {
       return null;
@@ -24,8 +35,8 @@ class LocationService {
 
     final defaultLocation = CityLocation(
         cityName: cityName,
-        latitude: lat,
-        longitude: lng,
+        latitude: latitude,
+        longitude: longitude,
         country: placemark.country ?? "",
         state: placemark.administrativeArea ?? "");
 
