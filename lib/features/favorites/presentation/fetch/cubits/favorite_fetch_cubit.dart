@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
+import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
 import 'package:clima_app/features/home/domain/services/location_service.dart';
 
@@ -25,23 +25,23 @@ class FavoriteFetchCubit extends Cubit<FavoriteFetchState> {
       emit(state.copyWith(
           message: error.message, status: FavoriteFetchStatus.failure));
     }, (result) async {
-      List<FavoriteLocation> cities = [];
+      List<CityLocation> cities = [];
 
       if (result.isEmpty) {
         final coordinate = await _locationService.getCurrentLocation();
 
-        final city = await _locationService.getCityNameFromCoordinates(
-            coordinate.latitude, coordinate.longitude);
+        final defaultLocation =
+            await _locationService.getCityNameFromCoordinates(
+                coordinate.latitude, coordinate.longitude);
 
-        final defaultLocation = FavoriteLocation(
-            cityName: city ?? "",
-            latitude: coordinate.latitude,
-            longitude: coordinate.longitude);
+        if (defaultLocation == null) {
+          return;
+        }
 
         cities.add(defaultLocation);
 
         emit(state.copyWith(
-          items: cities,
+          cities: cities,
           status: FavoriteFetchStatus.success,
         ));
 
@@ -51,7 +51,7 @@ class FavoriteFetchCubit extends Cubit<FavoriteFetchState> {
       cities.addAll(result);
 
       emit(state.copyWith(
-        items: cities,
+        cities: cities,
         status: FavoriteFetchStatus.success,
       ));
     });

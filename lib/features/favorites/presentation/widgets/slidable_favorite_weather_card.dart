@@ -1,6 +1,6 @@
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/router/app_router.dart';
-import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
+import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/presentation/delete/cubits/favorite_delete_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_city_item_card.dart';
@@ -13,13 +13,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class SlidableFavoriteWeatherCard extends StatelessWidget {
   const SlidableFavoriteWeatherCard(
-      {super.key, required this.currentCity, required this.index});
+      {super.key, required this.cityLocation, required this.index});
 
   final int index;
-  final FavoriteLocation currentCity;
+  final CityLocation cityLocation;
 
   void deleteFavoriteWeather(BuildContext context) {
-    final currentCityId = currentCity.id;
+    final currentCityId = cityLocation.id;
 
     if (currentCityId == null || currentCityId.isEmpty) {
       return;
@@ -65,7 +65,7 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
     return Slidable(
       direction: Axis.horizontal,
       endActionPane:
-          currentCity.id != null ? buildActionPane(context: context) : null,
+          cityLocation.id != null ? buildActionPane(context: context) : null,
       child: GestureDetector(
         onTap: () {
           final router = AppRouter.of(context);
@@ -78,7 +78,7 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
             child: const HomeWeatherPage(),
           ));
         },
-        child: SavedCityItemCard(cityName: currentCity.cityName),
+        child: SavedCityItemCard(cityName: cityLocation.cityName),
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
+import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_search_results_list_widget.dart';
@@ -16,8 +16,8 @@ class CityResultsContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<FavoriteFetchCubit, FavoriteFetchState,
-        List<FavoriteLocation>>(
-      selector: (state) => state.items,
+        List<CityLocation>>(
+      selector: (state) => state.cities,
       builder: (context, favoritesCities) {
         return BlocBuilder<CityWeatherBloc, CityWeatherState>(
           builder: (context, state) {

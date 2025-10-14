@@ -1,34 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'favorite_location_hive_model.dart';
+part of 'city_location_hive_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class FavoriteLocationHiveModelAdapter
-    extends TypeAdapter<FavoriteLocationHiveModel> {
+class CityLocationHiveModelAdapter extends TypeAdapter<CityLocationHiveModel> {
   @override
   final int typeId = 0;
 
   @override
-  FavoriteLocationHiveModel read(BinaryReader reader) {
+  CityLocationHiveModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return FavoriteLocationHiveModel(
+    return CityLocationHiveModel(
       id: fields[0] as String,
       cityName: fields[1] as String,
       latitude: fields[2] as double,
       longitude: fields[3] as double,
+      state: fields[4] as String,
+      country: fields[5] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, FavoriteLocationHiveModel obj) {
+  void write(BinaryWriter writer, CityLocationHiveModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -36,7 +37,11 @@ class FavoriteLocationHiveModelAdapter
       ..writeByte(2)
       ..write(obj.latitude)
       ..writeByte(3)
-      ..write(obj.longitude);
+      ..write(obj.longitude)
+      ..writeByte(4)
+      ..write(obj.state)
+      ..writeByte(5)
+      ..write(obj.country);
   }
 
   @override
@@ -45,7 +50,7 @@ class FavoriteLocationHiveModelAdapter
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FavoriteLocationHiveModelAdapter &&
+      other is CityLocationHiveModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

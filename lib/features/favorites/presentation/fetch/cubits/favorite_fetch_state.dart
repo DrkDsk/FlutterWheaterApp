@@ -1,30 +1,30 @@
-import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
+import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:equatable/equatable.dart';
 
 enum FavoriteFetchStatus { initial, loading, success, failure }
 
 class FavoriteFetchState with EquatableMixin {
   final FavoriteFetchStatus status;
-  final List<FavoriteLocation> items;
+  final List<CityLocation> cities;
   final String message;
 
   const FavoriteFetchState(
       {this.status = FavoriteFetchStatus.initial,
-      this.items = const [],
+      this.cities = const [],
       this.message = ""});
 
   FavoriteFetchState copyWith({
     FavoriteFetchStatus? status,
-    List<FavoriteLocation>? items,
+    List<CityLocation>? cities,
     String? message,
   }) {
     return FavoriteFetchState(
       status: status ?? this.status,
-      items: items ?? this.items,
+      cities: cities ?? this.cities,
       message: message ?? this.message,
     );
   }
 
   @override
-  List<Object?> get props => [status, items, message];
+  List<Object?> get props => [status, cities, message];
 }

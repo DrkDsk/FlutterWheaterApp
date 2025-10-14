@@ -12,27 +12,20 @@ class CitySearchResultsListWidget extends StatelessWidget {
   final List<CityLocation> cities;
 
   Future<void> getWeatherSelected(
-      {required double latitude,
-      required double longitude,
-      required String cityName,
+      {required CityLocation cityLocation,
       required BuildContext context}) async {
-    _showWeatherBottomSheet(context,
-        cityName: cityName, latitude: latitude, longitude: longitude);
+    _showWeatherBottomSheet(context, cityLocation: cityLocation);
   }
 
   void _showWeatherBottomSheet(
     BuildContext context, {
-    required String cityName,
-    required double latitude,
-    required double longitude,
+    required CityLocation cityLocation,
   }) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) => ShowWeatherBottomSheetWidget(
-        cityName: cityName,
-        latitude: latitude,
-        longitude: longitude,
+        cityLocation: cityLocation,
       ),
     );
   }
@@ -42,19 +35,16 @@ class CitySearchResultsListWidget extends StatelessWidget {
     return ListView.separated(
         itemBuilder: (context, index) => const SizedBox(height: 4),
         separatorBuilder: (context, index) {
-          final currentLocationData = cities[index];
-          final cityName = currentLocationData.name;
-          final state = currentLocationData.state;
-          final country = currentLocationData.country;
+          final cityLocation = cities[index];
+          final cityName = cityLocation.cityName;
+          final state = cityLocation.state;
+          final country = cityLocation.country;
 
           final query = "$cityName, $state, $country";
 
           return GestureDetector(
             onTap: () => getWeatherSelected(
-                latitude: currentLocationData.lat,
-                longitude: currentLocationData.lon,
-                cityName: query,
-                context: context),
+                cityLocation: cityLocation, context: context),
             child: CityResultItemCard(query: query),
           );
         },

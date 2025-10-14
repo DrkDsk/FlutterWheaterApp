@@ -23,9 +23,8 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeWeatherResponseModel_0 extends _i1.SmartFake
-    implements _i2.ForecastModel {
-  _FakeWeatherResponseModel_0(
+class _FakeForecastModel_0 extends _i1.SmartFake implements _i2.ForecastModel {
+  _FakeForecastModel_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -57,8 +56,7 @@ class MockSearchWeatherDataSource extends _i1.Mock
             #lon: lon,
           },
         ),
-        returnValue:
-            _i4.Future<_i2.ForecastModel>.value(_FakeWeatherResponseModel_0(
+        returnValue: _i4.Future<_i2.ForecastModel>.value(_FakeForecastModel_0(
           this,
           Invocation.method(
             #fetchSearchDataByLocation,

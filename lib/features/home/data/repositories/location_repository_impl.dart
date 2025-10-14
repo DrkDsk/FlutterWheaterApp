@@ -17,17 +17,17 @@ class LocationRepositoryImpl implements LocationRepository {
   }
 
   @override
-  Future<String> getCurrentCityName(
+  Future<Placemark?> getLocationInformation(
       {required double latitude, required double longitude}) async {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(latitude, longitude);
 
     if (placemarks.isEmpty) {
-      return "";
+      return null;
     }
 
     Placemark place = placemarks.first;
 
-    return "${place.locality}, ${place.administrativeArea}";
+    return place;
   }
 }
