@@ -20,6 +20,10 @@ class GetWeatherUseCase {
         ? Coordinate(latitude: latitude, longitude: longitude)
         : await locationService.getCurrentLocation();
 
+    if (locationEntity == null) {
+      throw GenericFailure();
+    }
+
     final forecastEither = await repository.fetchSearchDataByLocation(
       lat: locationEntity.latitude,
       lon: locationEntity.longitude,
