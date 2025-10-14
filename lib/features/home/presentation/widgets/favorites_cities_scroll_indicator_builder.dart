@@ -17,7 +17,7 @@ class FavoritesCitiesScrollIndicatorBuilder extends StatelessWidget {
     return BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
       builder: (context, state) {
         return FavoritesCitiesScrollIndicatorWidget(
-            currentPage: currentPage, length: state.items.length);
+            currentPage: currentPage, length: state.cities.length);
       },
     );
   }

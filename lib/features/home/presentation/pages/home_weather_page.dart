@@ -70,7 +70,7 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
           body: SafeArea(
             child: BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
               builder: (context, state) {
-                final cities = state.items;
+                final cities = state.cities;
 
                 return PageView.builder(
                   controller: _pageController,

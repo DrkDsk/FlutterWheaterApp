@@ -1,4 +1,4 @@
-import 'package:clima_app/features/favorites/domain/entities/favorite_location.dart';
+import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/slidable_favorite_weather_card.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SavedFavoriteCitiesListWidget extends StatefulWidget {
   const SavedFavoriteCitiesListWidget({super.key, required this.cities});
 
-  final List<FavoriteLocation> cities;
+  final List<CityLocation> cities;
 
   @override
   State<SavedFavoriteCitiesListWidget> createState() =>
@@ -69,7 +69,7 @@ class _SavedFavoriteCitiesListWidgetState
                 end: Offset.zero,
               ).animate(delayedAnimation),
               child: SlidableFavoriteWeatherCard(
-                  currentCity: currentCity, index: index),
+                  cityLocation: currentCity, index: index),
             ),
           );
         },

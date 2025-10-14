@@ -1,14 +1,14 @@
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
-import 'package:clima_app/features/favorites/data/models/favorite_location_hive_model.dart';
+import 'package:clima_app/features/favorites/data/models/city_location_hive_model.dart';
 import 'package:hive/hive.dart';
 
 class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
-  final Box<FavoriteLocationHiveModel> box;
+  final Box<CityLocationHiveModel> box;
 
   FavoriteWeatherDataSourceImpl({required this.box});
 
   @override
-  Future<int> store({required FavoriteLocationHiveModel city}) async {
+  Future<int> store({required CityLocationHiveModel city}) async {
     try {
       return await box.add(city);
     } catch (e) {
@@ -17,7 +17,7 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
   }
 
   @override
-  Future<List<FavoriteLocationHiveModel>> fetchAll() async {
+  Future<List<CityLocationHiveModel>> fetchAll() async {
     return box.values.toList();
   }
 
