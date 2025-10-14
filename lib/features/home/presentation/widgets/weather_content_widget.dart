@@ -72,7 +72,7 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                   children: [
                     const SizedBox(height: 10),
                     HeaderWeatherWidget(
-                      city: cityWeatherData.cityName,
+                      city: cityWeatherData.city,
                       translatedWeather: cityWeatherData.translatedWeather,
                       temp: currentWeather.tempCelsiusText,
                     ),

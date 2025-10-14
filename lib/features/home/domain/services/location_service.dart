@@ -34,7 +34,7 @@ class LocationService {
     final cityName = "${placemark.locality}, ${placemark.administrativeArea}";
 
     final defaultLocation = CityLocation(
-        cityName: cityName,
+        city: cityName,
         latitude: latitude,
         longitude: longitude,
         country: placemark.country ?? "",
