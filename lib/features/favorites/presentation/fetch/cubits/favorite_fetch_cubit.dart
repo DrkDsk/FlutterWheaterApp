@@ -37,15 +37,13 @@ class FavoriteFetchCubit extends Cubit<FavoriteFetchState> {
           return;
         }
 
-        final city = await _locationService.getCityNameFromCoordinates(
-            coordinate.latitude, coordinate.longitude);
+        final defaultLocation =
+            await _locationService.getCityNameFromCoordinates(
+                coordinate.latitude, coordinate.longitude);
 
-        final defaultLocation = FavoriteLocation(
-            cityName: city,
-            latitude: coordinate.latitude,
-            longitude: coordinate.longitude);
-
-        cities.add(defaultLocation);
+        if (defaultLocation != null) {
+          cities.add(defaultLocation);
+        }
 
         emit(state.copyWith(
           cities: cities,
