@@ -9,8 +9,10 @@ class LocationRepositoryImpl implements LocationRepository {
   LocationRepositoryImpl(this.dataSource);
 
   @override
-  Future<Coordinate> getCurrentLocation() async {
+  Future<Coordinate?> getCurrentLocation() async {
     final position = await dataSource.getCurrentLocation();
+
+    if (position == null) return null;
 
     return Coordinate(
         latitude: position.latitude ?? 0, longitude: position.longitude ?? 0);

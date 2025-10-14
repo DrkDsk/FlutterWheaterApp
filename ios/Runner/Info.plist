@@ -27,7 +27,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Necesitamos tu ubicación para mostrar el clima actual.</string>
+    <string>Necesitamos tu ubicación para mostrar información precisa del clima.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Usamos tu ubicación incluso en segundo plano para mantener los datos actualizados.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Usamos tu ubicación para ofrecer mejores resultados, incluso cuando la app no está activa.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
