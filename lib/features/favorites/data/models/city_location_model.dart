@@ -5,7 +5,7 @@ class CityLocationModel {
   final double lat;
   final double lon;
   final String country;
-  final String state;
+  final String? state;
 
   const CityLocationModel({
     required this.name,
@@ -21,7 +21,7 @@ class CityLocationModel {
         latitude: lat,
         longitude: lon,
         country: country,
-        state: state);
+        state: state ?? "");
   }
 
   Map<String, dynamic> toJson() {
@@ -40,7 +40,7 @@ class CityLocationModel {
       lat: map['lat'] as double,
       lon: map['lon'] as double,
       country: map['country'] as String,
-      state: map['state'] as String,
+      state: map['state'] as String?,
     );
   }
 }
