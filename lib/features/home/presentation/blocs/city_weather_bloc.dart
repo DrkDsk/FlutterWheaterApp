@@ -60,7 +60,6 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
           cities: previousFetchResults,
           cityWeatherData: cityWeatherData));
     } catch (error) {
-      emit(state.copyWith(status: CityWeatherStatus.initial));
       emit(state.copyWith(
           status: CityWeatherStatus.failure, errorMessage: error.toString()));
       return;
@@ -83,7 +82,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
           status: CityWeatherStatus.failure, errorMessage: left.message));
     }, (right) {
       final filteredCitySearchResult = right.data.where((element) {
-        return element.state != null;
+        return element.state.isNotEmpty;
       }).toList();
 
       emit(state.copyWith(
