@@ -25,7 +25,6 @@ class CityWeatherState with EquatableMixin {
     CityWeatherData? cityWeatherData,
     CityWeatherStatus? status,
     List<CityLocation>? cities,
-    String? cityName,
     String? errorMessage,
   }) {
     return CityWeatherState(

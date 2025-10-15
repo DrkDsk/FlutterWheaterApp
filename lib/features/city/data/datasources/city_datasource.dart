@@ -3,5 +3,7 @@ import 'package:clima_app/features/home/data/models/get_city_weather_response_mo
 
 abstract class CityDataSource {
   Future<SearchCityLocationResponseModel> searchCity({required String query});
-  Future<GetCityWeatherResponseModel> getCity({required double lat, required double lon});
+
+  Future<GetCityWeatherResponseModel> getCity(
+      {required double lat, required double lon});
 }

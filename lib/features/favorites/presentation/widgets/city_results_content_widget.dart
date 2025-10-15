@@ -15,28 +15,36 @@ class CityResultsContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return BlocBuilder<CityWeatherBloc, CityWeatherState>(
+      builder: (context, state) {
+        switch (state.status) {
+          case CityWeatherStatus.failure:
+            return Text(state.errorMessage, style: theme.textTheme.bodyMedium);
+          case CityWeatherStatus.loading:
+            return const Center(child: CircularProgressIndicator());
+          case CityWeatherStatus.success:
+            return state.cities.isNotEmpty
+                ? CitySearchResultsListWidget(cities: state.cities)
+                : const _FavoritesView();
+          case CityWeatherStatus.initial:
+            return const SizedBox.shrink();
+        }
+      },
+    );
+  }
+}
+
+class _FavoritesView extends StatelessWidget {
+  const _FavoritesView();
+
+  @override
+  Widget build(BuildContext context) {
     return BlocSelector<FavoriteFetchCubit, FavoriteFetchState,
         List<CityLocation>>(
       selector: (state) => state.cities,
-      builder: (context, favoritesCities) {
-        return BlocBuilder<CityWeatherBloc, CityWeatherState>(
-          builder: (context, state) {
-            final theme = Theme.of(context);
-
-            final cities = state.cities;
-
-            if (cities.isNotEmpty) {
-              return CitySearchResultsListWidget(cities: cities);
-            }
-
-            if (state.status == CityWeatherStatus.failure) {
-              return Text(state.errorMessage,
-                  style: theme.textTheme.bodyMedium);
-            }
-
-            return SavedFavoriteCitiesListWidget(cities: favoritesCities);
-          },
-        );
+      builder: (_, favoritesCities) {
+        return SavedFavoriteCitiesListWidget(cities: favoritesCities);
       },
     );
   }

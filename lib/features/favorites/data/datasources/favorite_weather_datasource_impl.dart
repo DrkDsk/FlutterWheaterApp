@@ -1,3 +1,4 @@
+import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
 import 'package:clima_app/features/favorites/data/models/city_location_hive_model.dart';
 import 'package:hive/hive.dart';
@@ -12,7 +13,7 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
     try {
       return await box.add(city);
     } catch (e) {
-      return -1;
+      throw UnknownException();
     }
   }
 
@@ -32,7 +33,7 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
 
       return true;
     } catch (e) {
-      throw Exception("");
+      throw UnknownException();
     }
   }
 }

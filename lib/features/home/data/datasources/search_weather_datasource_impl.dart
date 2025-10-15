@@ -1,26 +1,21 @@
-import 'package:clima_app/core/error/exceptions/server_exception.dart';
-import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
-import 'package:clima_app/core/extensions/dio/dio_extension.dart';
+import 'package:clima_app/core/shared/data/datasources/base_datasource.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart';
 import 'package:clima_app/features/home/data/models/forecast_model.dart';
 import 'package:dio/dio.dart';
 
-class SearchWeatherDatasourceImpl implements SearchWeatherDataSource {
+class SearchWeatherDatasourceImpl extends BaseDataSource
+    implements SearchWeatherDataSource {
   final Dio dio;
 
   SearchWeatherDatasourceImpl({required this.dio});
 
   @override
   Future<ForecastModel> fetchSearchDataByLocation(
-      {required double lat, required double lon}) async {
-    try {
+      {required double lat, required double lon}) {
+    return safeRequest(() async {
       final response = await dio.get('/data/3.0/onecall?lat=$lat&lon=$lon');
 
       return ForecastModel.fromJson(response.data);
-    } on DioException catch (e) {
-      throw ServerException(message: e.userFriendlyMessage);
-    } catch (e) {
-      throw UnknownException(message: e.toString());
-    }
+    });
   }
 }

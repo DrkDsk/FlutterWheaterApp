@@ -24,18 +24,6 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     on<FetchWeatherEvent>(_getCurrentWeather);
     on<CitySearchEvent>(_searchWeatherEvent,
         transformer: debounce(const Duration(milliseconds: 500)));
-    on<LoadWeatherModalEvent>(_callFetchWeather);
-  }
-
-  void _callFetchWeather(
-      LoadWeatherModalEvent event, Emitter<CityWeatherState> emit) {
-    final String cityName = event.cityName;
-    final previousCitySearchResults = state.cities;
-
-    emit(state.copyWith(
-        cityName: cityName,
-        status: CityWeatherStatus.initial,
-        cities: previousCitySearchResults));
   }
 
   Future<void> _getCurrentWeather(
@@ -71,7 +59,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final String query = event.query;
 
     if (query.isEmpty) {
-      emit(state.copyWith(status: CityWeatherStatus.initial, cities: []));
+      emit(state.copyWith(status: CityWeatherStatus.success, cities: []));
       return;
     }
 
@@ -79,14 +67,16 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
     result.fold((left) {
       emit(state.copyWith(
-          status: CityWeatherStatus.failure, errorMessage: left.message));
+          status: CityWeatherStatus.failure,
+          errorMessage: left.message,
+          cities: []));
     }, (right) {
       final filteredCitySearchResult = right.data.where((element) {
         return element.state.isNotEmpty;
       }).toList();
 
       emit(state.copyWith(
-          status: CityWeatherStatus.initial, cities: filteredCitySearchResult));
+          status: CityWeatherStatus.success, cities: filteredCitySearchResult));
     });
   }
 }
