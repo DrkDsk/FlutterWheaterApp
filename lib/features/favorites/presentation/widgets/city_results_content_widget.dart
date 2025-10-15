@@ -24,11 +24,9 @@ class CityResultsContentWidget extends StatelessWidget {
           case CityWeatherStatus.loading:
             return const Center(child: CircularProgressIndicator());
           case CityWeatherStatus.success:
-            return state.cities.isNotEmpty
-                ? CitySearchResultsListWidget(cities: state.cities)
-                : const _FavoritesView();
+            return CitySearchResultsListWidget(cities: state.cities);
           case CityWeatherStatus.initial:
-            return const SizedBox.shrink();
+            return const _FavoritesView();
         }
       },
     );

@@ -59,7 +59,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final String query = event.query;
 
     if (query.isEmpty) {
-      emit(state.copyWith(status: CityWeatherStatus.success, cities: []));
+      emit(state.copyWith(status: CityWeatherStatus.initial, cities: []));
       return;
     }
 
