@@ -1,3 +1,4 @@
+import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/features/city/data/datasources/city_datasource.dart';
 import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
 import 'package:clima_app/features/city/domain/repositories/city_repository.dart';
@@ -31,6 +32,7 @@ import 'package:clima_app/features/ia/data/datasources/ia_datasource_impl.dart';
 import 'package:clima_app/features/ia/data/repositories/ia_repository_impl.dart';
 import 'package:clima_app/features/ia/domain/repositories/ia_repository.dart';
 import 'package:clima_app/features/ia/ui/blocs/ia_cubit.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:clima_app/core/dio_client.dart';
@@ -100,6 +102,9 @@ Future<void> initDependencies() async {
       mapper: getIt<WeatherMapper>()));
 
   // Blocs / Cubits
+  getIt.registerFactory<NetworkCubit>(
+      () => NetworkCubit(connectivity: Connectivity()));
+
   getIt.registerFactory<IACubit>(
       () => IACubit(repository: getIt<IARepository>()));
 
