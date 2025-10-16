@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/features/home/domain/entities/current.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 
@@ -45,10 +42,11 @@ extension CurrentWeatherExtension on Current {
 }
 
 extension CityWeatherStateX on CityWeatherState {
-  Color get backgroundColor {
+  String get lottieBackgroundPath {
     if (status == CityWeatherStatus.success && cityWeatherData != null) {
-      return cityWeatherData!.getBackgroundColor();
+      return cityWeatherData!.getBackgroundLottie();
     }
-    return WeatherColors.drizzleNight;
+
+    return "assets/lottie/loading_splash.json";
   }
 }
