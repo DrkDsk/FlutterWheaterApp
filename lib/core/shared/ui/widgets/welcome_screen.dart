@@ -1,4 +1,5 @@
 import 'package:clima_app/core/router/app_router.dart';
+import 'package:clima_app/core/shared/ui/error_screen.dart';
 import 'package:clima_app/core/shared/ui/widgets/splash_screen.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
@@ -22,6 +23,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.initState();
     _router = AppRouter(context);
     _favoriteFetchCubit = context.read<FavoriteFetchCubit>();
+    fetchFavoritesCities();
+  }
+
+  void fetchFavoritesCities() {
     Future.microtask(() {
       _favoriteFetchCubit.getFavoritesCities();
     });
@@ -29,13 +34,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<FavoriteFetchCubit, FavoriteFetchState>(
+    return BlocConsumer<FavoriteFetchCubit, FavoriteFetchState>(
       listener: (context, state) {
         if (state.status == FavoriteFetchStatus.success) {
           _router.goToScreen(const HomeWeatherPage());
         }
       },
-      child: const SplashScreen(),
+      builder: (context, state) {
+        switch (state.status) {
+          case FavoriteFetchStatus.initial:
+          case FavoriteFetchStatus.success:
+          case FavoriteFetchStatus.loading:
+            return const SplashScreen();
+          case FavoriteFetchStatus.failure:
+            return ErrorScreen(
+                message: state.message, tryAgainHandler: fetchFavoritesCities);
+        }
+      },
     );
   }
 }

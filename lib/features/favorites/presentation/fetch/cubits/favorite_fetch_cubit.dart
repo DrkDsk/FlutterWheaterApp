@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:clima_app/core/error/exceptions/network_exception.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
 import 'package:clima_app/features/home/domain/services/location_service.dart';
@@ -25,30 +26,35 @@ class FavoriteFetchCubit extends Cubit<FavoriteFetchState> {
       emit(state.copyWith(
           message: error.message, status: FavoriteFetchStatus.failure));
     }, (result) async {
-      List<CityLocation> cities = [];
+      try {
+        List<CityLocation> cities = [];
 
-      if (result.isEmpty) {
-        final defaultLocation =
-            await _locationService.getCityNameFromCoordinates();
+        if (result.isEmpty) {
+          final defaultLocation =
+              await _locationService.getCityNameFromCoordinates();
 
-        if (defaultLocation != null) {
-          cities.add(defaultLocation);
+          if (defaultLocation != null) {
+            cities.add(defaultLocation);
+          }
+
+          emit(state.copyWith(
+            cities: cities,
+            status: FavoriteFetchStatus.success,
+          ));
+
+          return;
         }
+
+        cities.addAll(result);
 
         emit(state.copyWith(
           cities: cities,
           status: FavoriteFetchStatus.success,
         ));
-
-        return;
+      } on NoInternetException catch (e) {
+        emit(state.copyWith(
+            message: e.message, status: FavoriteFetchStatus.failure));
       }
-
-      cities.addAll(result);
-
-      emit(state.copyWith(
-        cities: cities,
-        status: FavoriteFetchStatus.success,
-      ));
     });
   }
 }

@@ -1,3 +1,4 @@
+import 'package:clima_app/core/shared/services/network_service.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/features/city/data/datasources/city_datasource.dart';
 import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
@@ -49,6 +50,9 @@ Future<void> initDependencies() async {
   final box = await HiveInitializer.init();
   getIt.registerSingleton(dioClient);
   getIt.registerSingleton(box);
+  getIt.registerSingleton<Connectivity>(Connectivity());
+  getIt.registerLazySingleton(
+      () => NetworkService(connectivity: getIt<Connectivity>()));
 
   // Helpers
   getIt.registerLazySingleton(() => WeatherMapper(getIt()));
@@ -59,7 +63,8 @@ Future<void> initDependencies() async {
       () => CityDataSourceImpl(dio: dioClient.dio));
   getIt.registerLazySingleton<SearchWeatherDataSource>(
       () => SearchWeatherDatasourceImpl(dio: dioClient.dio));
-  getIt.registerLazySingleton(() => LocationDataSourceImpl());
+  getIt.registerLazySingleton(
+      () => LocationDataSourceImpl(networkService: getIt<NetworkService>()));
   getIt.registerLazySingleton(() => WeatherDescriptionLocalDataSourceImpl());
   getIt.registerLazySingleton<FavoriteWeatherDataSource>(
       () => FavoriteWeatherDataSourceImpl(box: box));
@@ -103,7 +108,7 @@ Future<void> initDependencies() async {
 
   // Blocs / Cubits
   getIt.registerFactory<NetworkCubit>(
-      () => NetworkCubit(connectivity: Connectivity()));
+      () => NetworkCubit(networkService: getIt<NetworkService>()));
 
   getIt.registerFactory<IACubit>(
       () => IACubit(repository: getIt<IARepository>()));

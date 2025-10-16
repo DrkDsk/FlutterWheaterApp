@@ -1,6 +1,9 @@
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/core/router/app_router.dart';
+import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
+import 'package:clima_app/core/shared/ui/cubits/network_state.dart';
+import 'package:clima_app/core/shared/ui/widgets/no_connection_widget.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
@@ -68,21 +71,33 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
             },
           ),
           body: SafeArea(
-            child: BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
+            child: BlocBuilder<NetworkCubit, NetworkState>(
               builder: (context, state) {
-                final cities = state.cities;
+                final isOffline = state.status == NetworkStatus.disconnected;
 
-                return PageView.builder(
-                  controller: _pageController,
-                  itemCount: cities.length,
-                  onPageChanged: _homePageNavigationCubit.updatePageIndex,
-                  itemBuilder: (context, index) {
-                    final city = cities[index];
-                    return WeatherContentWidget(
-                      latitude: city.latitude,
-                      longitude: city.longitude,
-                    );
-                  },
+                return Stack(
+                  children: [
+                    BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
+                      builder: (context, state) {
+                        final cities = state.cities;
+
+                        return PageView.builder(
+                          controller: _pageController,
+                          itemCount: cities.length,
+                          onPageChanged:
+                              _homePageNavigationCubit.updatePageIndex,
+                          itemBuilder: (context, index) {
+                            final city = cities[index];
+                            return WeatherContentWidget(
+                              latitude: city.latitude,
+                              longitude: city.longitude,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    if (isOffline) ...[const InternetFailureWidget()]
+                  ],
                 );
               },
             ),

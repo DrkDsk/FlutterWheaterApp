@@ -11,7 +11,8 @@ class NetworkException implements Exception {
     } else if (e.type == DioExceptionType.receiveTimeout) {
       return NetworkException("Tiempo de espera agotado");
     } else if (e.type == DioExceptionType.connectionError) {
-      return NetworkException("No hay conexión a internet");
+      return NetworkException(
+          "Sin conexión a Internet, checa tu conexión o intenta nuevamente");
     } else {
       return NetworkException("Error de red: ${e.message}");
     }
@@ -19,5 +20,7 @@ class NetworkException implements Exception {
 }
 
 class NoInternetException extends NetworkException {
-  NoInternetException() : super("Sin conexión a Internet");
+  NoInternetException()
+      : super(
+            "Sin conexión a Internet, checa tu conexión o intenta nuevamente");
 }
