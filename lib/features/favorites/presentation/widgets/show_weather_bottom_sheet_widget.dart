@@ -50,9 +50,9 @@ class _ShowWeatherBottomSheetWidgetState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return BlocSelector<CityWeatherBloc, CityWeatherState, Color>(
+    return BlocSelector<CityWeatherBloc, CityWeatherState, String>(
       selector: (state) {
-        return state.backgroundColor;
+        return state.lottieBackgroundPath;
       },
       builder: (context, backgroundColor) {
         return BlocListener<FavoriteStoreCubit, FavoriteStoreState>(
@@ -70,9 +70,9 @@ class _ShowWeatherBottomSheetWidgetState
             }
           },
           child: Container(
-            decoration: BoxDecoration(
-                color: backgroundColor,
-                borderRadius: const BorderRadius.only(
+            decoration: const BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24))),
             child: FractionallySizedBox(

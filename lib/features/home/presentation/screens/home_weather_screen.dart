@@ -10,6 +10,7 @@ import 'package:clima_app/features/home/presentation/widgets/favorites_page_buil
 import 'package:clima_app/features/home/presentation/widgets/bottom_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class HomeWeatherScreen extends StatefulWidget {
   const HomeWeatherScreen({super.key});
@@ -41,43 +42,58 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<CityWeatherBloc, CityWeatherState, Color>(
-      selector: (state) => state.backgroundColor,
+    return BlocSelector<CityWeatherBloc, CityWeatherState, String>(
+      selector: (state) => state.lottieBackgroundPath,
       builder: (context, backgroundColor) {
         return BlocSelector<HomePageNavigationCubit, int, int>(
           selector: (state) => state,
           builder: (context, currentPage) {
-            return Scaffold(
-              backgroundColor: backgroundColor,
-              bottomNavigationBar: BottomAppBarWidget(
-                  backgroundColor: backgroundColor, currentPage: currentPage),
-              body: SafeArea(
-                child: BlocConsumer<NetworkCubit, NetworkState>(
-                  listenWhen: (prev, current) => prev.status != current.status,
-                  listener: (context, state) {
-                    final isConnected = state.status == NetworkStatus.connected;
-                    final emptyCities = favoriteFetchCubit.state.cities.isEmpty;
-
-                    if (isConnected && emptyCities) {
-                      favoriteFetchCubit.getFavoriteCities();
-                    }
-                  },
-                  buildWhen: (prev, current) => prev.status != current.status,
-                  builder: (context, state) {
-                    final isConnected = state.status == NetworkStatus.connected;
-
-                    return Column(
-                      children: [
-                        if (!isConnected) const NetworkStatusBuilder(),
-                        Expanded(
-                          child: FavoritesPageBuilder(initialPage: currentPage),
-                        ),
-                      ],
-                    );
-                  },
+            return Stack(children: [
+              Positioned.fill(
+                child: Lottie.asset(
+                  backgroundColor,
+                  fit: BoxFit.cover,
+                  repeat: true,
                 ),
               ),
-            );
+              Scaffold(
+                backgroundColor: Colors.transparent,
+                bottomNavigationBar: BottomAppBarWidget(
+                    backgroundColor: Colors.transparent,
+                    currentPage: currentPage),
+                body: SafeArea(
+                  child: BlocConsumer<NetworkCubit, NetworkState>(
+                    listenWhen: (prev, current) =>
+                        prev.status != current.status,
+                    listener: (context, state) {
+                      final isConnected =
+                          state.status == NetworkStatus.connected;
+                      final emptyCities =
+                          favoriteFetchCubit.state.cities.isEmpty;
+
+                      if (isConnected && emptyCities) {
+                        favoriteFetchCubit.getFavoriteCities();
+                      }
+                    },
+                    buildWhen: (prev, current) => prev.status != current.status,
+                    builder: (context, state) {
+                      final isConnected =
+                          state.status == NetworkStatus.connected;
+
+                      return Column(
+                        children: [
+                          if (!isConnected) const NetworkStatusBuilder(),
+                          Expanded(
+                            child:
+                                FavoritesPageBuilder(initialPage: currentPage),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              )
+            ]);
           },
         );
       },

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:clima_app/core/colors/weather_colors.dart';
 import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
 import 'package:clima_app/core/helpers/datetime_helper.dart';
@@ -18,10 +16,10 @@ class CityWeatherData with EquatableMixin {
       required this.city,
       required this.translatedWeather});
 
-  Color getBackgroundColor() {
+  String getBackgroundLottie() {
     final mainTranslatedWeatherDescription = translatedWeather.main;
     if (mainTranslatedWeatherDescription == null) {
-      return WeatherColors.drizzleNight;
+      return "assets/lottie/loading_splash.json";
     }
 
     final currentWeather = forecast.current;
@@ -33,7 +31,7 @@ class CityWeatherData with EquatableMixin {
     );
 
     final timeType = isNightTime ? TimeOfDayType.night : TimeOfDayType.day;
-    return WeatherColors.getWeatherColor(
+    return WeatherColors.getWeatherLottie(
         mainTranslatedWeatherDescription, timeType);
   }
 
