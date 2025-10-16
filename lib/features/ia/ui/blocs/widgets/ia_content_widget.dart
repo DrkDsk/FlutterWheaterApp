@@ -15,7 +15,6 @@ class IAContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: BlocBuilder<IACubit, IAState>(
@@ -28,7 +27,7 @@ class IAContentWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.grey.shade100.customOpacity(0.1),
                   borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(45), top: Radius.circular(45)),
+                      bottom: Radius.circular(8), top: Radius.circular(8)),
                   border: Border.all(
                     color: Colors.white.customOpacity(0.3),
                     width: 1,

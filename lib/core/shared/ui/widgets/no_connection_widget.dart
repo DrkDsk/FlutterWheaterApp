@@ -9,7 +9,7 @@ class InternetFailureWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18), color: Colors.redAccent),
+          borderRadius: BorderRadius.circular(8), color: Colors.redAccent),
       duration: const Duration(milliseconds: 300),
       padding: const EdgeInsets.all(12),
       child: const Row(
