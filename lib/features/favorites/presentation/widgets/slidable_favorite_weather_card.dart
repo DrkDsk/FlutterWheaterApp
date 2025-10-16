@@ -6,7 +6,7 @@ import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_
 import 'package:clima_app/features/favorites/presentation/widgets/saved_city_item_card.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
-import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
+import 'package:clima_app/features/home/presentation/screens/home_weather_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -29,7 +29,7 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
     final favoriteFetchCubit = context.read<FavoriteFetchCubit>();
 
     favoriteDeleteCubit.delete(id: currentCityId);
-    favoriteFetchCubit.getFavoritesCities();
+    favoriteFetchCubit.getFavoriteCities();
   }
 
   ActionPane buildActionPane({required BuildContext context}) {
@@ -75,7 +75,7 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
 
           router.goToScreenAndClear(BlocProvider(
             create: (context) => getIt<CityWeatherBloc>(),
-            child: const HomeWeatherPage(),
+            child: const HomeWeatherScreen(),
           ));
         },
         child: SavedCityItemCard(cityName: cityLocation.city),

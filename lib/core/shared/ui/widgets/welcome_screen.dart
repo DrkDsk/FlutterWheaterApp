@@ -1,8 +1,7 @@
-import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/core/shared/ui/widgets/splash_screen.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
-import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
+import 'package:clima_app/features/home/presentation/screens/home_weather_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,27 +14,28 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   late FavoriteFetchCubit _favoriteFetchCubit;
-  late final AppRouter _router;
 
   @override
   void initState() {
     super.initState();
-    _router = AppRouter(context);
     _favoriteFetchCubit = context.read<FavoriteFetchCubit>();
-    Future.microtask(() {
-      _favoriteFetchCubit.getFavoritesCities();
-    });
+    fetchFavoritesCities();
+  }
+
+  void fetchFavoritesCities() {
+    Future.microtask(() => _favoriteFetchCubit.getFavoriteCities());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<FavoriteFetchCubit, FavoriteFetchState>(
-      listener: (context, state) {
-        if (state.status == FavoriteFetchStatus.success) {
-          _router.goToScreen(const HomeWeatherPage());
-        }
-      },
-      child: const SplashScreen(),
-    );
+    return BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
+        builder: (context, state) {
+      if (state.status == FavoriteFetchStatus.success ||
+          state.status == FavoriteFetchStatus.failure) {
+        return const HomeWeatherScreen();
+      }
+
+      return const SplashScreen();
+    });
   }
 }

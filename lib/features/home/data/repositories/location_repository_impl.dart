@@ -24,12 +24,6 @@ class LocationRepositoryImpl implements LocationRepository {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(latitude, longitude);
 
-    if (placemarks.isEmpty) {
-      return null;
-    }
-
-    Placemark place = placemarks.first;
-
-    return place;
+    return placemarks.isEmpty ? null : placemarks.first;
   }
 }

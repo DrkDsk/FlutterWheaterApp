@@ -8,7 +8,7 @@ import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
-import 'package:clima_app/features/home/presentation/pages/home_weather_page.dart';
+import 'package:clima_app/features/home/presentation/screens/home_weather_screen.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +43,7 @@ class _ShowWeatherBottomSheetWidgetState
       {required CityLocation cityLocation,
       required BuildContext context}) async {
     _favoriteStoreCubit.store(cityLocation: cityLocation);
-
-    _favoriteFetchCubit.getFavoritesCities();
+    _favoriteFetchCubit.getFavoriteCities();
   }
 
   @override
@@ -66,7 +65,7 @@ class _ShowWeatherBottomSheetWidgetState
 
               router.goToScreenAndClear(BlocProvider(
                 create: (context) => getIt<CityWeatherBloc>(),
-                child: const HomeWeatherPage(),
+                child: const HomeWeatherScreen(),
               ));
             }
           },

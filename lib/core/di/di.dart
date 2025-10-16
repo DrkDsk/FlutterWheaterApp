@@ -1,3 +1,5 @@
+import 'package:clima_app/core/shared/services/network_service.dart';
+import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/features/city/data/datasources/city_datasource.dart';
 import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
 import 'package:clima_app/features/city/domain/repositories/city_repository.dart';
@@ -31,6 +33,7 @@ import 'package:clima_app/features/ia/data/datasources/ia_datasource_impl.dart';
 import 'package:clima_app/features/ia/data/repositories/ia_repository_impl.dart';
 import 'package:clima_app/features/ia/domain/repositories/ia_repository.dart';
 import 'package:clima_app/features/ia/ui/blocs/ia_cubit.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:clima_app/core/dio_client.dart';
@@ -47,9 +50,15 @@ Future<void> initDependencies() async {
   final box = await HiveInitializer.init();
   getIt.registerSingleton(dioClient);
   getIt.registerSingleton(box);
+  getIt.registerSingleton<Connectivity>(Connectivity());
+  getIt.registerLazySingleton(
+      () => NetworkService(connectivity: getIt<Connectivity>()));
 
   // Helpers
   getIt.registerLazySingleton(() => WeatherMapper(getIt()));
+
+  // Services
+  getIt.registerLazySingleton(() => LocationService(getIt()));
 
   // DataSources
   getIt.registerLazySingleton<IADatasource>(() => IADatasourceImpl());
@@ -57,7 +66,8 @@ Future<void> initDependencies() async {
       () => CityDataSourceImpl(dio: dioClient.dio));
   getIt.registerLazySingleton<SearchWeatherDataSource>(
       () => SearchWeatherDatasourceImpl(dio: dioClient.dio));
-  getIt.registerLazySingleton(() => LocationDataSourceImpl());
+  getIt.registerLazySingleton(
+      () => LocationDataSourceImpl(networkService: getIt<NetworkService>()));
   getIt.registerLazySingleton(() => WeatherDescriptionLocalDataSourceImpl());
   getIt.registerLazySingleton<FavoriteWeatherDataSource>(
       () => FavoriteWeatherDataSourceImpl(box: box));
@@ -75,7 +85,8 @@ Future<void> initDependencies() async {
   );
 
   getIt.registerLazySingleton<FavoriteWeatherRepository>(
-    () => FavoriteWeatherRepositoryImpl(dataSource: getIt()),
+    () => FavoriteWeatherRepositoryImpl(
+        dataSource: getIt(), locationService: getIt<LocationService>()),
   );
 
   getIt.registerLazySingleton<WeatherDescriptionRepository>(
@@ -84,9 +95,6 @@ Future<void> initDependencies() async {
 
   getIt.registerLazySingleton<LocationRepository>(
       () => LocationRepositoryImpl(getIt()));
-
-  // Services
-  getIt.registerLazySingleton(() => LocationService(getIt()));
 
   // UseCases
   getIt.registerLazySingleton<SearchCityUseCase>(
@@ -100,14 +108,16 @@ Future<void> initDependencies() async {
       mapper: getIt<WeatherMapper>()));
 
   // Blocs / Cubits
+  getIt.registerFactory<NetworkCubit>(
+      () => NetworkCubit(networkService: getIt<NetworkService>()));
+
   getIt.registerFactory<IACubit>(
       () => IACubit(repository: getIt<IARepository>()));
 
   final favoriteWeatherRepository = getIt<FavoriteWeatherRepository>();
 
-  getIt.registerFactory<FavoriteFetchCubit>(() => FavoriteFetchCubit(
-      repository: favoriteWeatherRepository,
-      locationService: getIt<LocationService>()));
+  getIt.registerFactory<FavoriteFetchCubit>(
+      () => FavoriteFetchCubit(repository: favoriteWeatherRepository));
 
   getIt.registerFactory<FavoriteStoreCubit>(
       () => FavoriteStoreCubit(repository: favoriteWeatherRepository));

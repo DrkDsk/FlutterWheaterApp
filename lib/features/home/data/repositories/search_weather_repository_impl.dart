@@ -1,3 +1,4 @@
+import 'package:clima_app/core/error/exceptions/network_exception.dart';
 import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
 import 'package:clima_app/core/error/failures/failure.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart';
@@ -17,8 +18,10 @@ class SearchWeatherRepositoryImpl implements SearchWeatherRepository {
       final model =
           await datasource.fetchSearchDataByLocation(lat: lat, lon: lon);
       return Right(model.toEntity());
-    } on UnknownException {
-      return Left(UnexpectedFailure());
+    } on UnknownException catch (e) {
+      return Left(GenericFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(GenericFailure(e.message));
     }
   }
 }
