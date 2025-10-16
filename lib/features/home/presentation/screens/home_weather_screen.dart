@@ -1,4 +1,6 @@
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
+import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
+import 'package:clima_app/core/shared/ui/cubits/network_state.dart';
 import 'package:clima_app/core/shared/ui/widgets/network_status_builder.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
@@ -9,23 +11,24 @@ import 'package:clima_app/features/home/presentation/widgets/bottom_app_bar_widg
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeWeatherPage extends StatefulWidget {
-  const HomeWeatherPage({super.key});
+class HomeWeatherScreen extends StatefulWidget {
+  const HomeWeatherScreen({super.key});
 
   @override
-  State<HomeWeatherPage> createState() => _HomeWeatherPageState();
+  State<HomeWeatherScreen> createState() => _HomeWeatherScreenState();
 }
 
-class _HomeWeatherPageState extends State<HomeWeatherPage> {
+class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
   late final PageController _pageController;
-  late final FavoriteFetchCubit favoriteFetchCubit;
   late final HomePageNavigationCubit _homePageNavigationCubit;
+  late final FavoriteFetchCubit favoriteFetchCubit;
 
   @override
   void initState() {
     super.initState();
-    _homePageNavigationCubit = context.read<HomePageNavigationCubit>();
-    favoriteFetchCubit = context.read<FavoriteFetchCubit>();
+    _homePageNavigationCubit =
+        BlocProvider.of<HomePageNavigationCubit>(context);
+    favoriteFetchCubit = BlocProvider.of<FavoriteFetchCubit>(context);
     _pageController =
         PageController(initialPage: _homePageNavigationCubit.state);
   }
@@ -49,12 +52,29 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
               bottomNavigationBar: BottomAppBarWidget(
                   backgroundColor: backgroundColor, currentPage: currentPage),
               body: SafeArea(
-                child: Column(
-                  children: [
-                    const NetworkStatusBuilder(),
-                    Expanded(
-                        child: FavoritesPageBuilder(initialPage: currentPage)),
-                  ],
+                child: BlocConsumer<NetworkCubit, NetworkState>(
+                  listenWhen: (prev, current) => prev.status != current.status,
+                  listener: (context, state) {
+                    final isConnected = state.status == NetworkStatus.connected;
+                    final emptyCities = favoriteFetchCubit.state.cities.isEmpty;
+
+                    if (isConnected && emptyCities) {
+                      favoriteFetchCubit.getFavoriteCities();
+                    }
+                  },
+                  buildWhen: (prev, current) => prev.status != current.status,
+                  builder: (context, state) {
+                    final isConnected = state.status == NetworkStatus.connected;
+
+                    return Column(
+                      children: [
+                        if (!isConnected) const NetworkStatusBuilder(),
+                        Expanded(
+                          child: FavoritesPageBuilder(initialPage: currentPage),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             );

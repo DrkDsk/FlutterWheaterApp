@@ -34,10 +34,6 @@ class GetWeatherUseCase {
       longitude: locationEntity.longitude,
     );
 
-    if (cityLocation == null) {
-      throw GenericFailure();
-    }
-
     if (forecastEither.isLeft()) {
       final error = forecastEither.swap().getOrElse(() => throw Exception(""));
       throw GenericFailure(error.message);

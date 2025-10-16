@@ -57,6 +57,9 @@ Future<void> initDependencies() async {
   // Helpers
   getIt.registerLazySingleton(() => WeatherMapper(getIt()));
 
+  // Services
+  getIt.registerLazySingleton(() => LocationService(getIt()));
+
   // DataSources
   getIt.registerLazySingleton<IADatasource>(() => IADatasourceImpl());
   getIt.registerLazySingleton<CityDataSource>(
@@ -82,7 +85,8 @@ Future<void> initDependencies() async {
   );
 
   getIt.registerLazySingleton<FavoriteWeatherRepository>(
-    () => FavoriteWeatherRepositoryImpl(dataSource: getIt()),
+    () => FavoriteWeatherRepositoryImpl(
+        dataSource: getIt(), locationService: getIt<LocationService>()),
   );
 
   getIt.registerLazySingleton<WeatherDescriptionRepository>(
@@ -91,9 +95,6 @@ Future<void> initDependencies() async {
 
   getIt.registerLazySingleton<LocationRepository>(
       () => LocationRepositoryImpl(getIt()));
-
-  // Services
-  getIt.registerLazySingleton(() => LocationService(getIt()));
 
   // UseCases
   getIt.registerLazySingleton<SearchCityUseCase>(
@@ -115,9 +116,8 @@ Future<void> initDependencies() async {
 
   final favoriteWeatherRepository = getIt<FavoriteWeatherRepository>();
 
-  getIt.registerFactory<FavoriteFetchCubit>(() => FavoriteFetchCubit(
-      repository: favoriteWeatherRepository,
-      locationService: getIt<LocationService>()));
+  getIt.registerFactory<FavoriteFetchCubit>(
+      () => FavoriteFetchCubit(repository: favoriteWeatherRepository));
 
   getIt.registerFactory<FavoriteStoreCubit>(
       () => FavoriteStoreCubit(repository: favoriteWeatherRepository));
