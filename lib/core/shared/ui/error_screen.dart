@@ -19,34 +19,36 @@ class ErrorScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(14.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //icon
-              Text("Whoops!!", style: largeStyle),
-              Text(message, style: largeStyle),
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: tryAgainHandler,
-                child: Container(
-                  width: widthButton,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(38),
-                          bottomLeft: Radius.circular(14),
-                          topRight: Radius.circular(14),
-                          bottomRight: Radius.circular(38)),
-                      color: Colors.redAccent),
-                  child: Center(
-                      child: Text(
-                    "Try Again",
-                    style: largeStyle,
-                  )),
-                ),
-              )
-            ],
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                //icon
+                Text("Whoops!!", style: largeStyle),
+                Text(message, style: largeStyle),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: tryAgainHandler,
+                  child: Container(
+                    width: widthButton,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 10),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(38),
+                            bottomLeft: Radius.circular(14),
+                            topRight: Radius.circular(14),
+                            bottomRight: Radius.circular(38)),
+                        color: Colors.redAccent),
+                    child: Center(
+                        child: Text(
+                      "Try Again",
+                      style: largeStyle,
+                    )),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

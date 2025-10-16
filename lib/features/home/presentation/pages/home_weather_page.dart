@@ -24,12 +24,14 @@ class HomeWeatherPage extends StatefulWidget {
 
 class _HomeWeatherPageState extends State<HomeWeatherPage> {
   late final PageController _pageController;
-  late HomePageNavigationCubit _homePageNavigationCubit;
+  late final FavoriteFetchCubit favoriteFetchCubit;
+  late final HomePageNavigationCubit _homePageNavigationCubit;
 
   @override
   void initState() {
     super.initState();
     _homePageNavigationCubit = context.read<HomePageNavigationCubit>();
+    favoriteFetchCubit = context.read<FavoriteFetchCubit>();
     _pageController =
         PageController(initialPage: _homePageNavigationCubit.state);
   }
@@ -39,6 +41,48 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
     _pageController.dispose();
     super.dispose();
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<CityWeatherBloc, CityWeatherState, Color>(
+      selector: (state) => state.backgroundColor,
+      builder: (context, backgroundColor) {
+        return Scaffold(
+          backgroundColor: backgroundColor,
+          bottomNavigationBar: const _BottomNavigationSection(),
+          body: const SafeArea(
+            child: Column(
+              children: [
+                _NetworkStatusSection(),
+                Expanded(child: _FavoritesAndWeatherSection()),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _NetworkStatusSection extends StatelessWidget {
+  const _NetworkStatusSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<NetworkCubit, NetworkState>(
+      buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        if (state.status == NetworkStatus.disconnected) {
+          return const InternetFailureWidget();
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+}
+
+class _BottomNavigationSection extends StatelessWidget {
+  const _BottomNavigationSection();
 
   Future<void> navigateToFavorites(BuildContext context) async {
     final router = AppRouter.of(context);
@@ -53,55 +97,51 @@ class _HomeWeatherPageState extends State<HomeWeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<CityWeatherBloc, CityWeatherState, Color>(
-      selector: (state) {
-        return state.backgroundColor;
-      },
-      builder: (context, backgroundColor) {
-        return Scaffold(
+    final backgroundColor = context.select(
+      (CityWeatherBloc bloc) => bloc.state.backgroundColor,
+    );
+
+    return BlocSelector<HomePageNavigationCubit, int, int>(
+      selector: (state) => state,
+      builder: (context, currentPageState) {
+        return BottomAppBarWidget(
           backgroundColor: backgroundColor,
-          bottomNavigationBar: BlocSelector<HomePageNavigationCubit, int, int>(
-            selector: (state) => state,
-            builder: (context, currentPageState) {
-              return BottomAppBarWidget(
-                backgroundColor: backgroundColor,
-                currentPage: currentPageState,
-                navigateToFavorites: () => navigateToFavorites(context),
-              );
-            },
-          ),
-          body: SafeArea(
-            child: BlocBuilder<NetworkCubit, NetworkState>(
-              builder: (context, state) {
-                final isOffline = state.status == NetworkStatus.disconnected;
+          currentPage: currentPageState,
+          navigateToFavorites: () => navigateToFavorites(context),
+        );
+      },
+    );
+  }
+}
 
-                return Stack(
-                  children: [
-                    BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
-                      builder: (context, state) {
-                        final cities = state.cities;
+class _FavoritesAndWeatherSection extends StatelessWidget {
+  const _FavoritesAndWeatherSection();
 
-                        return PageView.builder(
-                          controller: _pageController,
-                          itemCount: cities.length,
-                          onPageChanged:
-                              _homePageNavigationCubit.updatePageIndex,
-                          itemBuilder: (context, index) {
-                            final city = cities[index];
-                            return WeatherContentWidget(
-                              latitude: city.latitude,
-                              longitude: city.longitude,
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    if (isOffline) ...[const InternetFailureWidget()]
-                  ],
-                );
-              },
-            ),
-          ),
+  @override
+  Widget build(BuildContext context) {
+    final pageController = PageController(
+        initialPage: context.read<HomePageNavigationCubit>().state);
+
+    return BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
+      builder: (context, state) {
+        final cities = state.cities;
+
+        if (cities.isEmpty) {
+          return const Center(child: Text("No tienes ciudades guardadas."));
+        }
+
+        return PageView.builder(
+          controller: pageController,
+          itemCount: cities.length,
+          onPageChanged:
+              context.read<HomePageNavigationCubit>().updatePageIndex,
+          itemBuilder: (context, index) {
+            final city = cities[index];
+            return WeatherContentWidget(
+              latitude: city.latitude,
+              longitude: city.longitude,
+            );
+          },
         );
       },
     );

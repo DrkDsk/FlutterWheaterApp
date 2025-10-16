@@ -7,30 +7,27 @@ class InternetFailureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          color: Colors.redAccent,
-          padding: const EdgeInsets.all(12),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.wifi_off, color: Colors.white),
-              SizedBox(width: 8),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Sin conexión a Internet',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ));
+    return AnimatedContainer(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(18), color: Colors.redAccent),
+      duration: const Duration(milliseconds: 300),
+      padding: const EdgeInsets.all(12),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.wifi_off, color: Colors.white),
+          SizedBox(width: 8),
+          Expanded(
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Sin conexión a Internet',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
