@@ -44,56 +44,58 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
   Widget build(BuildContext context) {
     return BlocSelector<CityWeatherBloc, CityWeatherState, String>(
       selector: (state) => state.lottieBackgroundPath,
-      builder: (context, backgroundColor) {
+      builder: (context, backgroundLottiePath) {
         return BlocSelector<HomePageNavigationCubit, int, int>(
           selector: (state) => state,
           builder: (context, currentPage) {
-            return Stack(children: [
-              Positioned.fill(
-                child: Lottie.asset(
-                  backgroundColor,
-                  fit: BoxFit.cover,
-                  repeat: true,
-                ),
-              ),
-              Scaffold(
-                backgroundColor: Colors.transparent,
-                bottomNavigationBar: BottomAppBarWidget(
-                    backgroundColor: Colors.transparent,
-                    currentPage: currentPage),
-                body: SafeArea(
-                  child: BlocConsumer<NetworkCubit, NetworkState>(
-                    listenWhen: (prev, current) =>
-                        prev.status != current.status,
-                    listener: (context, state) {
-                      final isConnected =
-                          state.status == NetworkStatus.connected;
-                      final emptyCities =
-                          favoriteFetchCubit.state.cities.isEmpty;
-
-                      if (isConnected && emptyCities) {
-                        favoriteFetchCubit.getFavoriteCities();
-                      }
-                    },
-                    buildWhen: (prev, current) => prev.status != current.status,
-                    builder: (context, state) {
-                      final isConnected =
-                          state.status == NetworkStatus.connected;
-
-                      return Column(
-                        children: [
-                          if (!isConnected) const NetworkStatusBuilder(),
-                          Expanded(
-                            child:
-                                FavoritesPageBuilder(initialPage: currentPage),
-                          ),
-                        ],
-                      );
-                    },
+            return Stack(
+              children: [
+                Positioned.fill(
+                  child: Lottie.asset(
+                    backgroundLottiePath,
+                    fit: BoxFit.cover,
                   ),
                 ),
-              )
-            ]);
+                Scaffold(
+                  backgroundColor: Colors.transparent,
+                  bottomNavigationBar: BottomAppBarWidget(
+                      backgroundColor: Colors.transparent,
+                      currentPage: currentPage),
+                  body: SafeArea(
+                    child: BlocConsumer<NetworkCubit, NetworkState>(
+                      listenWhen: (prev, current) =>
+                          prev.status != current.status,
+                      listener: (context, state) {
+                        final isConnected =
+                            state.status == NetworkStatus.connected;
+                        final emptyCities =
+                            favoriteFetchCubit.state.cities.isEmpty;
+
+                        if (isConnected && emptyCities) {
+                          favoriteFetchCubit.getFavoriteCities();
+                        }
+                      },
+                      buildWhen: (prev, current) =>
+                          prev.status != current.status,
+                      builder: (context, state) {
+                        final isConnected =
+                            state.status == NetworkStatus.connected;
+
+                        return Column(
+                          children: [
+                            if (!isConnected) const NetworkStatusBuilder(),
+                            Expanded(
+                              child: FavoritesPageBuilder(
+                                  initialPage: currentPage),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                )
+              ],
+            );
           },
         );
       },
