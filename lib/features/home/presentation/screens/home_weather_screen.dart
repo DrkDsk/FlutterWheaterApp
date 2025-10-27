@@ -22,17 +22,15 @@ class HomeWeatherScreen extends StatefulWidget {
 
 class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
   late final PageController _pageController;
-  late final HomePageNavigationCubit _homePageNavigationCubit;
+  late final HomePageNavigationCubit _navigationCubit;
   late final FavoriteFetchCubit favoriteFetchCubit;
 
   @override
   void initState() {
     super.initState();
-    _homePageNavigationCubit =
-        BlocProvider.of<HomePageNavigationCubit>(context);
+    _navigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
     favoriteFetchCubit = BlocProvider.of<FavoriteFetchCubit>(context);
-    _pageController =
-        PageController(initialPage: _homePageNavigationCubit.state);
+    _pageController = PageController(initialPage: _navigationCubit.state);
   }
 
   @override

@@ -31,8 +31,7 @@ class FavoriteStoreCubit extends Cubit<FavoriteStoreState> {
         status: FavoriteStoreStatus.failure,
       ));
     }, (result) {
-      emit(state.copyWith(
-          lastCitiStoredIndex: result, status: FavoriteStoreStatus.success));
+      emit(state.copyWith(status: FavoriteStoreStatus.success));
     });
   }
 }
