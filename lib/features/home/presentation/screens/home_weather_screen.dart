@@ -1,4 +1,5 @@
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
+import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_state.dart';
 import 'package:clima_app/core/shared/ui/widgets/network_status_builder.dart';
@@ -42,24 +43,31 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<CityWeatherBloc, CityWeatherState, String>(
-      selector: (state) => state.lottieBackgroundPath,
-      builder: (context, backgroundLottiePath) {
+    return BlocSelector<CityWeatherBloc, CityWeatherState, BackgroundWeather>(
+      selector: (state) => state.backgroundWeather,
+      builder: (context, backgroundWeather) {
+        final backgroundColor = backgroundWeather.color;
+
         return BlocSelector<HomePageNavigationCubit, int, int>(
           selector: (state) => state,
           builder: (context, currentPage) {
             return Stack(
               children: [
                 Positioned.fill(
-                  child: Lottie.asset(
-                    backgroundLottiePath,
-                    fit: BoxFit.cover,
+                  child: Container(
+                    color: backgroundColor,
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Lottie.asset(
+                      backgroundWeather.lottiePath,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Scaffold(
                   backgroundColor: Colors.transparent,
                   bottomNavigationBar: BottomAppBarWidget(
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: backgroundColor,
                       currentPage: currentPage),
                   body: SafeArea(
                     child: BlocConsumer<NetworkCubit, NetworkState>(

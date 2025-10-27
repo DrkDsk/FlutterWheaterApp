@@ -1,6 +1,7 @@
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/core/router/app_router.dart';
+import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_cubit.dart';
@@ -50,11 +51,9 @@ class _ShowWeatherBottomSheetWidgetState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return BlocSelector<CityWeatherBloc, CityWeatherState, String>(
-      selector: (state) {
-        return state.lottieBackgroundPath;
-      },
-      builder: (context, backgroundColor) {
+    return BlocSelector<CityWeatherBloc, CityWeatherState, BackgroundWeather>(
+      selector: (state) => state.backgroundWeather,
+      builder: (context, backgroundWeather) {
         return BlocListener<FavoriteStoreCubit, FavoriteStoreState>(
           listener: (context, state) {
             if (state.status == FavoriteStoreStatus.success) {

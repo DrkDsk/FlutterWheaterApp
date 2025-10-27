@@ -1,3 +1,4 @@
+import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/features/home/domain/entities/current.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 
@@ -42,11 +43,11 @@ extension CurrentWeatherExtension on Current {
 }
 
 extension CityWeatherStateX on CityWeatherState {
-  String get lottieBackgroundPath {
-    if (status == CityWeatherStatus.success && cityWeatherData != null) {
-      return cityWeatherData!.getBackgroundLottie();
+  BackgroundWeather get backgroundWeather {
+    if (cityWeatherData == null && status != CityWeatherStatus.success) {
+      return BackgroundWeather.initial();
     }
 
-    return "assets/lottie/loading_splash.json";
+    return cityWeatherData!.getBackgroundWeather();
   }
 }
