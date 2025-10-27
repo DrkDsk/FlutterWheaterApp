@@ -1,6 +1,7 @@
-import 'package:clima_app/core/colors/weather_colors.dart';
+import 'package:clima_app/core/colors/weather_lotties.dart';
 import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
 import 'package:clima_app/core/helpers/datetime_helper.dart';
+import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/features/home/domain/entities/translated/translated_weather.dart';
 import 'package:equatable/equatable.dart';
 
@@ -16,10 +17,10 @@ class CityWeatherData with EquatableMixin {
       required this.city,
       required this.translatedWeather});
 
-  String getBackgroundLottie() {
-    final mainTranslatedWeatherDescription = translatedWeather.main;
-    if (mainTranslatedWeatherDescription == null) {
-      return "assets/lottie/loading_splash.json";
+  BackgroundWeather getBackgroundWeather() {
+    final weatherType = translatedWeather.main;
+    if (weatherType == null) {
+      return BackgroundWeather.initial();
     }
 
     final currentWeather = forecast.current;
@@ -31,8 +32,13 @@ class CityWeatherData with EquatableMixin {
     );
 
     final timeType = isNightTime ? TimeOfDayType.night : TimeOfDayType.day;
-    return WeatherColors.getWeatherLottie(
-        mainTranslatedWeatherDescription, timeType);
+    final lottiePath = BackgroundWeatherHelper.getWeatherLottie(
+        weatherType: weatherType, time: timeType);
+
+    final backgroundColor = BackgroundWeatherHelper.getWeatherBackgroundColor(
+        weatherType: weatherType, time: timeType);
+
+    return BackgroundWeather(lottiePath: lottiePath, color: backgroundColor);
   }
 
   @override

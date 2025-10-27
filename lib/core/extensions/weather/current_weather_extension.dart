@@ -1,5 +1,4 @@
 import 'package:clima_app/features/home/domain/entities/current.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 
 extension CurrentWeatherExtension on Current {
   double get tempCelsius => (temp ?? 0) - 273.15;
@@ -39,14 +38,4 @@ extension CurrentWeatherExtension on Current {
 
   String get visibilityTextInKm =>
       "${((visibility ?? 0) / 1000).toStringAsFixed(0)} km";
-}
-
-extension CityWeatherStateX on CityWeatherState {
-  String get lottieBackgroundPath {
-    if (status == CityWeatherStatus.success && cityWeatherData != null) {
-      return cityWeatherData!.getBackgroundLottie();
-    }
-
-    return "assets/lottie/loading_splash.json";
-  }
 }

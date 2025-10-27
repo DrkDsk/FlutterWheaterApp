@@ -1,18 +1,18 @@
-import 'package:clima_app/core/di/di.dart';
-import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/core/router/app_router.dart';
+import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_cubit.dart';
-import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_state.dart';
+import 'package:clima_app/features/favorites/presentation/widgets/header_weather_sheet.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/screens/home_weather_screen.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class ShowWeatherBottomSheetWidget extends StatefulWidget {
   const ShowWeatherBottomSheetWidget({super.key, required this.cityLocation});
@@ -28,15 +28,14 @@ class _ShowWeatherBottomSheetWidgetState
     extends State<ShowWeatherBottomSheetWidget> {
   late FavoriteStoreCubit _favoriteStoreCubit;
   late FavoriteFetchCubit _favoriteFetchCubit;
-  late HomePageNavigationCubit _homePageNavigationCubit;
+  late HomePageNavigationCubit _navigationCubit;
 
   @override
   void initState() {
     super.initState();
     _favoriteStoreCubit = context.read<FavoriteStoreCubit>();
     _favoriteFetchCubit = context.read<FavoriteFetchCubit>();
-    _homePageNavigationCubit =
-        BlocProvider.of<HomePageNavigationCubit>(context);
+    _navigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
   }
 
   Future<void> handleSaveCity(
@@ -46,69 +45,66 @@ class _ShowWeatherBottomSheetWidgetState
     _favoriteFetchCubit.getFavoriteCities();
   }
 
+  void redirectToHome(BuildContext context, FavoriteFetchState state) {
+    final status = state.status;
+    if (status == FavoriteFetchStatus.success ||
+        status == FavoriteFetchStatus.failure) {
+      final router = AppRouter.of(context);
+      final pageIndex = state.cities.length - 1;
+
+      _navigationCubit.updatePageIndex(pageIndex);
+
+      router.goToScreenAndClear(const HomeWeatherScreen());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    return BlocSelector<CityWeatherBloc, CityWeatherState, BackgroundWeather>(
+      selector: (state) => state.backgroundWeather,
+      builder: (context, backgroundWeather) {
+        final backgroundColor = backgroundWeather.color;
 
-    return BlocSelector<CityWeatherBloc, CityWeatherState, String>(
-      selector: (state) {
-        return state.lottieBackgroundPath;
-      },
-      builder: (context, backgroundColor) {
-        return BlocListener<FavoriteStoreCubit, FavoriteStoreState>(
-          listener: (context, state) {
-            if (state.status == FavoriteStoreStatus.success) {
-              final router = AppRouter.of(context);
-
-              _homePageNavigationCubit
-                  .updatePageIndex(state.lastCitiStoredIndex ?? 0);
-
-              router.goToScreenAndClear(BlocProvider(
-                create: (context) => getIt<CityWeatherBloc>(),
-                child: const HomeWeatherScreen(),
-              ));
-            }
-          },
-          child: Container(
-            decoration: const BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24))),
-            child: FractionallySizedBox(
-              heightFactor: 0.90,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          child: Text("Cancelar",
-                              style: theme.textTheme.bodyMedium),
-                          onPressed: () => AppRouter.of(context).pop(),
-                        ),
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () => handleSaveCity(
-                              cityLocation: widget.cityLocation,
-                              context: context),
-                          child: Text("Agregar",
-                              style: theme.textTheme.bodyMedium),
-                        ),
-                      ],
+        return BlocListener<FavoriteFetchCubit, FavoriteFetchState>(
+          listener: redirectToHome,
+          child: FractionallySizedBox(
+            heightFactor: 0.90,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Container(
+                    color: backgroundColor,
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Lottie.asset(
+                      backgroundWeather.lottiePath,
+                      fit: BoxFit.cover,
                     ),
-                    const SizedBox(height: 8),
-                    Expanded(
-                        child: WeatherContentWidget(
-                            latitude: widget.cityLocation.latitude,
-                            longitude: widget.cityLocation.longitude))
-                  ],
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 8),
+                      HeaderWeatherSheet(
+                        onCancel: () => AppRouter.of(context).pop(),
+                        onSave: () => handleSaveCity(
+                          cityLocation: widget.cityLocation,
+                          context: context,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: WeatherContentWidget(
+                          latitude: widget.cityLocation.latitude,
+                          longitude: widget.cityLocation.longitude,
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         );

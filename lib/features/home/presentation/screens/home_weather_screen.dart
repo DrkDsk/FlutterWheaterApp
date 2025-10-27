@@ -1,4 +1,4 @@
-import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
+import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_state.dart';
 import 'package:clima_app/core/shared/ui/widgets/network_status_builder.dart';
@@ -21,17 +21,15 @@ class HomeWeatherScreen extends StatefulWidget {
 
 class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
   late final PageController _pageController;
-  late final HomePageNavigationCubit _homePageNavigationCubit;
+  late final HomePageNavigationCubit _navigationCubit;
   late final FavoriteFetchCubit favoriteFetchCubit;
 
   @override
   void initState() {
     super.initState();
-    _homePageNavigationCubit =
-        BlocProvider.of<HomePageNavigationCubit>(context);
+    _navigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
     favoriteFetchCubit = BlocProvider.of<FavoriteFetchCubit>(context);
-    _pageController =
-        PageController(initialPage: _homePageNavigationCubit.state);
+    _pageController = PageController(initialPage: _navigationCubit.state);
   }
 
   @override
@@ -40,53 +38,62 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
     super.dispose();
   }
 
+  void retryFavorites(BuildContext context, NetworkState state) {
+    final isConnected = state.status == NetworkStatus.connected;
+    final emptyCities = favoriteFetchCubit.state.cities.isEmpty;
+
+    if (isConnected && emptyCities) {
+      favoriteFetchCubit.getFavoriteCities();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<CityWeatherBloc, CityWeatherState, String>(
-      selector: (state) => state.lottieBackgroundPath,
-      builder: (context, backgroundLottiePath) {
+    return BlocSelector<CityWeatherBloc, CityWeatherState, BackgroundWeather>(
+      selector: (state) => state.backgroundWeather,
+      builder: (context, backgroundWeather) {
+        final backgroundColor = backgroundWeather.color;
+
         return BlocSelector<HomePageNavigationCubit, int, int>(
           selector: (state) => state,
           builder: (context, currentPage) {
             return Stack(
               children: [
                 Positioned.fill(
-                  child: Lottie.asset(
-                    backgroundLottiePath,
-                    fit: BoxFit.cover,
+                  child: Container(
+                    color: backgroundColor,
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Lottie.asset(
+                      backgroundWeather.lottiePath,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Scaffold(
                   backgroundColor: Colors.transparent,
                   bottomNavigationBar: BottomAppBarWidget(
-                      backgroundColor: Colors.transparent,
-                      currentPage: currentPage),
+                    backgroundColor: backgroundColor,
+                    currentPage: currentPage,
+                  ),
                   body: SafeArea(
                     child: BlocConsumer<NetworkCubit, NetworkState>(
                       listenWhen: (prev, current) =>
                           prev.status != current.status,
-                      listener: (context, state) {
-                        final isConnected =
-                            state.status == NetworkStatus.connected;
-                        final emptyCities =
-                            favoriteFetchCubit.state.cities.isEmpty;
-
-                        if (isConnected && emptyCities) {
-                          favoriteFetchCubit.getFavoriteCities();
-                        }
-                      },
                       buildWhen: (prev, current) =>
                           prev.status != current.status,
+                      listener: retryFavorites,
                       builder: (context, state) {
-                        final isConnected =
-                            state.status == NetworkStatus.connected;
-
                         return Column(
                           children: [
-                            if (!isConnected) const NetworkStatusBuilder(),
+                            NetworkStatusBuilder(
+                              isConnected:
+                                  state.status == NetworkStatus.connected,
+                            ),
                             Expanded(
                               child: FavoritesPageBuilder(
-                                  initialPage: currentPage),
+                                initialPage: currentPage,
+                              ),
                             ),
                           ],
                         );
