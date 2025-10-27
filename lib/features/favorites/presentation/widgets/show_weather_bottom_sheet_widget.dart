@@ -1,4 +1,3 @@
-import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
@@ -39,8 +38,9 @@ class _ShowWeatherBottomSheetWidgetState
     _navigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
   }
 
-  Future<void> handleSaveCity({required CityLocation cityLocation,
-    required BuildContext context}) async {
+  Future<void> handleSaveCity(
+      {required CityLocation cityLocation,
+      required BuildContext context}) async {
     _favoriteStoreCubit.store(cityLocation: cityLocation);
     _favoriteFetchCubit.getFavoriteCities();
   }
@@ -71,12 +71,7 @@ class _ShowWeatherBottomSheetWidgetState
               children: [
                 Positioned.fill(
                   child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                          24
-                      ),
-                      color: backgroundColor,
-                    ),
+                    color: backgroundColor,
                     width: double.infinity,
                     height: double.infinity,
                     child: Lottie.asset(
@@ -92,11 +87,10 @@ class _ShowWeatherBottomSheetWidgetState
                       const SizedBox(height: 8),
                       HeaderWeatherSheet(
                         onCancel: () => AppRouter.of(context).pop(),
-                        onSave: () =>
-                            handleSaveCity(
-                              cityLocation: widget.cityLocation,
-                              context: context,
-                            ),
+                        onSave: () => handleSaveCity(
+                          cityLocation: widget.cityLocation,
+                          context: context,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Expanded(

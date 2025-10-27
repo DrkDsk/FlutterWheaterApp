@@ -1,4 +1,3 @@
-import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_state.dart';

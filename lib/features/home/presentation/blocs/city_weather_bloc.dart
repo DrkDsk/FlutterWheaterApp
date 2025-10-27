@@ -20,7 +20,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       {required this.getWeatherUseCase,
       required this.searchCityUseCase,
       required this.getCityUseCase})
-      : super(const CityWeatherState()) {
+      : super(CityWeatherState.initial()) {
     on<FetchWeatherEvent>(_getCurrentWeather);
     on<CitySearchEvent>(_searchWeatherEvent,
         transformer: debounce(const Duration(milliseconds: 500)));
@@ -37,19 +37,29 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
     try {
       final cityWeatherData = await getWeatherUseCase.call(
-          latitude: latitude, longitude: longitude);
+        latitude: latitude,
+        longitude: longitude,
+      );
 
       if (emit.isDone) return;
 
-      emit(state.copyWith(status: CityWeatherStatus.initial));
+      final backgroundWeather = cityWeatherData.getBackgroundWeather();
 
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           status: CityWeatherStatus.success,
           cities: previousFetchResults,
-          cityWeatherData: cityWeatherData));
+          cityWeatherData: cityWeatherData,
+          backgroundWeather: backgroundWeather,
+        ),
+      );
     } catch (error) {
-      emit(state.copyWith(
-          status: CityWeatherStatus.failure, errorMessage: error.toString()));
+      emit(
+        state.copyWith(
+          status: CityWeatherStatus.failure,
+          errorMessage: error.toString(),
+        ),
+      );
       return;
     }
   }
@@ -66,17 +76,24 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final result = await searchCityUseCase.call(query: query);
 
     result.fold((left) {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           status: CityWeatherStatus.failure,
           errorMessage: left.message,
-          cities: []));
+          cities: [],
+        ),
+      );
     }, (right) {
       final filteredCitySearchResult = right.data.where((element) {
         return element.state.isNotEmpty;
       }).toList();
 
-      emit(state.copyWith(
-          status: CityWeatherStatus.success, cities: filteredCitySearchResult));
+      emit(
+        state.copyWith(
+          status: CityWeatherStatus.success,
+          cities: filteredCitySearchResult,
+        ),
+      );
     });
   }
 }
