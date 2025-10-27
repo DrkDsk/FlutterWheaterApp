@@ -36,44 +36,42 @@ class BackgroundWeatherHelper {
 
   static Map<String, Map<TimeOfDayType, Color>> weatherColors = {
     "Clear": {
-      TimeOfDayType.day: const Color(0xFF9DE4F1), // azul cielo
-      TimeOfDayType.night: const Color(0xD7224570), // azul muy oscuro
+      TimeOfDayType.day: const Color(0xFF9DE4F1),
+      TimeOfDayType.night: const Color(0xD7224570),
     },
     "Clouds": {
-      TimeOfDayType.day: const Color(0xFFB0BEC5), // gris azulado claro
-      TimeOfDayType.night: const Color(0xD7224570), // gris oscuro azulado
+      TimeOfDayType.day: const Color(0xFFB0BEC5),
+      TimeOfDayType.night: const Color(0xD7224570),
     },
     "Rain": {
-      TimeOfDayType.day: const Color(0xFF90A4AE), // gris azulado medio
-      TimeOfDayType.night: const Color(0xD7224570), // gris azulado oscuro
+      TimeOfDayType.day: const Color(0xFF90A4AE),
+      TimeOfDayType.night: const Color(0xD7224570),
     },
     "Snow": {
-      TimeOfDayType.day: const Color(0xFF9AA7B0), // azul muy claro
-      TimeOfDayType.night: const Color(0xD7224570), // gris claro frío
+      TimeOfDayType.day: const Color(0xFF9AA7B0),
+      TimeOfDayType.night: const Color(0xD7224570),
     },
     "Thunderstorm": {
-      TimeOfDayType.day: const Color(0xFF607D8B), // gris tormentoso
-      TimeOfDayType.night: const Color(0xD7224570), // azul profundo
+      TimeOfDayType.day: const Color(0xFF607D8B),
+      TimeOfDayType.night: const Color(0xD7224570),
     },
     "Drizzle": {
-      TimeOfDayType.day: const Color(0xFF9AA7B0), // gris claro
-      TimeOfDayType.night: const Color(0xD7224570), // gris medio oscuro
+      TimeOfDayType.day: const Color(0xFF9AA7B0),
+      TimeOfDayType.night: const Color(0xD7224570),
     },
     "Atmosphere": {
-      TimeOfDayType.day: const Color(0xFFE0F7FA), // celeste brumoso
-      TimeOfDayType.night: const Color(0xFF263238), // gris azul neblinoso
+      TimeOfDayType.day: const Color(0xFFE0F7FA),
+      TimeOfDayType.night: const Color(0xFF263238),
     },
   };
 
   static String getWeatherLottie(
       {required String weatherType, required TimeOfDayType time}) {
-    return weatherLottie["Thunderstorm"]?[TimeOfDayType.night] ??
-        WeatherConstants.loadingLottie;
+    return weatherLottie[weatherType]?[time] ?? WeatherConstants.loadingLottie;
   }
 
   static Color getWeatherBackgroundColor(
       {required String weatherType, required TimeOfDayType time}) {
-    return weatherColors["Thunderstorm"]?[TimeOfDayType.night] ??
-        Colors.white10;
+    return weatherColors[weatherType]?[time] ?? Colors.white10;
   }
 }
