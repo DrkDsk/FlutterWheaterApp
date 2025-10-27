@@ -23,6 +23,7 @@ class _FavoritesPageBuilderState extends State<FavoritesPageBuilder> {
   void initState() {
     super.initState();
     pageController = PageController(initialPage: widget.initialPage);
+    print("initialPage: ${widget.initialPage}");
     homePageNavigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
   }
 
@@ -30,6 +31,10 @@ class _FavoritesPageBuilderState extends State<FavoritesPageBuilder> {
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
       builder: (context, state) {
+        if (state.status == FavoriteFetchStatus.loading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
         final cities = state.cities;
 
         if (cities.isEmpty) {
@@ -42,6 +47,7 @@ class _FavoritesPageBuilderState extends State<FavoritesPageBuilder> {
           onPageChanged: homePageNavigationCubit.updatePageIndex,
           itemBuilder: (context, index) {
             final city = cities[index];
+            print("city: $city");
             return WeatherContentWidget(
               latitude: city.latitude,
               longitude: city.longitude,

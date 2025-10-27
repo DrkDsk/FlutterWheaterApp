@@ -22,14 +22,15 @@ class HomeWeatherScreen extends StatefulWidget {
 class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
   late final PageController _pageController;
   late final HomePageNavigationCubit _navigationCubit;
-  late final FavoriteFetchCubit favoriteFetchCubit;
+  late final FavoriteFetchCubit _favoriteFetchCubit;
 
   @override
   void initState() {
     super.initState();
     _navigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
-    favoriteFetchCubit = BlocProvider.of<FavoriteFetchCubit>(context);
+    _favoriteFetchCubit = BlocProvider.of<FavoriteFetchCubit>(context);
     _pageController = PageController(initialPage: _navigationCubit.state);
+    _favoriteFetchCubit.getFavoriteCities();
   }
 
   @override
@@ -40,10 +41,10 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
 
   void retryFavorites(BuildContext context, NetworkState state) {
     final isConnected = state.status == NetworkStatus.connected;
-    final emptyCities = favoriteFetchCubit.state.cities.isEmpty;
+    final emptyCities = _favoriteFetchCubit.state.cities.isEmpty;
 
     if (isConnected && emptyCities) {
-      favoriteFetchCubit.getFavoriteCities();
+      _favoriteFetchCubit.getFavoriteCities();
     }
   }
 

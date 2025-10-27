@@ -16,6 +16,24 @@ class CityLocation with EquatableMixin {
       required this.country,
       required this.state});
 
+  CityLocation copyWith({
+    String? id,
+    String? city,
+    double? latitude,
+    double? longitude,
+    String? country,
+    String? state,
+  }) {
+    return CityLocation(
+      id: id ?? this.id,
+      city: city ?? this.city,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      country: country ?? this.country,
+      state: state ?? this.state,
+    );
+  }
+
   @override
   List<Object?> get props => [id, city, latitude, longitude, country, state];
 }

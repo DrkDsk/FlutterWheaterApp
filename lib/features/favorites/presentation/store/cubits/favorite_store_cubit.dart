@@ -16,13 +16,7 @@ class FavoriteStoreCubit extends Cubit<FavoriteStoreState> {
   Future<void> store({required CityLocation cityLocation}) async {
     emit(state.copyWith(status: FavoriteStoreStatus.initial));
 
-    final CityLocation location = CityLocation(
-        id: const Uuid().v4(),
-        city: cityLocation.city,
-        latitude: cityLocation.latitude,
-        longitude: cityLocation.longitude,
-        country: cityLocation.country,
-        state: cityLocation.state);
+    final location = cityLocation.copyWith(id: const Uuid().v4());
 
     final resultEither = await _repository.store(location: location);
 
@@ -33,7 +27,10 @@ class FavoriteStoreCubit extends Cubit<FavoriteStoreState> {
       );
     }, (result) {
       try {
-        return state.copyWith(status: FavoriteStoreStatus.success);
+        return state.copyWith(
+          status: FavoriteStoreStatus.success,
+          lastIndex: result,
+        );
       } on NoInternetException catch (e) {
         return state.copyWith(
           message: e.message,
