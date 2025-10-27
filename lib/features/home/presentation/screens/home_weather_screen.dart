@@ -65,8 +65,9 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
                 Scaffold(
                   backgroundColor: Colors.transparent,
                   bottomNavigationBar: BottomAppBarWidget(
-                      backgroundColor: backgroundColor,
-                      currentPage: currentPage),
+                    backgroundColor: backgroundColor,
+                    currentPage: currentPage,
+                  ),
                   body: SafeArea(
                     child: BlocConsumer<NetworkCubit, NetworkState>(
                       listenWhen: (prev, current) =>

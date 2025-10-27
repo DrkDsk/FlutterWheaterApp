@@ -1,4 +1,3 @@
-import 'package:clima_app/core/colors/app_colors_dark.dart';
 import 'package:clima_app/core/colors/app_colors_light.dart';
 import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
