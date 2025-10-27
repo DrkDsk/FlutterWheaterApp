@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:clima_app/core/error/exceptions/network_exception.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
 import 'package:uuid/uuid.dart';
@@ -25,13 +26,27 @@ class FavoriteStoreCubit extends Cubit<FavoriteStoreState> {
 
     final resultEither = await _repository.store(location: location);
 
-    resultEither.fold((error) {
-      emit(state.copyWith(
+    final newState = resultEither.fold((error) {
+      return state.copyWith(
         message: error.message,
         status: FavoriteStoreStatus.failure,
-      ));
+      );
     }, (result) {
-      emit(state.copyWith(status: FavoriteStoreStatus.success));
+      try {
+        return state.copyWith(status: FavoriteStoreStatus.success);
+      } on NoInternetException catch (e) {
+        return state.copyWith(
+          message: e.message,
+          status: FavoriteStoreStatus.failure,
+        );
+      } catch (e) {
+        return state.copyWith(
+          message: '$e',
+          status: FavoriteStoreStatus.failure,
+        );
+      }
     });
+
+    emit(newState);
   }
 }

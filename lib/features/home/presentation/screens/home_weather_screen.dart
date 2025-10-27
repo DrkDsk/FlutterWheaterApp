@@ -89,10 +89,13 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
 
                         return Column(
                           children: [
-                            if (!isConnected) const NetworkStatusBuilder(),
+                            NetworkStatusBuilder(
+                              isConnected: isConnected,
+                            ),
                             Expanded(
                               child: FavoritesPageBuilder(
-                                  initialPage: currentPage),
+                                initialPage: currentPage,
+                              ),
                             ),
                           ],
                         );
