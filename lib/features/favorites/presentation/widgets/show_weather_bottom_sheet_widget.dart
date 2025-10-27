@@ -45,6 +45,19 @@ class _ShowWeatherBottomSheetWidgetState
     _favoriteFetchCubit.getFavoriteCities();
   }
 
+  void redirectToHome(BuildContext context, FavoriteFetchState state) {
+    final status = state.status;
+    if (status == FavoriteFetchStatus.success ||
+        status == FavoriteFetchStatus.failure) {
+      final router = AppRouter.of(context);
+      final pageIndex = state.cities.length - 1;
+
+      _navigationCubit.updatePageIndex(pageIndex);
+
+      router.goToScreenAndClear(const HomeWeatherScreen());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocSelector<CityWeatherBloc, CityWeatherState, BackgroundWeather>(
@@ -53,18 +66,7 @@ class _ShowWeatherBottomSheetWidgetState
         final backgroundColor = backgroundWeather.color;
 
         return BlocListener<FavoriteFetchCubit, FavoriteFetchState>(
-          listener: (context, state) {
-            final status = state.status;
-            if (status == FavoriteFetchStatus.success ||
-                status == FavoriteFetchStatus.failure) {
-              final router = AppRouter.of(context);
-              final pageIndex = state.cities.length - 1;
-
-              _navigationCubit.updatePageIndex(pageIndex);
-
-              router.goToScreenAndClear(const HomeWeatherScreen());
-            }
-          },
+          listener: redirectToHome,
           child: FractionallySizedBox(
             heightFactor: 0.90,
             child: Stack(

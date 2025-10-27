@@ -38,6 +38,15 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
     super.dispose();
   }
 
+  void retryFavorites(BuildContext context, NetworkState state) {
+    final isConnected = state.status == NetworkStatus.connected;
+    final emptyCities = favoriteFetchCubit.state.cities.isEmpty;
+
+    if (isConnected && emptyCities) {
+      favoriteFetchCubit.getFavoriteCities();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocSelector<CityWeatherBloc, CityWeatherState, BackgroundWeather>(
@@ -71,26 +80,15 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
                     child: BlocConsumer<NetworkCubit, NetworkState>(
                       listenWhen: (prev, current) =>
                           prev.status != current.status,
-                      listener: (context, state) {
-                        final isConnected =
-                            state.status == NetworkStatus.connected;
-                        final emptyCities =
-                            favoriteFetchCubit.state.cities.isEmpty;
-
-                        if (isConnected && emptyCities) {
-                          favoriteFetchCubit.getFavoriteCities();
-                        }
-                      },
                       buildWhen: (prev, current) =>
                           prev.status != current.status,
+                      listener: retryFavorites,
                       builder: (context, state) {
-                        final isConnected =
-                            state.status == NetworkStatus.connected;
-
                         return Column(
                           children: [
                             NetworkStatusBuilder(
-                              isConnected: isConnected,
+                              isConnected:
+                                  state.status == NetworkStatus.connected,
                             ),
                             Expanded(
                               child: FavoritesPageBuilder(
