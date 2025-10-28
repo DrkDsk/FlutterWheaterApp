@@ -35,33 +35,30 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final latitude = event.latitude;
     final longitude = event.longitude;
 
-    try {
-      final cityWeatherData = await getWeatherUseCase.call(
-        latitude: latitude,
-        longitude: longitude,
-      );
+    final cityWeatherDataResult = await getWeatherUseCase.call(
+      latitude: latitude,
+      longitude: longitude,
+    );
 
-      if (emit.isDone) return;
-
-      final backgroundWeather = cityWeatherData.getBackgroundWeather();
-
-      emit(
-        state.copyWith(
-          status: CityWeatherStatus.success,
-          cities: previousFetchResults,
-          cityWeatherData: cityWeatherData,
-          backgroundWeather: backgroundWeather,
-        ),
-      );
-    } catch (error) {
+    cityWeatherDataResult.fold((error) {
       emit(
         state.copyWith(
           status: CityWeatherStatus.failure,
           errorMessage: error.toString(),
         ),
       );
-      return;
-    }
+    }, (result) {
+      final backgroundWeather = result.getBackgroundWeather();
+
+      emit(
+        state.copyWith(
+          status: CityWeatherStatus.success,
+          cities: previousFetchResults,
+          cityWeatherData: result,
+          backgroundWeather: backgroundWeather,
+        ),
+      );
+    });
   }
 
   Future<void> _searchWeatherEvent(

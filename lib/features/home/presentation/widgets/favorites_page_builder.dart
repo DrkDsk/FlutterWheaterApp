@@ -29,7 +29,7 @@ class _FavoritesPageBuilderState extends State<FavoritesPageBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<FavoriteCubit, FavoriteFetchState, List<CityLocation>>(
+    return BlocSelector<FavoriteCubit, FavoriteState, List<CityLocation>>(
       selector: (state) => state.cities,
       builder: (context, cities) {
         if (cities.isEmpty) {

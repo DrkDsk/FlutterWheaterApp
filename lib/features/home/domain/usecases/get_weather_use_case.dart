@@ -4,6 +4,7 @@ import 'package:clima_app/features/home/domain/entities/coordinate.dart';
 import 'package:clima_app/features/home/domain/repositories/search_weather_repository.dart';
 import 'package:clima_app/features/home/domain/services/location_service.dart';
 import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';
+import 'package:dartz/dartz.dart';
 
 class GetWeatherUseCase {
   final SearchWeatherRepository repository;
@@ -15,7 +16,8 @@ class GetWeatherUseCase {
       required this.repository,
       required this.mapper});
 
-  Future<CityWeatherData> call({double? latitude, double? longitude}) async {
+  Future<Either<Failure, CityWeatherData>> call(
+      {double? latitude, double? longitude}) async {
     final locationEntity = (latitude != null && longitude != null)
         ? Coordinate(latitude: latitude, longitude: longitude)
         : await locationService.getCurrentLocation();
@@ -35,8 +37,7 @@ class GetWeatherUseCase {
     );
 
     if (forecastEither.isLeft()) {
-      final error = forecastEither.swap().getOrElse(() => throw Exception(""));
-      throw GenericFailure(error.message);
+      return Left(forecastEither.swap().getOrElse(() => GenericFailure()));
     }
 
     final forecastData =
@@ -47,12 +48,14 @@ class GetWeatherUseCase {
         daily: forecastData.daily.take(12).toList());
 
     final weatherCondition = forecastData.current.weather.first.toEntity();
-
     final translatedWeather = await mapper.map(weatherCondition);
 
-    return CityWeatherData(
-        forecast: forecast,
-        city: cityLocation.city,
-        translatedWeather: translatedWeather);
+    final cityWeatherData = CityWeatherData(
+      forecast: forecast,
+      city: cityLocation.city,
+      translatedWeather: translatedWeather,
+    );
+
+    return Right(cityWeatherData);
   }
 }

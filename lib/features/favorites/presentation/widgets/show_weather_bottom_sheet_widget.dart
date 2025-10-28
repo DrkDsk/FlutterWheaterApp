@@ -3,8 +3,6 @@ import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
-import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_cubit.dart';
-import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/header_weather_sheet.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
@@ -27,23 +25,21 @@ class ShowWeatherBottomSheetWidget extends StatefulWidget {
 
 class _ShowWeatherBottomSheetWidgetState
     extends State<ShowWeatherBottomSheetWidget> {
-  late final FavoriteStoreCubit _favoriteStoreCubit;
   late final FavoriteCubit _favoriteCubit;
   late final HomePageNavigationCubit _navigationCubit;
 
   @override
   void initState() {
     super.initState();
-    _favoriteStoreCubit = BlocProvider.of<FavoriteStoreCubit>(context);
     _favoriteCubit = BlocProvider.of<FavoriteCubit>(context);
     _navigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
   }
 
   Future<void> redirectToHome(
     BuildContext context,
-    FavoriteFetchState state,
+    FavoriteState state,
   ) async {
-    if (state.status != FavoriteFetchStatus.success) {
+    if (state.status != FavoriteStatus.success) {
       return;
     }
 
@@ -61,14 +57,14 @@ class _ShowWeatherBottomSheetWidgetState
       builder: (context, backgroundWeather) {
         final backgroundColor = backgroundWeather.color;
 
-        return BlocListener<FavoriteCubit, FavoriteFetchState>(
+        return BlocListener<FavoriteCubit, FavoriteState>(
           listenWhen: (prev, current) => prev.status != current.status,
           listener: redirectToHome,
           child: FractionallySizedBox(
             heightFactor: 0.90,
-            child: BlocBuilder<FavoriteCubit, FavoriteFetchState>(
+            child: BlocBuilder<FavoriteCubit, FavoriteState>(
               builder: (context, state) {
-                if (state.status == FavoriteFetchStatus.loading) {
+                if (state.status == FavoriteStatus.loading) {
                   return Container(
                     color: backgroundColor,
                     child: const Center(

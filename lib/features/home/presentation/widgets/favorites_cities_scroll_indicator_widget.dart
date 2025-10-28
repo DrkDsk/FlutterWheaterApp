@@ -11,7 +11,7 @@ class FavoritesCitiesScrollIndicatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoriteCubit, FavoriteFetchState>(
+    return BlocBuilder<FavoriteCubit, FavoriteState>(
       builder: (context, state) {
         return ListView.builder(
             scrollDirection: Axis.horizontal,

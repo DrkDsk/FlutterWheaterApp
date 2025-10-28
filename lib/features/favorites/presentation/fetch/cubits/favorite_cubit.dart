@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 
 import './favorite_fetch_state.dart';
 
-class FavoriteCubit extends Cubit<FavoriteFetchState> {
+class FavoriteCubit extends Cubit<FavoriteState> {
   final FavoriteWeatherRepository _repository;
   final StoreFavoriteUseCase _storeFavoriteUseCase;
 
@@ -16,33 +16,33 @@ class FavoriteCubit extends Cubit<FavoriteFetchState> {
       required StoreFavoriteUseCase storeFavoriteUseCase})
       : _repository = repository,
         _storeFavoriteUseCase = storeFavoriteUseCase,
-        super(const FavoriteFetchState());
+        super(const FavoriteState());
 
   Future<void> getFavoriteCities() async {
-    emit(state.copyWith(status: FavoriteFetchStatus.loading));
+    emit(state.copyWith(status: FavoriteStatus.loading));
 
     final either = await _repository.fetchAll();
 
-    final newState = either.fold<FavoriteFetchState>(
+    final newState = either.fold<FavoriteState>(
       (error) => state.copyWith(
         message: error.message,
-        status: FavoriteFetchStatus.failure,
+        status: FavoriteStatus.failure,
       ),
       (result) {
         try {
           return state.copyWith(
             cities: result,
-            status: FavoriteFetchStatus.success,
+            status: FavoriteStatus.success,
           );
         } on NoInternetException catch (e) {
           return state.copyWith(
             message: e.message,
-            status: FavoriteFetchStatus.failure,
+            status: FavoriteStatus.failure,
           );
         } catch (e) {
           return state.copyWith(
             message: '$e',
-            status: FavoriteFetchStatus.failure,
+            status: FavoriteStatus.failure,
           );
         }
       },
@@ -52,7 +52,7 @@ class FavoriteCubit extends Cubit<FavoriteFetchState> {
   }
 
   Future<void> store({required CityLocation cityLocation}) async {
-    emit(state.copyWith(status: FavoriteFetchStatus.loading));
+    emit(state.copyWith(status: FavoriteStatus.loading));
 
     final location = cityLocation.copyWith(id: const Uuid().v4());
 
@@ -62,12 +62,12 @@ class FavoriteCubit extends Cubit<FavoriteFetchState> {
     final newState = storeUseCaseResult.fold((error) {
       return state.copyWith(
         message: error.message,
-        status: FavoriteFetchStatus.failure,
+        status: FavoriteStatus.failure,
       );
     }, (result) {
       return state.copyWith(
         cities: result,
-        status: FavoriteFetchStatus.success,
+        status: FavoriteStatus.success,
       );
     });
 

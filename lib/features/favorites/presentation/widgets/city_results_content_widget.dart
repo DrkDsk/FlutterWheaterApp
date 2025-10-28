@@ -38,7 +38,7 @@ class _FavoritesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<FavoriteCubit, FavoriteFetchState, List<CityLocation>>(
+    return BlocSelector<FavoriteCubit, FavoriteState, List<CityLocation>>(
       selector: (state) => state.cities,
       builder: (_, favoritesCities) {
         return SavedFavoriteCitiesListWidget(cities: favoritesCities);

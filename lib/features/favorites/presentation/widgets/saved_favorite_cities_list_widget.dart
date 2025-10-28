@@ -40,8 +40,7 @@ class _SavedFavoriteCitiesListWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoriteCubit, FavoriteFetchState>(
-        builder: (context, state) {
+    return BlocBuilder<FavoriteCubit, FavoriteState>(builder: (context, state) {
       final citiesLength = widget.cities.length;
 
       return ListView.separated(
