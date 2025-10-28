@@ -5,69 +5,70 @@ import 'package:flutter/material.dart';
 class BackgroundWeatherHelper {
   static Map<String, Map<TimeOfDayType, String>> weatherLottie = {
     "Clear": {
-      TimeOfDayType.day: "assets/lottie/clear_day.json",
-      TimeOfDayType.night: "assets/lottie/clear_night.json",
+      TimeOfDayType.day: WeatherLottieConstants.clearDay,
+      TimeOfDayType.night: WeatherLottieConstants.clearNight,
     },
     "Clouds": {
-      TimeOfDayType.day: "assets/lottie/cloud_day.json",
-      TimeOfDayType.night: "assets/lottie/cloud_day.json",
+      TimeOfDayType.day: WeatherLottieConstants.cloudDay,
+      TimeOfDayType.night: WeatherLottieConstants.cloudNight,
     },
     "Rain": {
-      TimeOfDayType.day: "assets/lottie/rain.json",
-      TimeOfDayType.night: "assets/lottie/rain.json",
+      TimeOfDayType.day: WeatherLottieConstants.rainDay,
+      TimeOfDayType.night: WeatherLottieConstants.rainNight,
     },
     "Snow": {
-      TimeOfDayType.day: "assets/lottie/snow.json",
-      TimeOfDayType.night: "assets/lottie/snow.json",
+      TimeOfDayType.day: WeatherLottieConstants.snowDay,
+      TimeOfDayType.night: WeatherLottieConstants.snowNight,
     },
     "Thunderstorm": {
-      TimeOfDayType.day: "assets/lottie/thunder_day.json",
-      TimeOfDayType.night: "assets/lottie/thunder_night.json",
+      TimeOfDayType.day: WeatherLottieConstants.thunderstormDay,
+      TimeOfDayType.night: WeatherLottieConstants.thunderstormNight,
     },
     "Drizzle": {
-      TimeOfDayType.day: "assets/lottie/drizzle.json",
-      TimeOfDayType.night: "assets/lottie/drizzle.json",
+      TimeOfDayType.day: WeatherLottieConstants.drizzleDay,
+      TimeOfDayType.night: WeatherLottieConstants.drizzleNight,
     },
     "Atmosphere": {
-      TimeOfDayType.day: "assets/lottie/sunny.json",
-      TimeOfDayType.night: "assets/lottie/cloudy.json",
+      TimeOfDayType.day: WeatherLottieConstants.atmosphereDay,
+      TimeOfDayType.night: WeatherLottieConstants.atmosphereNight,
     },
   };
 
   static Map<String, Map<TimeOfDayType, Color>> weatherColors = {
     "Clear": {
-      TimeOfDayType.day: const Color(0xFF9DE4F1),
-      TimeOfDayType.night: const Color(0xD7224570),
+      TimeOfDayType.day: WeatherColorConstants.clearDay,
+      TimeOfDayType.night: WeatherColorConstants.clearNight,
     },
     "Clouds": {
-      TimeOfDayType.day: const Color(0xFFB0BEC5),
-      TimeOfDayType.night: const Color(0xD7224570),
+      TimeOfDayType.day: WeatherColorConstants.cloudDay,
+      TimeOfDayType.night: WeatherColorConstants.cloudNight,
     },
     "Rain": {
-      TimeOfDayType.day: const Color(0xFF90A4AE),
-      TimeOfDayType.night: const Color(0xD7224570),
+      TimeOfDayType.day: WeatherColorConstants.rainDay,
+      TimeOfDayType.night: WeatherColorConstants.rainNight,
     },
     "Snow": {
-      TimeOfDayType.day: const Color(0xFF9AA7B0),
-      TimeOfDayType.night: const Color(0xD7224570),
+      TimeOfDayType.day: WeatherColorConstants.snowDay,
+      TimeOfDayType.night: WeatherColorConstants.snowNight,
     },
     "Thunderstorm": {
-      TimeOfDayType.day: const Color(0xFF607D8B),
-      TimeOfDayType.night: const Color(0xD7224570),
+      TimeOfDayType.day: WeatherColorConstants.thunderstormDay,
+      TimeOfDayType.night: WeatherColorConstants.thunderstormNight,
     },
     "Drizzle": {
-      TimeOfDayType.day: const Color(0xFF9AA7B0),
-      TimeOfDayType.night: const Color(0xD7224570),
+      TimeOfDayType.day: WeatherColorConstants.drizzleDay,
+      TimeOfDayType.night: WeatherColorConstants.drizzleNight,
     },
     "Atmosphere": {
-      TimeOfDayType.day: const Color(0xFFE0F7FA),
-      TimeOfDayType.night: const Color(0xFF263238),
+      TimeOfDayType.day: WeatherColorConstants.atmosphereDay,
+      TimeOfDayType.night: WeatherColorConstants.atmosphereNight,
     },
   };
 
   static String getWeatherLottie(
       {required String weatherType, required TimeOfDayType time}) {
-    return weatherLottie[weatherType]?[time] ?? WeatherConstants.loadingLottie;
+    return weatherLottie[weatherType]?[time] ??
+        WeatherLottieConstants.loadingLottie;
   }
 
   static Color getWeatherBackgroundColor(

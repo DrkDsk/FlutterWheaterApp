@@ -6,8 +6,10 @@ class FavoriteStoreState with EquatableMixin {
   final FavoriteStoreStatus status;
   final String message;
 
-  const FavoriteStoreState(
-      {this.status = FavoriteStoreStatus.initial, this.message = ""});
+  const FavoriteStoreState({
+    this.status = FavoriteStoreStatus.initial,
+    this.message = "",
+  });
 
   FavoriteStoreState copyWith({
     FavoriteStoreStatus? status,
@@ -20,5 +22,8 @@ class FavoriteStoreState with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [status, message];
+  List<Object?> get props => [
+        status,
+        message,
+      ];
 }

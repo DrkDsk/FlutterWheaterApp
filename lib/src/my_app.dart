@@ -1,5 +1,5 @@
-import 'package:clima_app/core/shared/ui/widgets/welcome_screen.dart';
 import 'package:clima_app/core/theme/light_theme.dart';
+import 'package:clima_app/features/home/presentation/screens/home_weather_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       title: 'App del clima',
-      home: const WelcomeScreen(),
+      home: const HomeWeatherScreen(),
     );
   }
 }

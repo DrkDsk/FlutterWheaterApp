@@ -12,7 +12,6 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
   Future<void> store({required CityLocationHiveModel city}) async {
     try {
       await box.add(city);
-      return;
     } catch (e) {
       throw UnknownException();
     }
