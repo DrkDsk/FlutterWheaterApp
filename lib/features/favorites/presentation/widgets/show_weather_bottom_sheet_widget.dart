@@ -1,9 +1,8 @@
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
-import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_cubit.dart';
-import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_state.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/header_weather_sheet.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
@@ -26,35 +25,29 @@ class ShowWeatherBottomSheetWidget extends StatefulWidget {
 
 class _ShowWeatherBottomSheetWidgetState
     extends State<ShowWeatherBottomSheetWidget> {
-  late final FavoriteStoreCubit _favoriteStoreCubit;
-  late final FavoriteFetchCubit _favoriteFetchCubit;
+  late final FavoriteCubit _favoriteCubit;
   late final HomePageNavigationCubit _navigationCubit;
 
   @override
   void initState() {
     super.initState();
-    _favoriteStoreCubit = BlocProvider.of<FavoriteStoreCubit>(context);
-    _favoriteFetchCubit = BlocProvider.of<FavoriteFetchCubit>(context);
+    _favoriteCubit = BlocProvider.of<FavoriteCubit>(context);
     _navigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
   }
 
-  void redirectToHome(BuildContext context, FavoriteStoreState state) {
-    final router = AppRouter.of(context);
-
-    if (state.status != FavoriteStoreStatus.success) {
+  Future<void> redirectToHome(
+    BuildContext context,
+    FavoriteState state,
+  ) async {
+    if (state.status != FavoriteStatus.success) {
       return;
     }
 
-    _favoriteFetchCubit.getFavoriteCities();
-    final newIndex = _favoriteFetchCubit.state.cities.length;
+    final router = AppRouter.of(context);
+    final newIndex = _favoriteCubit.state.cities.length - 1;
+
     _navigationCubit.updatePageIndex(newIndex);
     router.goToScreenAndClear(const HomeWeatherScreen());
-  }
-
-  Future<void> handleSaveCity(
-      {required CityLocation cityLocation,
-      required BuildContext context}) async {
-    _favoriteStoreCubit.store(cityLocation: cityLocation);
   }
 
   @override
@@ -64,42 +57,54 @@ class _ShowWeatherBottomSheetWidgetState
       builder: (context, backgroundWeather) {
         final backgroundColor = backgroundWeather.color;
 
-        return BlocListener<FavoriteStoreCubit, FavoriteStoreState>(
+        return BlocListener<FavoriteCubit, FavoriteState>(
+          listenWhen: (prev, current) => prev.status != current.status,
           listener: redirectToHome,
           child: FractionallySizedBox(
             heightFactor: 0.90,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: Container(
+            child: BlocBuilder<FavoriteCubit, FavoriteState>(
+              builder: (context, state) {
+                if (state.status == FavoriteStatus.loading) {
+                  return Container(
                     color: backgroundColor,
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Lottie.asset(
-                      backgroundWeather.lottiePath,
-                      fit: BoxFit.cover,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  ),
-                ),
-                Column(
+                  );
+                }
+
+                return Stack(
                   children: [
-                    HeaderWeatherSheet(
-                      onCancel: () => AppRouter.of(context).pop(),
-                      onSave: () => handleSaveCity(
-                        cityLocation: widget.cityLocation,
-                        context: context,
+                    Positioned.fill(
+                      child: Container(
+                        color: backgroundColor,
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: Lottie.asset(
+                          backgroundWeather.lottiePath,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Expanded(
-                      child: WeatherContentWidget(
-                        latitude: widget.cityLocation.latitude,
-                        longitude: widget.cityLocation.longitude,
-                      ),
+                    Column(
+                      children: [
+                        HeaderWeatherSheet(
+                          onCancel: () => AppRouter.of(context).pop(),
+                          onSave: () => _favoriteCubit.store(
+                              cityLocation: widget.cityLocation),
+                        ),
+                        const SizedBox(height: 8),
+                        Expanded(
+                          child: WeatherContentWidget(
+                            latitude: widget.cityLocation.latitude,
+                            longitude: widget.cityLocation.longitude,
+                          ),
+                        )
+                      ],
                     )
                   ],
-                )
-              ],
+                );
+              },
             ),
           ),
         );

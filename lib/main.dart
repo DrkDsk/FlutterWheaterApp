@@ -1,8 +1,7 @@
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/delete/cubits/favorite_delete_cubit.dart';
-import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
-import 'package:clima_app/features/favorites/presentation/store/cubits/favorite_store_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/ia/ui/blocs/ia_cubit.dart';
@@ -24,8 +23,7 @@ Future<void> main() async {
       providers: [
         BlocProvider(create: (_) => getIt<NetworkCubit>()),
         BlocProvider(
-            create: (_) => getIt<FavoriteFetchCubit>()..getFavoriteCities()),
-        BlocProvider(create: (_) => getIt<FavoriteStoreCubit>()),
+            create: (_) => getIt<FavoriteCubit>()..getFavoriteCities()),
         BlocProvider(create: (_) => getIt<FavoriteDeleteCubit>()),
         BlocProvider(create: (_) => getIt<CityWeatherBloc>()),
         BlocProvider(create: (_) => getIt<IACubit>()),

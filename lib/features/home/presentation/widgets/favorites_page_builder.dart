@@ -1,7 +1,7 @@
 import 'package:clima_app/core/constants/weather_constants.dart';
 import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
@@ -29,8 +29,7 @@ class _FavoritesPageBuilderState extends State<FavoritesPageBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<FavoriteFetchCubit, FavoriteFetchState,
-        List<CityLocation>>(
+    return BlocSelector<FavoriteCubit, FavoriteState, List<CityLocation>>(
       selector: (state) => state.cities,
       builder: (context, cities) {
         if (cities.isEmpty) {

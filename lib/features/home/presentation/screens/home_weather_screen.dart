@@ -1,7 +1,7 @@
 import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_state.dart';
 import 'package:clima_app/core/shared/ui/widgets/network_status_builder.dart';
-import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/home/presentation/widgets/favorites_page_builder.dart';
 import 'package:clima_app/features/home/presentation/widgets/bottom_app_bar_widget.dart';
@@ -20,13 +20,13 @@ class HomeWeatherScreen extends StatefulWidget {
 class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
   late final PageController _pageController;
   late final HomePageNavigationCubit _navigationCubit;
-  late final FavoriteFetchCubit _favoriteFetchCubit;
+  late final FavoriteCubit _favoriteFetchCubit;
 
   @override
   void initState() {
     super.initState();
     _navigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
-    _favoriteFetchCubit = BlocProvider.of<FavoriteFetchCubit>(context);
+    _favoriteFetchCubit = BlocProvider.of<FavoriteCubit>(context);
     _pageController = PageController(
       initialPage: widget.initialIndex ?? _navigationCubit.state,
     );
