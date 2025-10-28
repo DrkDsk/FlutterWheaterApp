@@ -6,28 +6,40 @@ class SegmentWeatherWidget extends StatelessWidget {
       {super.key,
       required this.title,
       required this.emoji,
-      required this.value});
+      required this.value,
+      this.backgroundColor});
 
   final String title;
   final String value;
   final String emoji;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
+    final cardColor = (backgroundColor ?? Colors.grey).customOpacity(0.30);
+
     return Container(
-      height: 180,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-          color: Colors.grey.customOpacity(0.15),
-          borderRadius: BorderRadius.circular(12)),
+        color: cardColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: DefaultTextStyle(
-          style: const TextStyle(
-              fontSize: 25, fontFamily: 'Outfit', fontWeight: FontWeight.w700),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(title), Text(emoji), Text(value)],
-          )),
+        style: const TextStyle(
+          fontSize: 25,
+          fontFamily: 'Outfit',
+          fontWeight: FontWeight.w700,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title),
+            Text(emoji),
+            Text(value),
+          ],
+        ),
+      ),
     );
   }
 }

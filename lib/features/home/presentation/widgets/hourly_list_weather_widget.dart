@@ -1,3 +1,4 @@
+import 'package:clima_app/core/constants/weather_constants.dart';
 import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:clima_app/features/home/domain/entities/hourly.dart';
 import 'package:clima_app/core/extensions/weather/hourly_presentation.dart';
@@ -7,21 +8,26 @@ class HourlyListWeatherWidget extends StatelessWidget {
   const HourlyListWeatherWidget({
     super.key,
     required this.hourly,
+    this.backgroundColor,
   });
 
   final List<Hourly> hourly;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
+    final iconColor = colorScheme.onPrimary;
+    final textStyle = theme.textTheme.bodyMedium?.copyWith(color: iconColor);
+    final cardColor = (backgroundColor ?? Colors.grey).customOpacity(0.30);
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          color: Colors.grey.customOpacity(0.15)),
+        borderRadius: BorderRadius.circular(24),
+        color: cardColor,
+      ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -32,36 +38,36 @@ class HourlyListWeatherWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 18),
                 child: Column(
                   children: [
-                    Text(data.formattedHour,
-                        style: textTheme.bodySmall
-                            ?.copyWith(color: colorScheme.onPrimary)),
-                    const SizedBox(height: 12),
-                    Column(
-                      children: [
-                        Icon(Icons.wb_sunny, color: colorScheme.onPrimary),
-                        Text("${data.tempCelsiusText}°",
-                            style: textTheme.bodySmall
-                                ?.copyWith(color: colorScheme.onPrimary)),
-                      ],
+                    Text(
+                      data.formattedHour,
+                      style: textStyle,
                     ),
                     const SizedBox(height: 12),
-                    Column(
-                      children: [
-                        Icon(Icons.water_drop_outlined,
-                            color: colorScheme.onPrimary),
-                        Text(data.popPercentageText,
-                            style: textTheme.bodySmall
-                                ?.copyWith(color: colorScheme.onPrimary)),
-                      ],
+                    const Icon(
+                      Icons.wb_sunny,
+                      color: Colors.amber,
+                    ),
+                    Text(
+                      "${data.tempCelsiusText}°",
+                      style: textStyle,
                     ),
                     const SizedBox(height: 12),
-                    Column(
-                      children: [
-                        Icon(Icons.air, color: colorScheme.onPrimary),
-                        Text(data.windSpeedKmHText,
-                            style: textTheme.bodySmall
-                                ?.copyWith(color: colorScheme.onPrimary)),
-                      ],
+                    Icon(
+                      Icons.thunderstorm,
+                      color: WeatherColorConstants.rainDay,
+                    ),
+                    Text(
+                      data.popPercentageText,
+                      style: textStyle,
+                    ),
+                    const SizedBox(height: 12),
+                    Icon(
+                      Icons.air,
+                      color: WeatherColorConstants.cloudDay,
+                    ),
+                    Text(
+                      data.windSpeedKmHText,
+                      style: textStyle,
                     ),
                   ],
                 ),
