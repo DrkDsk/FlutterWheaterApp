@@ -33,8 +33,10 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
     _cityWeatherBloc = context.read<CityWeatherBloc>();
 
     if (latitude != null && longitude != null) {
-      _cityWeatherBloc
-          .add(FetchWeatherEvent(latitude: latitude, longitude: longitude));
+      _cityWeatherBloc.add(FetchWeatherEvent(
+        latitude: latitude,
+        longitude: longitude,
+      ));
     }
   }
 

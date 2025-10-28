@@ -1,7 +1,6 @@
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/favorites/presentation/delete/cubits/favorite_delete_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_city_item_card.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
@@ -18,18 +17,17 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
   final int index;
   final CityLocation cityLocation;
 
-  void deleteFavoriteWeather(BuildContext context) {
+  Future<void> deleteFavoriteWeather(BuildContext context) async {
     final currentCityId = cityLocation.id;
 
     if (currentCityId == null || currentCityId.isEmpty) {
       return;
     }
 
-    final favoriteDeleteCubit = context.read<FavoriteDeleteCubit>();
-    final favoriteFetchCubit = context.read<FavoriteCubit>();
+    final favoriteCubit = context.read<FavoriteCubit>();
 
-    favoriteDeleteCubit.delete(id: currentCityId);
-    favoriteFetchCubit.getFavoriteCities();
+    await favoriteCubit.delete(id: currentCityId);
+    await favoriteCubit.getFavoriteCities();
   }
 
   ActionPane buildActionPane({required BuildContext context}) {
