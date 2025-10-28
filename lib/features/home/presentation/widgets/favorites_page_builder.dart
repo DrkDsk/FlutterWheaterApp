@@ -6,24 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoritesPageBuilder extends StatefulWidget {
-  const FavoritesPageBuilder({super.key, required this.initialPage});
+  const FavoritesPageBuilder({super.key, required this.pageController});
 
-  final int initialPage;
+  final PageController pageController;
 
   @override
   State<FavoritesPageBuilder> createState() => _FavoritesPageBuilderState();
 }
 
 class _FavoritesPageBuilderState extends State<FavoritesPageBuilder> {
-  late final PageController pageController;
   late final HomePageNavigationCubit homePageNavigationCubit;
 
   @override
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: widget.initialPage);
-    print("initialPage: ${widget.initialPage}");
     homePageNavigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
   }
 
@@ -31,23 +28,18 @@ class _FavoritesPageBuilderState extends State<FavoritesPageBuilder> {
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
       builder: (context, state) {
-        if (state.status == FavoriteFetchStatus.loading) {
+        final cities = state.cities;
+        if (state.status == FavoriteFetchStatus.loading || cities.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final cities = state.cities;
-
-        if (cities.isEmpty) {
-          return const Center(child: Text("No tienes ciudades guardadas."));
-        }
-
         return PageView.builder(
-          controller: pageController,
+          controller: widget.pageController,
           itemCount: cities.length,
           onPageChanged: homePageNavigationCubit.updatePageIndex,
           itemBuilder: (context, index) {
             final city = cities[index];
-            print("city: $city");
+
             return WeatherContentWidget(
               latitude: city.latitude,
               longitude: city.longitude,

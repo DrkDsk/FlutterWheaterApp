@@ -29,7 +29,6 @@ class FavoriteStoreCubit extends Cubit<FavoriteStoreState> {
       try {
         return state.copyWith(
           status: FavoriteStoreStatus.success,
-          lastIndex: result,
         );
       } on NoInternetException catch (e) {
         return state.copyWith(

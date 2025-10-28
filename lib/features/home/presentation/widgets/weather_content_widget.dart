@@ -7,10 +7,10 @@ import 'package:clima_app/features/home/presentation/widgets/daily_list_weather_
 import 'package:clima_app/features/home/presentation/widgets/detail_weather_grid_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/header_weather_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/hourly_list_weather_widget.dart';
-import 'package:clima_app/features/ia/ui/blocs/ia_cubit.dart';
 import 'package:clima_app/features/ia/ui/blocs/widgets/ia_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class WeatherContentWidget extends StatefulWidget {
   const WeatherContentWidget({super.key, this.latitude, this.longitude});
@@ -40,59 +40,66 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: BlocConsumer<CityWeatherBloc, CityWeatherState>(
-          listener: (context, state) {
-            if (state.status == CityWeatherStatus.success) {
-              final CityWeatherData? weatherData = state.cityWeatherData;
+    return BlocBuilder<CityWeatherBloc, CityWeatherState>(
+        builder: (context, state) {
+      final backgroundWeather = state.backgroundWeather;
+      final backgroundColor = backgroundWeather.color;
+      final lottiePath = backgroundWeather.lottiePath;
 
-              if (weatherData == null) return;
+      final CityWeatherData? cityWeatherData = state.cityWeatherData;
 
-              context
-                  .read<IACubit>()
-                  .getRecommendation(cityWeatherData: weatherData);
-            }
-          },
-          builder: (context, state) {
-            if (state.status == CityWeatherStatus.success) {
-              final CityWeatherData? cityWeatherData = state.cityWeatherData;
+      if (state.status != CityWeatherStatus.success ||
+          cityWeatherData == null) {
+        return Container(
+          color: backgroundColor,
+          width: double.infinity,
+          height: double.infinity,
+          child: Lottie.asset(
+            lottiePath,
+            fit: BoxFit.cover,
+          ),
+        );
+      }
 
-              if (cityWeatherData == null) {
-                return const SizedBox.shrink();
-              }
+      final forecast = cityWeatherData.forecast;
+      final currentWeather = forecast.current;
 
-              final forecast = cityWeatherData.forecast;
-              final currentWeather = forecast.current;
-
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 10),
-                    HeaderWeatherWidget(
-                      city: cityWeatherData.city,
-                      translatedWeather: cityWeatherData.translatedWeather,
-                      temp: currentWeather.tempCelsiusText,
-                    ),
-                    const SizedBox(height: 10),
-                    const IAContentWidget(),
-                    const SizedBox(height: 10),
-                    HourlyListWeatherWidget(hourly: forecast.hourly),
-                    const SizedBox(height: 10),
-                    DailyListWeatherWidget(daily: forecast.daily),
-                    const SizedBox(height: 10),
-                    DetailWeatherGridWidget(weather: currentWeather)
-                  ],
+      return Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              color: backgroundColor,
+              width: double.infinity,
+              height: double.infinity,
+              child: Lottie.asset(
+                lottiePath,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                HeaderWeatherWidget(
+                  city: cityWeatherData.city,
+                  translatedWeather: cityWeatherData.translatedWeather,
+                  temp: currentWeather.tempCelsiusText,
                 ),
-              );
-            }
-
-            return const Center(child: CircularProgressIndicator());
-          },
-        ),
-      ),
-    );
+                const SizedBox(height: 10),
+                const IAContentWidget(),
+                const SizedBox(height: 10),
+                HourlyListWeatherWidget(hourly: forecast.hourly),
+                const SizedBox(height: 10),
+                DailyListWeatherWidget(daily: forecast.daily),
+                const SizedBox(height: 10),
+                DetailWeatherGridWidget(weather: currentWeather)
+              ],
+            ),
+          )
+        ],
+      );
+    });
   }
 }

@@ -1,19 +1,17 @@
-import 'package:clima_app/core/shared/domain/background_weather.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_state.dart';
 import 'package:clima_app/core/shared/ui/widgets/network_status_builder.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
-import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
-import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/widgets/favorites_page_builder.dart';
 import 'package:clima_app/features/home/presentation/widgets/bottom_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 
 class HomeWeatherScreen extends StatefulWidget {
-  const HomeWeatherScreen({super.key});
+  const HomeWeatherScreen({super.key, this.initialIndex});
+
+  final int? initialIndex;
 
   @override
   State<HomeWeatherScreen> createState() => _HomeWeatherScreenState();
@@ -29,8 +27,9 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
     super.initState();
     _navigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
     _favoriteFetchCubit = BlocProvider.of<FavoriteFetchCubit>(context);
-    _pageController = PageController(initialPage: _navigationCubit.state);
-    _favoriteFetchCubit.getFavoriteCities();
+    _pageController = PageController(
+      initialPage: widget.initialIndex ?? _navigationCubit.state,
+    );
   }
 
   @override
@@ -50,61 +49,35 @@ class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<CityWeatherBloc, CityWeatherState, BackgroundWeather>(
-      selector: (state) => state.backgroundWeather,
-      builder: (context, backgroundWeather) {
-        final backgroundColor = backgroundWeather.color;
-
-        return BlocSelector<HomePageNavigationCubit, int, int>(
-          selector: (state) => state,
-          builder: (context, currentPage) {
-            return Stack(
-              children: [
-                Positioned.fill(
-                  child: Container(
-                    color: backgroundColor,
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Lottie.asset(
-                      backgroundWeather.lottiePath,
-                      fit: BoxFit.cover,
+    return BlocSelector<HomePageNavigationCubit, int, int>(
+      selector: (state) => state,
+      builder: (context, currentPage) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          bottomNavigationBar: BottomAppBarWidget(
+            currentPage: currentPage,
+          ),
+          body: SafeArea(
+            child: BlocConsumer<NetworkCubit, NetworkState>(
+              listenWhen: (prev, current) => prev.status != current.status,
+              buildWhen: (prev, current) => prev.status != current.status,
+              listener: retryFavorites,
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    NetworkStatusBuilder(
+                      isConnected: state.status == NetworkStatus.connected,
                     ),
-                  ),
-                ),
-                Scaffold(
-                  backgroundColor: Colors.transparent,
-                  bottomNavigationBar: BottomAppBarWidget(
-                    backgroundColor: backgroundColor,
-                    currentPage: currentPage,
-                  ),
-                  body: SafeArea(
-                    child: BlocConsumer<NetworkCubit, NetworkState>(
-                      listenWhen: (prev, current) =>
-                          prev.status != current.status,
-                      buildWhen: (prev, current) =>
-                          prev.status != current.status,
-                      listener: retryFavorites,
-                      builder: (context, state) {
-                        return Column(
-                          children: [
-                            NetworkStatusBuilder(
-                              isConnected:
-                                  state.status == NetworkStatus.connected,
-                            ),
-                            Expanded(
-                              child: FavoritesPageBuilder(
-                                initialPage: currentPage,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
+                    Expanded(
+                      child: FavoritesPageBuilder(
+                        pageController: _pageController,
+                      ),
                     ),
-                  ),
-                )
-              ],
-            );
-          },
+                  ],
+                );
+              },
+            ),
+          ),
         );
       },
     );

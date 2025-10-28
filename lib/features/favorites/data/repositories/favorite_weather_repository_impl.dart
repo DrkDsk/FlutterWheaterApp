@@ -19,12 +19,12 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
         _locationService = locationService;
 
   @override
-  Future<Either<Failure, int>> store({required CityLocation location}) async {
+  Future<Either<Failure, bool>> store({required CityLocation location}) async {
     try {
       final city = CityLocationHiveModel.fromEntity(location);
-      final length = await _dataSource.store(city: city);
+      await _dataSource.store(city: city);
 
-      return Right(length);
+      return const Right(true);
     } on UnknownException catch (e) {
       return Left(GenericFailure(e.message));
     } on NetworkException catch (e) {
