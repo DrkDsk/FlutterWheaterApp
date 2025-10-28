@@ -12,37 +12,4 @@ class FavoriteStoreCubit extends Cubit<FavoriteStoreState> {
   FavoriteStoreCubit({required FavoriteWeatherRepository repository})
       : _repository = repository,
         super(const FavoriteStoreState());
-
-  Future<void> store({required CityLocation cityLocation}) async {
-    emit(state.copyWith(status: FavoriteStoreStatus.initial));
-
-    final location = cityLocation.copyWith(id: const Uuid().v4());
-
-    final resultEither = await _repository.store(location: location);
-
-    final newState = resultEither.fold((error) {
-      return state.copyWith(
-        message: error.message,
-        status: FavoriteStoreStatus.failure,
-      );
-    }, (result) {
-      try {
-        return state.copyWith(
-          status: FavoriteStoreStatus.success,
-        );
-      } on NoInternetException catch (e) {
-        return state.copyWith(
-          message: e.message,
-          status: FavoriteStoreStatus.failure,
-        );
-      } catch (e) {
-        return state.copyWith(
-          message: '$e',
-          status: FavoriteStoreStatus.failure,
-        );
-      }
-    });
-
-    emit(newState);
-  }
 }

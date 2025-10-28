@@ -1,4 +1,4 @@
-import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +11,7 @@ class FavoritesCitiesScrollIndicatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
+    return BlocBuilder<FavoriteCubit, FavoriteFetchState>(
       builder: (context, state) {
         return ListView.builder(
             scrollDirection: Axis.horizontal,

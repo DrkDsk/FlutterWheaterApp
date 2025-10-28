@@ -1,5 +1,5 @@
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/city_search_results_list_widget.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_favorite_cities_list_widget.dart';
@@ -38,8 +38,7 @@ class _FavoritesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<FavoriteFetchCubit, FavoriteFetchState,
-        List<CityLocation>>(
+    return BlocSelector<FavoriteCubit, FavoriteFetchState, List<CityLocation>>(
       selector: (state) => state.cities,
       builder: (_, favoritesCities) {
         return SavedFavoriteCitiesListWidget(cities: favoritesCities);

@@ -1,5 +1,5 @@
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_cubit.dart';
+import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/slidable_favorite_weather_card.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class _SavedFavoriteCitiesListWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoriteFetchCubit, FavoriteFetchState>(
+    return BlocBuilder<FavoriteCubit, FavoriteFetchState>(
         builder: (context, state) {
       final citiesLength = widget.cities.length;
 
