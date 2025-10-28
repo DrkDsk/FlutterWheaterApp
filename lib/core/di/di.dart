@@ -8,7 +8,6 @@ import 'package:clima_app/features/favorites/data/datasources/favorite_weather_d
 import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource_impl.dart';
-import 'package:clima_app/features/favorites/presentation/delete/cubits/favorite_delete_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/useCases/store_favorite_use_case.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart';
@@ -115,9 +114,6 @@ Future<void> initDependencies() async {
   getIt.registerFactory<FavoriteCubit>(() => FavoriteCubit(
       repository: favoriteWeatherRepository,
       storeFavoriteUseCase: storeFavoriteUseCase));
-
-  getIt.registerFactory<FavoriteDeleteCubit>(
-      () => FavoriteDeleteCubit(repository: favoriteWeatherRepository));
 
   getIt.registerFactory<CityWeatherBloc>(() => CityWeatherBloc(
         getWeatherUseCase: getIt<GetWeatherUseCase>(),

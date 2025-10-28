@@ -1,7 +1,6 @@
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/favorites/presentation/delete/cubits/favorite_delete_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/saved_city_item_card.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
@@ -25,7 +24,7 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
       return;
     }
 
-    final favoriteDeleteCubit = context.read<FavoriteDeleteCubit>();
+    final favoriteDeleteCubit = context.read<FavoriteCubit>();
     final favoriteFetchCubit = context.read<FavoriteCubit>();
 
     favoriteDeleteCubit.delete(id: currentCityId);

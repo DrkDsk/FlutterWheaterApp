@@ -48,7 +48,6 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       );
     }, (result) {
       final backgroundWeather = result.getBackgroundWeather();
-
       emit(
         state.copyWith(
           status: CityWeatherStatus.success,
@@ -71,25 +70,23 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
 
     final cityResult = await _cityRepository.searchCity(query: query);
 
-    cityResult.fold((left) {
-      emit(
-        state.copyWith(
-          status: CityWeatherStatus.failure,
-          errorMessage: left.message,
-          cities: [],
-        ),
+    final newState = cityResult.fold((left) {
+      return state.copyWith(
+        status: CityWeatherStatus.failure,
+        errorMessage: left.message,
+        cities: [],
       );
     }, (right) {
       final filteredCitySearchResult = right.data.where((element) {
         return element.state.isNotEmpty;
       }).toList();
 
-      emit(
-        state.copyWith(
-          status: CityWeatherStatus.success,
-          cities: filteredCitySearchResult,
-        ),
+      return state.copyWith(
+        status: CityWeatherStatus.success,
+        cities: filteredCitySearchResult,
       );
     });
+
+    emit(newState);
   }
 }

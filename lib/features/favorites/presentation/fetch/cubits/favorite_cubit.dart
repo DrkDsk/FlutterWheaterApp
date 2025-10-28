@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:clima_app/core/error/exceptions/network_exception.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
 import 'package:clima_app/features/favorites/presentation/useCases/store_favorite_use_case.dart';
@@ -21,32 +20,19 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   Future<void> getFavoriteCities() async {
     emit(state.copyWith(status: FavoriteStatus.loading));
 
-    final either = await _repository.fetchAll();
+    final favoritesResult = await _repository.fetchAll();
 
-    final newState = either.fold<FavoriteState>(
-      (error) => state.copyWith(
+    final newState = favoritesResult.fold((error) {
+      return state.copyWith(
         message: error.message,
         status: FavoriteStatus.failure,
-      ),
-      (result) {
-        try {
-          return state.copyWith(
-            cities: result,
-            status: FavoriteStatus.success,
-          );
-        } on NoInternetException catch (e) {
-          return state.copyWith(
-            message: e.message,
-            status: FavoriteStatus.failure,
-          );
-        } catch (e) {
-          return state.copyWith(
-            message: '$e',
-            status: FavoriteStatus.failure,
-          );
-        }
-      },
-    );
+      );
+    }, (result) {
+      return state.copyWith(
+        cities: result,
+        status: FavoriteStatus.success,
+      );
+    });
 
     emit(newState);
   }
@@ -67,6 +53,26 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     }, (result) {
       return state.copyWith(
         cities: result,
+        status: FavoriteStatus.success,
+      );
+    });
+
+    emit(newState);
+  }
+
+  Future<void> delete({required String id}) async {
+    emit(state.copyWith(status: FavoriteStatus.loading));
+
+    final favoriteId = id;
+    final deleteEither = await _repository.delete(id: favoriteId);
+
+    final newState = deleteEither.fold((left) {
+      return state.copyWith(
+        status: FavoriteStatus.failure,
+        message: left.message,
+      );
+    }, (result) {
+      return state.copyWith(
         status: FavoriteStatus.success,
       );
     });
