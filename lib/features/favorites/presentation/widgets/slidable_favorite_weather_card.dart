@@ -17,18 +17,17 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
   final int index;
   final CityLocation cityLocation;
 
-  void deleteFavoriteWeather(BuildContext context) {
+  Future<void> deleteFavoriteWeather(BuildContext context) async {
     final currentCityId = cityLocation.id;
 
     if (currentCityId == null || currentCityId.isEmpty) {
       return;
     }
 
-    final favoriteDeleteCubit = context.read<FavoriteCubit>();
-    final favoriteFetchCubit = context.read<FavoriteCubit>();
+    final favoriteCubit = context.read<FavoriteCubit>();
 
-    favoriteDeleteCubit.delete(id: currentCityId);
-    favoriteFetchCubit.getFavoriteCities();
+    await favoriteCubit.delete(id: currentCityId);
+    await favoriteCubit.getFavoriteCities();
   }
 
   ActionPane buildActionPane({required BuildContext context}) {

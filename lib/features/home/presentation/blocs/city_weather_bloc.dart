@@ -39,24 +39,22 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       longitude: longitude,
     );
 
-    cityWeatherDataResult.fold((error) {
-      emit(
-        state.copyWith(
-          status: CityWeatherStatus.failure,
-          errorMessage: error.toString(),
-        ),
+    final newState = cityWeatherDataResult.fold((error) {
+      return state.copyWith(
+        status: CityWeatherStatus.failure,
+        errorMessage: error.toString(),
       );
     }, (result) {
       final backgroundWeather = result.getBackgroundWeather();
-      emit(
-        state.copyWith(
-          status: CityWeatherStatus.success,
-          cities: previousFetchResults,
-          cityWeatherData: result,
-          backgroundWeather: backgroundWeather,
-        ),
+      return state.copyWith(
+        status: CityWeatherStatus.success,
+        cities: previousFetchResults,
+        cityWeatherData: result,
+        backgroundWeather: backgroundWeather,
       );
     });
+
+    emit(newState);
   }
 
   Future<void> _searchWeatherEvent(
