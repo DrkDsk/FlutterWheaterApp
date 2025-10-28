@@ -1,5 +1,5 @@
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
-import 'package:clima_app/core/shared/ui/widgets/splash_screen.dart';
+import 'package:clima_app/core/shared/ui/widgets/lottie_viewer.dart';
 import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
@@ -52,9 +52,11 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
 
       if (state.status != CityWeatherStatus.success ||
           cityWeatherData == null) {
-        return LottieViewer(
-          path: lottiePath,
-          backgroundColor: backgroundColor,
+        return Container(
+          color: backgroundColor,
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
         );
       }
 
