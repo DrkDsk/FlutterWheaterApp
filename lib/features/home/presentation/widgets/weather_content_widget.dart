@@ -1,4 +1,5 @@
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
+import 'package:clima_app/core/shared/ui/widgets/splash_screen.dart';
 import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
@@ -10,7 +11,6 @@ import 'package:clima_app/features/home/presentation/widgets/hourly_list_weather
 import 'package:clima_app/features/ia/ui/blocs/widgets/ia_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 
 class WeatherContentWidget extends StatefulWidget {
   const WeatherContentWidget({super.key, this.latitude, this.longitude});
@@ -50,14 +50,9 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
 
       if (state.status != CityWeatherStatus.success ||
           cityWeatherData == null) {
-        return Container(
-          color: backgroundColor,
-          width: double.infinity,
-          height: double.infinity,
-          child: Lottie.asset(
-            lottiePath,
-            fit: BoxFit.cover,
-          ),
+        return LottieViewer(
+          path: lottiePath,
+          backgroundColor: backgroundColor,
         );
       }
 
@@ -67,14 +62,9 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
       return Stack(
         children: [
           Positioned.fill(
-            child: Container(
-              color: backgroundColor,
-              width: double.infinity,
-              height: double.infinity,
-              child: Lottie.asset(
-                lottiePath,
-                fit: BoxFit.cover,
-              ),
+            child: LottieViewer(
+              path: lottiePath,
+              backgroundColor: backgroundColor,
             ),
           ),
           SingleChildScrollView(
