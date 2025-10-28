@@ -3,8 +3,6 @@ import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/features/city/data/datasources/city_datasource.dart';
 import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
 import 'package:clima_app/features/city/domain/repositories/city_repository.dart';
-import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
-import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
 import 'package:clima_app/features/city/data/datasources/city_datasource_impl.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
 import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
@@ -96,12 +94,6 @@ Future<void> initDependencies() async {
   getIt.registerLazySingleton<LocationRepository>(
       () => LocationRepositoryImpl(getIt()));
 
-  // UseCases
-  getIt.registerLazySingleton<SearchCityUseCase>(
-    () => SearchCityUseCase(repository: getIt<CityRepository>()),
-  );
-  getIt.registerLazySingleton(
-      () => GetCityUseCase(repository: getIt<CityRepository>()));
   getIt.registerLazySingleton(() => GetWeatherUseCase(
       repository: getIt<SearchWeatherRepository>(),
       locationService: getIt<LocationService>(),
@@ -128,9 +120,9 @@ Future<void> initDependencies() async {
       () => FavoriteDeleteCubit(repository: favoriteWeatherRepository));
 
   getIt.registerFactory<CityWeatherBloc>(() => CityWeatherBloc(
-      getWeatherUseCase: getIt<GetWeatherUseCase>(),
-      searchCityUseCase: getIt<SearchCityUseCase>(),
-      getCityUseCase: getIt<GetCityUseCase>()));
+        getWeatherUseCase: getIt<GetWeatherUseCase>(),
+        cityRepository: getIt<CityRepository>(),
+      ));
 
   getIt.registerFactory<HomePageNavigationCubit>(
       () => HomePageNavigationCubit());

@@ -1,6 +1,5 @@
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/city/domain/usecases/get_city_usecase.dart';
-import 'package:clima_app/features/city/domain/usecases/search_city_usecase.dart';
+import 'package:clima_app/features/city/domain/repositories/city_repository.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
@@ -8,19 +7,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
-  final SearchCityUseCase searchCityUseCase;
-  final GetWeatherUseCase getWeatherUseCase;
-  final GetCityUseCase getCityUseCase;
+  final GetWeatherUseCase _getWeatherUseCase;
+  final CityRepository _cityRepository;
 
   EventTransformer<T> debounce<T>(Duration duration) {
     return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
   }
 
   CityWeatherBloc(
-      {required this.getWeatherUseCase,
-      required this.searchCityUseCase,
-      required this.getCityUseCase})
-      : super(CityWeatherState.initial()) {
+      {required GetWeatherUseCase getWeatherUseCase,
+      required CityRepository cityRepository})
+      : _getWeatherUseCase = getWeatherUseCase,
+        _cityRepository = cityRepository,
+        super(CityWeatherState.initial()) {
     on<FetchWeatherEvent>(_getCurrentWeather);
     on<CitySearchEvent>(_searchWeatherEvent,
         transformer: debounce(const Duration(milliseconds: 500)));
@@ -35,7 +34,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final latitude = event.latitude;
     final longitude = event.longitude;
 
-    final cityWeatherDataResult = await getWeatherUseCase.call(
+    final cityWeatherDataResult = await _getWeatherUseCase.call(
       latitude: latitude,
       longitude: longitude,
     );
@@ -70,9 +69,9 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
       return;
     }
 
-    final result = await searchCityUseCase.call(query: query);
+    final cityResult = await _cityRepository.searchCity(query: query);
 
-    result.fold((left) {
+    cityResult.fold((left) {
       emit(
         state.copyWith(
           status: CityWeatherStatus.failure,
