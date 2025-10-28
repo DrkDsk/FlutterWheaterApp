@@ -1,20 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
-import 'package:clima_app/features/favorites/presentation/useCases/store_favorite_use_case.dart';
 import 'package:uuid/uuid.dart';
 
 import './favorite_fetch_state.dart';
 
 class FavoriteCubit extends Cubit<FavoriteState> {
   final FavoriteWeatherRepository _repository;
-  final StoreFavoriteUseCase _storeFavoriteUseCase;
 
-  FavoriteCubit(
-      {required FavoriteWeatherRepository repository,
-      required StoreFavoriteUseCase storeFavoriteUseCase})
-      : _repository = repository,
-        _storeFavoriteUseCase = storeFavoriteUseCase,
+  FavoriteCubit({
+    required FavoriteWeatherRepository repository,
+  })  : _repository = repository,
         super(const FavoriteState());
 
   Future<void> getFavoriteCities() async {
@@ -41,20 +37,17 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     emit(state.copyWith(status: FavoriteStatus.loading));
 
     final location = cityLocation.copyWith(id: const Uuid().v4());
+    final storeResult = await _repository.store(location: location);
 
-    final storeUseCaseResult =
-        await _storeFavoriteUseCase(cityLocation: location);
-
-    final newState = storeUseCaseResult.fold((error) {
+    final newState = storeResult.fold((error) {
       return state.copyWith(
         message: error.message,
         status: FavoriteStatus.failure,
       );
     }, (result) {
-      return state.copyWith(
-        cities: result,
-        status: FavoriteStatus.success,
-      );
+      state.cities.add(location);
+
+      return state.copyWith(status: FavoriteStatus.success);
     });
 
     emit(newState);
@@ -72,6 +65,8 @@ class FavoriteCubit extends Cubit<FavoriteState> {
         message: left.message,
       );
     }, (result) {
+      state.cities.removeWhere((element) => element.id == favoriteId);
+
       return state.copyWith(
         status: FavoriteStatus.success,
       );

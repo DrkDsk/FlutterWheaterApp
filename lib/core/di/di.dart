@@ -9,7 +9,6 @@ import 'package:clima_app/features/favorites/data/repositories/favorite_weather_
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource_impl.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
-import 'package:clima_app/features/favorites/presentation/useCases/store_favorite_use_case.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart';
 import 'package:clima_app/features/home/data/repositories/location_repository_impl.dart';
 import 'package:clima_app/features/home/data/repositories/search_weather_repository_impl.dart';
@@ -100,20 +99,18 @@ Future<void> initDependencies() async {
 
   // Blocs / Cubits
   getIt.registerFactory<NetworkCubit>(
-      () => NetworkCubit(networkService: getIt<NetworkService>()));
+    () => NetworkCubit(networkService: getIt<NetworkService>()),
+  );
 
   getIt.registerFactory<IACubit>(
-      () => IACubit(repository: getIt<IARepository>()));
+    () => IACubit(repository: getIt<IARepository>()),
+  );
 
   final favoriteWeatherRepository = getIt<FavoriteWeatherRepository>();
-  getIt.registerLazySingleton<StoreFavoriteUseCase>(
-      () => StoreFavoriteUseCase(repository: favoriteWeatherRepository));
 
-  final storeFavoriteUseCase = getIt<StoreFavoriteUseCase>();
-
-  getIt.registerFactory<FavoriteCubit>(() => FavoriteCubit(
-      repository: favoriteWeatherRepository,
-      storeFavoriteUseCase: storeFavoriteUseCase));
+  getIt.registerFactory<FavoriteCubit>(
+    () => FavoriteCubit(repository: favoriteWeatherRepository),
+  );
 
   getIt.registerFactory<CityWeatherBloc>(() => CityWeatherBloc(
         getWeatherUseCase: getIt<GetWeatherUseCase>(),

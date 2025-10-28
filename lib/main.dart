@@ -22,7 +22,8 @@ Future<void> main() async {
       providers: [
         BlocProvider(create: (_) => getIt<NetworkCubit>()),
         BlocProvider(
-            create: (_) => getIt<FavoriteCubit>()..getFavoriteCities()),
+          create: (_) => getIt<FavoriteCubit>()..getFavoriteCities(),
+        ),
         BlocProvider(create: (_) => getIt<CityWeatherBloc>()),
         BlocProvider(create: (_) => getIt<IACubit>()),
         BlocProvider(create: (_) => getIt<HomePageNavigationCubit>())

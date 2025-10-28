@@ -45,9 +45,8 @@ class _ShowWeatherBottomSheetWidgetState
 
     final router = AppRouter.of(context);
     final newIndex = _favoriteCubit.state.cities.length - 1;
-
     _navigationCubit.updatePageIndex(newIndex);
-    router.goToScreenAndClear(const HomeWeatherScreen());
+    router.goToScreenAndClear(HomeWeatherScreen(initialIndex: newIndex));
   }
 
   @override
