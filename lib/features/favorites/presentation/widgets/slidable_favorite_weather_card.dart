@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class SlidableFavoriteWeatherCard extends StatelessWidget {
-  const SlidableFavoriteWeatherCard(
+class SliderFavoriteWeatherCard extends StatelessWidget {
+  const SliderFavoriteWeatherCard(
       {super.key, required this.cityLocation, required this.index});
 
   final int index;
@@ -25,9 +25,7 @@ class SlidableFavoriteWeatherCard extends StatelessWidget {
     }
 
     final favoriteCubit = context.read<FavoriteCubit>();
-
-    await favoriteCubit.delete(id: currentCityId);
-    await favoriteCubit.getFavoriteCities();
+    favoriteCubit.delete(id: currentCityId);
   }
 
   ActionPane buildActionPane({required BuildContext context}) {

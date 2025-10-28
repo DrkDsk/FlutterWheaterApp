@@ -67,7 +67,7 @@ class _SavedFavoriteCitiesListWidgetState
                 begin: const Offset(0, 0.2),
                 end: Offset.zero,
               ).animate(delayedAnimation),
-              child: SlidableFavoriteWeatherCard(
+              child: SliderFavoriteWeatherCard(
                   cityLocation: currentCity, index: index),
             ),
           );
