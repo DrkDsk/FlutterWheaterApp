@@ -9,6 +9,7 @@ class BackgroundWeather {
 
   factory BackgroundWeather.initial() {
     return BackgroundWeather(
-        lottiePath: WeatherConstants.loadingLottie, color: Colors.white10);
+        lottiePath: WeatherLottieConstants.loadingLottie,
+        color: Colors.white10);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:clima_app/core/constants/weather_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -10,8 +11,11 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Lottie.asset("assets/lottie/loading_splash.json",
-          width: double.infinity, height: double.infinity),
+      body: Lottie.asset(
+        WeatherLottieConstants.loadingLottie,
+        width: double.infinity,
+        height: double.infinity,
+      ),
     );
   }
 }
