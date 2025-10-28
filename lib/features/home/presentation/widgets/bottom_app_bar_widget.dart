@@ -38,10 +38,13 @@ class BottomAppBarWidget extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: Row(
             children: [
-              const Expanded(child: SizedBox.shrink()),
+              const Expanded(
+                child: SizedBox.shrink(),
+              ),
               Expanded(
                 child: FavoritesCitiesScrollIndicatorWidget(
-                    currentPage: currentPage),
+                  currentPage: currentPage,
+                ),
               ),
               IconButton(
                 color: Colors.white.customOpacity(0.8),

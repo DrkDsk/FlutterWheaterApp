@@ -84,11 +84,21 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                 const SizedBox(height: 10),
                 const IAContentWidget(),
                 const SizedBox(height: 10),
-                HourlyListWeatherWidget(hourly: forecast.hourly),
+                HourlyListWeatherWidget(
+                  hourly: forecast.hourly,
+                  backgroundColor: backgroundColor,
+                ),
                 const SizedBox(height: 10),
-                DailyListWeatherWidget(daily: forecast.daily),
+                DailyListWeatherWidget(
+                  daily: forecast.daily,
+                  backgroundColor: backgroundColor,
+                ),
                 const SizedBox(height: 10),
-                DetailWeatherGridWidget(weather: currentWeather)
+                DetailWeatherGridWidget(
+                  weather: currentWeather,
+                  backgroundColor: backgroundColor,
+                ),
+                const SizedBox(height: 10),
               ],
             ),
           )
