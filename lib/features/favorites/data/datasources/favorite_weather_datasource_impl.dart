@@ -17,7 +17,7 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
   @override
   Future<void> store({required CityLocationHiveModel city}) async {
     try {
-      await favoriteCityBox.add(city);
+      await favoriteCityBox.put(city.id, city);
     } catch (e) {
       throw UnknownException();
     }
@@ -29,15 +29,12 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
   }
 
   @override
-  Future<bool> delete({required String id}) async {
+  Future<bool> delete({required CityLocationHiveModel model}) async {
     try {
-      final item = favoriteCityBox.values.where((e) => e.id == id).firstOrNull;
-
-      if (item != null) {
-        await item.delete();
-      }
-
+      await model.delete();
       return true;
+    } on StateError catch (_) {
+      return false;
     } catch (e) {
       throw UnknownException();
     }
@@ -56,11 +53,18 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
   }
 
   @override
-  Future<CityLocationHiveModel?> findId({required String id}) async {
+  Future<CityLocationHiveModel?> findByKey({required String key}) async {
     final result = favoriteCityBox.values
-        .where((element) => element.key == id)
+        .where((element) => element.key == key)
         .firstOrNull;
 
     return result;
+  }
+
+  @override
+  Future<CityLocationHiveModel?> findById({required String? id}) async {
+    if (id == null) return null;
+
+    return favoriteCityBox.get(id);
   }
 }

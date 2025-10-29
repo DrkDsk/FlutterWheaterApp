@@ -22,7 +22,7 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
   Future<Either<Failure, bool>> store({required CityLocation location}) async {
     try {
       final currentCityKey = location.key;
-      final cityStored = await _dataSource.findId(id: currentCityKey);
+      final cityStored = await _dataSource.findByKey(key: currentCityKey);
       final isCityStoredAsFavorite = cityStored != null;
       final storedLocationCache = await _dataSource.getStoredLocationCache();
       final cacheCityKey = storedLocationCache?.key;
@@ -55,7 +55,8 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
       bool? isCityStoredAsFavorite;
 
       if (storeLocationCacheKey != null) {
-        final cityStored = await _dataSource.findId(id: storeLocationCacheKey);
+        final cityStored =
+            await _dataSource.findByKey(key: storeLocationCacheKey);
         isCityStoredAsFavorite = cityStored != null;
       }
 
@@ -83,11 +84,18 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
   }
 
   @override
-  Future<Either<Failure, void>> delete({required String id}) async {
+  Future<Either<Failure, bool>> delete(
+      {required CityLocation cityLocation}) async {
     try {
-      await _dataSource.delete(id: id);
+      final cityLocationModel = await _dataSource.findById(id: cityLocation.id);
 
-      return const Right(null);
+      if (cityLocationModel == null) {
+        return const Right(false);
+      }
+
+      await _dataSource.delete(model: cityLocationModel);
+
+      return const Right(true);
     } on UnknownException catch (e) {
       return Left(GenericFailure(e.message));
     } on NetworkException catch (e) {
