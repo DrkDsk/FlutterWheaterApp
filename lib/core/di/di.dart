@@ -43,9 +43,16 @@ Future<void> initDependencies() async {
   final appUrl = dotenv.env["WEATHER_API_URL"] ?? "";
 
   final dioClient = DioClient(apiKey: appId, url: appUrl);
-  final box = await HiveInitializer.init();
+  await HiveInitializer.init();
+
+  final favoriteCityBox = await HiveInitializer.getFavoritesCitiesBox();
+  final locationCacheBox = await HiveInitializer.getLocationCacheBox();
+
   getIt.registerSingleton(dioClient);
-  getIt.registerSingleton(box);
+
+  getIt.registerSingleton(favoriteCityBox);
+  getIt.registerSingleton(locationCacheBox);
+
   getIt.registerSingleton<Connectivity>(Connectivity());
   getIt.registerLazySingleton(
       () => NetworkService(connectivity: getIt<Connectivity>()));
@@ -66,7 +73,10 @@ Future<void> initDependencies() async {
       () => LocationDataSourceImpl(networkService: getIt<NetworkService>()));
   getIt.registerLazySingleton(() => WeatherDescriptionLocalDataSourceImpl());
   getIt.registerLazySingleton<FavoriteWeatherDataSource>(
-      () => FavoriteWeatherDataSourceImpl(box: box));
+      () => FavoriteWeatherDataSourceImpl(
+            favoriteCityBox: favoriteCityBox,
+            locationCacheBox: locationCacheBox,
+          ));
 
   // Repositories
   getIt.registerLazySingleton<IARepository>(
