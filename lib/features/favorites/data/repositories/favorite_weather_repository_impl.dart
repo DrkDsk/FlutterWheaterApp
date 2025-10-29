@@ -47,7 +47,7 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
   @override
   Future<Either<Failure, List<CityLocation>>> getAll() async {
     try {
-      final models = await _dataSource.fetchAll();
+      final models = await _dataSource.getAll();
       final storedCities = models.map((city) => city.toEntity()).toList();
       final storedLocationCache = await _dataSource.getStoredLocationCache();
       final storeLocationCacheKey = storedLocationCache?.key;

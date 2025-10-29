@@ -6,7 +6,7 @@ abstract class FavoriteWeatherDataSource {
 
   Future<void> store({required CityLocationHiveModel city});
 
-  Future<List<CityLocationHiveModel>> fetchAll();
+  Future<List<CityLocationHiveModel>> getAll();
 
   Future<bool> delete({required String id});
 
