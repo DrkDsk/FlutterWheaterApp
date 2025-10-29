@@ -7,5 +7,5 @@ abstract class FavoriteWeatherRepository {
 
   Future<Either<Failure, List<CityLocation>>> getAll();
 
-  Future<Either<Failure, void>> delete({required String id});
+  Future<Either<Failure, bool>> delete({required CityLocation cityLocation});
 }

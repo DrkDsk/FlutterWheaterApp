@@ -25,7 +25,7 @@ class SliderFavoriteWeatherCard extends StatelessWidget {
     }
 
     final favoriteCubit = context.read<FavoriteCubit>();
-    favoriteCubit.delete(id: currentCityId);
+    favoriteCubit.delete(cityLocation: cityLocation);
   }
 
   ActionPane buildActionPane({required BuildContext context}) {
