@@ -21,20 +21,20 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
   @override
   Future<Either<Failure, bool>> store({required CityLocation location}) async {
     try {
-      final models = await _dataSource.fetchAll();
-      final city = CityLocationHiveModel.fromEntity(location);
-      final storedCitiesFavoritesKey = models.map((element) => element.key);
       final currentCityKey = location.key;
+      final cityStored = await _dataSource.findId(id: currentCityKey);
+      final isCityStoredAsFavorite = cityStored != null;
       final storedLocationCache = await _dataSource.getStoredLocationCache();
-      final storedCityKey = storedLocationCache?.key;
-      final isStored = currentCityKey == storedCityKey ||
-          storedCitiesFavoritesKey.contains(currentCityKey);
+      final cacheCityKey = storedLocationCache?.key;
+      final isStored = currentCityKey == cacheCityKey || isCityStoredAsFavorite;
 
       if (isStored) {
         return const Right(false);
       }
 
-      await _dataSource.store(city: city);
+      final cityModel = CityLocationHiveModel.fromEntity(location);
+
+      await _dataSource.store(city: cityModel);
 
       return const Right(true);
     } on UnknownException catch (e) {
@@ -50,9 +50,14 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
       final models = await _dataSource.fetchAll();
       final storedCities = models.map((city) => city.toEntity()).toList();
       final storedLocationCache = await _dataSource.getStoredLocationCache();
-      final storedCityKeys = storedCities.map((element) => element.key);
       final storeLocationCacheKey = storedLocationCache?.key;
-      final isStored = storedCityKeys.contains(storeLocationCacheKey);
+
+      bool? isCityStoredAsFavorite;
+
+      if (storeLocationCacheKey != null) {
+        final cityStored = await _dataSource.findId(id: storeLocationCacheKey);
+        isCityStoredAsFavorite = cityStored != null;
+      }
 
       final updateLocationCache = await _locationService.getLocationCache(
         storedLocationCache,
@@ -63,7 +68,9 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
         storedCities.add(updateLocationCache.toEntity());
       }
 
-      if (storedLocationCache != null && !isStored) {
+      if (storedLocationCache != null &&
+          isCityStoredAsFavorite != null &&
+          !isCityStoredAsFavorite) {
         storedCities.insert(0, storedLocationCache.toEntity());
       }
 
