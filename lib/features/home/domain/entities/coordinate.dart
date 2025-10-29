@@ -1,5 +1,6 @@
-class Coordinate {
+import 'package:equatable/equatable.dart';
 
+class Coordinate with EquatableMixin {
   final double latitude;
   final double longitude;
 
@@ -14,4 +15,7 @@ class Coordinate {
       latitude: latitude ?? this.latitude,
     );
   }
+
+  @override
+  List<Object?> get props => [latitude, longitude];
 }

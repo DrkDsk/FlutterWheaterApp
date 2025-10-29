@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 abstract class FavoriteWeatherRepository {
   Future<Either<Failure, bool>> store({required CityLocation location});
 
-  Future<Either<Failure, List<CityLocation>>> fetchAll();
+  Future<Either<Failure, List<CityLocation>>> getAll();
 
   Future<Either<Failure, void>> delete({required String id});
 }

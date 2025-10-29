@@ -21,7 +21,19 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
   @override
   Future<Either<Failure, bool>> store({required CityLocation location}) async {
     try {
+      final models = await _dataSource.fetchAll();
       final city = CityLocationHiveModel.fromEntity(location);
+      final storedCitiesFavoritesKey = models.map((element) => element.key);
+      final currentCityKey = location.key;
+      final storedLocationCache = await _dataSource.getStoredLocationCache();
+      final storedCityKey = storedLocationCache?.key;
+      final isStored = currentCityKey == storedCityKey ||
+          storedCitiesFavoritesKey.contains(currentCityKey);
+
+      if (isStored) {
+        return const Right(false);
+      }
+
       await _dataSource.store(city: city);
 
       return const Right(true);
@@ -33,16 +45,29 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
   }
 
   @override
-  Future<Either<Failure, List<CityLocation>>> fetchAll() async {
+  Future<Either<Failure, List<CityLocation>>> getAll() async {
     try {
       final models = await _dataSource.fetchAll();
-
       final storedCities = models.map((city) => city.toEntity()).toList();
+      final storedLocationCache = await _dataSource.getStoredLocationCache();
+      final storedCityKeys = storedCities.map((element) => element.key);
+      final storeLocationCacheKey = storedLocationCache?.key;
+      final isStored = storedCityKeys.contains(storeLocationCacheKey);
 
-      final defaultLocation =
-          await _locationService.getCityNameFromCoordinates();
+      final updateLocationCache = await _locationService.getLocationCache(
+        storedLocationCache,
+      );
 
-      return Right([defaultLocation, ...storedCities]);
+      if (updateLocationCache != null) {
+        await _dataSource.storeLocationCache(location: updateLocationCache);
+        storedCities.add(updateLocationCache.toEntity());
+      }
+
+      if (storedLocationCache != null && !isStored) {
+        storedCities.insert(0, storedLocationCache.toEntity());
+      }
+
+      return Right(storedCities);
     } on UnknownException catch (e) {
       return Left(GenericFailure(e.message));
     } on NetworkException catch (e) {

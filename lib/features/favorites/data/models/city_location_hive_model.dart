@@ -10,7 +10,7 @@ class CityLocationHiveModel extends HiveObject {
   final String id;
 
   @HiveField(1)
-  final String cityName;
+  final String city;
 
   @HiveField(2)
   final double latitude;
@@ -26,7 +26,7 @@ class CityLocationHiveModel extends HiveObject {
 
   CityLocationHiveModel(
       {required this.id,
-      required this.cityName,
+      required this.city,
       required this.latitude,
       required this.longitude,
       required this.state,
@@ -35,7 +35,7 @@ class CityLocationHiveModel extends HiveObject {
   CityLocation toEntity() {
     return CityLocation(
         id: id,
-        city: cityName,
+        city: city,
         latitude: latitude,
         longitude: longitude,
         country: country,
@@ -45,9 +45,12 @@ class CityLocationHiveModel extends HiveObject {
   factory CityLocationHiveModel.fromEntity(CityLocation location) =>
       CityLocationHiveModel(
           id: location.id ?? const Uuid().v4(),
-          cityName: location.city,
-          latitude: location.latitude,
-          longitude: location.longitude,
+          city: location.city,
+          latitude: double.parse(location.latitude.toStringAsFixed(3)),
+          longitude: double.parse(location.longitude.toStringAsFixed(3)),
           state: location.state,
           country: location.country);
+
+  @override
+  String get key => '$city, $state';
 }
