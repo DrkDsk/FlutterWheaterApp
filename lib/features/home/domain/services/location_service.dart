@@ -1,5 +1,6 @@
 import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
+import 'package:clima_app/features/favorites/data/models/location_cache_hive_model.dart';
 import 'package:clima_app/features/home/domain/entities/coordinate.dart';
 import 'package:clima_app/features/home/domain/repositories/location_repository.dart';
 
@@ -12,12 +13,12 @@ class LocationService {
     return repository.getCurrentLocation();
   }
 
-  Future<({double latitude, double longitude})> _ensureCoordinates(
+  Future<Coordinate> ensureCoordinates({
     double? latitude,
     double? longitude,
-  ) async {
+  }) async {
     if (latitude != null && longitude != null) {
-      return (latitude: latitude, longitude: longitude);
+      return Coordinate(latitude: latitude, longitude: longitude);
     }
 
     final coordinate = await getCurrentLocation();
@@ -27,12 +28,18 @@ class LocationService {
       );
     }
 
-    return (latitude: coordinate.latitude, longitude: coordinate.longitude);
+    return Coordinate(
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude,
+    );
   }
 
   Future<CityLocation> getCityNameFromCoordinates(
       {double? latitude, double? longitude}) async {
-    final coordinates = await _ensureCoordinates(latitude, longitude);
+    final coordinates = await ensureCoordinates(
+      latitude: latitude,
+      longitude: longitude,
+    );
 
     final placemark = await repository.getLocationInformation(
       latitude: coordinates.latitude,
@@ -53,4 +60,27 @@ class LocationService {
       state: placemark.administrativeArea ?? "",
     );
   }
+
+  Future<LocationCacheHiveModel?> getLocationCache(
+      LocationCacheHiveModel? storedDefaultLocation) async {
+    final currentCoordinates = await ensureCoordinates();
+    final currentLat = roundCoordinate(currentCoordinates.latitude);
+    final currentLon = roundCoordinate(currentCoordinates.longitude);
+
+    final hasStoredLocation = storedDefaultLocation != null;
+    final hasMoved = hasStoredLocation &&
+        (storedDefaultLocation.latitude != currentLat ||
+            storedDefaultLocation.longitude != currentLon);
+
+    if (hasStoredLocation && !hasMoved) {
+      return null;
+    }
+
+    final currentCityLocation = await getCityNameFromCoordinates();
+
+    return LocationCacheHiveModel.fromEntity(currentCityLocation);
+  }
+
+  double roundCoordinate(double value) =>
+      double.parse(value.toStringAsFixed(3));
 }

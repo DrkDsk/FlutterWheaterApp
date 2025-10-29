@@ -16,7 +16,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   Future<void> getFavoriteCities() async {
     emit(state.copyWith(status: FavoriteStatus.loading));
 
-    final favoritesResult = await _repository.fetchAll();
+    final favoritesResult = await _repository.getAll();
 
     final newState = favoritesResult.fold((error) {
       return state.copyWith(
@@ -45,7 +45,9 @@ class FavoriteCubit extends Cubit<FavoriteState> {
         status: FavoriteStatus.failure,
       );
     }, (result) {
-      state.cities.add(location);
+      if (result) {
+        state.cities.add(location);
+      }
 
       return state.copyWith(status: FavoriteStatus.success);
     });
@@ -73,5 +75,33 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     });
 
     emit(newState);
+  }
+
+  Future<void> compareFavorites() async {
+    final currentCitiesInState = state.cities;
+
+    final storedCitiesResult = await _repository.getAll();
+
+    storedCitiesResult.fold((left) {}, (result) {
+      final citiesStateSet =
+          currentCitiesInState.map((element) => element.id).toSet();
+      final resultSet = result.map((element) => element.id).toSet();
+
+      final areAllInResult = resultSet.containsAll(
+        currentCitiesInState.map((cityState) => cityState.id),
+      );
+
+      final areAllInState = citiesStateSet.containsAll(
+        result.map((e) => e.id),
+      );
+
+      if (areAllInState && areAllInResult) {
+        return;
+      }
+
+      final newState = state.copyWith(cities: result);
+
+      emit(newState);
+    });
   }
 }

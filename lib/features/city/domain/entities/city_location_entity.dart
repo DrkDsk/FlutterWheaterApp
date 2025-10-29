@@ -36,4 +36,6 @@ class CityLocation with EquatableMixin {
 
   @override
   List<Object?> get props => [id, city, latitude, longitude, country, state];
+
+  String get key => '$city, $state';
 }
