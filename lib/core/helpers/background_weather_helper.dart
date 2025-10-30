@@ -65,14 +65,18 @@ class BackgroundWeatherHelper {
     },
   };
 
-  static String getWeatherLottie(
-      {required String weatherType, required TimeOfDayType time}) {
+  static String getWeatherLottie({
+    required String weatherType,
+    required TimeOfDayType time,
+  }) {
     return weatherLottie[weatherType]?[time] ??
         WeatherLottieConstants.loadingLottie;
   }
 
-  static Color getWeatherBackgroundColor(
-      {required String weatherType, required TimeOfDayType time}) {
+  static Color getWeatherBackgroundColor({
+    required String weatherType,
+    required TimeOfDayType time,
+  }) {
     return weatherColors[weatherType]?[time] ?? Colors.white10;
   }
 }

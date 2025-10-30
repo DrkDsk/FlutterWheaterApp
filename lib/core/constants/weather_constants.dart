@@ -15,7 +15,7 @@ class WeatherLottieConstants {
   static String drizzleDay = "assets/lottie/drizzle.json";
   static String drizzleNight = "assets/lottie/drizzle.json";
   static String atmosphereDay = "assets/lottie/sunny.json";
-  static String atmosphereNight = "assets/lottie/cloudy.json";
+  static String atmosphereNight = "assets/lottie/sunny.json";
 
   static List<String> precacheAnimations = [
     WeatherLottieConstants.loadingLottie,
