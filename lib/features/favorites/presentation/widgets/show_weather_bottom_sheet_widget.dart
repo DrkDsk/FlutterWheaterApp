@@ -72,25 +72,29 @@ class _ShowWeatherBottomSheetWidgetState
       child: Stack(
         children: [
           const WeatherBackgroundView(),
-          Column(
-            children: [
-              BlocConsumer<FavoriteCubit, FavoriteState>(
-                listenWhen: (prev, current) => prev.status != current.status,
-                listener: redirectToHome,
-                builder: (context, state) {
-                  final isAvailableToStore = state.isAvailableToStore;
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Column(
+              children: [
+                BlocConsumer<FavoriteCubit, FavoriteState>(
+                  listenWhen: (prev, current) => prev.status != current.status,
+                  listener: redirectToHome,
+                  builder: (context, state) {
+                    final isAvailableToStore = state.isAvailableToStore;
 
-                  return HeaderWeatherSheet(
-                    isAbleToSave: isAvailableToStore,
-                    onCancel: () => AppRouter.of(context).pop(),
-                    onSave: () => _favoriteCubit.store(
-                      cityLocation: widget.cityLocation,
-                    ),
-                  );
-                },
-              ),
-              const Expanded(child: WeatherContent()),
-            ],
+                    return HeaderWeatherSheet(
+                      isAbleToSave: isAvailableToStore,
+                      onCancel: () => AppRouter.of(context).pop(),
+                      onSave: () => _favoriteCubit.store(
+                        cityLocation: widget.cityLocation,
+                      ),
+                    );
+                  },
+                ),
+                const Expanded(child: WeatherContent()),
+                const SizedBox(height: 10)
+              ],
+            ),
           ),
         ],
       ),
