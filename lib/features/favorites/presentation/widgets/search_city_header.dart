@@ -12,7 +12,7 @@ class SearchCityHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Weather", style: theme.textTheme.titleSmall),
+        Text("Weather", style: theme.textTheme.titleLarge),
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 8.0),
           child: SearchCityWidget(),

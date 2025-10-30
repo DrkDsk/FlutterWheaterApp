@@ -19,8 +19,12 @@ class DailyListWeatherWidget extends StatelessWidget {
     final textStyle = theme.textTheme.bodyMedium?.copyWith(color: iconColor);
     final cardColor = (backgroundColor ?? Colors.grey).customOpacity(0.30);
 
+    if (daily.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         color: cardColor,

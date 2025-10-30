@@ -23,7 +23,7 @@ class HourlyListWeatherWidget extends StatelessWidget {
     final cardColor = (backgroundColor ?? Colors.grey).customOpacity(0.30);
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         color: cardColor,

@@ -1,22 +1,17 @@
-import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/slidable_favorite_weather_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SavedFavoriteCitiesListWidget extends StatefulWidget {
-  const SavedFavoriteCitiesListWidget({super.key, required this.cities});
-
-  final List<CityLocation> cities;
+class FavoritesListView extends StatefulWidget {
+  const FavoritesListView({super.key});
 
   @override
-  State<SavedFavoriteCitiesListWidget> createState() =>
-      _SavedFavoriteCitiesListWidgetState();
+  State<FavoritesListView> createState() => _FavoritesListViewState();
 }
 
-class _SavedFavoriteCitiesListWidgetState
-    extends State<SavedFavoriteCitiesListWidget>
+class _FavoritesListViewState extends State<FavoritesListView>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
@@ -41,7 +36,8 @@ class _SavedFavoriteCitiesListWidgetState
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteCubit, FavoriteState>(builder: (context, state) {
-      final citiesLength = widget.cities.length;
+      final cities = state.cities;
+      final citiesLength = cities.length;
 
       return ListView.separated(
         itemCount: citiesLength,
@@ -58,7 +54,7 @@ class _SavedFavoriteCitiesListWidgetState
             ),
           );
 
-          final currentCity = widget.cities[index];
+          final city = cities[index];
 
           return FadeTransition(
             opacity: delayedAnimation,
@@ -68,7 +64,9 @@ class _SavedFavoriteCitiesListWidgetState
                 end: Offset.zero,
               ).animate(delayedAnimation),
               child: SliderFavoriteWeatherCard(
-                  cityLocation: currentCity, index: index),
+                cityLocation: city,
+                index: index,
+              ),
             ),
           );
         },

@@ -1,9 +1,9 @@
-import 'package:clima_app/features/favorites/presentation/widgets/city_results_content_widget.dart';
+import 'package:clima_app/features/favorites/presentation/widgets/favorites_cities_weather_body.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
 import 'package:flutter/material.dart';
 
-class WeatherListFavorites extends StatelessWidget {
-  const WeatherListFavorites({super.key});
+class FavoritesCitiesScreen extends StatelessWidget {
+  const FavoritesCitiesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class WeatherListFavorites extends StatelessWidget {
               SearchCityHeader(),
               SizedBox(height: 10),
               Expanded(
-                child: CityResultsContentWidget(),
+                child: FavoritesCitiesWeatherBody(),
               ),
             ],
           ),

@@ -3,8 +3,8 @@ import 'package:clima_app/features/favorites/presentation/widgets/city_result_it
 import 'package:clima_app/features/favorites/presentation/widgets/show_weather_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 
-class CitySearchResultsListWidget extends StatelessWidget {
-  const CitySearchResultsListWidget({
+class CitySearchResultsList extends StatelessWidget {
+  const CitySearchResultsList({
     super.key,
     required this.cities,
   });
@@ -36,21 +36,24 @@ class CitySearchResultsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-        itemBuilder: (context, index) => const SizedBox(height: 4),
-        separatorBuilder: (context, index) {
-          final cityLocation = cities[index];
-          final cityName = cityLocation.city;
-          final state = cityLocation.state;
-          final country = cityLocation.country;
+      itemBuilder: (context, index) => const SizedBox(height: 4),
+      itemCount: cities.length,
+      separatorBuilder: (context, index) {
+        final cityLocation = cities[index];
+        final cityName = cityLocation.city;
+        final state = cityLocation.state;
+        final country = cityLocation.country;
 
-          final query = "$cityName, $state, $country";
+        final query = "$cityName, $state, $country";
 
-          return GestureDetector(
-            onTap: () => getWeatherSelected(
-                cityLocation: cityLocation, context: context),
-            child: CityResultItemCard(query: query),
-          );
-        },
-        itemCount: cities.length);
+        return GestureDetector(
+          onTap: () => getWeatherSelected(
+            cityLocation: cityLocation,
+            context: context,
+          ),
+          child: CityResultItemCard(query: query),
+        );
+      },
+    );
   }
 }

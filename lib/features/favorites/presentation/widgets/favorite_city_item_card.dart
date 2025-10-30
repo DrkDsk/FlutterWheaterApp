@@ -1,8 +1,8 @@
 import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 
-class SavedCityItemCard extends StatelessWidget {
-  const SavedCityItemCard({super.key, required this.cityName});
+class FavoriteCityItemCard extends StatelessWidget {
+  const FavoriteCityItemCard({super.key, required this.cityName});
 
   final String cityName;
 
@@ -19,9 +19,14 @@ class SavedCityItemCard extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
-        child: Text(cityName,
-            style: theme.textTheme.bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w700)),
+        child: SingleChildScrollView(
+          child: Text(
+            cityName,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
       ),
     );
   }
