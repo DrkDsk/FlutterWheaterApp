@@ -61,57 +61,55 @@ class _ShowWeatherBottomSheetWidgetState
       builder: (context, backgroundWeather) {
         final backgroundColor = backgroundWeather.color;
 
-        return BlocListener<FavoriteCubit, FavoriteState>(
-          listenWhen: (prev, current) => prev.status != current.status,
-          listener: redirectToHome,
-          child: FractionallySizedBox(
-            heightFactor: 0.90,
-            child: BlocBuilder<FavoriteCubit, FavoriteState>(
-              builder: (context, state) {
-                if (state.status == FavoriteStatus.loading) {
-                  return Container(
-                    color: backgroundColor,
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
+        return FractionallySizedBox(
+          heightFactor: 0.90,
+          child: BlocConsumer<FavoriteCubit, FavoriteState>(
+            listenWhen: (prev, current) => prev.status != current.status,
+            listener: redirectToHome,
+            builder: (context, state) {
+              if (state.status == FavoriteStatus.loading) {
+                return Container(
+                  color: backgroundColor,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
 
-                return Stack(
-                  children: [
-                    Positioned.fill(
-                      child: Container(
-                        color: backgroundColor,
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: Lottie.asset(
-                          backgroundWeather.lottiePath,
-                          fit: BoxFit.cover,
-                        ),
+              return Stack(
+                children: [
+                  Positioned.fill(
+                    child: Container(
+                      color: backgroundColor,
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Lottie.asset(
+                        backgroundWeather.lottiePath,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    Column(
-                      children: [
-                        HeaderWeatherSheet(
-                          isAbleToSave: state.isAvailableToStore,
-                          onCancel: () => AppRouter.of(context).pop(),
-                          onSave: () => _favoriteCubit.store(
-                            cityLocation: widget.cityLocation,
-                          ),
+                  ),
+                  Column(
+                    children: [
+                      HeaderWeatherSheet(
+                        isAbleToSave: state.isAvailableToStore,
+                        onCancel: () => AppRouter.of(context).pop(),
+                        onSave: () => _favoriteCubit.store(
+                          cityLocation: widget.cityLocation,
                         ),
-                        const SizedBox(height: 8),
-                        Expanded(
-                          child: WeatherContentWidget(
-                            latitude: widget.cityLocation.latitude,
-                            longitude: widget.cityLocation.longitude,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                );
-              },
-            ),
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: WeatherContentWidget(
+                          latitude: widget.cityLocation.latitude,
+                          longitude: widget.cityLocation.longitude,
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              );
+            },
           ),
         );
       },

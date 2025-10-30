@@ -8,25 +8,10 @@ import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CityResultsContentWidget extends StatefulWidget {
+class CityResultsContentWidget extends StatelessWidget {
   const CityResultsContentWidget({
     super.key,
   });
-
-  @override
-  State<CityResultsContentWidget> createState() =>
-      _CityResultsContentWidgetState();
-}
-
-class _CityResultsContentWidgetState extends State<CityResultsContentWidget> {
-  late final FavoriteCubit _favoriteCubit;
-
-  @override
-  void initState() {
-    super.initState();
-    _favoriteCubit = BlocProvider.of<FavoriteCubit>(context);
-    /*_favoriteCubit.compareFavorites();*/
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/core/shared/ui/widgets/lottie_viewer.dart';
 import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
@@ -62,6 +63,9 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
 
       final forecast = cityWeatherData.forecast;
       final currentWeather = forecast.current;
+      final dailyResume = forecast.daily;
+      final hourlyResume = forecast.hourly;
+      final summaryDescription = dailyResume.first.summary ?? "";
 
       return Stack(
         children: [
@@ -84,13 +88,27 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                 const SizedBox(height: 10),
                 const IAContentWidget(),
                 const SizedBox(height: 10),
+                if (summaryDescription.isNotEmpty) ...[
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    height: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      color: backgroundColor.customOpacity(0.30),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Text(summaryDescription),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
                 HourlyListWeatherWidget(
-                  hourly: forecast.hourly,
+                  hourly: hourlyResume,
                   backgroundColor: backgroundColor,
                 ),
                 const SizedBox(height: 10),
                 DailyListWeatherWidget(
-                  daily: forecast.daily,
+                  daily: dailyResume,
                   backgroundColor: backgroundColor,
                 ),
                 const SizedBox(height: 10),
