@@ -1,3 +1,4 @@
+import 'package:clima_app/core/extensions/weather/city_weather_data_extension.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
 import 'package:clima_app/features/city/domain/repositories/city_repository.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
@@ -21,8 +22,12 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
         _cityRepository = cityRepository,
         super(CityWeatherState.initial()) {
     on<FetchWeatherEvent>(_getCurrentWeather);
-    on<CitySearchEvent>(_searchWeatherEvent,
-        transformer: debounce(const Duration(milliseconds: 500)));
+    on<CitySearchEvent>(
+      _searchWeatherEvent,
+      transformer: debounce(
+        const Duration(milliseconds: 500),
+      ),
+    );
   }
 
   Future<void> _getCurrentWeather(
