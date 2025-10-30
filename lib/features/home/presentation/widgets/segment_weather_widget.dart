@@ -19,7 +19,7 @@ class SegmentWeatherWidget extends StatelessWidget {
     final cardColor = (backgroundColor ?? Colors.grey).customOpacity(0.30);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(12),

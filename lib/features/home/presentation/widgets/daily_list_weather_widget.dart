@@ -24,7 +24,7 @@ class DailyListWeatherWidget extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         color: cardColor,

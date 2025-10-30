@@ -14,8 +14,9 @@ class SummaryDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
       height: 150,
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         color: backgroundColor.customOpacity(0.30),

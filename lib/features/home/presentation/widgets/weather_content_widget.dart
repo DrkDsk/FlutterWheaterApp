@@ -38,7 +38,10 @@ class _CityWeatherViewState extends State<CityWeatherView> {
     return const Stack(
       children: [
         WeatherBackgroundView(),
-        WeatherContent(),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: WeatherContent(),
+        ),
       ],
     );
   }
