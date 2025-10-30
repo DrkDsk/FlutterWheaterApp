@@ -100,7 +100,7 @@ class _ShowWeatherBottomSheetWidgetState
                       ),
                       const SizedBox(height: 8),
                       Expanded(
-                        child: WeatherContentWidget(
+                        child: CityWeatherView(
                           latitude: widget.cityLocation.latitude,
                           longitude: widget.cityLocation.longitude,
                         ),
