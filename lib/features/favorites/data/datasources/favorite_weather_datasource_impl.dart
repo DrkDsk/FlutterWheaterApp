@@ -48,8 +48,13 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
   }
 
   @override
-  Future<void> storeLocationCache({required LocationCacheHiveModel location}) {
-    return locationCacheBox.put(locationCacheKey, location);
+  Future<void> storeLocationCache(
+      {required LocationCacheHiveModel location}) async {
+    try {
+      return locationCacheBox.put(locationCacheKey, location);
+    } catch (e) {
+      return;
+    }
   }
 
   @override

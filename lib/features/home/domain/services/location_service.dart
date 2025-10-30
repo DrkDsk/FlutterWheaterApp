@@ -1,6 +1,5 @@
 import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/favorites/data/models/location_cache_hive_model.dart';
 import 'package:clima_app/features/home/domain/entities/coordinate.dart';
 import 'package:clima_app/features/home/domain/repositories/location_repository.dart';
 
@@ -60,27 +59,4 @@ class LocationService {
       state: placemark.administrativeArea ?? "",
     );
   }
-
-  Future<LocationCacheHiveModel?> getLocationCache(
-      LocationCacheHiveModel? storedDefaultLocation) async {
-    final currentCoordinates = await ensureCoordinates();
-    final currentLat = roundCoordinate(currentCoordinates.latitude);
-    final currentLon = roundCoordinate(currentCoordinates.longitude);
-
-    final hasStoredLocation = storedDefaultLocation != null;
-    final hasMoved = hasStoredLocation &&
-        (storedDefaultLocation.latitude != currentLat ||
-            storedDefaultLocation.longitude != currentLon);
-
-    if (hasStoredLocation && !hasMoved) {
-      return null;
-    }
-
-    final currentCityLocation = await getCityNameFromCoordinates();
-
-    return LocationCacheHiveModel.fromEntity(currentCityLocation);
-  }
-
-  double roundCoordinate(double value) =>
-      double.parse(value.toStringAsFixed(3));
 }

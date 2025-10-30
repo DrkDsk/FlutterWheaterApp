@@ -8,4 +8,8 @@ abstract class FavoriteWeatherRepository {
   Future<Either<Failure, List<CityLocation>>> getAll();
 
   Future<Either<Failure, bool>> delete({required CityLocation cityLocation});
+
+  Future<Either<Failure, bool>> isAvailableToStore({
+    required CityLocation cityLocation,
+  });
 }
