@@ -71,7 +71,8 @@ class SliderFavoriteWeatherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cityName = cityLocation.key;
+    final cityName =
+        cityLocation.id == null ? cityLocation.title : cityLocation.key;
 
     return Slidable(
       direction: Axis.horizontal,

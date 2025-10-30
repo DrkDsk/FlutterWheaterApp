@@ -1,4 +1,4 @@
-import 'package:clima_app/features/favorites/presentation/widgets/search_city_widget.dart';
+import 'package:clima_app/features/favorites/presentation/widgets/search_city_form_field.dart';
 import 'package:flutter/material.dart';
 
 class SearchCityHeader extends StatelessWidget {
@@ -12,10 +12,10 @@ class SearchCityHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Weather", style: theme.textTheme.titleLarge),
+        Text("Clima", style: theme.textTheme.titleLarge),
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: SearchCityWidget(),
+          child: SearchCityFormField(),
         ),
       ],
     );

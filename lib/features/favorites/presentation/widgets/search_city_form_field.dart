@@ -6,16 +6,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchCityWidget extends StatefulWidget {
-  const SearchCityWidget({
+class SearchCityFormField extends StatefulWidget {
+  const SearchCityFormField({
     super.key,
   });
 
   @override
-  State<SearchCityWidget> createState() => _SearchCityWidgetState();
+  State<SearchCityFormField> createState() => _SearchCityFormFieldState();
 }
 
-class _SearchCityWidgetState extends State<SearchCityWidget> {
+class _SearchCityFormFieldState extends State<SearchCityFormField> {
   Timer? _debounce;
   late CityWeatherBloc _cityWeatherBloc;
 
@@ -56,10 +56,11 @@ class _SearchCityWidgetState extends State<SearchCityWidget> {
         ),
       ),
       decoration: BoxDecoration(
-          color: CupertinoColors.systemGrey.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(12)),
+        color: CupertinoColors.systemGrey.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(12),
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      placeholder: 'Search for a city or a airport',
+      placeholder: 'Buscar ciudad',
       placeholderStyle: TextStyle(color: theme.colorScheme.onPrimary),
     );
   }

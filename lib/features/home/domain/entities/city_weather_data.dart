@@ -1,4 +1,4 @@
-import 'package:clima_app/core/colors/weather_lotties.dart';
+import 'package:clima_app/core/helpers/background_weather_helper.dart';
 import 'package:clima_app/core/enum/time_of_day_type_enum.dart';
 import 'package:clima_app/core/helpers/datetime_helper.dart';
 import 'package:clima_app/core/shared/domain/background_weather.dart';
@@ -12,10 +12,11 @@ class CityWeatherData with EquatableMixin {
   final String city;
   final TranslatedWeather translatedWeather;
 
-  CityWeatherData(
-      {required this.forecast,
-      required this.city,
-      required this.translatedWeather});
+  CityWeatherData({
+    required this.forecast,
+    required this.city,
+    required this.translatedWeather,
+  });
 
   BackgroundWeather getBackgroundWeather() {
     final weatherType = translatedWeather.main;
@@ -36,7 +37,9 @@ class CityWeatherData with EquatableMixin {
         weatherType: weatherType, time: timeType);
 
     final backgroundColor = BackgroundWeatherHelper.getWeatherBackgroundColor(
-        weatherType: weatherType, time: timeType);
+      weatherType: weatherType,
+      time: timeType,
+    );
 
     return BackgroundWeather(lottiePath: lottiePath, color: backgroundColor);
   }
