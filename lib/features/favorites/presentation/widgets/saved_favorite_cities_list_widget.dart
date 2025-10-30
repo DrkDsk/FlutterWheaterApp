@@ -68,7 +68,9 @@ class _SavedFavoriteCitiesListWidgetState
                 end: Offset.zero,
               ).animate(delayedAnimation),
               child: SliderFavoriteWeatherCard(
-                  cityLocation: currentCity, index: index),
+                cityLocation: currentCity,
+                index: index,
+              ),
             ),
           );
         },

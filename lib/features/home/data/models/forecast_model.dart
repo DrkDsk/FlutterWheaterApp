@@ -25,10 +25,10 @@ class ForecastModel with EquatableMixin {
 
   factory ForecastModel.fromJson(Map<String, dynamic> map) {
     return ForecastModel(
-      latitude: map['lat'] as double,
-      longitude: map['lon'] as double,
+      latitude: (map['lat'] as num).toDouble(),
+      longitude: (map['lon'] as num).toDouble(),
       timeZone: map['timezone'] as String,
-      timezoneOffset: map['timezone_offset'] as int,
+      timezoneOffset: (map['timezone_offset'] as num).toInt(),
       current: CurrentModel.fromJson(map["current"]),
       hourly: map["hourly"] == null
           ? null

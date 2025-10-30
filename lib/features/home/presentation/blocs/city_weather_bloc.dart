@@ -34,7 +34,7 @@ class CityWeatherBloc extends Bloc<CityWeatherEvent, CityWeatherState> {
     final latitude = event.latitude;
     final longitude = event.longitude;
 
-    final cityWeatherDataResult = await _getWeatherUseCase.call(
+    final cityWeatherDataResult = await _getWeatherUseCase(
       latitude: latitude,
       longitude: longitude,
     );
