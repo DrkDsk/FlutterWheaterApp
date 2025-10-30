@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:clima_app/core/error/exceptions/network_exception.dart';
 import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
 import 'package:clima_app/core/error/failures/failure.dart';
@@ -52,27 +54,21 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
   @override
   Future<Either<Failure, List<CityLocation>>> getAll() async {
     try {
-      final favoritesModels = await _favoriteWeatherDataSource.getAll();
-      final storedCities = favoritesModels
-          .map(
-            (city) => city.toEntity(),
-          )
-          .toList();
+      final (favorites, locationCache) = await (
+        _favoriteWeatherDataSource.getAll(),
+        _favoriteService.getLocationCache(),
+      ).wait;
 
-      final storedLocationCache = await _favoriteService.getLocationCache();
+      final storedCities = favorites.map((city) => city.toEntity()).toList();
+      final cachedEntity = locationCache.toEntity();
 
-      await _favoriteWeatherDataSource.storeLocationCache(
-        location: storedLocationCache,
+      unawaited(
+        _favoriteWeatherDataSource.storeLocationCache(location: locationCache),
       );
 
-      final cacheIndex = storedCities
-          .indexWhere((element) => element.key == storedLocationCache.key);
-
-      if (cacheIndex != -1) {
-        storedCities.removeAt(cacheIndex);
-      }
-
-      storedCities.insert(0, storedLocationCache.toEntity());
+      storedCities
+        ..removeWhere((element) => element.key == locationCache.key)
+        ..insert(0, cachedEntity);
 
       return Right(storedCities);
     } on UnknownException catch (e) {
@@ -108,15 +104,17 @@ class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
       {required CityLocation cityLocation}) async {
     try {
       final cityLocationKey = cityLocation.key;
-      final cacheCity =
-          await _favoriteWeatherDataSource.getStoredLocationCache();
-      final cityAsFavorite = await _favoriteWeatherDataSource.findByKey(
-        key: cityLocationKey,
-      );
 
-      final cacheCityKey = cacheCity?.key;
-      final favoriteCityKey = cityAsFavorite?.key;
-      final exists = [cacheCityKey, favoriteCityKey].contains(cityLocationKey);
+      final results = await Future.wait([
+        _favoriteWeatherDataSource.getStoredLocationCache(),
+        _favoriteWeatherDataSource.findByKey(key: cityLocationKey),
+      ]);
+
+      final cacheCity = results[0];
+      final favoriteCity = results[1];
+
+      final exists = cacheCity?.key == cityLocationKey ||
+          favoriteCity?.key == cityLocationKey;
 
       return Right(!exists);
     } on UnknownException catch (e) {
