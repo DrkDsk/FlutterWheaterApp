@@ -38,4 +38,6 @@ class CityLocation with EquatableMixin {
   List<Object?> get props => [id, city, latitude, longitude, country, state];
 
   String get key => '$city, $state';
+
+  String get title => city;
 }
