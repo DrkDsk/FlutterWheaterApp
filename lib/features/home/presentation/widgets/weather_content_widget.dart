@@ -1,7 +1,8 @@
-import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/core/shared/ui/widgets/lottie_viewer.dart';
 import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
+import 'package:clima_app/features/home/domain/entities/daily.dart';
+import 'package:clima_app/features/home/domain/entities/hourly.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:clima_app/features/home/presentation/widgets/daily_list_weather_
 import 'package:clima_app/features/home/presentation/widgets/detail_weather_grid_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/header_weather_widget.dart';
 import 'package:clima_app/features/home/presentation/widgets/hourly_list_weather_widget.dart';
+import 'package:clima_app/features/home/presentation/widgets/summary_description.dart';
 import 'package:clima_app/features/ia/ui/blocs/widgets/ia_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,9 +65,10 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
 
       final forecast = cityWeatherData.forecast;
       final currentWeather = forecast.current;
-      final dailyResume = forecast.daily;
-      final hourlyResume = forecast.hourly;
-      final summaryDescription = dailyResume.first.summary ?? "";
+      final List<Daily> dailyResume = [];
+      final List<Hourly> hourlyResume = [];
+      final summaryDescription =
+          dailyResume.isNotEmpty ? dailyResume.first.summary : null;
 
       return Stack(
         children: [
@@ -88,29 +91,26 @@ class _WeatherContentWidgetState extends State<WeatherContentWidget> {
                 const SizedBox(height: 10),
                 const IAContentWidget(),
                 const SizedBox(height: 10),
-                if (summaryDescription.isNotEmpty) ...[
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: backgroundColor.customOpacity(0.30),
-                    ),
-                    child: SingleChildScrollView(
-                      child: Text(summaryDescription),
-                    ),
+                if (summaryDescription != null) ...[
+                  SummaryDescription(
+                    backgroundColor: backgroundColor,
+                    summaryDescription: summaryDescription,
                   ),
                   const SizedBox(height: 10),
                 ],
-                HourlyListWeatherWidget(
-                  hourly: hourlyResume,
-                  backgroundColor: backgroundColor,
-                ),
+                if (hourlyResume.isNotEmpty) ...[
+                  HourlyListWeatherWidget(
+                    hourly: hourlyResume,
+                    backgroundColor: backgroundColor,
+                  ),
+                ],
                 const SizedBox(height: 10),
-                DailyListWeatherWidget(
-                  daily: dailyResume,
-                  backgroundColor: backgroundColor,
-                ),
+                if (dailyResume.isNotEmpty) ...[
+                  DailyListWeatherWidget(
+                    daily: dailyResume,
+                    backgroundColor: backgroundColor,
+                  ),
+                ],
                 const SizedBox(height: 10),
                 DetailWeatherGridWidget(
                   weather: currentWeather,
