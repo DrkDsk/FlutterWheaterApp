@@ -1,22 +1,7 @@
-import 'package:dio/dio.dart';
-
 class NetworkException implements Exception {
   final String message;
 
   NetworkException(this.message);
-
-  factory NetworkException.fromDioError(DioException e) {
-    if (e.type == DioExceptionType.connectionTimeout) {
-      return NetworkException("Tiempo de conexión agotado");
-    } else if (e.type == DioExceptionType.receiveTimeout) {
-      return NetworkException("Tiempo de espera agotado");
-    } else if (e.type == DioExceptionType.connectionError) {
-      return NetworkException(
-          "Sin conexión a Internet, checa tu conexión o intenta nuevamente");
-    } else {
-      return NetworkException("Error de red: ${e.message}");
-    }
-  }
 }
 
 class NoInternetException extends NetworkException {
