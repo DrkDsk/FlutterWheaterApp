@@ -12,18 +12,16 @@ import 'package:clima_app/features/home/presentation/widgets/weather_content.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShowWeatherBottomSheetWidget extends StatefulWidget {
-  const ShowWeatherBottomSheetWidget({super.key, required this.cityLocation});
+class ShowWeatherBottomSheet extends StatefulWidget {
+  const ShowWeatherBottomSheet({super.key, required this.cityLocation});
 
   final CityLocation cityLocation;
 
   @override
-  State<ShowWeatherBottomSheetWidget> createState() =>
-      _ShowWeatherBottomSheetWidgetState();
+  State<ShowWeatherBottomSheet> createState() => _ShowWeatherBottomSheetState();
 }
 
-class _ShowWeatherBottomSheetWidgetState
-    extends State<ShowWeatherBottomSheetWidget> {
+class _ShowWeatherBottomSheetState extends State<ShowWeatherBottomSheet> {
   late final FavoriteCubit _favoriteCubit;
   late final HomePageNavigationCubit _navigationCubit;
   late final CityWeatherBloc _cityWeatherBloc;
