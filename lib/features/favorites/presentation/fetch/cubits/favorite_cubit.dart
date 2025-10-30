@@ -103,4 +103,20 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       emit(newState);
     });
   }
+
+  Future<void> getCityIsAvailableToSave(
+      {required CityLocation cityLocation}) async {
+    final resultEither = await _repository.isAvailableToStore(
+      cityLocation: cityLocation,
+    );
+
+    resultEither.fold((left) {
+      emit(state.copyWith(
+        isAvailableToStore: false,
+        message: left.message,
+      ));
+    }, (result) {
+      emit(state.copyWith(isAvailableToStore: result));
+    });
+  }
 }

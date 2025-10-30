@@ -12,10 +12,12 @@ class HeaderWeatherSheet extends StatelessWidget {
     super.key,
     required this.onCancel,
     required this.onSave,
+    required this.isAbleToSave,
   });
 
   final void Function() onCancel;
   final void Function() onSave;
+  final bool isAbleToSave;
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +43,17 @@ class HeaderWeatherSheet extends StatelessWidget {
                   onPressed: onCancel,
                   child: Text("Cancelar", style: theme.textTheme.bodyMedium),
                 ),
-                CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () => !isConnected ? null : onSave(),
-                  child: Text(
-                    "Agregar",
-                    style: theme.textTheme.bodyMedium
-                        ?.copyWith(color: onSaveTextColor),
+                if (isAbleToSave) ...[
+                  CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () => (!isConnected) ? null : onSave(),
+                    child: Text(
+                      "Agregar",
+                      style: theme.textTheme.bodyMedium
+                          ?.copyWith(color: onSaveTextColor),
+                    ),
                   ),
-                ),
+                ]
               ],
             ),
           ],

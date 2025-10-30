@@ -33,6 +33,11 @@ class _ShowWeatherBottomSheetWidgetState
     super.initState();
     _favoriteCubit = BlocProvider.of<FavoriteCubit>(context);
     _navigationCubit = BlocProvider.of<HomePageNavigationCubit>(context);
+    Future.microtask(() {
+      _favoriteCubit.getCityIsAvailableToSave(
+        cityLocation: widget.cityLocation,
+      );
+    });
   }
 
   Future<void> redirectToHome(
@@ -88,9 +93,11 @@ class _ShowWeatherBottomSheetWidgetState
                     Column(
                       children: [
                         HeaderWeatherSheet(
+                          isAbleToSave: state.isAvailableToStore,
                           onCancel: () => AppRouter.of(context).pop(),
                           onSave: () => _favoriteCubit.store(
-                              cityLocation: widget.cityLocation),
+                            cityLocation: widget.cityLocation,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Expanded(

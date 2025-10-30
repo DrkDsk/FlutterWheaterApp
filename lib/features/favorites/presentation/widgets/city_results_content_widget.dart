@@ -25,7 +25,7 @@ class _CityResultsContentWidgetState extends State<CityResultsContentWidget> {
   void initState() {
     super.initState();
     _favoriteCubit = BlocProvider.of<FavoriteCubit>(context);
-    _favoriteCubit.compareFavorites();
+    /*_favoriteCubit.compareFavorites();*/
   }
 
   @override

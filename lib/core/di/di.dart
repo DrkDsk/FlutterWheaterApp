@@ -6,6 +6,7 @@ import 'package:clima_app/features/city/domain/repositories/city_repository.dart
 import 'package:clima_app/features/city/data/datasources/city_datasource_impl.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
 import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
+import 'package:clima_app/features/favorites/data/services/favorite_service.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource_impl.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
@@ -55,13 +56,13 @@ Future<void> initDependencies() async {
 
   getIt.registerSingleton<Connectivity>(Connectivity());
   getIt.registerLazySingleton(
-      () => NetworkService(connectivity: getIt<Connectivity>()));
+    () => NetworkService(
+      connectivity: getIt<Connectivity>(),
+    ),
+  );
 
   // Helpers
   getIt.registerLazySingleton(() => WeatherMapper(getIt()));
-
-  // Services
-  getIt.registerLazySingleton(() => LocationService(getIt()));
 
   // DataSources
   getIt.registerLazySingleton<IADatasource>(() => IADatasourceImpl());
@@ -73,10 +74,20 @@ Future<void> initDependencies() async {
       () => LocationDataSourceImpl(networkService: getIt<NetworkService>()));
   getIt.registerLazySingleton(() => WeatherDescriptionLocalDataSourceImpl());
   getIt.registerLazySingleton<FavoriteWeatherDataSource>(
-      () => FavoriteWeatherDataSourceImpl(
-            favoriteCityBox: favoriteCityBox,
-            locationCacheBox: locationCacheBox,
-          ));
+    () => FavoriteWeatherDataSourceImpl(
+      favoriteCityBox: favoriteCityBox,
+      locationCacheBox: locationCacheBox,
+    ),
+  );
+
+  // Services
+  getIt.registerLazySingleton(() => LocationService(getIt()));
+  getIt.registerLazySingleton(
+    () => FavoriteService(
+      favoriteDataSource: getIt<FavoriteWeatherDataSource>(),
+      locationService: getIt<LocationService>(),
+    ),
+  );
 
   // Repositories
   getIt.registerLazySingleton<IARepository>(
@@ -92,7 +103,9 @@ Future<void> initDependencies() async {
 
   getIt.registerLazySingleton<FavoriteWeatherRepository>(
     () => FavoriteWeatherRepositoryImpl(
-        dataSource: getIt(), locationService: getIt<LocationService>()),
+      favoriteWeatherDataSource: getIt<FavoriteWeatherDataSource>(),
+      favoriteService: getIt<FavoriteService>(),
+    ),
   );
 
   getIt.registerLazySingleton<WeatherDescriptionRepository>(
