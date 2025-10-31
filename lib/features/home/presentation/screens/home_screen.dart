@@ -8,16 +8,16 @@ import 'package:clima_app/features/home/presentation/widgets/bottom_app_bar_widg
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeWeatherScreen extends StatefulWidget {
-  const HomeWeatherScreen({super.key, this.initialIndex});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key, this.initialIndex});
 
   final int? initialIndex;
 
   @override
-  State<HomeWeatherScreen> createState() => _HomeWeatherScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeWeatherScreenState extends State<HomeWeatherScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   late final PageController _pageController;
   late final HomePageNavigationCubit _navigationCubit;
   late final FavoriteCubit _favoriteFetchCubit;
