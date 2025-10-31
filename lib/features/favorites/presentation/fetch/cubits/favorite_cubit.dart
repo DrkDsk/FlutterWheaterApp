@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:clima_app/features/city/domain/entities/city_location_entity.dart';
-import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
+import 'package:clima_app/features/favorites/domain/repository/favorite_repository.dart';
 import 'package:uuid/uuid.dart';
 
 import './favorite_fetch_state.dart';
 
 class FavoriteCubit extends Cubit<FavoriteState> {
-  final FavoriteWeatherRepository _repository;
+  final FavoriteRepository _repository;
 
   FavoriteCubit({
-    required FavoriteWeatherRepository repository,
+    required FavoriteRepository repository,
   })  : _repository = repository,
         super(const FavoriteState());
 

@@ -7,14 +7,14 @@ import 'package:clima_app/features/city/domain/entities/city_location_entity.dar
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
 import 'package:clima_app/features/favorites/data/models/city_location_hive_model.dart';
 import 'package:clima_app/features/favorites/data/services/favorite_service.dart';
-import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
+import 'package:clima_app/features/favorites/domain/repository/favorite_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class FavoriteWeatherRepositoryImpl implements FavoriteWeatherRepository {
+class FavoriteRepositoryImpl implements FavoriteRepository {
   final FavoriteWeatherDataSource _favoriteWeatherDataSource;
   final FavoriteService _favoriteService;
 
-  const FavoriteWeatherRepositoryImpl(
+  const FavoriteRepositoryImpl(
       {required FavoriteWeatherDataSource favoriteWeatherDataSource,
       required FavoriteService favoriteService})
       : _favoriteWeatherDataSource = favoriteWeatherDataSource,
