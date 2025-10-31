@@ -4,7 +4,7 @@ import 'package:clima_app/features/city/domain/entities/city_location_entity.dar
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
-import 'package:clima_app/features/home/presentation/widgets/weather_content_widget.dart';
+import 'package:clima_app/features/home/presentation/widgets/city_weather_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
