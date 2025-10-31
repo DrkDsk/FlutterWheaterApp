@@ -1,7 +1,7 @@
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:clima_app/core/router/app_router.dart';
-import 'package:clima_app/features/favorites/presentation/screens/favorites_cities_screen.dart';
+import 'package:clima_app/features/favorites/presentation/screens/favorites_screen.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
 import 'package:clima_app/features/home/presentation/widgets/favorites_cities_scroll_indicator_widget.dart';
@@ -23,7 +23,7 @@ class BottomAppBarWidget extends StatelessWidget {
     router.goToScreenAndClear(
       BlocProvider<CityWeatherBloc>(
         create: (_) => getIt<CityWeatherBloc>(),
-        child: const FavoritesCitiesScreen(),
+        child: const FavoritesScreen(),
       ),
     );
   }
