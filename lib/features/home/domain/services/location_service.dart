@@ -17,7 +17,10 @@ class LocationService {
     double? longitude,
   }) async {
     if (latitude != null && longitude != null) {
-      return Coordinate(latitude: latitude, longitude: longitude);
+      return Coordinate(
+        latitude: latitude,
+        longitude: longitude,
+      );
     }
 
     final coordinate = await getCurrentLocation();

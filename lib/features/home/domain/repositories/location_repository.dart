@@ -4,6 +4,8 @@ import 'package:geocoding/geocoding.dart';
 abstract class LocationRepository {
   Future<Coordinate?> getCurrentLocation();
 
-  Future<Placemark?> getLocationInformation(
-      {required double latitude, required double longitude});
+  Future<Placemark?> getLocationInformation({
+    required double latitude,
+    required double longitude,
+  });
 }

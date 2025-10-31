@@ -15,14 +15,18 @@ class LocationRepositoryImpl implements LocationRepository {
     if (position == null) return null;
 
     return Coordinate(
-        latitude: position.latitude ?? 0, longitude: position.longitude ?? 0);
+      latitude: position.latitude ?? 0,
+      longitude: position.longitude ?? 0,
+    );
   }
 
   @override
   Future<Placemark?> getLocationInformation(
       {required double latitude, required double longitude}) async {
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(latitude, longitude);
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      latitude,
+      longitude,
+    );
 
     return placemarks.isEmpty ? null : placemarks.first;
   }
