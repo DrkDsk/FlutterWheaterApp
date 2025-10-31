@@ -11,10 +11,11 @@ class GetWeatherUseCase {
   final LocationService locationService;
   final WeatherMapper mapper;
 
-  GetWeatherUseCase(
-      {required this.locationService,
-      required this.repository,
-      required this.mapper});
+  GetWeatherUseCase({
+    required this.locationService,
+    required this.repository,
+    required this.mapper,
+  });
 
   Future<Either<Failure, CityWeatherData>> call(
       {double? latitude, double? longitude}) async {

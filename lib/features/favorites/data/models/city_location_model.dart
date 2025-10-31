@@ -6,6 +6,7 @@ class CityLocationModel {
   final double lon;
   final String country;
   final String? state;
+  final String? cityName;
 
   const CityLocationModel({
     required this.name,
@@ -13,6 +14,7 @@ class CityLocationModel {
     required this.lon,
     required this.country,
     required this.state,
+    required this.cityName,
   });
 
   CityLocation toEntity() {
@@ -21,7 +23,8 @@ class CityLocationModel {
         latitude: lat,
         longitude: lon,
         country: country,
-        state: state ?? "");
+        state: state ?? "",
+        cityName: cityName ?? "");
   }
 
   Map<String, dynamic> toJson() {
@@ -31,6 +34,7 @@ class CityLocationModel {
       'lon': lon,
       'country': country,
       'state': state,
+      'cityName': cityName
     };
   }
 
@@ -41,6 +45,7 @@ class CityLocationModel {
       lon: map['lon'] as double,
       country: map['country'] as String,
       state: map['state'] as String?,
+      cityName: "", //PENDING
     );
   }
 }

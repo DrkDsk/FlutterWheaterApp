@@ -14,10 +14,10 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   final FavoriteWeatherDataSource _favoriteWeatherDataSource;
   final FavoriteService _favoriteService;
 
-  const FavoriteRepositoryImpl(
-      {required FavoriteWeatherDataSource favoriteWeatherDataSource,
-      required FavoriteService favoriteService})
-      : _favoriteWeatherDataSource = favoriteWeatherDataSource,
+  const FavoriteRepositoryImpl({
+    required FavoriteWeatherDataSource favoriteWeatherDataSource,
+    required FavoriteService favoriteService,
+  })  : _favoriteWeatherDataSource = favoriteWeatherDataSource,
         _favoriteService = favoriteService;
 
   @override

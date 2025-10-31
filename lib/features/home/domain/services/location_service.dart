@@ -51,12 +51,18 @@ class LocationService {
       );
     }
 
+    final city = placemark.locality;
+    final state = placemark.administrativeArea;
+    final country = placemark.country;
+    final cityName = "$city, $state, $country";
+
     return CityLocation(
-      city: "${placemark.locality}, ${placemark.administrativeArea}",
+      city: "$city",
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
-      country: placemark.country ?? "",
-      state: placemark.administrativeArea ?? "",
+      country: country ?? "",
+      state: state ?? "",
+      cityName: cityName,
     );
   }
 }

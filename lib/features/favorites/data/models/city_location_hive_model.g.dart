@@ -23,13 +23,14 @@ class CityLocationHiveModelAdapter extends TypeAdapter<CityLocationHiveModel> {
       longitude: fields[3] as double,
       state: fields[4] as String,
       country: fields[5] as String,
+      cityName: fields[6] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CityLocationHiveModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class CityLocationHiveModelAdapter extends TypeAdapter<CityLocationHiveModel> {
       ..writeByte(4)
       ..write(obj.state)
       ..writeByte(5)
-      ..write(obj.country);
+      ..write(obj.country)
+      ..writeByte(6)
+      ..write(obj.cityName);
   }
 
   @override
