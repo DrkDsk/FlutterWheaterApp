@@ -39,13 +39,14 @@ class CityLocationHiveModel extends HiveObject {
 
   CityLocation toEntity() {
     return CityLocation(
-        id: id,
-        city: city,
-        latitude: latitude,
-        longitude: longitude,
-        country: country,
-        state: state,
-        cityName: cityName);
+      id: id,
+      city: city,
+      latitude: latitude,
+      longitude: longitude,
+      country: country,
+      state: state,
+      cityName: cityName,
+    );
   }
 
   factory CityLocationHiveModel.fromEntity(CityLocation location) =>
