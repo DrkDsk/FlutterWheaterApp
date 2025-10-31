@@ -21,12 +21,13 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         _favoriteService = favoriteService;
 
   @override
-  Future<Either<Failure, bool>> store({required CityLocation location}) async {
+  Future<Either<Failure, bool>> store(
+      {required CityLocation cityLocation}) async {
     try {
-      final currentCityKey = location.key;
+      final cityLocationKey = cityLocation.cityName;
 
       final locationModel = await _favoriteWeatherDataSource.findByKey(
-        key: currentCityKey,
+        key: cityLocationKey,
       );
 
       final locationCache =
@@ -36,7 +37,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         return const Right(false);
       }
 
-      final cityModel = CityLocationHiveModel.fromEntity(location);
+      final cityModel = CityLocationHiveModel.fromEntity(cityLocation);
       await _favoriteWeatherDataSource.store(city: cityModel);
 
       if (locationCache != null && cityModel.key == locationCache.key) {
@@ -60,15 +61,16 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       ).wait;
 
       final storedCities = favorites.map((city) => city.toEntity()).toList();
-      final cachedEntity = locationCache.toEntity();
+      final cityLocation = locationCache.toEntity();
+      final cityLocationKey = cityLocation.cityName;
 
       unawaited(
         _favoriteWeatherDataSource.storeLocationCache(location: locationCache),
       );
 
       storedCities
-        ..removeWhere((element) => element.key == locationCache.key)
-        ..insert(0, cachedEntity);
+        ..removeWhere((element) => element.cityName == cityLocationKey)
+        ..insert(0, cityLocation);
 
       return Right(storedCities);
     } on UnknownException catch (e) {
@@ -103,18 +105,15 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   Future<Either<Failure, bool>> isAvailableToStore(
       {required CityLocation cityLocation}) async {
     try {
-      final cityLocationKey = cityLocation.key;
+      final cityLocationKey = cityLocation.cityName;
 
-      final results = await Future.wait([
+      final (cacheLocationCity, storedCity) = await (
         _favoriteWeatherDataSource.getStoredLocationCache(),
         _favoriteWeatherDataSource.findByKey(key: cityLocationKey),
-      ]);
+      ).wait;
 
-      final cacheCity = results[0];
-      final favoriteCity = results[1];
-
-      final exists = cacheCity?.key == cityLocationKey ||
-          favoriteCity?.key == cityLocationKey;
+      final exists = cacheLocationCity?.cityName == cityLocationKey ||
+          storedCity?.cityName == cityLocationKey;
 
       return Right(!exists);
     } on UnknownException catch (e) {

@@ -37,7 +37,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     emit(state.copyWith(status: FavoriteStatus.loading));
 
     final location = cityLocation.copyWith(id: const Uuid().v4());
-    final storeResult = await _repository.store(location: location);
+    final storeResult = await _repository.store(cityLocation: location);
 
     final newState = storeResult.fold((error) {
       return state.copyWith(

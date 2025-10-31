@@ -49,8 +49,4 @@ class CityLocation with EquatableMixin {
         state,
         cityName,
       ];
-
-  String get key => '$city, $state';
-
-  String get title => city;
 }

@@ -58,7 +58,4 @@ class CityLocationHiveModel extends HiveObject {
         country: location.country,
         cityName: location.cityName,
       );
-
-  @override
-  String get key => '$city, $state';
 }

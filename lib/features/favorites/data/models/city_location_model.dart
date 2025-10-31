@@ -19,12 +19,13 @@ class CityLocationModel {
 
   CityLocation toEntity() {
     return CityLocation(
-        city: name,
-        latitude: lat,
-        longitude: lon,
-        country: country,
-        state: state ?? "",
-        cityName: cityName ?? "");
+      city: name,
+      latitude: lat,
+      longitude: lon,
+      country: country,
+      state: state ?? "",
+      cityName: cityName ?? "",
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -39,13 +40,17 @@ class CityLocationModel {
   }
 
   factory CityLocationModel.fromJson(Map<String, dynamic> map) {
+    final String city = map['name'] as String;
+    final String state = map['state'] as String;
+    final String cityName = "$city, $state";
+
     return CityLocationModel(
-      name: map['name'] as String,
+      name: city,
       lat: map['lat'] as double,
       lon: map['lon'] as double,
       country: map['country'] as String,
-      state: map['state'] as String?,
-      cityName: "", //PENDING
+      state: state,
+      cityName: cityName,
     );
   }
 }

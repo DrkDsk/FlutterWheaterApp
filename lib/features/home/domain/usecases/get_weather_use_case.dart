@@ -32,11 +32,6 @@ class GetWeatherUseCase {
       lon: locationEntity.longitude,
     );
 
-    final cityLocation = await locationService.getCityNameFromCoordinates(
-      latitude: locationEntity.latitude,
-      longitude: locationEntity.longitude,
-    );
-
     if (forecastEither.isLeft()) {
       return Left(forecastEither.swap().getOrElse(() => GenericFailure()));
     }
@@ -53,7 +48,6 @@ class GetWeatherUseCase {
 
     final cityWeatherData = CityWeatherData(
       forecast: forecast,
-      city: cityLocation.city,
       translatedWeather: translatedWeather,
     );
 

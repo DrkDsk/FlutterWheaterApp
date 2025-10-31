@@ -11,8 +11,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class SliderFavoriteWeatherCard extends StatelessWidget {
-  const SliderFavoriteWeatherCard(
-      {super.key, required this.cityLocation, required this.index});
+  const SliderFavoriteWeatherCard({
+    super.key,
+    required this.cityLocation,
+    required this.index,
+  });
 
   final int index;
   final CityLocation cityLocation;
@@ -71,8 +74,7 @@ class SliderFavoriteWeatherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cityName =
-        cityLocation.id == null ? cityLocation.title : cityLocation.key;
+    final cityName = cityLocation.cityName;
 
     return Slidable(
       direction: Axis.horizontal,

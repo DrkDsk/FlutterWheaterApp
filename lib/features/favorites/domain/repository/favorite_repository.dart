@@ -3,7 +3,7 @@ import 'package:clima_app/features/city/domain/entities/city_location_entity.dar
 import 'package:dartz/dartz.dart';
 
 abstract class FavoriteRepository {
-  Future<Either<Failure, bool>> store({required CityLocation location});
+  Future<Either<Failure, bool>> store({required CityLocation cityLocation});
 
   Future<Either<Failure, List<CityLocation>>> getAll();
 

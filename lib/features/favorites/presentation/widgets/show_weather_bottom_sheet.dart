@@ -65,6 +65,9 @@ class _ShowWeatherBottomSheetState extends State<ShowWeatherBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final cityLocation = widget.cityLocation;
+    final cityName = cityLocation.cityName;
+
     return FractionallySizedBox(
       heightFactor: 0.90,
       child: Stack(
@@ -84,12 +87,14 @@ class _ShowWeatherBottomSheetState extends State<ShowWeatherBottomSheet> {
                       isAbleToSave: isAvailableToStore,
                       onCancel: () => AppRouter.of(context).pop(),
                       onSave: () => _favoriteCubit.store(
-                        cityLocation: widget.cityLocation,
+                        cityLocation: cityLocation,
                       ),
                     );
                   },
                 ),
-                const Expanded(child: WeatherContent()),
+                Expanded(
+                  child: WeatherContent(cityName: cityName),
+                ),
                 const SizedBox(height: 10)
               ],
             ),

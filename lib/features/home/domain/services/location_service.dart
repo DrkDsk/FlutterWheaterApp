@@ -54,7 +54,7 @@ class LocationService {
     final city = placemark.locality;
     final state = placemark.administrativeArea;
     final country = placemark.country;
-    final cityName = "$city, $state, $country";
+    final cityName = "$city, $state";
 
     return CityLocation(
       city: "$city",

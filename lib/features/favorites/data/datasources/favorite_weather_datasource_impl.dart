@@ -60,7 +60,7 @@ class FavoriteWeatherDataSourceImpl implements FavoriteWeatherDataSource {
   @override
   Future<CityLocationHiveModel?> findByKey({required String key}) async {
     final result = favoriteCityBox.values
-        .where((element) => element.key == key)
+        .where((element) => element.cityName == key)
         .firstOrNull;
 
     return result;

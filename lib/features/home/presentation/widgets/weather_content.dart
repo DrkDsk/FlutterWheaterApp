@@ -25,7 +25,12 @@ class WeatherStatusContentData {
 }
 
 class WeatherContent extends StatelessWidget {
-  const WeatherContent({super.key});
+  const WeatherContent({
+    super.key,
+    required this.cityName,
+  });
+
+  final String cityName;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +65,7 @@ class WeatherContent extends StatelessWidget {
             children: [
               const SizedBox(height: 10),
               HeaderWeatherWidget(
-                city: data.city,
+                cityName: cityName,
                 translatedWeather: data.translatedWeather,
                 temp: current.tempCelsiusText,
               ),
