@@ -23,13 +23,14 @@ class LocationCacheHiveModelAdapter
       city: fields[2] as String,
       state: fields[3] as String,
       country: fields[4] as String,
+      cityName: fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, LocationCacheHiveModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.latitude)
       ..writeByte(1)
@@ -39,7 +40,9 @@ class LocationCacheHiveModelAdapter
       ..writeByte(3)
       ..write(obj.state)
       ..writeByte(4)
-      ..write(obj.country);
+      ..write(obj.country)
+      ..writeByte(5)
+      ..write(obj.cityName);
   }
 
   @override

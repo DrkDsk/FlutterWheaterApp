@@ -20,6 +20,7 @@ class SearchCityLocationResponseModel {
 
   SearchCityLocationResponse toEntity() {
     return SearchCityLocationResponse(
-        data: data.map((element) => element.toEntity()).toList());
+      data: data.map((element) => element.toEntity()).toList(),
+    );
   }
 }

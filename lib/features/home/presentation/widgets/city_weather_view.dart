@@ -6,10 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CityWeatherView extends StatefulWidget {
-  const CityWeatherView({super.key, this.latitude, this.longitude});
+  const CityWeatherView({
+    super.key,
+    this.latitude,
+    this.longitude,
+    required this.cityName,
+  });
 
   final double? latitude;
   final double? longitude;
+  final String cityName;
 
   @override
   State<CityWeatherView> createState() => _CityWeatherViewState();
@@ -35,12 +41,12 @@ class _CityWeatherViewState extends State<CityWeatherView> {
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
+    return Stack(
       children: [
-        WeatherBackgroundView(),
+        const WeatherBackgroundView(),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: WeatherContent(),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: WeatherContent(cityName: widget.cityName),
         ),
       ],
     );

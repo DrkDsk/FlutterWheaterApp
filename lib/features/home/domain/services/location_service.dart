@@ -17,7 +17,10 @@ class LocationService {
     double? longitude,
   }) async {
     if (latitude != null && longitude != null) {
-      return Coordinate(latitude: latitude, longitude: longitude);
+      return Coordinate(
+        latitude: latitude,
+        longitude: longitude,
+      );
     }
 
     final coordinate = await getCurrentLocation();
@@ -51,12 +54,18 @@ class LocationService {
       );
     }
 
+    final city = placemark.locality;
+    final state = placemark.administrativeArea;
+    final country = placemark.country;
+    final cityName = "$city, $state";
+
     return CityLocation(
-      city: "${placemark.locality}, ${placemark.administrativeArea}",
+      city: "$city",
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
-      country: placemark.country ?? "",
-      state: placemark.administrativeArea ?? "",
+      country: country ?? "",
+      state: state ?? "",
+      cityName: cityName,
     );
   }
 }

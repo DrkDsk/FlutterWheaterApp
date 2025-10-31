@@ -5,9 +5,9 @@ import 'package:clima_app/features/city/data/repositories/city_repository_impl.d
 import 'package:clima_app/features/city/domain/repositories/city_repository.dart';
 import 'package:clima_app/features/city/data/datasources/city_datasource_impl.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
-import 'package:clima_app/features/favorites/data/repositories/favorite_weather_repository_impl.dart';
+import 'package:clima_app/features/favorites/data/repositories/favorite_repository_impl.dart';
 import 'package:clima_app/features/favorites/data/services/favorite_service.dart';
-import 'package:clima_app/features/favorites/domain/repository/favorite_weather_repository.dart';
+import 'package:clima_app/features/favorites/domain/repository/favorite_repository.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource_impl.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart';
@@ -101,8 +101,8 @@ Future<void> initDependencies() async {
     () => SearchWeatherRepositoryImpl(datasource: getIt()),
   );
 
-  getIt.registerLazySingleton<FavoriteWeatherRepository>(
-    () => FavoriteWeatherRepositoryImpl(
+  getIt.registerLazySingleton<FavoriteRepository>(
+    () => FavoriteRepositoryImpl(
       favoriteWeatherDataSource: getIt<FavoriteWeatherDataSource>(),
       favoriteService: getIt<FavoriteService>(),
     ),
@@ -129,7 +129,7 @@ Future<void> initDependencies() async {
     () => IACubit(repository: getIt<IARepository>()),
   );
 
-  final favoriteWeatherRepository = getIt<FavoriteWeatherRepository>();
+  final favoriteWeatherRepository = getIt<FavoriteRepository>();
 
   getIt.registerFactory<FavoriteCubit>(
     () => FavoriteCubit(repository: favoriteWeatherRepository),

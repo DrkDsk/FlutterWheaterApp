@@ -7,10 +7,10 @@ class HeaderWeatherWidget extends StatelessWidget {
     super.key,
     required this.temp,
     required this.translatedWeather,
-    required this.city,
+    required this.cityName,
   });
 
-  final String city;
+  final String cityName;
   final String temp;
   final TranslatedWeather translatedWeather;
 
@@ -24,7 +24,7 @@ class HeaderWeatherWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            city,
+            cityName,
             style: theme.textTheme.bodyLarge,
           ),
           const SizedBox(height: 20),

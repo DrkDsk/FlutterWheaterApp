@@ -2,8 +2,8 @@ import 'package:clima_app/features/favorites/presentation/widgets/favorites_citi
 import 'package:clima_app/features/favorites/presentation/widgets/search_city_header.dart';
 import 'package:flutter/material.dart';
 
-class FavoritesCitiesScreen extends StatelessWidget {
-  const FavoritesCitiesScreen({super.key});
+class FavoritesScreen extends StatelessWidget {
+  const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

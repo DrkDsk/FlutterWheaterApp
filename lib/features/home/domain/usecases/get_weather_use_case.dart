@@ -11,10 +11,11 @@ class GetWeatherUseCase {
   final LocationService locationService;
   final WeatherMapper mapper;
 
-  GetWeatherUseCase(
-      {required this.locationService,
-      required this.repository,
-      required this.mapper});
+  GetWeatherUseCase({
+    required this.locationService,
+    required this.repository,
+    required this.mapper,
+  });
 
   Future<Either<Failure, CityWeatherData>> call(
       {double? latitude, double? longitude}) async {
@@ -29,11 +30,6 @@ class GetWeatherUseCase {
     final forecastEither = await repository.fetchSearchDataByLocation(
       lat: locationEntity.latitude,
       lon: locationEntity.longitude,
-    );
-
-    final cityLocation = await locationService.getCityNameFromCoordinates(
-      latitude: locationEntity.latitude,
-      longitude: locationEntity.longitude,
     );
 
     if (forecastEither.isLeft()) {
@@ -52,7 +48,6 @@ class GetWeatherUseCase {
 
     final cityWeatherData = CityWeatherData(
       forecast: forecast,
-      city: cityLocation.city,
       translatedWeather: translatedWeather,
     );
 

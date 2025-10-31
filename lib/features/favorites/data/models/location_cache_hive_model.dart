@@ -20,12 +20,17 @@ class LocationCacheHiveModel extends HiveObject {
   @HiveField(4)
   final String country;
 
-  LocationCacheHiveModel(
-      {required this.latitude,
-      required this.longitude,
-      required this.city,
-      required this.state,
-      required this.country});
+  @HiveField(5)
+  final String cityName;
+
+  LocationCacheHiveModel({
+    required this.latitude,
+    required this.longitude,
+    required this.city,
+    required this.state,
+    required this.country,
+    required this.cityName,
+  });
 
   CityLocation toEntity() {
     return CityLocation(
@@ -34,16 +39,19 @@ class LocationCacheHiveModel extends HiveObject {
       city: city,
       country: country,
       state: state,
+      cityName: cityName,
     );
   }
 
   factory LocationCacheHiveModel.fromEntity(CityLocation entity) {
     return LocationCacheHiveModel(
-        latitude: double.parse(entity.latitude.toStringAsFixed(3)),
-        longitude: double.parse(entity.longitude.toStringAsFixed(3)),
-        city: entity.city,
-        state: entity.state,
-        country: entity.country);
+      latitude: double.parse(entity.latitude.toStringAsFixed(3)),
+      longitude: double.parse(entity.longitude.toStringAsFixed(3)),
+      city: entity.city,
+      state: entity.state,
+      country: entity.country,
+      cityName: entity.cityName,
+    );
   }
 
   @override

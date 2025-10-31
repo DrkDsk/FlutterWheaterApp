@@ -5,14 +5,17 @@ import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_
 import 'package:clima_app/features/favorites/presentation/widgets/favorite_city_item_card.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
-import 'package:clima_app/features/home/presentation/screens/home_weather_screen.dart';
+import 'package:clima_app/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class SliderFavoriteWeatherCard extends StatelessWidget {
-  const SliderFavoriteWeatherCard(
-      {super.key, required this.cityLocation, required this.index});
+  const SliderFavoriteWeatherCard({
+    super.key,
+    required this.cityLocation,
+    required this.index,
+  });
 
   final int index;
   final CityLocation cityLocation;
@@ -65,14 +68,13 @@ class SliderFavoriteWeatherCard extends StatelessWidget {
 
     router.goToScreenAndClear(BlocProvider(
       create: (context) => getIt<CityWeatherBloc>(),
-      child: const HomeWeatherScreen(),
+      child: const HomeScreen(),
     ));
   }
 
   @override
   Widget build(BuildContext context) {
-    final cityName =
-        cityLocation.id == null ? cityLocation.title : cityLocation.key;
+    final cityName = cityLocation.cityName;
 
     return Slidable(
       direction: Axis.horizontal,

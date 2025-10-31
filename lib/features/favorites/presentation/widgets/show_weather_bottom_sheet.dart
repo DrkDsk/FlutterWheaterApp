@@ -6,7 +6,7 @@ import 'package:clima_app/features/favorites/presentation/widgets/header_weather
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/events/city_weather_event.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
-import 'package:clima_app/features/home/presentation/screens/home_weather_screen.dart';
+import 'package:clima_app/features/home/presentation/screens/home_screen.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_background_view.dart';
 import 'package:clima_app/features/home/presentation/widgets/weather_content.dart';
 import 'package:flutter/material.dart';
@@ -60,11 +60,14 @@ class _ShowWeatherBottomSheetState extends State<ShowWeatherBottomSheet> {
     final router = AppRouter.of(context);
     final newIndex = _favoriteCubit.state.cities.length - 1;
     _navigationCubit.updatePageIndex(newIndex);
-    router.goToScreenAndClear(HomeWeatherScreen(initialIndex: newIndex));
+    router.goToScreenAndClear(HomeScreen(initialIndex: newIndex));
   }
 
   @override
   Widget build(BuildContext context) {
+    final cityLocation = widget.cityLocation;
+    final cityName = cityLocation.cityName;
+
     return FractionallySizedBox(
       heightFactor: 0.90,
       child: Stack(
@@ -84,12 +87,14 @@ class _ShowWeatherBottomSheetState extends State<ShowWeatherBottomSheet> {
                       isAbleToSave: isAvailableToStore,
                       onCancel: () => AppRouter.of(context).pop(),
                       onSave: () => _favoriteCubit.store(
-                        cityLocation: widget.cityLocation,
+                        cityLocation: cityLocation,
                       ),
                     );
                   },
                 ),
-                const Expanded(child: WeatherContent()),
+                Expanded(
+                  child: WeatherContent(cityName: cityName),
+                ),
                 const SizedBox(height: 10)
               ],
             ),

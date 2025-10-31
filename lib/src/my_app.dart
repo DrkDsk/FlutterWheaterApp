@@ -1,6 +1,6 @@
 import 'package:clima_app/core/constants/weather_constants.dart';
 import 'package:clima_app/core/theme/light_theme.dart';
-import 'package:clima_app/features/home/presentation/screens/home_weather_screen.dart';
+import 'package:clima_app/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       title: 'App del clima',
-      home: const HomeWeatherScreen(),
+      home: const HomeScreen(),
     );
   }
 }
