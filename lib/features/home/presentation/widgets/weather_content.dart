@@ -58,15 +58,15 @@ class WeatherContent extends StatelessWidget {
                 temp: current.tempCelsiusText,
               ),
               const SizedBox(height: 10),
-              const IAContentWidget(),
+              IAContentWidget(cityWeatherData: data),
               const SizedBox(height: 10),
-              if (summary != null) ...[
+              /*if (summary != null) ...[
                 SummaryDescription(
                   backgroundColor: bgColor,
                   summaryDescription: summary,
                 ),
                 const SizedBox(height: 10),
-              ],
+              ],*/
               if (hourly.isNotEmpty) ...[
                 HourlyListWeather(
                   hourly: hourly,
