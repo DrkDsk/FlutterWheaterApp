@@ -8,7 +8,7 @@ import 'package:clima_app/features/home/presentation/widgets/header_weather.dart
 import 'package:clima_app/features/home/presentation/widgets/hourly_list_weather.dart';
 import 'package:clima_app/features/home/presentation/widgets/loading_view.dart';
 import 'package:clima_app/features/home/presentation/widgets/summary_description.dart';
-import 'package:clima_app/features/ia/ui/blocs/widgets/ia_content_widget.dart';
+import 'package:clima_app/features/ia/ui/blocs/widgets/ia_content_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -58,7 +58,7 @@ class WeatherContent extends StatelessWidget {
                 temp: current.tempCelsiusText,
               ),
               const SizedBox(height: 10),
-              IAContentWidget(cityWeatherData: data),
+              IAContentView(cityWeatherData: data),
               const SizedBox(height: 10),
               /*if (summary != null) ...[
                 SummaryDescription(
