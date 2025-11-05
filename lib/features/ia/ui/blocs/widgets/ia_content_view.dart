@@ -40,7 +40,7 @@ class _IAContentViewState extends State<IAContentView> {
             if (state.recommendations.isEmpty) {
               return GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () => _iaCubit.getRecommendation(
+                onTap: () => _iaCubit.getSuggestion(
                   cityWeatherData: widget.cityWeatherData,
                 ),
                 child: const IASuggestionButton(),
