@@ -1,4 +1,4 @@
-import 'package:clima_app/core/shared/ui/widgets/no_connection_widget.dart';
+import 'package:clima_app/core/shared/ui/widgets/internet_failure_view.dart';
 import 'package:flutter/material.dart';
 
 class NetworkStatusBuilder extends StatelessWidget {
@@ -14,7 +14,7 @@ class NetworkStatusBuilder extends StatelessWidget {
 
     return const Padding(
       padding: EdgeInsets.all(4.0),
-      child: InternetFailureWidget(),
+      child: InternetFailureView(),
     );
   }
 }

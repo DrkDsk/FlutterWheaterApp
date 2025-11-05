@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class InternetFailureWidget extends StatelessWidget {
-  const InternetFailureWidget({
+class InternetFailureView extends StatelessWidget {
+  const InternetFailureView({
     super.key,
   });
 
@@ -9,7 +9,9 @@ class InternetFailureWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8), color: Colors.redAccent),
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.redAccent,
+      ),
       duration: const Duration(milliseconds: 300),
       padding: const EdgeInsets.all(12),
       child: const Row(
@@ -22,7 +24,10 @@ class InternetFailureWidget extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 'Sin conexión a Internet',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
               ),
             ),
           )

@@ -4,9 +4,12 @@ import 'package:clima_app/features/home/domain/entities/daily.dart';
 import 'package:clima_app/core/extensions/weather/daily_presentation.dart';
 import 'package:flutter/material.dart';
 
-class DailyListWeatherWidget extends StatelessWidget {
-  const DailyListWeatherWidget(
-      {super.key, required this.daily, this.backgroundColor});
+class DailyListWeather extends StatelessWidget {
+  const DailyListWeather({
+    super.key,
+    required this.daily,
+    this.backgroundColor,
+  });
 
   final List<Daily> daily;
   final Color? backgroundColor;

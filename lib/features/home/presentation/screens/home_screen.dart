@@ -4,7 +4,7 @@ import 'package:clima_app/core/shared/ui/widgets/network_status_builder.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/home/presentation/widgets/favorites_page_builder.dart';
-import 'package:clima_app/features/home/presentation/widgets/bottom_app_bar_widget.dart';
+import 'package:clima_app/features/home/presentation/widgets/custom_bottom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, currentPage) {
         return Scaffold(
           backgroundColor: Colors.transparent,
-          bottomNavigationBar: BottomAppBarWidget(
+          bottomNavigationBar: CustomBottomAppBar(
             currentPage: currentPage,
           ),
           body: SafeArea(

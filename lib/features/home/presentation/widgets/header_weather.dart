@@ -2,8 +2,8 @@ import 'package:clima_app/core/extensions/string_extension.dart';
 import 'package:clima_app/features/home/domain/entities/translated/translated_weather.dart';
 import 'package:flutter/material.dart';
 
-class HeaderWeatherWidget extends StatelessWidget {
-  const HeaderWeatherWidget({
+class HeaderWeather extends StatelessWidget {
+  const HeaderWeather({
     super.key,
     required this.temp,
     required this.translatedWeather,

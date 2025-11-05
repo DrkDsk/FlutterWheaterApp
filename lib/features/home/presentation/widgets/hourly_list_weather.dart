@@ -4,8 +4,8 @@ import 'package:clima_app/features/home/domain/entities/hourly.dart';
 import 'package:clima_app/core/extensions/weather/hourly_presentation.dart';
 import 'package:flutter/material.dart';
 
-class HourlyListWeatherWidget extends StatelessWidget {
-  const HourlyListWeatherWidget({
+class HourlyListWeather extends StatelessWidget {
+  const HourlyListWeather({
     super.key,
     required this.hourly,
     this.backgroundColor,
