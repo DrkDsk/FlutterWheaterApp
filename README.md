@@ -38,17 +38,15 @@ Podrás visualizar los datos más comunes como temperatura, sensación térmica,
 
 ## 📸 Demo
 
-<img src="https://github.com/user-attachments/assets/497dae50-e46f-4811-b44b-f692d7719d9a" alt="drawing" width="200"/>
+<img src="https://github.com/user-attachments/assets/9e5d93c1-e48f-42f3-b76f-08c3a61e87ee" alt="drawing" width="200"/>
 
-<img src="https://github.com/user-attachments/assets/22e4cd2f-acf2-4345-be59-10764e5d9d29" alt="drawing" width="200"/>
+<img src="https://github.com/user-attachments/assets/b3e0a6e3-0f48-481e-b091-b93bee48871f" alt="drawing" width="200"/>
 
-<img src="https://github.com/user-attachments/assets/3e3f7fa7-0762-4038-a6ff-cf063ff075f0" alt="drawing" width="200"/>
+<img src="https://github.com/user-attachments/assets/e2a8248d-883c-4e5a-931b-318a0198362d" alt="drawing" width="200"/>
 
-<img src="https://github.com/user-attachments/assets/ab884372-74f4-45b3-9e50-d4c57bf259b8" alt="drawing" width="200"/>
+<img src="https://github.com/user-attachments/assets/4b0f19d7-7a3c-4b46-a1a7-7c27ce8bffe8" alt="drawing" width="200"/>
 
-<img src="https://github.com/user-attachments/assets/e133a532-d437-43bb-8ee4-a0829201209e" alt="drawing" width="200"/>
-
-<img src="https://github.com/user-attachments/assets/14f2677f-bac9-4bc8-a64a-b46aa288f50c" alt="drawing" width="200"/>
+<img src="https://github.com/user-attachments/assets/f5056520-703b-423f-bef6-091d87d3bd2a" alt="drawing" width="200"/>
 
 
 ## Authors

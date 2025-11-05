@@ -3,9 +3,8 @@ import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FavoritesCitiesScrollIndicatorWidget extends StatelessWidget {
-  const FavoritesCitiesScrollIndicatorWidget(
-      {super.key, required this.currentPage});
+class FavoritesCitiesScrollIndicator extends StatelessWidget {
+  const FavoritesCitiesScrollIndicator({super.key, required this.currentPage});
 
   final int currentPage;
 

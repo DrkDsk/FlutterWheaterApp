@@ -4,13 +4,13 @@ import 'package:clima_app/core/router/app_router.dart';
 import 'package:clima_app/features/favorites/presentation/screens/favorites_screen.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
-import 'package:clima_app/features/home/presentation/widgets/favorites_cities_scroll_indicator_widget.dart';
+import 'package:clima_app/features/home/presentation/widgets/favorites_cities_scroll_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BottomAppBarWidget extends StatelessWidget {
-  const BottomAppBarWidget({
+class CustomBottomAppBar extends StatelessWidget {
+  const CustomBottomAppBar({
     super.key,
     required this.currentPage,
   });
@@ -42,7 +42,7 @@ class BottomAppBarWidget extends StatelessWidget {
                 child: SizedBox.shrink(),
               ),
               Expanded(
-                child: FavoritesCitiesScrollIndicatorWidget(
+                child: FavoritesCitiesScrollIndicator(
                   currentPage: currentPage,
                 ),
               ),

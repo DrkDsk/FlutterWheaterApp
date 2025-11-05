@@ -1,28 +1,16 @@
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
-import 'package:clima_app/features/home/domain/entities/city_weather_data.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
-import 'package:clima_app/features/home/presentation/widgets/daily_list_weather_widget.dart';
-import 'package:clima_app/features/home/presentation/widgets/detail_weather_grid_widget.dart';
-import 'package:clima_app/features/home/presentation/widgets/header_weather_widget.dart';
-import 'package:clima_app/features/home/presentation/widgets/hourly_list_weather_widget.dart';
+import 'package:clima_app/features/home/presentation/blocs/states/weather_status_content_data.dart';
+import 'package:clima_app/features/home/presentation/widgets/daily_list_weather.dart';
+import 'package:clima_app/features/home/presentation/widgets/detail_weather_grid.dart';
+import 'package:clima_app/features/home/presentation/widgets/header_weather.dart';
+import 'package:clima_app/features/home/presentation/widgets/hourly_list_weather.dart';
 import 'package:clima_app/features/home/presentation/widgets/loading_view.dart';
 import 'package:clima_app/features/home/presentation/widgets/summary_description.dart';
-import 'package:clima_app/features/ia/ui/blocs/widgets/ia_content_widget.dart';
+import 'package:clima_app/features/ia/ui/blocs/widgets/ia_content_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-class WeatherStatusContentData {
-  final CityWeatherStatus status;
-  final CityWeatherData? data;
-  final Color bgColor;
-
-  const WeatherStatusContentData({
-    required this.status,
-    required this.bgColor,
-    this.data,
-  });
-}
 
 class WeatherContent extends StatelessWidget {
   const WeatherContent({
@@ -64,13 +52,13 @@ class WeatherContent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-              HeaderWeatherWidget(
+              HeaderWeather(
                 cityName: cityName,
                 translatedWeather: data.translatedWeather,
                 temp: current.tempCelsiusText,
               ),
               const SizedBox(height: 10),
-              const IAContentWidget(),
+              IAContentView(cityWeatherData: data),
               const SizedBox(height: 10),
               if (summary != null) ...[
                 SummaryDescription(
@@ -80,20 +68,20 @@ class WeatherContent extends StatelessWidget {
                 const SizedBox(height: 10),
               ],
               if (hourly.isNotEmpty) ...[
-                HourlyListWeatherWidget(
+                HourlyListWeather(
                   hourly: hourly,
                   backgroundColor: bgColor,
                 ),
               ],
               const SizedBox(height: 10),
               if (daily.isNotEmpty) ...[
-                DailyListWeatherWidget(
+                DailyListWeather(
                   daily: daily,
                   backgroundColor: bgColor,
                 ),
               ],
               const SizedBox(height: 10),
-              DetailWeatherGridWidget(
+              DetailWeatherGrid(
                 weather: current,
                 backgroundColor: bgColor,
               ),

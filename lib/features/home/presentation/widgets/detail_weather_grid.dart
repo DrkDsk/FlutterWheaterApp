@@ -1,10 +1,10 @@
 import 'package:clima_app/core/extensions/weather/current_weather_extension.dart';
 import 'package:clima_app/features/home/domain/entities/current.dart';
-import 'package:clima_app/features/home/presentation/widgets/segment_weather_widget.dart';
+import 'package:clima_app/features/home/presentation/widgets/segment_weather.dart';
 import 'package:flutter/material.dart';
 
-class DetailWeatherGridWidget extends StatelessWidget {
-  const DetailWeatherGridWidget({
+class DetailWeatherGrid extends StatelessWidget {
+  const DetailWeatherGrid({
     super.key,
     required this.weather,
     this.backgroundColor,
@@ -22,31 +22,31 @@ class DetailWeatherGridWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        SegmentWeatherWidget(
+        SegmentWeather(
           title: "Sensación térmica",
           emoji: "🌡",
           value: weather.feelsLikeCelsiusText,
           backgroundColor: backgroundColor,
         ),
-        SegmentWeatherWidget(
+        SegmentWeather(
           title: "Humedad",
           emoji: "💧",
           value: "${weather.humidity}%",
           backgroundColor: backgroundColor,
         ),
-        SegmentWeatherWidget(
+        SegmentWeather(
           title: "Viento",
           emoji: "💨",
           value: weather.windDirectionText,
           backgroundColor: backgroundColor,
         ),
-        SegmentWeatherWidget(
+        SegmentWeather(
           title: "Índice UV:",
           emoji: "☀️",
           value: "${weather.uvi}",
           backgroundColor: backgroundColor,
         ),
-        SegmentWeatherWidget(
+        SegmentWeather(
           title: "Visibilidad",
           emoji: "🌫️",
           value: weather.visibilityTextInKm,

@@ -1,13 +1,14 @@
 import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 
-class SegmentWeatherWidget extends StatelessWidget {
-  const SegmentWeatherWidget(
-      {super.key,
-      required this.title,
-      required this.emoji,
-      required this.value,
-      this.backgroundColor});
+class SegmentWeather extends StatelessWidget {
+  const SegmentWeather({
+    super.key,
+    required this.title,
+    required this.emoji,
+    required this.value,
+    this.backgroundColor,
+  });
 
   final String title;
   final String value;
