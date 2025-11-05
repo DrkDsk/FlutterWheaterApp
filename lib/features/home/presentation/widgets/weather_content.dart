@@ -60,13 +60,13 @@ class WeatherContent extends StatelessWidget {
               const SizedBox(height: 10),
               IAContentView(cityWeatherData: data),
               const SizedBox(height: 10),
-              /*if (summary != null) ...[
+              if (summary != null) ...[
                 SummaryDescription(
                   backgroundColor: bgColor,
                   summaryDescription: summary,
                 ),
                 const SizedBox(height: 10),
-              ],*/
+              ],
               if (hourly.isNotEmpty) ...[
                 HourlyListWeather(
                   hourly: hourly,
