@@ -46,9 +46,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
       return const Right(true);
     } on UnknownException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     } on NetworkException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     }
   }
 
@@ -74,9 +74,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
       return Right(storedCities);
     } on UnknownException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     } on NetworkException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     }
   }
 
@@ -95,9 +95,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
       return const Right(true);
     } on UnknownException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     } on NetworkException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     }
   }
 
@@ -117,9 +117,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
       return Right(!exists);
     } on UnknownException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     } on NetworkException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     }
   }
 }

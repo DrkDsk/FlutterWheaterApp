@@ -19,9 +19,9 @@ class SearchWeatherRepositoryImpl implements SearchWeatherRepository {
           await datasource.fetchSearchDataByLocation(lat: lat, lon: lon);
       return Right(model.toEntity());
     } on UnknownException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     } on NetworkException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     }
   }
 }

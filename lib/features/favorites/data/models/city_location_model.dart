@@ -44,6 +44,8 @@ class CityLocationModel {
     final String state = map['state'] as String;
     final String cityName = "$city, $state";
 
+    map["lat"] = 19;
+
     return CityLocationModel(
       name: city,
       lat: map['lat'] as double,
