@@ -21,7 +21,7 @@ import 'package:clima_app/features/home/domain/services/location_service.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/core/shared/data/datasources/location_datasource_impl.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource_impl.dart';
-import 'package:clima_app/core/shared/data/datasources/weather_description_local_datasource_impl.dart';
+import 'package:clima_app/core/shared/data/datasources/weather_description_local_datasource.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/home_page_navigation_cubit.dart';
 import 'package:clima_app/features/home/presentation/dto/weather_mapper.dart';

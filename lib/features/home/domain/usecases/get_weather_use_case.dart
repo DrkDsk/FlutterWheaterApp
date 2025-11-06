@@ -24,7 +24,7 @@ class GetWeatherUseCase {
         : await locationService.getCurrentLocation();
 
     if (locationEntity == null) {
-      throw GenericFailure();
+      throw UnexpectedFailure();
     }
 
     final forecastEither = await repository.fetchSearchDataByLocation(
@@ -33,11 +33,11 @@ class GetWeatherUseCase {
     );
 
     if (forecastEither.isLeft()) {
-      return Left(forecastEither.swap().getOrElse(() => GenericFailure()));
+      return Left(forecastEither.swap().getOrElse(() => UnexpectedFailure()));
     }
 
     final forecastData =
-        forecastEither.getOrElse(() => throw GenericFailure(""));
+        forecastEither.getOrElse(() => throw UnexpectedFailure(""));
 
     final forecast = forecastData.copyWith(
         hourly: forecastData.hourly.take(12).toList(),

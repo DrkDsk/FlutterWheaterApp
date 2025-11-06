@@ -1,7 +1,7 @@
 import 'package:clima_app/features/favorites/data/models/city_location_hive_model.dart';
 import 'package:clima_app/features/favorites/data/models/location_cache_hive_model.dart';
 
-abstract class FavoriteWeatherDataSource {
+abstract interface class FavoriteWeatherDataSource {
   Future<CityLocationHiveModel?> findByKey({required String key});
 
   Future<CityLocationHiveModel?> findById({required String? id});

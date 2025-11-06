@@ -12,15 +12,16 @@ class CityRepositoryImpl implements CityRepository {
   const CityRepositoryImpl({required this.dataSource});
 
   @override
-  Future<Either<Failure, SearchCityLocationResponse>> searchCity(
-      {required String query}) async {
+  Future<Either<Failure, SearchCityLocationResponse>> searchCity({
+    required String query,
+  }) async {
     try {
       final model = await dataSource.searchCity(query: query);
       return Right(model.toEntity());
     } on UnknownException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     } on NetworkException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     }
   }
 }

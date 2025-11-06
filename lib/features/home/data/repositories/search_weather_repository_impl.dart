@@ -12,16 +12,20 @@ class SearchWeatherRepositoryImpl implements SearchWeatherRepository {
   SearchWeatherRepositoryImpl({required this.datasource});
 
   @override
-  Future<Either<Failure, Forecast>> fetchSearchDataByLocation(
-      {required double lat, required double lon}) async {
+  Future<Either<Failure, Forecast>> fetchSearchDataByLocation({
+    required double lat,
+    required double lon,
+  }) async {
     try {
-      final model =
-          await datasource.fetchSearchDataByLocation(lat: lat, lon: lon);
+      final model = await datasource.fetchSearchDataByLocation(
+        lat: lat,
+        lon: lon,
+      );
       return Right(model.toEntity());
     } on UnknownException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     } on NetworkException catch (e) {
-      return Left(GenericFailure(e.message));
+      return Left(UnexpectedFailure(e.message));
     }
   }
 }

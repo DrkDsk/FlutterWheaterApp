@@ -7,7 +7,7 @@ abstract class BaseDataSource {
   Future<T> safeRequest<T>(Future<T> Function() request) async {
     try {
       return await request();
-    } on NoInternetException {
+    } on NetworkException {
       rethrow;
     } on DioException catch (e) {
       throw NetworkException(e.userFriendlyMessage);
