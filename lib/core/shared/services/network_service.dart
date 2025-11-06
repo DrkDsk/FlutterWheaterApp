@@ -10,7 +10,9 @@ class NetworkService {
   Future<void> checkConnection() async {
     final result = await connectivity.checkConnectivity();
     if (result.contains(ConnectivityResult.none)) {
-      throw NoInternetException();
+      throw NetworkException(
+        "Sin conexión a Internet, checa tu conexión o intenta nuevamente",
+      );
     }
   }
 }

@@ -1,4 +1,4 @@
-import 'package:clima_app/core/error/exceptions/model_exception.dart';
+import 'package:clima_app/core/error/exceptions/unknown_exception.dart';
 import 'package:clima_app/features/favorites/data/models/city_location_model.dart';
 import 'package:clima_app/features/city/domain/entities/search_city_location_response.dart';
 
@@ -19,7 +19,7 @@ class SearchCityLocationResponseModel {
         data: jsonList.map((json) => CityLocationModel.fromJson(json)).toList(),
       );
     } catch (e) {
-      throw ModelException(message: e.toString());
+      throw UnknownException(message: e.toString());
     }
   }
 
