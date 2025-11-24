@@ -1,7 +1,19 @@
+import 'package:clima_app/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class FirebaseMessagingHelper {
+  static init() async {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+
+    FirebaseMessagingHelper.requestFirebaseMessagingPermissions();
+    FirebaseMessagingHelper.checkForInitialMessage();
+    FirebaseMessagingHelper.setOpenedAppMessageHandler();
+    FirebaseMessagingHelper.setListenMessageHandler();
+    FirebaseMessagingHelper.setBackgroundMessageHandler();
+  }
+
   static requestFirebaseMessagingPermissions() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -35,7 +47,9 @@ class FirebaseMessagingHelper {
     final String notificationTitle = remoteMessage.notification?.title ?? "";
     final String notificationBody = remoteMessage.notification?.body ?? "";
 
-    if (notificationTitle.isNotEmpty && notificationBody.isNotEmpty) {}
+    if (notificationTitle.isNotEmpty && notificationBody.isNotEmpty) {
+      print("body: $notificationBody");
+    }
   }
 
   static Future<void> initMessaging() async {

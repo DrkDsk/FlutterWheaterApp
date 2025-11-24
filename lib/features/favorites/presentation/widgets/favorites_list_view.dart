@@ -1,3 +1,4 @@
+import 'package:clima_app/core/helpers/firebase_messaging_helper.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_fetch_state.dart';
 import 'package:clima_app/features/favorites/presentation/widgets/slidable_favorite_weather_card.dart';
@@ -25,6 +26,7 @@ class _FavoritesListViewState extends State<FavoritesListView>
         ));
 
     _controller.forward();
+    FirebaseMessagingHelper.registerFirebaseToken();
   }
 
   @override

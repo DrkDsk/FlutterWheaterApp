@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "526087565573",
-    "project_id": "chillit-f000d",
-    "storage_bucket": "chillit-f000d.firebasestorage.app"
+    "project_number": "887084066236",
+    "project_id": "clima-a258c",
+    "storage_bucket": "clima-a258c.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:526087565573:android:8cc0026feca40c367fc76c",
+        "mobilesdk_app_id": "1:887084066236:android:253396e99c3d98273e77b9",
         "android_client_info": {
-          "package_name": "com.example.chillit_test"
+          "package_name": "com.alfredopalacios.clima_app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAW6PLP6M7NFJJt1Pi3uxuSCrBFgS2VCMo"
+          "current_key": "AIzaSyBqA6kYQg-lEwojjxm4v0KX0KgX4WIONMQ"
         }
       ],
       "services": {

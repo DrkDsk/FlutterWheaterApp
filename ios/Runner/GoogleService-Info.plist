@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCrARBRfQSgyPC9Ta412VOVmHOhI7uXPYM</string>
+	<string>AIzaSyD-4PVkqyZIUadFdXfNh-5Z8D6OJQnpaD0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>526087565573</string>
+	<string>887084066236</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.chillitTest</string>
+	<string>com.alfredopalacios.climaApp</string>
 	<key>PROJECT_ID</key>
-	<string>chillit-f000d</string>
+	<string>clima-a258c</string>
 	<key>STORAGE_BUCKET</key>
-	<string>chillit-f000d.firebasestorage.app</string>
+	<string>clima-a258c.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:526087565573:ios:90bb09d57bf01a027fc76c</string>
+	<string>1:887084066236:ios:2cdf3b9b176d3b4b3e77b9</string>
 </dict>
 </plist>

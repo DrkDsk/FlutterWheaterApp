@@ -33,10 +33,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -50,19 +47,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAW6PLP6M7NFJJt1Pi3uxuSCrBFgS2VCMo',
-    appId: '1:526087565573:android:8cc0026feca40c367fc76c',
-    messagingSenderId: '526087565573',
-    projectId: 'chillit-f000d',
-    storageBucket: 'chillit-f000d.firebasestorage.app',
+    apiKey: 'AIzaSyBqA6kYQg-lEwojjxm4v0KX0KgX4WIONMQ',
+    appId: '1:887084066236:android:253396e99c3d98273e77b9',
+    messagingSenderId: '887084066236',
+    projectId: 'clima-a258c',
+    storageBucket: 'clima-a258c.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCrARBRfQSgyPC9Ta412VOVmHOhI7uXPYM',
-    appId: '1:526087565573:ios:90bb09d57bf01a027fc76c',
-    messagingSenderId: '526087565573',
-    projectId: 'chillit-f000d',
-    storageBucket: 'chillit-f000d.firebasestorage.app',
-    iosBundleId: 'com.example.chillitTest',
+    apiKey: 'AIzaSyD-4PVkqyZIUadFdXfNh-5Z8D6OJQnpaD0',
+    appId: '1:887084066236:ios:2cdf3b9b176d3b4b3e77b9',
+    messagingSenderId: '887084066236',
+    projectId: 'clima-a258c',
+    storageBucket: 'clima-a258c.firebasestorage.app',
+    iosBundleId: 'com.alfredopalacios.climaApp',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCFJIh13fEBANfgKHHCXURGGmSaVpY-MxI',
+    appId: '1:887084066236:web:3a5b85080e873b0c3e77b9',
+    messagingSenderId: '887084066236',
+    projectId: 'clima-a258c',
+    authDomain: 'clima-a258c.firebaseapp.com',
+    storageBucket: 'clima-a258c.firebasestorage.app',
+    measurementId: 'G-HXN5BXMFWW',
+  );
+
 }
