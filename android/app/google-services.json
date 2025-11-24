@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "526087565573",
+    "project_id": "chillit-f000d",
+    "storage_bucket": "chillit-f000d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526087565573:android:8cc0026feca40c367fc76c",
+        "android_client_info": {
+          "package_name": "com.example.chillit_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW6PLP6M7NFJJt1Pi3uxuSCrBFgS2VCMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
