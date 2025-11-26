@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:clima_app/core/error/exceptions/network_exception.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-class NetworkService {
+class NetworkHelper {
   final Connectivity connectivity;
 
-  const NetworkService({required this.connectivity});
+  const NetworkHelper({required this.connectivity});
 
   Future<void> checkConnection() async {
     final result = await connectivity.checkConnectivity();

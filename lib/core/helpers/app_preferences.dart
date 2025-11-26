@@ -20,6 +20,6 @@ class AppPreferences {
   }
 
   static Future setInitialization(bool value) async {
-    await _instance.preferences.setBool("init", value);
+    _instance.preferences.setBool("init", value);
   }
 }

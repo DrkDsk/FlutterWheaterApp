@@ -125,15 +125,16 @@ Future _backgroundMessageHandler(RemoteMessage message) async {
   final initialization = AppPreferences.getInitialization();
 
   if (initialization == null || !initialization) {
-    await AppPreferences.setInitialization(true);
+    WidgetsFlutterBinding.ensureInitialized();
+    TimeZoneConfig.initTimeZone();
+
+    await dotenv.load(fileName: ".env");
+    await initDependencies();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    WidgetsFlutterBinding.ensureInitialized();
-    TimeZoneConfig.initTimeZone();
-    await dotenv.load(fileName: ".env");
-    await initDependencies();
+    AppPreferences.setInitialization(true);
   }
 
   FirebaseMessagingHelper.firebaseMessageHandler(message);
