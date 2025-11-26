@@ -1,5 +1,8 @@
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/helpers/timezone_config.dart';
+import 'package:clima_app/core/helpers/weather_helper.dart';
+import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
+import 'package:clima_app/features/favorites/data/services/favorite_service.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -55,10 +58,19 @@ class FirebaseMessagingHelper {
     final notificationId = notificationData["id"] ?? "";
 
     final cityWeatherDataResult = getIt<GetWeatherUseCase>();
+    final favoriteService = getIt<FavoriteWeatherDataSource>();
 
-    final result = await cityWeatherDataResult.call();
+    final location = await favoriteService.getStoredLocationCache();
+    final lat = location?.latitude;
+    final lon = location?.longitude;
+
+    final result = await cityWeatherDataResult.call(
+      latitude: lat,
+      longitude: lon,
+    );
 
     result.fold((left) {}, (result) {
+      print("heree");
       final hourly = result.forecast.hourly.take(7).last;
 
       final temp = hourly.temp;
@@ -66,10 +78,27 @@ class FirebaseMessagingHelper {
       final pressure = hourly.pressure;
       final humidity = hourly.humidity;
       final pop = hourly.pop;
-      final description = hourly.weather.first.main;
+      final weatherDescription = hourly.weather.first.main;
 
-      print(
-          "temp: $temp, feelsLike: $feelsLike, pressure: $pressure, hum: $humidity");
+      if (temp == null ||
+          feelsLike == null ||
+          pressure == null ||
+          humidity == null ||
+          pop == null ||
+          weatherDescription == null) {
+        return;
+      }
+
+      final suggestion = WeatherHelper.generateWeatherRecommendation(
+        temp: temp,
+        feelsLike: feelsLike,
+        pressure: pressure,
+        humidity: humidity,
+        weatherDescription: weatherDescription,
+        pop: pop,
+      );
+
+      print(suggestion);
     });
 
     if (notificationTitle.isNotEmpty && notificationBody.isNotEmpty) {
