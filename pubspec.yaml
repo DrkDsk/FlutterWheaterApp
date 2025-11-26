@@ -55,6 +55,7 @@ dependencies:
   openai_dart: ^0.4.5
   rxdart: ^0.28.0
   connectivity_plus: ^7.0.0
+  shared_preferences: ^2.5.3
 
 
 dev_dependencies:
