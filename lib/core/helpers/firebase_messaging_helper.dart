@@ -1,4 +1,5 @@
 import 'package:clima_app/core/di/di.dart';
+import 'package:clima_app/core/helpers/app_preferences.dart';
 import 'package:clima_app/core/helpers/timezone_config.dart';
 import 'package:clima_app/core/helpers/weather_helper.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
@@ -119,13 +120,21 @@ class FirebaseMessagingHelper {
 
 @pragma('vm:entry-point')
 Future _backgroundMessageHandler(RemoteMessage message) async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await AppPreferences().init();
 
-  WidgetsFlutterBinding.ensureInitialized();
-  TimeZoneConfig.initTimeZone();
-  await dotenv.load(fileName: ".env");
-  await initDependencies();
+  final initialization = AppPreferences.getInitialization();
+
+  if (initialization == null || !initialization) {
+    await AppPreferences.setInitialization(true);
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    WidgetsFlutterBinding.ensureInitialized();
+    TimeZoneConfig.initTimeZone();
+    await dotenv.load(fileName: ".env");
+    await initDependencies();
+  }
+
   FirebaseMessagingHelper.firebaseMessageHandler(message);
 }
