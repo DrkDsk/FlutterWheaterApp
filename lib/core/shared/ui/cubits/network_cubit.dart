@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:clima_app/core/shared/services/network_service.dart';
+import 'package:clima_app/core/helpers/network_helper.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_state.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class NetworkCubit extends Cubit<NetworkState> {
-  final NetworkService _networkService;
+  final NetworkHelper _networkService;
   StreamSubscription? _subscription;
 
-  NetworkCubit({required NetworkService networkService})
+  NetworkCubit({required NetworkHelper networkService})
       : _networkService = networkService,
         super(const NetworkState()) {
     _monitorNetwork();

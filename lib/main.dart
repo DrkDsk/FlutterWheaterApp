@@ -8,8 +8,8 @@ import 'core/helpers/timezone_config.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   TimeZoneConfig.initTimeZone();
-  await dotenv.load(fileName: ".env");
 
+  await dotenv.load(fileName: ".env");
   await initDependencies();
 
   FirebaseMessagingHelper.init();

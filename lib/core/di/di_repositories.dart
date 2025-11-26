@@ -1,0 +1,57 @@
+import 'package:clima_app/core/shared/data/datasources/location_datasource_impl.dart';
+import 'package:clima_app/core/shared/data/datasources/weather_description_local_datasource.dart';
+import 'package:clima_app/features/city/data/datasources/city_datasource.dart';
+import 'package:clima_app/features/city/data/repositories/city_repository_impl.dart';
+import 'package:clima_app/features/city/domain/repositories/city_repository.dart';
+import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource.dart';
+import 'package:clima_app/features/favorites/data/repositories/favorite_repository_impl.dart';
+import 'package:clima_app/features/favorites/data/services/favorite_service.dart';
+import 'package:clima_app/features/favorites/domain/repository/favorite_repository.dart';
+import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart';
+import 'package:clima_app/features/home/data/repositories/location_repository_impl.dart';
+import 'package:clima_app/features/home/data/repositories/search_weather_repository_impl.dart';
+import 'package:clima_app/features/home/data/repositories/weather_description_repository_impl.dart';
+import 'package:clima_app/features/home/domain/repositories/location_repository.dart';
+import 'package:clima_app/features/home/domain/repositories/search_weather_repository.dart';
+import 'package:clima_app/features/home/domain/repositories/weather_description_repository.dart';
+import 'package:clima_app/features/ia/data/datasources/ia_datasource.dart';
+import 'package:clima_app/features/ia/data/repositories/ia_repository_impl.dart';
+import 'package:clima_app/features/ia/domain/repositories/ia_repository.dart';
+import 'package:get_it/get_it.dart';
+
+final getIt = GetIt.instance;
+
+Future registerRepositories() async {
+  getIt.registerLazySingleton<IARepository>(
+    () => IaRepositoryImpl(datasource: getIt<IADatasource>()),
+  );
+
+  getIt.registerLazySingleton<CityRepository>(
+    () => CityRepositoryImpl(dataSource: getIt<CityDataSource>()),
+  );
+
+  getIt.registerLazySingleton<SearchWeatherRepository>(
+    () => SearchWeatherRepositoryImpl(
+      datasource: getIt<SearchWeatherDataSource>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<FavoriteRepository>(
+    () => FavoriteRepositoryImpl(
+      favoriteWeatherDataSource: getIt<FavoriteWeatherDataSource>(),
+      favoriteService: getIt<FavoriteService>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<WeatherDescriptionRepository>(
+    () => WeatherDescriptionRepositoryImpl(
+      dataSource: getIt<WeatherDescriptionLocalDataSourceImpl>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<LocationRepository>(
+    () => LocationRepositoryImpl(
+      getIt<LocationDataSourceImpl>(),
+    ),
+  );
+}

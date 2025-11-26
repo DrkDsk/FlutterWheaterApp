@@ -1,14 +1,14 @@
-import 'package:clima_app/core/shared/services/network_service.dart';
+import 'package:clima_app/core/helpers/network_helper.dart';
 import 'package:location/location.dart';
 
 class LocationDataSourceImpl {
-  final NetworkService _networkService;
+  final NetworkHelper _networkHelper;
 
-  const LocationDataSourceImpl({required NetworkService networkService})
-      : _networkService = networkService;
+  const LocationDataSourceImpl({required NetworkHelper networkHelper})
+      : _networkHelper = networkHelper;
 
   Future<LocationData?> getCurrentLocation() async {
-    await _networkService.checkConnection();
+    await _networkHelper.checkConnection();
 
     final location = Location();
     bool serviceEnabled;
