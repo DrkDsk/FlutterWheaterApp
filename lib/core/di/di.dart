@@ -9,6 +9,7 @@ import 'package:clima_app/features/favorites/data/repositories/favorite_reposito
 import 'package:clima_app/features/favorites/data/services/favorite_service.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_repository.dart';
 import 'package:clima_app/features/favorites/data/datasources/favorite_weather_datasource_impl.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/firebase_token_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/home/data/datasources/search_weather_datasource.dart';
 import 'package:clima_app/features/home/data/repositories/location_repository_impl.dart';
@@ -115,7 +116,7 @@ Future<void> initDependencies() async {
   getIt.registerLazySingleton<LocationRepository>(
       () => LocationRepositoryImpl(getIt()));
 
-  getIt.registerLazySingleton(() => GetWeatherUseCase(
+  getIt.registerLazySingleton<GetWeatherUseCase>(() => GetWeatherUseCase(
       repository: getIt<SearchWeatherRepository>(),
       locationService: getIt<LocationService>(),
       mapper: getIt<WeatherMapper>()));
@@ -142,4 +143,8 @@ Future<void> initDependencies() async {
 
   getIt.registerFactory<HomePageNavigationCubit>(
       () => HomePageNavigationCubit());
+
+  getIt.registerFactory(
+    () => FirebaseTokenCubit(),
+  );
 }
