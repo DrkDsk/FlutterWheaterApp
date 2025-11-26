@@ -2,7 +2,6 @@ import 'package:clima_app/core/helpers/network_helper.dart';
 import 'package:clima_app/core/shared/ui/cubits/network_cubit.dart';
 import 'package:clima_app/features/city/domain/repositories/city_repository.dart';
 import 'package:clima_app/features/favorites/domain/repository/favorite_repository.dart';
-import 'package:clima_app/features/favorites/presentation/blocs/firebase_token_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/fetch/cubits/favorite_cubit.dart';
 import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
@@ -35,9 +34,5 @@ Future registerBlocs() async {
 
   getIt.registerFactory<HomePageNavigationCubit>(
     () => HomePageNavigationCubit(),
-  );
-
-  getIt.registerFactory<FirebaseTokenCubit>(
-    () => FirebaseTokenCubit(),
   );
 }

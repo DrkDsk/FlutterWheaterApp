@@ -16,7 +16,6 @@ class FirebaseMessagingHelper {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    //FirebaseMessagingHelper.requestFirebaseMessagingPermissions();
     FirebaseMessagingHelper.checkForInitialMessage();
     FirebaseMessagingHelper.setOpenedAppMessageHandler();
     FirebaseMessagingHelper.setListenMessageHandler();
@@ -51,12 +50,7 @@ class FirebaseMessagingHelper {
     }
   }
 
-  static Future firebaseMessageHandler(RemoteMessage remoteMessage) async {
-    final String notificationTitle = remoteMessage.notification?.title ?? "";
-    final String notificationBody = remoteMessage.notification?.body ?? "";
-    final notificationData = remoteMessage.data;
-    final notificationId = notificationData["id"] ?? "";
-
+  static Future handleRecommendation() async {
     final cityWeatherDataResult = getIt<GetWeatherUseCase>();
     final locationCacheService = getIt<FavoriteWeatherDataSource>();
 
@@ -99,9 +93,18 @@ class FirebaseMessagingHelper {
 
       print(suggestion);
     });
+  }
+
+  static Future firebaseMessageHandler(RemoteMessage remoteMessage) async {
+    final String notificationTitle = remoteMessage.notification?.title ?? "";
+    final String notificationBody = remoteMessage.notification?.body ?? "";
+    final notificationData = remoteMessage.data;
+    final notificationId = notificationData["id"] ?? "";
 
     if (notificationTitle.isNotEmpty && notificationBody.isNotEmpty) {
-      if (notificationId == "night_request") {}
+      if (notificationId == "night_request") {
+        handleRecommendation();
+      }
     }
   }
 
