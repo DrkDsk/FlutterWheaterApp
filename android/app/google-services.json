@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "887084066236",
+    "project_id": "clima-a258c",
+    "storage_bucket": "clima-a258c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887084066236:android:253396e99c3d98273e77b9",
+        "android_client_info": {
+          "package_name": "com.alfredopalacios.clima_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqA6kYQg-lEwojjxm4v0KX0KgX4WIONMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
