@@ -1,6 +1,7 @@
 import 'package:clima_app/core/di/di.dart';
 import 'package:clima_app/core/extensions/color_extension.dart';
 import 'package:clima_app/core/router/app_router.dart';
+import 'package:clima_app/features/favorites/presentation/blocs/firebase_token_cubit.dart';
 import 'package:clima_app/features/favorites/presentation/screens/favorites_screen.dart';
 import 'package:clima_app/features/home/presentation/blocs/city_weather_bloc.dart';
 import 'package:clima_app/features/home/presentation/blocs/states/city_weather_state.dart';
@@ -20,12 +21,17 @@ class CustomBottomAppBar extends StatelessWidget {
   Future<void> navigateToFavorites(BuildContext context) async {
     final router = AppRouter.of(context);
 
-    router.goToScreenAndClear(
-      BlocProvider<CityWeatherBloc>(
-        create: (_) => getIt<CityWeatherBloc>(),
-        child: const FavoritesScreen(),
-      ),
-    );
+    router.goToScreenAndClear(MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => getIt<FirebaseTokenCubit>(),
+        ),
+        BlocProvider<CityWeatherBloc>(
+          create: (_) => getIt<CityWeatherBloc>(),
+        ),
+      ],
+      child: const FavoritesScreen(),
+    ));
   }
 
   @override

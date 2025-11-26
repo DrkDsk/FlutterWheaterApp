@@ -1,20 +1,26 @@
+import 'package:clima_app/core/di/di.dart';
+import 'package:clima_app/core/helpers/timezone_config.dart';
+import 'package:clima_app/features/home/domain/usecases/get_weather_use_case.dart';
 import 'package:clima_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class FirebaseMessagingHelper {
-  static init() async {
+  static Future init() async {
     await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-    FirebaseMessagingHelper.requestFirebaseMessagingPermissions();
+    //FirebaseMessagingHelper.requestFirebaseMessagingPermissions();
     FirebaseMessagingHelper.checkForInitialMessage();
     FirebaseMessagingHelper.setOpenedAppMessageHandler();
     FirebaseMessagingHelper.setListenMessageHandler();
     FirebaseMessagingHelper.setBackgroundMessageHandler();
   }
 
-  static requestFirebaseMessagingPermissions() async {
+  static Future requestFirebaseMessagingPermissions() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     await messaging.requestPermission(
@@ -28,12 +34,12 @@ class FirebaseMessagingHelper {
     );
   }
 
-  static registerFirebaseToken() async {
+  static Future registerFirebaseToken() async {
     String token = await FirebaseMessaging.instance.getToken() ?? "";
     print("token: $token");
   }
 
-  static Future<void> checkForInitialMessage() async {
+  static Future checkForInitialMessage() async {
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
 
@@ -42,28 +48,33 @@ class FirebaseMessagingHelper {
     }
   }
 
-  static Future<void> firebaseMessageHandler(
-      RemoteMessage remoteMessage) async {
+  static Future firebaseMessageHandler(RemoteMessage remoteMessage) async {
     final String notificationTitle = remoteMessage.notification?.title ?? "";
     final String notificationBody = remoteMessage.notification?.body ?? "";
+    final notificationData = remoteMessage.data;
+    final notificationId = notificationData["id"] ?? "";
+
+    final cityWeatherDataResult = getIt<GetWeatherUseCase>();
+
+    final result = await cityWeatherDataResult.call();
+
+    result.fold((left) {}, (result) {
+      final hourly = result.forecast.hourly.take(7).last;
+
+      final temp = hourly.temp;
+      final feelsLike = hourly.feelsLike;
+      final pressure = hourly.pressure;
+      final humidity = hourly.humidity;
+      final pop = hourly.pop;
+      final description = hourly.weather.first.main;
+
+      print(
+          "temp: $temp, feelsLike: $feelsLike, pressure: $pressure, hum: $humidity");
+    });
 
     if (notificationTitle.isNotEmpty && notificationBody.isNotEmpty) {
-      print("body: $notificationBody");
+      if (notificationId == "night_request") {}
     }
-  }
-
-  static Future<void> initMessaging() async {
-    /*ApiConstants.baseUrl = dotenv.env['URL_PROD']!;
-    ApiConstants.hbBaseUrl = dotenv.env['HB_URL_PROD']!;
-    await AppPreferences().init();
-    SecurePreferences();
-    TimeZoneConfig.initTimeZone();
-    await NotificationsConfig().initNotification();*/
-  }
-
-  static Future<void> _backgroundMessageHandler(RemoteMessage message) async {
-    initMessaging();
-    //send Request
   }
 
   static setListenMessageHandler() {
@@ -77,4 +88,17 @@ class FirebaseMessagingHelper {
   static setBackgroundMessageHandler() {
     FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   }
+}
+
+@pragma('vm:entry-point')
+Future _backgroundMessageHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  WidgetsFlutterBinding.ensureInitialized();
+  TimeZoneConfig.initTimeZone();
+  await dotenv.load(fileName: ".env");
+  await initDependencies();
+  FirebaseMessagingHelper.firebaseMessageHandler(message);
 }

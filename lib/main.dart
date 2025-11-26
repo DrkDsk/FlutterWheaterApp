@@ -7,11 +7,12 @@ import 'core/helpers/timezone_config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FirebaseMessagingHelper.init();
   TimeZoneConfig.initTimeZone();
   await dotenv.load(fileName: ".env");
 
   await initDependencies();
+
+  FirebaseMessagingHelper.init();
 
   runApp(const MyApp());
 }
